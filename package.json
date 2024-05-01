@@ -7,7 +7,8 @@
         "android": "expo start --android",
         "ios": "expo start --ios",
         "web": "expo start --web",
-        "ts:check": "tsc"
+        "ts:check": "tsc",
+        "preinstall": "npx only-allow pnpm"
     },
     "dependencies": {
         "expo": "~50.0.17",
