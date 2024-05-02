@@ -5,13 +5,12 @@ name: Expo Doctor (expo)
 
 on:
     push:
-        branches:
-            - main
-            - master
+        branches: [main]
         paths:
             - "package.json"
             - "pnpm-lock.yaml"
     pull_request:
+        branches: [main]
         paths:
             - "package.json"
             - "pnpm-lock.yaml"
