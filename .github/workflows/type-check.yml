@@ -1,0 +1,26 @@
+# 🔗 Links:
+# Source file: https://github.com/obytes/react-native-template-obytes/blob/master/.github/workflows/type-check.yml
+
+name: Type Check (tsc)
+
+on:
+    push:
+    pull_request:
+        branches: [main]
+
+jobs:
+    type-check:
+        name: Type Check (tsc)
+        runs-on: ubuntu-latest
+        steps:
+            - name: 📦 Checkout project repo
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: 📦 Setup Node + PNPM + install deps
+              uses: ./.github/actions/setup-node-pnpm-install
+
+            - name: 🏃‍♂️ Run TypeScript Commit
+              if: github.event_name != 'pull_request'
+              run: pnpm ts:check
