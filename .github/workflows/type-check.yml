@@ -37,4 +37,4 @@ jobs:
                   🏃‍♂️ Run TypeScript Commit
                   # If it's not a Pull Request then we just need to run the type-check
               if: github.event_name != 'pull_request'
-              run: pnpm type-check
+              run: pnpm ts:check
