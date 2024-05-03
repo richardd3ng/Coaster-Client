@@ -9,7 +9,6 @@ import { setCurrentLocation } from "../state/location/currentLocationSlice";
 import store, { RootState } from "../state/store";
 
 const LOCATION_TASK_NAME = "location-tracking";
-let taskRunning = false;
 
 type LocationTaskData = {
     locations: Location.LocationObject[];
@@ -45,31 +44,26 @@ const useTracking = (isActive: boolean) => {
         if (!isActive) {
             return;
         }
-        if (!taskRunning) {
-            const startLocationUpdates = async () => {
-                if (
-                    !(await Location.requestForegroundPermissionsAsync())
-                        .granted ||
-                    !(await Location.requestBackgroundPermissionsAsync())
-                        .granted
-                ) {
-                    Alert.alert("Permission to access location was denied");
-                    console.error("Permission to access location was denied");
-                    return;
-                }
-                await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-                    accuracy: Location.Accuracy.High,
-                    timeInterval: 5000,
-                    distanceInterval: 50,
-                });
-                console.log("Started receiving location updates");
-            };
-            startLocationUpdates();
-        }
+        const startLocationUpdates = async () => {
+            if (
+                !(await Location.requestForegroundPermissionsAsync()).granted ||
+                !(await Location.requestBackgroundPermissionsAsync()).granted
+            ) {
+                Alert.alert("Permission to access location was denied");
+                console.error("Permission to access location was denied");
+                return;
+            }
+            await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+                accuracy: Location.Accuracy.High,
+                timeInterval: 5000,
+                distanceInterval: 50,
+            });
+            console.log("Started receiving location updates");
+        };
+        startLocationUpdates();
 
         return () => {
             Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
-            taskRunning = false;
             console.log("Stopped receiving location updates");
         };
     }, [isActive]);
