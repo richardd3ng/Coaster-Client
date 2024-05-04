@@ -54,7 +54,7 @@ const useTracking = (isActive: boolean) => {
                 return;
             }
             await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-                accuracy: Location.Accuracy.High,
+                accuracy: Location.Accuracy.Balanced,
                 timeInterval: 5000,
                 distanceInterval: 50,
             });
