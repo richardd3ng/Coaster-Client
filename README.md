@@ -4,7 +4,7 @@
 1. Install [pnpm](https://pnpm.io/installation) (faster than npm) for package management
 2. Install expo: `pnpm i expo -w` (this is the pattern for installing all packages with pnpm, do NOT use npm)
 3. Clone this GitHub repository
-8. In the project root, run `pnpm install
+8. In the project root, run `pnpm install`
 9. In the project root, create a `.env` file with the format shown below (missing details will be provided by someone who knows them)
 ```
 EXPO_DEV_MODE=false
