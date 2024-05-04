@@ -14,4 +14,7 @@
 ### Expo Go (all platforms)
 1. Download Expo Go on a mobile [iOS](https://apps.apple.com/us/app/expo-go/id982107779) or [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_US&gl=US&pli=1) device
 2. In the project root directory, run `pnpm expo start`
-3. Scan the QR code with Expo Go (Android) or the Camera app (iOS)
+3. Scan the QR code with the Camera app (iOS) or Expo Go (Android)
+
+### Prebuilding
+1. See [Expo Prebuild](https://docs.expo.dev/workflow/prebuild/) if you need to generate native code for the project (Note: not a common workflow, ask beforehand if necessary)
