@@ -1,11 +1,20 @@
 import React, { useState } from "react";
+<<<<<<< HEAD
 import { Text, View } from "react-native";
+=======
+
+>>>>>>> b1cdc99 (installed ui kitten + reorganized files)
 import MapView, { Region } from "react-native-maps";
+import { Text, View, TouchableOpacity } from "react-native";
 
 import { EXPO_DEV_MODE } from "@env";
+<<<<<<< HEAD
 import MapIconButton from "../../components/map/MapIconButton";
 import styles from "./styles";
+=======
+>>>>>>> b1cdc99 (installed ui kitten + reorganized files)
 import { isValidLocationState } from "../../utils/locationUtils";
+import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
 
 const Map = () => {
