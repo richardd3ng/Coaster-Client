@@ -24,11 +24,16 @@ npm-debug.*
 yarn-debug.*
 yarn-error.*
 
+# prebuild
+ios/
+android/
+
 # macOS
 .DS_Store
 *.pem
 
-# local env files
+# env files
+.env
 .env*.local
 
 # typescript
