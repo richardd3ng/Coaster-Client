@@ -1,10 +1,17 @@
 # Coaster
 ## Developer Guide
-1. Install XCode (takes a few hours, can complete steps 3-6 while waiting): https://developer.apple.com/xcode/
-2. Install iOS on XCode (should take ~1 hour): XCode > Settings > Platforms > iOS
-3. Install pnpm (faster than npm) for package management: https://pnpm.io/installation
-4. Install expo: `pnpm i expo -w`
-5. Clone this repository
-6. In the root directory, run `pnpm install`
-7. Run `pnpm expo start`
-8. Press i to open iOS simulator
+1. Install [pnpm](https://pnpm.io/installation) (faster than npm) for package management
+2. Install expo: `pnpm i expo -w`
+3. Clone this repository
+8. In the project root directory, run `pnpm install`
+   
+### iOS Simulator (Mac only)
+1. Install [XCode](https://developer.apple.com/xcode/) (takes a few hours): 
+3. Install iOS on XCode (takes ~1 hour): XCode > Settings > Platforms > iOS
+4. In the project root directory, run `pnpm expo start`
+5. Press i to open the iOS simulator
+   
+### Expo Go (all platforms)
+1. Download Expo Go for [iPhone](https://apps.apple.com/us/app/expo-go/id982107779) or [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_US&gl=US&pli=1)
+2. In the project root directory, run `pnpm expo start`
+3. Scan the QR code with Expo Go (Android) or the Camera app (iOS)
