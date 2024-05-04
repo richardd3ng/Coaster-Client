@@ -1,15 +1,20 @@
-import { Text, TouchableOpacity } from "react-native";
+import { Button, Icon, IconElement } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 
 interface MapIconButtonProps {
     onPress: () => void;
 }
 
+const StarIcon = (props: any): IconElement => <Icon {...props} name="star" />;
+
 const MapIconButton = (props: MapIconButtonProps) => {
     return (
-        <TouchableOpacity onPress={props.onPress} style={customStyles.button}>
-            <Text style={customStyles.buttonText}>Recenter</Text>
-        </TouchableOpacity>
+        <Button
+            style={customStyles.button}
+            appearance="ghost"
+            accessoryLeft={StarIcon}
+            onPress={props.onPress}
+        />
     );
 };
 
