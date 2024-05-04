@@ -12,6 +12,6 @@
 5. Press i to open the iOS simulator
    
 ### Expo Go (all platforms)
-1. Download Expo Go for [iPhone](https://apps.apple.com/us/app/expo-go/id982107779) or [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_US&gl=US&pli=1)
+1. Download Expo Go on a mobile [iOS](https://apps.apple.com/us/app/expo-go/id982107779) or [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_US&gl=US&pli=1) device
 2. In the project root directory, run `pnpm expo start`
 3. Scan the QR code with Expo Go (Android) or the Camera app (iOS)
