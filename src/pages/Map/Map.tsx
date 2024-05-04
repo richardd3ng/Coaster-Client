@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View } from "react-native";
 import MapView, { Region } from "react-native-maps";
 
 import { EXPO_DEV_MODE } from "@env";
+import MapIconButton from "../../components/map/MapIconButton";
 import styles from "./styles";
 import { isValidLocationState } from "../../utils/locationUtils";
 import useTracking from "../../hooks/useTracking";
@@ -20,7 +21,7 @@ const Map = () => {
         setRegion({
             latitude: location.latitude!,
             longitude: location.longitude!,
-            latitudeDelta: 0.0922,
+            latitudeDelta: 0.05,
             longitudeDelta: 0.0421,
         });
     };
@@ -33,13 +34,12 @@ const Map = () => {
                     region={region}
                     showsUserLocation={true}
                     followsUserLocation={true}
+                    onRegionChange={setRegion}
                 />
             ) : (
                 <Text>Loading...</Text>
             )}
-            <TouchableOpacity onPress={recenterMap}>
-                <Text>Recenter</Text>
-            </TouchableOpacity>
+            <MapIconButton onPress={recenterMap} />
         </View>
     );
 };

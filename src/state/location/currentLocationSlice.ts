@@ -20,6 +20,7 @@ const currentLocationSlice = createSlice({
             _state,
             action: PayloadAction<CurrentLocationState>
         ) => {
+            console.log("tracked location:", action.payload);
             return action.payload;
         },
     },

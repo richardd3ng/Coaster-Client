@@ -68,7 +68,6 @@ const useTracking = (isActive: boolean) => {
         };
     }, [isActive]);
 
-    console.log("location:", currentLocation);
     return currentLocation;
 };
 
