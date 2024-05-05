@@ -8,6 +8,11 @@ const styles = StyleSheet.create({
         top: height * 0.1,
         right: width * 0.02,
     },
+    buttonStack: {
+        marginTop: 24, // Adjust this value for tight spacing
+        flexDirection: "column",
+        alignItems: "center",
+    },
     map: {
         ...StyleSheet.absoluteFillObject,
     },
