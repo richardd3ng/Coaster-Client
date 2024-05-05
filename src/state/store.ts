@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import currentLocationReducer from "./location/currentLocationSlice";
+import locationReducer from "./location/locationSlice";
 
 const store = configureStore({
     reducer: {
-        currentLocation: currentLocationReducer,
+        location: locationReducer,
     },
 });
 

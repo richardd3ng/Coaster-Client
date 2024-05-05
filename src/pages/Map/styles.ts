@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         right: width * 0.02,
     },
     buttonStack: {
-        marginTop: 24, // Adjust this value for tight spacing
+        marginTop: 24,
         flexDirection: "column",
         alignItems: "center",
     },
@@ -21,6 +21,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "flex-end",
         alignItems: "center",
+    },
+    searchBarContainer: {
+        alignSelf: "center",
+        height: 50,
+        width: width * 0.6,
     },
 });
 

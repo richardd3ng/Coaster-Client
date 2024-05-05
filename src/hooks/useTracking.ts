@@ -5,10 +5,13 @@ import { useEffect } from "react";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 
-import { setCurrentLocation } from "../state/location/currentLocationSlice";
+import { LocationTimestamp } from "../types/custom";
+import { appendToHistory } from "../state/location/locationSlice";
 import store, { RootState } from "../state/store";
 
 const LOCATION_TASK_NAME = "location-tracking";
+const LOCATION_UPDATE_TIME_INTERVAL_MILLISECONDS = 10000;
+const LOCATION_UPDATE_DISTANCE_INTERVAL_METERS = 50;
 
 type LocationTaskData = {
     locations: Location.LocationObject[];
@@ -24,19 +27,24 @@ TaskManager.defineTask(
             console.error("Error receiving location updates:", error.message);
             return;
         }
-        store.dispatch({
-            type: setCurrentLocation.type,
-            payload: {
-                coords: locations[0].coords,
-                timestamp: locations[0].timestamp,
+        const payload: LocationTimestamp = {
+            coords: {
+                latitude: locations[0].coords.latitude,
+                longitude: locations[0].coords.longitude,
             },
+            timestamp: locations[0].timestamp,
+        };
+        store.dispatch({
+            type: appendToHistory.type,
+            payload: payload,
         });
     }
 );
 
 const useTracking = (isActive: boolean) => {
     const currentLocation = useSelector(
-        (state: RootState) => state.currentLocation
+        (state: RootState) =>
+            state.location.history[state.location.history.length - 1].coords
     );
 
     useEffect(() => {
@@ -54,8 +62,8 @@ const useTracking = (isActive: boolean) => {
             }
             await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
                 accuracy: Location.Accuracy.Balanced,
-                timeInterval: 5000,
-                distanceInterval: 50,
+                timeInterval: LOCATION_UPDATE_TIME_INTERVAL_MILLISECONDS,
+                distanceInterval: LOCATION_UPDATE_DISTANCE_INTERVAL_METERS,
             });
             console.log("Started receiving location updates");
         };
