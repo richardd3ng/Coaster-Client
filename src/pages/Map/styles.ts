@@ -1,14 +1,21 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+
+const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-    container: {
+    buttonContainer: {
+        position: "absolute",
+        top: height * 0.1,
+        right: width * 0.02,
+    },
+    map: {
+        ...StyleSheet.absoluteFillObject,
+    },
+    mapContainer: {
         ...StyleSheet.absoluteFillObject,
         flex: 1,
         justifyContent: "flex-end",
         alignItems: "center",
-    },
-    map: {
-        ...StyleSheet.absoluteFillObject,
     },
 });
 

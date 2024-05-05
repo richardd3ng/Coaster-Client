@@ -1,34 +1,27 @@
-import { Button, Icon, IconElement } from "@ui-kitten/components";
-import { StyleSheet } from "react-native";
+import React from "react";
+import { Button, Icon } from "@ui-kitten/components";
+import styles from "../shared/styles";
 
 interface MapIconButtonProps {
     onPress: () => void;
+    filled: boolean;
 }
-
-const StarIcon = (props: any): IconElement => <Icon {...props} name="star" />;
 
 const MapIconButton = (props: MapIconButtonProps) => {
     return (
         <Button
-            style={customStyles.button}
+            style={styles.iconButton}
             appearance="ghost"
-            accessoryLeft={StarIcon}
+            accessoryLeft={
+                <Icon
+                    name={
+                        props.filled ? "navigation-2" : "navigation-2-outline"
+                    }
+                />
+            }
             onPress={props.onPress}
         />
     );
 };
-
-const customStyles = StyleSheet.create({
-    button: {
-        backgroundColor: "blue",
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 10,
-        alignItems: "center",
-    },
-    buttonText: {
-        color: "white",
-    },
-});
 
 export default MapIconButton;

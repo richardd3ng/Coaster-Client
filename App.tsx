@@ -1,16 +1,20 @@
 import * as eva from "@eva-design/eva";
-import { ApplicationProvider } from "@ui-kitten/components";
+import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { Provider } from "react-redux";
 
-import store from "./src/state/store";
 import AppRoot from "./src/pages/appRoot/AppRoot";
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import store from "./src/state/store";
 
-export default function App() {
+const App = () => {
     return (
         <Provider store={store}>
+            <IconRegistry icons={EvaIconsPack} />
             <ApplicationProvider {...eva} theme={eva.light}>
                 <AppRoot />
             </ApplicationProvider>
         </Provider>
     );
-}
+};
+
+export default App;
