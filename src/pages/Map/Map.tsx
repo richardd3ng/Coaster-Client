@@ -1,45 +1,51 @@
-import React, { useState } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
-import MapView, { Region } from "react-native-maps";
+import React, { useEffect, useRef, useState } from "react";
 
 import { EXPO_DEV_MODE } from "@env";
-import styles from "./styles";
+import MapView, { Region } from "react-native-maps";
+import { Text, View } from "react-native";
 import { isValidLocationState } from "../../utils/locationUtils";
+import MapIconButton from "../../components/map/MapIconButton";
+import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
 
 const Map = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
-    const [region, setRegion] = useState<Region>({
-        latitude: location.latitude!,
-        longitude: location.longitude!,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-    });
+    const [region, setRegion] = useState<Region | null>(null);
+    const [followUserLocation, setFollowUserLocation] = useState<boolean>(true);
+    const mapRef = useRef<MapView>(null);
 
-    const recenterMap = () => {
-        setRegion({
-            latitude: location.latitude!,
-            longitude: location.longitude!,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-        });
-    };
+    useEffect(() => {
+        if (isValidLocationState(location)) {
+            setRegion({
+                latitude: location.coords!.latitude,
+                longitude: location.coords!.longitude,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+            });
+        }
+    }, []);
 
     return (
-        <View style={styles.container}>
-            {isValidLocationState(location) ? (
+        <View style={styles.mapContainer}>
+            {location && region ? (
                 <MapView
+                    ref={mapRef}
                     style={styles.map}
                     region={region}
                     showsUserLocation={true}
-                    followsUserLocation={true}
+                    followsUserLocation={followUserLocation}
+                    onRegionChange={setRegion}
+                    onPanDrag={() => setFollowUserLocation(false)}
                 />
             ) : (
                 <Text>Loading...</Text>
             )}
-            <TouchableOpacity onPress={recenterMap}>
-                <Text>Recenter</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+                <MapIconButton
+                    onPress={() => setFollowUserLocation(!followUserLocation)}
+                    filled={followUserLocation}
+                />
+            </View>
         </View>
     );
 };

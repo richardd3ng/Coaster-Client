@@ -27,8 +27,7 @@ TaskManager.defineTask(
         store.dispatch({
             type: setCurrentLocation.type,
             payload: {
-                latitude: locations[0].coords.latitude,
-                longitude: locations[0].coords.longitude,
+                coords: locations[0].coords,
                 timestamp: locations[0].timestamp,
             },
         });
@@ -68,7 +67,6 @@ const useTracking = (isActive: boolean) => {
         };
     }, [isActive]);
 
-    console.log("location:", currentLocation);
     return currentLocation;
 };
 

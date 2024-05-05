@@ -1,14 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { LatLng } from "react-native-maps";
 
 export type CurrentLocationState = {
-    latitude: number | null;
-    longitude: number | null;
+    coords: LatLng | null;
     timestamp: number | null;
 };
 
 const initialState: CurrentLocationState = {
-    latitude: null,
-    longitude: null,
+    coords: null,
     timestamp: null,
 };
 
@@ -20,6 +19,7 @@ const currentLocationSlice = createSlice({
             _state,
             action: PayloadAction<CurrentLocationState>
         ) => {
+            console.log("tracked location:", action.payload);
             return action.payload;
         },
     },

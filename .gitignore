@@ -24,10 +24,6 @@ npm-debug.*
 yarn-debug.*
 yarn-error.*
 
-# prebuild
-ios/
-android/
-
 # macOS
 .DS_Store
 *.pem
