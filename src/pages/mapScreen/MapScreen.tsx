@@ -14,6 +14,7 @@ import MapIconButton from "../../components/map/MapIconButton";
 import SearchBar from "../../components/map/SearchBar";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
+import MapBottomSheet from "../../components/map/MapBottomSheet";
 
 const Map = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
@@ -95,15 +96,18 @@ const Map = () => {
                 {navButton}
                 {socialFilterStack}
             </View>
-            <SearchContext.Provider
-                value={{
-                    socialFilter,
-                    dateFilter,
-                    region,
-                    setRegion,
-                }}
-                // TODO: bottom modal
-            ></SearchContext.Provider>
+            {/* <MapBottomSheet>
+                <SearchContext.Provider
+                    value={{
+                        socialFilter,
+                        dateFilter,
+                        region,
+                        setRegion,
+                    }}
+                    // TODO: bottom modal content
+                ></SearchContext.Provider>
+            </MapBottomSheet> */}
+            <MapBottomSheet/>
         </View>
     );
 };

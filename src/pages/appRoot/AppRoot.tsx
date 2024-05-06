@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
 
-import Map from "../map/Map";
+import Map from "../mapScreen/MapScreen";
 import styles from "./styles";
 
 const AppRoot = () => {
