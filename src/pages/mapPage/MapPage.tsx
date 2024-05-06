@@ -15,7 +15,7 @@ import SearchBar from "../../components/map/SearchBar";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
 
-const Map = () => {
+const MapPage = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
     const [region, setRegion] = useState<MapRegion>(null);
     const [followUserLocation, setFollowUserLocation] = useState<boolean>(true);
@@ -106,4 +106,4 @@ const Map = () => {
     );
 };
 
-export default Map;
+export default MapPage;
