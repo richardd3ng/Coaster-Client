@@ -1,35 +1,77 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
-import { EXPO_DEV_MODE } from "@env";
-import MapView, { Region } from "react-native-maps";
+import MapView from "react-native-maps";
 import { Text, View } from "react-native";
-import { isValidLocationState } from "../../utils/locationUtils";
+
+import { DateFilter, MapRegion, SocialFilter } from "../../types/custom";
+import {
+    DEFAULT_DATE_FILTER,
+    DEFAULT_SOCIAL_FILTER,
+} from "../../utils/defaults";
+import { EXPO_DEV_MODE } from "@env";
+import SearchContext from "../../context/searchContext";
 import MapIconButton from "../../components/map/MapIconButton";
+import SearchBar from "../../components/map/SearchBar";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
 
 const Map = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
-    const [region, setRegion] = useState<Region | null>(null);
+    const [region, setRegion] = useState<MapRegion>(null);
     const [followUserLocation, setFollowUserLocation] = useState<boolean>(true);
-    const mapRef = useRef<MapView>(null);
+    const [dateFilter, setDateFilter] =
+        useState<DateFilter>(DEFAULT_DATE_FILTER);
+    const [socialFilter, setSocialFilter] = useState<SocialFilter>(
+        DEFAULT_SOCIAL_FILTER
+    );
 
     useEffect(() => {
-        if (isValidLocationState(location)) {
-            setRegion({
-                latitude: location.coords!.latitude,
-                longitude: location.coords!.longitude,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
-            });
-        }
+        setRegion({
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+        });
     }, []);
+
+    const navButton = useMemo(
+        () => (
+            <MapIconButton
+                name="navigation-2"
+                onPress={() => setFollowUserLocation(!followUserLocation)}
+                filled={followUserLocation}
+            />
+        ),
+        [followUserLocation]
+    );
+
+    const socialFilterStack = useMemo(
+        () => (
+            <View style={styles.buttonStack}>
+                <MapIconButton
+                    name="person"
+                    onPress={() => setSocialFilter(SocialFilter.ME)}
+                    filled={socialFilter === SocialFilter.ME}
+                />
+                <MapIconButton
+                    name="people"
+                    onPress={() => setSocialFilter(SocialFilter.FRIENDS)}
+                    filled={socialFilter === SocialFilter.FRIENDS}
+                />
+                <MapIconButton
+                    name="globe-2"
+                    onPress={() => setSocialFilter(SocialFilter.GLOBAL)}
+                    filled={socialFilter === SocialFilter.GLOBAL}
+                />
+            </View>
+        ),
+        [socialFilter]
+    );
 
     return (
         <View style={styles.mapContainer}>
             {location && region ? (
                 <MapView
-                    ref={mapRef}
                     style={styles.map}
                     region={region}
                     showsUserLocation={true}
@@ -39,13 +81,27 @@ const Map = () => {
                 />
             ) : (
                 <Text>Loading...</Text>
+                // TODO: Loading Spinner
             )}
-            <View style={styles.buttonContainer}>
-                <MapIconButton
-                    onPress={() => setFollowUserLocation(!followUserLocation)}
-                    filled={followUserLocation}
+            <View style={styles.searchBarContainer}>
+                <SearchBar
+                    placeholder="Search Location"
+                    onSearch={console.log}
                 />
             </View>
+            <View style={styles.buttonContainer}>
+                {navButton}
+                {socialFilterStack}
+            </View>
+            <SearchContext.Provider
+                value={{
+                    socialFilter,
+                    dateFilter,
+                    region,
+                    setRegion,
+                }}
+                // TODO: bottom modal
+            ></SearchContext.Provider>
         </View>
     );
 };
