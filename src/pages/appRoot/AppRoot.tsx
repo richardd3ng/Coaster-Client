@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
 
-import Map from "../mapScreen/MapScreen";
+import MapScreen from "../mapScreen/MapScreen";
 import styles from "./styles";
 import useSnapshot from "../../hooks/useSnapshotBackground";
 
@@ -10,7 +10,7 @@ const AppRoot = () => {
 
     return (
         <View style={styles.container}>
-            <Map />
+            <MapScreen />
             <StatusBar style="auto" />
         </View>
     );
