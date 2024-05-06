@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import MapView from "react-native-maps";
 import { Text, View } from "react-native";

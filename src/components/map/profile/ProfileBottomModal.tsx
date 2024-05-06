@@ -1,12 +1,11 @@
-import React, { useMemo, useCallback } from "react";
+import { useMemo, useCallback } from "react";
 
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
     BottomSheetModal,
-    BottomSheetScrollView,
     BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 import { Button, Icon } from "@ui-kitten/components";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 
 import { ModalType, useModal } from "../../../context/modalContext";

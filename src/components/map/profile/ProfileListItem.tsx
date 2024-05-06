@@ -1,4 +1,3 @@
-import React from "react";
 import {
     StyleProp,
     Text,
@@ -6,6 +5,7 @@ import {
     View,
     ViewStyle,
 } from "react-native";
+
 import { Button, Divider, Icon } from "@ui-kitten/components";
 import { ProfileOption } from "../../../types/custom";
 import styles from "./styles";

@@ -1,5 +1,7 @@
 import { useCallback } from "react";
+
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+
 import Account from "./Account";
 import Logout from "./Logout";
 import Preferences from "./Preferences";

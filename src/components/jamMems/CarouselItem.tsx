@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 
 import type {
     StyleProp,
@@ -6,10 +6,12 @@ import type {
     ViewProps,
     ImageSourcePropType,
 } from "react-native";
-import { LongPressGestureHandler } from "react-native-gesture-handler";
+
 import Animated from "react-native-reanimated";
-import Constants from "expo-constants";
 import { AnimatedProps } from "react-native-reanimated";
+import Constants from "expo-constants";
+import { LongPressGestureHandler } from "react-native-gesture-handler";
+
 import { CarouselImageItem } from "./CarouselImageItem";
 import { JamMem } from "../../types/custom";
 
@@ -26,7 +28,9 @@ const CarouselItem: React.FC<CarouselItemProps> = (
 ) => {
     const { style, index, pretty, img, jamMem, ...animatedViewProps } = props;
     const enablePretty = Constants?.expoConfig?.extra?.enablePretty || false;
-    const [isPretty, setIsPretty] = React.useState(pretty || enablePretty);
+    const [isPretty, setIsPretty] = useState<boolean | undefined>(
+        pretty || enablePretty
+    );
 
     return (
         <LongPressGestureHandler
