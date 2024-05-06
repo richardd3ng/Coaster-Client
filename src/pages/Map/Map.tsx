@@ -26,12 +26,14 @@ const Map = () => {
     );
 
     useEffect(() => {
-        setRegion({
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-        });
+        if (location) {
+            setRegion({
+                latitude: location.latitude,
+                longitude: location.longitude,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+            });
+        }
     }, []);
 
     const navButton = useMemo(

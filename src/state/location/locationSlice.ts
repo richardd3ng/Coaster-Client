@@ -24,9 +24,7 @@ const locationSlice = createSlice({
         ) => {
             const { coords, timestamp } = action.payload;
             console.log(
-                "tracked snapshot:",
-                action.payload.coords,
-                action.payload.timestamp
+                `tracked snapshot: latitude: ${action.payload.coords.latitude}, longitude: ${action.payload.coords.longitude}, timestamp: ${action.payload.timestamp}`
             );
             console.log("history length:", state.history.length);
             return {

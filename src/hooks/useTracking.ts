@@ -8,6 +8,7 @@ import * as TaskManager from "expo-task-manager";
 import { LocationTimestamp } from "../types/custom";
 import { appendToHistory } from "../state/location/locationSlice";
 import store, { RootState } from "../state/store";
+import { LatLng } from "react-native-maps";
 
 const LOCATION_TASK_NAME = "location-tracking";
 const LOCATION_UPDATE_TIME_INTERVAL_MILLISECONDS = 10000;
@@ -42,10 +43,10 @@ TaskManager.defineTask(
 );
 
 const useTracking = (isActive: boolean) => {
-    const currentLocation = useSelector(
-        (state: RootState) =>
-            state.location.history[state.location.history.length - 1].coords
-    );
+    const currentLocation: LatLng | null = useSelector((state: RootState) => {
+        const history = state.location.history;
+        return history.length > 0 ? history[history.length - 1].coords : null;
+    });
 
     useEffect(() => {
         if (!isActive) {
