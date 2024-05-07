@@ -42,7 +42,7 @@ importers:
         specifier: 0.73.6
         version: 0.73.6(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(react@18.2.0)
       react-native-gesture-handler:
-        specifier: ~2.14.0
+        specifier: ~2.14.1
         version: 2.14.1(react-native@0.73.6(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(react@18.2.0))(react@18.2.0)
       react-native-maps:
         specifier: ^1.14.0

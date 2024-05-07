@@ -1,14 +1,16 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 24,
-        backgroundColor: "grey",
-    },
-    contentContainer: {
-        flex: 1,
+    bottomSheetContainer: {
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: "flex-end",
         alignItems: "center",
+    },
+    searchBarContainer: {
+        alignSelf: "center",
+        height: 50,
+        width: width * 0.6,
     },
 });
 

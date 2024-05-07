@@ -1,8 +1,8 @@
 // import React, { useCallback } from "react";
 
-// import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 // import styles from "./styles";
-// import { View, Text } from "react-native";
+// import { View } from "react-native";
+// import SearchBar from "../../components/shared/SearchBar";
 
 // const DefaultBottomSheet = () => {
 //     const handleSheetChanges = useCallback((index: number) => {
@@ -11,11 +11,12 @@
 
 //     return (
 //         <View style={styles.container}>
-//             <BottomSheet onChange={handleSheetChanges}>
-//                 <BottomSheetView style={styles.contentContainer}>
-//                     <Text>Awesome 🎉</Text>
-//                 </BottomSheetView>
-//             </BottomSheet>
+//             <View style={styles.searchBarContainer}>
+//                 <SearchBar
+//                     placeholder="Search Location"
+//                     onSearch={console.log}
+//                 />
+//             </View>
 //         </View>
 //     );
 // };

@@ -22,11 +22,6 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
         alignItems: "center",
     },
-    searchBarContainer: {
-        alignSelf: "center",
-        height: 50,
-        width: width * 0.6,
-    },
 });
 
 export default styles;

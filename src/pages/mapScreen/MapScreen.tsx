@@ -9,14 +9,13 @@ import {
     DEFAULT_SOCIAL_FILTER,
 } from "../../utils/defaults";
 import { EXPO_DEV_MODE } from "@env";
-import SearchContext from "../../context/searchContext";
+import MapBottomSheet from "../../components/map/MapBottomSheet";
 import MapIconButton from "../../components/map/MapIconButton";
-import SearchBar from "../../components/map/SearchBar";
+import SearchContext from "../../context/searchContext";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
-import MapBottomSheet from "../../components/map/MapBottomSheet";
 
-const Map = () => {
+const MapScreen = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
     const [region, setRegion] = useState<MapRegion>(null);
     const [followUserLocation, setFollowUserLocation] = useState<boolean>(true);
@@ -37,7 +36,7 @@ const Map = () => {
         }
     }, []);
 
-    const navButton = useMemo(
+    const NavButton = useMemo(
         () => (
             <MapIconButton
                 name="navigation-2"
@@ -48,7 +47,7 @@ const Map = () => {
         [followUserLocation]
     );
 
-    const socialFilterStack = useMemo(
+    const SocialFilterStack = useMemo(
         () => (
             <View style={styles.buttonStack}>
                 <MapIconButton
@@ -71,6 +70,15 @@ const Map = () => {
         [socialFilter]
     );
 
+    const BottomSheet = useMemo(
+        () => (
+            <MapBottomSheet>
+                <Text>Awesome 🎉</Text>
+            </MapBottomSheet>
+        ),
+        []
+    );
+
     return (
         <View style={styles.mapContainer}>
             {location && region ? (
@@ -86,30 +94,13 @@ const Map = () => {
                 <Text>Loading...</Text>
                 // TODO: Loading Spinner
             )}
-            <View style={styles.searchBarContainer}>
-                <SearchBar
-                    placeholder="Search Location"
-                    onSearch={console.log}
-                />
-            </View>
             <View style={styles.buttonContainer}>
-                {navButton}
-                {socialFilterStack}
+                {NavButton}
+                {SocialFilterStack}
             </View>
-            {/* <MapBottomSheet>
-                <SearchContext.Provider
-                    value={{
-                        socialFilter,
-                        dateFilter,
-                        region,
-                        setRegion,
-                    }}
-                    // TODO: bottom modal content
-                ></SearchContext.Provider>
-            </MapBottomSheet> */}
-            <MapBottomSheet/>
+            {BottomSheet}
         </View>
     );
 };
 
-export default Map;
+export default MapScreen;
