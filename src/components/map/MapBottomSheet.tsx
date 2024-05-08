@@ -33,12 +33,14 @@ const MapBottomSheet: React.FC<MapBottomSheetProps> = ({ children }) => {
     const handleSearch = useCallback(async (query: string) => {
         const result = await getGeoData(query);
         if (result) {
-            setRegion({
+            const region = {
                 latitude: result.coords.latitude,
                 longitude: result.coords.longitude,
                 latitudeDelta: result.latitudeDelta,
                 longitudeDelta: result.longitudeDelta,
-            });
+            };
+            console.log("traveling to:", region);
+            setRegion(region);
             setFollowsUserLocation(false);
         }
         setSnapPointIndex(0);
