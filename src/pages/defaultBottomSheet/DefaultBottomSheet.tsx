@@ -1,24 +1,26 @@
-// import React, { useCallback } from "react";
+import React from "react";
 
-// import styles from "./styles";
-// import { View } from "react-native";
-// import SearchBar from "../../components/shared/SearchBar";
+import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import JamSessionCarousel from "../../components/jamSessions/JamSessionCarousel";
+import MapBottomSheet from "../../components/map/MapBottomSheet";
+import styles from "./styles";
+import { Text } from "@ui-kitten/components";
+import { View } from "react-native";
 
-// const DefaultBottomSheet = () => {
-//     const handleSheetChanges = useCallback((index: number) => {
-//         console.log("handleSheetChanges", index);
-//     }, []);
+const DefaultBottomSheet = () => {
+    return (
+        <MapBottomSheet>
+            <BottomSheetScrollView
+                contentContainerStyle={styles.bottomSheetContentContainer}
+                showsVerticalScrollIndicator
+            >
+                <View style={styles.jamSessionStack}>
+                    <Text>hi</Text>
+                    <JamSessionCarousel />
+                </View>
+            </BottomSheetScrollView>
+        </MapBottomSheet>
+    );
+};
 
-//     return (
-//         <View style={styles.container}>
-//             <View style={styles.searchBarContainer}>
-//                 <SearchBar
-//                     placeholder="Search Location"
-//                     onSearch={console.log}
-//                 />
-//             </View>
-//         </View>
-//     );
-// };
-
-// export default DefaultBottomSheet;
+export default DefaultBottomSheet;

@@ -9,16 +9,17 @@ import {
     DEFAULT_SOCIAL_FILTER,
 } from "../../utils/defaults";
 import { EXPO_DEV_MODE } from "@env";
-import MapBottomSheet from "../../components/map/MapBottomSheet";
 import MapIconButton from "../../components/map/MapIconButton";
-import SearchContext from "../../context/searchContext";
+import MapContext from "../../context/mapContext";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
+import DefaultBottomSheet from "../defaultBottomSheet/DefaultBottomSheet";
 
 const MapScreen = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
     const [region, setRegion] = useState<MapRegion>(null);
-    const [followUserLocation, setFollowUserLocation] = useState<boolean>(true);
+    const [followsUserLocation, setFollowsUserLocation] =
+        useState<boolean>(true);
     const [dateFilter, setDateFilter] =
         useState<DateFilter>(DEFAULT_DATE_FILTER);
     const [socialFilter, setSocialFilter] = useState<SocialFilter>(
@@ -40,11 +41,11 @@ const MapScreen = () => {
         () => (
             <MapIconButton
                 name="navigation-2"
-                onPress={() => setFollowUserLocation(!followUserLocation)}
-                filled={followUserLocation}
+                onPress={() => setFollowsUserLocation(!followsUserLocation)}
+                filled={followsUserLocation}
             />
         ),
-        [followUserLocation]
+        [followsUserLocation]
     );
 
     const SocialFilterStack = useMemo(
@@ -72,9 +73,18 @@ const MapScreen = () => {
 
     const BottomSheet = useMemo(
         () => (
-            <MapBottomSheet>
-                <Text>Awesome 🎉</Text>
-            </MapBottomSheet>
+            <MapContext.Provider
+                value={{
+                    dateFilter,
+                    socialFilter,
+                    followsUserLocation,
+                    setFollowsUserLocation,
+                    region,
+                    setRegion,
+                }}
+            >
+                <DefaultBottomSheet />
+            </MapContext.Provider>
         ),
         []
     );
@@ -86,9 +96,9 @@ const MapScreen = () => {
                     style={styles.map}
                     region={region}
                     showsUserLocation={true}
-                    followsUserLocation={followUserLocation}
+                    followsUserLocation={followsUserLocation}
                     onRegionChange={setRegion}
-                    onPanDrag={() => setFollowUserLocation(false)}
+                    onPanDrag={() => setFollowsUserLocation(false)}
                 />
             ) : (
                 <Text>Loading...</Text>

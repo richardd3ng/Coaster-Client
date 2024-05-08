@@ -1,14 +1,15 @@
-import { Icon } from "@ui-kitten/components";
-import { Input } from "@ui-kitten/components";
-import { useRef, useState } from "react";
+import React, { forwardRef, useState } from "react";
+import { Icon, Input } from "@ui-kitten/components";
 import { TextInputProps } from "react-native";
 
 type SearchBarProps = {
     onSearch: (query: string) => void;
 } & TextInputProps;
 
-const SearchBar: React.FC<SearchBarProps> = (props: SearchBarProps) => {
-    const inputRef = useRef<Input>(null);
+const SearchBar: React.ForwardRefRenderFunction<Input, SearchBarProps> = (
+    props: SearchBarProps,
+    ref
+) => {
     const [query, setQuery] = useState<string>("");
 
     const handleSubmit = () => {
@@ -19,7 +20,7 @@ const SearchBar: React.FC<SearchBarProps> = (props: SearchBarProps) => {
 
     return (
         <Input
-            ref={inputRef}
+            ref={ref}
             accessoryLeft={<Icon name="search" />}
             accessoryRight={<Icon name="close" />}
             placeholder={props.placeholder || "Search"}
@@ -30,4 +31,4 @@ const SearchBar: React.FC<SearchBarProps> = (props: SearchBarProps) => {
     );
 };
 
-export default SearchBar;
+export default forwardRef(SearchBar);

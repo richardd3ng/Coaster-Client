@@ -1,16 +1,25 @@
-import { Dimensions, StyleSheet } from "react-native";
-const { width } = Dimensions.get("window");
+import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    bottomSheetContainer: {
-        ...StyleSheet.absoluteFillObject,
-        justifyContent: "flex-end",
+    bottomSheetContentContainer: {
+        flex: 1,
         alignItems: "center",
+        backgroundColor: "#EAEAEA",
     },
-    searchBarContainer: {
-        alignSelf: "center",
-        height: 50,
-        width: width * 0.6,
+    jamSessionStack: {
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
+    },
+    text: {
+        position: "absolute",
+        color: "#6E6E6E",
+        fontSize: 20,
+        borderRadius: 5,
+        overflow: "hidden",
+        paddingHorizontal: 10,
+        paddingTop: 2,
     },
 });
 
