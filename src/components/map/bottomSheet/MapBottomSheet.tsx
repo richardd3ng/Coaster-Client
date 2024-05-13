@@ -12,12 +12,12 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Input } from "@ui-kitten/components";
 
-import { PlaceData, getGeoData2 } from "../../utils/locationUtils";
+import { PlaceData, getGeoData2 } from "../../../utils/locationUtils";
 import styles from "./styles";
-import SearchBar from "../shared/SearchBar";
+import SearchBar from "../../shared/SearchBar";
 import ProfileIconButton from "./ProfileIconButton";
-import MapContext, { MapContextType } from "../../context/mapContext";
-import SearchResultsList from "./SearchResultsList";
+import MapContext, { MapContextType } from "../../../context/mapContext";
+import SearchResultsList from "../search/SearchResultsList";
 
 interface MapBottomSheetProps {
     children: ReactNode;
@@ -201,19 +201,8 @@ const MapBottomSheet: React.FC<MapBottomSheetProps> = ({ children }) => {
     const [showProfile, setShowProfile] = useState<boolean>(true);
 
     const handleSearch = useCallback(async (query: string) => {
-        const results = await getGeoData2(query);
-        setSearchResults(results);
-        // if (result) {
-        //     const region = {
-        //         latitude: result.coords.latitude,
-        //         longitude: result.coords.longitude,
-        //         latitudeDelta: result.latitudeDelta,
-        //         longitudeDelta: result.longitudeDelta,
-        //     };
-        //     console.log("traveling to:", region);
-        //     setRegion(region);
-        //     setFollowsUserLocation(false);
-        // }
+        // const results = await getGeoData2(query);
+        // setSearchResults(results);
         setSearchResults(mockData);
         setSnapPointIndex(2);
     }, []);

@@ -2,7 +2,7 @@ import React from "react";
 
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import JamMemsCarousel from "../../components/jamMems/JamMemsCarousel";
-import MapBottomSheet from "../../components/map/MapBottomSheet";
+import MapBottomSheet from "../../components/map/bottomSheet/MapBottomSheet";
 import styles from "./styles";
 import { Text } from "@ui-kitten/components";
 import { View } from "react-native";

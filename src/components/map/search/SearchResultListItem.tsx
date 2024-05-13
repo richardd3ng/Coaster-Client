@@ -2,7 +2,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { Button, Divider, Icon } from "@ui-kitten/components";
 
 import styles from "./styles";
-import { PlaceData } from "../../utils/locationUtils";
+import { PlaceData } from "../../../utils/locationUtils";
 
 interface SearchResultListItems {
     item: PlaceData;
