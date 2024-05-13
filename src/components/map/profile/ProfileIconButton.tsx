@@ -1,19 +1,17 @@
 import { Button, Icon } from "@ui-kitten/components";
+
 import styles from "./styles";
+import { ModalType, useModal } from "../../../context/modalContext";
 
-interface ProfileIconButtonProps {
-    onPress: () => void;
-}
+const ProfileIconButton = () => {
+    const { presentModal } = useModal();
 
-const ProfileIconButton: React.FC<ProfileIconButtonProps> = (
-    props: ProfileIconButtonProps
-) => {
     return (
         <Button
             style={styles.profileIconButton}
             appearance="ghost"
             accessoryLeft={<Icon name={"person"} />}
-            onPress={props.onPress}
+            onPress={() => presentModal(ModalType.Profile)}
         />
     );
 };

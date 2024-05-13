@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     mapContainer: {
         ...StyleSheet.absoluteFillObject,
         flex: 1,
-        justifyContent: "flex-end",
         alignItems: "center",
     },
 });

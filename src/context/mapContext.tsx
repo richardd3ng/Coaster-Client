@@ -16,9 +16,9 @@ const MapContext = createContext<MapContextType>({
     dateFilter: DEFAULT_DATE_FILTER,
     socialFilter: DEFAULT_SOCIAL_FILTER,
     followsUserLocation: true,
-    setFollowsUserLocation: (_followsUser: boolean) => {},
+    setFollowsUserLocation: () => {},
     region: null,
-    setRegion: (_region: MapRegion) => {},
+    setRegion: () => {},
 });
 
 export default MapContext;

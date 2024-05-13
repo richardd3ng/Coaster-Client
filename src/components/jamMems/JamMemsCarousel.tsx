@@ -1,7 +1,7 @@
 import Carousel from "react-native-reanimated-carousel";
 import { Dimensions } from "react-native";
-import CarouselItem from "./CarouselItem";
 
+import CarouselItem from "./CarouselItem";
 import { JamMem } from "../../types/custom";
 import styles from "./styles";
 

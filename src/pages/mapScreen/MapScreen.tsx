@@ -14,6 +14,8 @@ import MapContext from "../../context/mapContext";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
 import DefaultBottomSheet from "../defaultBottomSheet/DefaultBottomSheet";
+import ProfileBottomModal from "../../components/map/profile/ProfileBottomModal";
+import { ModalProvider, useModal } from "../../context/modalContext";
 
 const MapScreen = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
@@ -73,43 +75,50 @@ const MapScreen = () => {
 
     const BottomSheet = useMemo(
         () => (
-            <MapContext.Provider
-                value={{
-                    dateFilter,
-                    socialFilter,
-                    followsUserLocation,
-                    setFollowsUserLocation,
-                    region,
-                    setRegion,
-                }}
-            >
-                <DefaultBottomSheet />
-            </MapContext.Provider>
+            <>
+                <ModalProvider>
+                    <MapContext.Provider
+                        value={{
+                            dateFilter,
+                            socialFilter,
+                            followsUserLocation,
+                            setFollowsUserLocation,
+                            region,
+                            setRegion,
+                        }}
+                    >
+                        <DefaultBottomSheet />
+                    </MapContext.Provider>
+                    <ProfileBottomModal />
+                </ModalProvider>
+            </>
         ),
         []
     );
 
     return (
-        <View style={styles.mapContainer}>
-            {location && region ? (
-                <MapView
-                    style={styles.map}
-                    region={region}
-                    showsUserLocation={true}
-                    followsUserLocation={followsUserLocation}
-                    onRegionChange={setRegion}
-                    onPanDrag={() => setFollowsUserLocation(false)}
-                />
-            ) : (
-                <Text>Loading...</Text>
-                // TODO: Loading Spinner
-            )}
-            <View style={styles.buttonContainer}>
-                {NavButton}
-                {SocialFilterStack}
+        <>
+            <View style={styles.mapContainer}>
+                {location && region ? (
+                    <MapView
+                        style={styles.map}
+                        region={region}
+                        showsUserLocation={true}
+                        followsUserLocation={followsUserLocation}
+                        onRegionChange={setRegion}
+                        onPanDrag={() => setFollowsUserLocation(false)}
+                    />
+                ) : (
+                    <Text>Loading...</Text>
+                    // TODO: Loading Spinner
+                )}
+                <View style={styles.buttonContainer}>
+                    {NavButton}
+                    {SocialFilterStack}
+                </View>
             </View>
             {BottomSheet}
-        </View>
+        </>
     );
 };
 

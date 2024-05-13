@@ -1,8 +1,15 @@
+import { useContext } from "react";
+
+import { Region } from "react-native-maps";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Button, Divider, Icon } from "@ui-kitten/components";
 
-import styles from "./styles";
+import MapBottomSheetContext, {
+    MapBottomSheetContextType,
+} from "../../../context/mapBottomSheetContext";
+import MapContext, { MapContextType } from "../../../context/mapContext";
 import { PlaceData } from "../../../utils/locationUtils";
+import styles from "./styles";
 
 interface SearchResultListItems {
     item: PlaceData;
@@ -24,10 +31,28 @@ const LocationIcon = () => {
 };
 
 const SearchResultListItem = (props: SearchResultListItems) => {
+    const { setRegion, setFollowsUserLocation } =
+        useContext<MapContextType>(MapContext);
+    const { setSnapPointIndex } = useContext<MapBottomSheetContextType>(
+        MapBottomSheetContext
+    );
+
+    const handleSelect = () => {
+        setFollowsUserLocation(false);
+        props.item.coords.latitude;
+        const region: Region = {
+            latitude: props.item.coords.latitude,
+            longitude: props.item.coords.longitude,
+            latitudeDelta: props.item.latitudeDelta,
+            longitudeDelta: props.item.longitudeDelta,
+        };
+        console.log("traveling to:", region);
+        setRegion(region);
+        setSnapPointIndex(0);
+    };
+
     return (
-        <TouchableOpacity
-            onPress={() => console.log("pressed:", props.item.address)}
-        >
+        <TouchableOpacity onPress={handleSelect}>
             <View style={styles.searchResultsItemContainer}>
                 <LocationIcon />
                 <View

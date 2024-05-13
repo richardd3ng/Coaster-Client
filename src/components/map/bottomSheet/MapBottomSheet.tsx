@@ -12,11 +12,11 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Input } from "@ui-kitten/components";
 
+import MapBottomSheetContext from "../../../context/mapBottomSheetContext";
 import { PlaceData, getGeoData2 } from "../../../utils/locationUtils";
+import ProfileIconButton from "../profile/ProfileIconButton";
 import styles from "./styles";
 import SearchBar from "../../shared/SearchBar";
-import ProfileIconButton from "./ProfileIconButton";
-import MapContext, { MapContextType } from "../../../context/mapContext";
 import SearchResultsList from "../search/SearchResultsList";
 
 interface MapBottomSheetProps {
@@ -193,8 +193,6 @@ const MapBottomSheet: React.FC<MapBottomSheetProps> = ({ children }) => {
     const searchBarInputRef = useRef<Input>(null);
     const snapPoints = useMemo(() => ["10%", "30%", "95%"], []);
     const [snapPointIndex, setSnapPointIndex] = useState<number>(0);
-    const { setRegion, setFollowsUserLocation } =
-        useContext<MapContextType>(MapContext);
     const [searchResults, setSearchResults] = useState<PlaceData[] | null>(
         null
     );
@@ -218,7 +216,7 @@ const MapBottomSheet: React.FC<MapBottomSheetProps> = ({ children }) => {
         }
     }, []);
 
-    const handleCancelSearch = useCallback(() => {
+    const resetBottomSheet = useCallback(() => {
         searchBarInputRef.current?.clear();
         setSearchResults(null);
         setSnapPointIndex(1);
@@ -246,14 +244,10 @@ const MapBottomSheet: React.FC<MapBottomSheetProps> = ({ children }) => {
                 />
             </View>
             {showProfile ? (
-                <View style={styles.bottomSheetProfileIconButtonContainer}>
-                    <ProfileIconButton
-                        onPress={() => console.log("pressed profile")}
-                    />
-                </View>
+                <ProfileIconButton />
             ) : (
                 <TouchableOpacity
-                    onPress={handleCancelSearch}
+                    onPress={resetBottomSheet}
                     style={{ alignSelf: "center" }}
                 >
                     <Text
@@ -270,7 +264,7 @@ const MapBottomSheet: React.FC<MapBottomSheetProps> = ({ children }) => {
     );
 
     return (
-        <GestureHandlerRootView style={styles.bottomSheetContainer}>
+        <GestureHandlerRootView style={styles.gestureHandlerRootView}>
             <BottomSheet
                 ref={bottomSheetRef}
                 index={snapPointIndex}
@@ -280,9 +274,16 @@ const MapBottomSheet: React.FC<MapBottomSheetProps> = ({ children }) => {
             >
                 {TopRow}
                 {searchResults ? (
-                    <SearchResultsList
-                        results={searchResults}
-                    ></SearchResultsList>
+                    <MapBottomSheetContext.Provider
+                        value={{
+                            snapPointIndex,
+                            setSnapPointIndex,
+                        }}
+                    >
+                        <SearchResultsList
+                            results={searchResults}
+                        ></SearchResultsList>
+                    </MapBottomSheetContext.Provider>
                 ) : (
                     children
                 )}

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    bottomSheetContainer: {
+    gestureHandlerRootView: {
         flex: 1,
         width: "100%",
         pointerEvents: "box-none",
@@ -19,15 +19,6 @@ const styles = StyleSheet.create({
     bottomSheetTextInput: {
         paddingRight: 12,
         borderRadius: 10,
-    },
-    bottomSheetProfileIconButtonContainer: {
-        flexDirection: "row",
-    },
-    profileIconButton: {
-        height: 40,
-        width: 40,
-        backgroundColor: "gray",
-        borderRadius: 25,
     },
 });
 

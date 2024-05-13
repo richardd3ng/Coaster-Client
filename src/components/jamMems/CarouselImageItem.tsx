@@ -6,7 +6,7 @@ import type {
     ImageURISource,
     ImageSourcePropType,
 } from "react-native";
-import { ActivityIndicator, Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
 
 import { JamMem } from "../../types/custom";
@@ -46,8 +46,10 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = (
     };
 
     return (
-        <View style={[styles.imageItemContainer, props.style]}>
-            <ActivityIndicator size="small" />
+        <TouchableOpacity
+            onPress={() => console.log("pressed:", props.jamMem.title)}
+            style={[styles.imageItemContainer, props.style]}
+        >
             <Image
                 cachePolicy={"memory-disk"}
                 key={index}
@@ -55,6 +57,6 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = (
                 source={props.img ?? source}
             />
             <JamSessionImageItemText />
-        </View>
+        </TouchableOpacity>
     );
 };
