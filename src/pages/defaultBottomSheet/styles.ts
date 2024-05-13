@@ -13,13 +13,12 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
     },
     text: {
-        position: "absolute",
         color: "#6E6E6E",
-        fontSize: 20,
+        fontSize: 16,
         borderRadius: 5,
         overflow: "hidden",
-        paddingHorizontal: 10,
-        paddingTop: 2,
+        paddingLeft: 16,
+        paddingBottom: 8,
     },
 });
 

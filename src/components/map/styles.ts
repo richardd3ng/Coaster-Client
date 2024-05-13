@@ -17,12 +17,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#EAEAEA",
     },
     bottomSheetTextInput: {
-        paddingRight: 16,
+        paddingRight: 12,
         borderRadius: 10,
-    },
-    bottomSheetTextInputContainer: {
-        alignSelf: "flex-start",
-        width: "90%",
     },
     bottomSheetProfileIconButtonContainer: {
         flexDirection: "row",
@@ -42,12 +38,10 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     },
     searchResultsItemContainer: {
-        padding: 6,
-        margin: 6,
-        backgroundColor: "#eee",
-    },
-    searchResultsContentContainer: {
-        backgroundColor: "white",
+        flexDirection: "row",
+        backgroundColor: "#EAEAEA",
+        paddingHorizontal: 16,
+        paddingVertical: 12,
     },
 });
 

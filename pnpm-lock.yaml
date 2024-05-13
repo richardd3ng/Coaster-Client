@@ -23,6 +23,9 @@ importers:
       '@ui-kitten/eva-icons':
         specifier: ^5.3.1
         version: 5.3.1(@ui-kitten/components@5.3.1(react-native-svg@13.8.0(react-native@0.73.6(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13)(react@18.2.0))(react@18.2.0)))(react-native-svg@13.8.0(react-native@0.73.6(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13)(react@18.2.0))(react@18.2.0))(react@18.2.0)
+      axios:
+        specifier: ^1.6.8
+        version: 1.6.8
       expo:
         specifier: ~50.0.17
         version: 50.0.17(@babel/core@7.24.5)(@react-native/babel-preset@0.73.21(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5)))(encoding@0.1.13)
@@ -1344,6 +1347,9 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
+  axios@1.6.8:
+    resolution: {integrity: sha512-v/ZHtJDU39mDpyBoFVkETcd/uNdxrWRrg3bKpOKzXFA6Bvqopts6ALSMU3y6ijYxbw2B+wPrIv46egTzJXCLGQ==}
+
   babel-core@7.0.0-bridge.0:
     resolution: {integrity: sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==}
     peerDependencies:
@@ -2018,6 +2024,15 @@ packages:
     resolution: {integrity: sha512-s04193L4JE+ntEcQXbD6jxRRlyj9QXcgEl2W6xSjH4l9x4b0eHoCHfbYHjqf9LdZFUiM5LhgpiqsvLj/AyOyYQ==}
     engines: {node: '>=0.4.0'}
 
+  follow-redirects@1.15.6:
+    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+
   fontfaceobserver@2.3.0:
     resolution: {integrity: sha512-6FPvD/IVyT4ZlNe7Wcn5Fb/4ChigpucKYSvD6a+0iMoLn2inpo711eyIcKjmDtE5XNcgAkSH9uN/nfAeZzHEfg==}
 
@@ -2026,6 +2041,10 @@ packages:
 
   form-data@3.0.1:
     resolution: {integrity: sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==}
+    engines: {node: '>= 6'}
+
+  form-data@4.0.0:
+    resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
     engines: {node: '>= 6'}
 
   freeport-async@2.0.0:
@@ -3116,6 +3135,9 @@ packages:
 
   prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
+
+  proxy-from-env@1.1.0:
+    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
   pump@3.0.0:
     resolution: {integrity: sha512-LwZy+p3SFs1Pytd/jYct4wpv49HiYCqd9Rlc5ZVdk0V+8Yzv6jR5Blk3TRmPL1ft69TxP0IMZGJ+WPFU2BFhww==}
@@ -5839,6 +5861,14 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.0.0
 
+  axios@1.6.8:
+    dependencies:
+      follow-redirects: 1.15.6
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
   babel-core@7.0.0-bridge.0(@babel/core@7.24.5):
     dependencies:
       '@babel/core': 7.24.5
@@ -6680,6 +6710,8 @@ snapshots:
 
   flow-parser@0.235.1: {}
 
+  follow-redirects@1.15.6: {}
+
   fontfaceobserver@2.3.0: {}
 
   for-each@0.3.3:
@@ -6687,6 +6719,12 @@ snapshots:
       is-callable: 1.2.7
 
   form-data@3.0.1:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.35
+
+  form-data@4.0.0:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
@@ -7845,6 +7883,8 @@ snapshots:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
+
+  proxy-from-env@1.1.0: {}
 
   pump@3.0.0:
     dependencies:

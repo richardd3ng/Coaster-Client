@@ -1,10 +1,22 @@
 import { Region } from "react-native-maps";
 import { LatLng } from "react-native-maps";
 
-export type LocationTimestamp = {
+export interface LocationTimestamp {
     coords: LatLng;
     timestamp: number;
-};
+}
+
+export interface SnapShot {
+    locationTimestamp: LocationTimestamp;
+    songId: number;
+}
+
+export interface JamMem {
+    place: string;
+    title: string;
+    start: Date;
+    end: Date;
+}
 
 export enum DateFilter {
     NONE,

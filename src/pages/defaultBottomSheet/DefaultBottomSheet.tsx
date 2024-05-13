@@ -1,7 +1,7 @@
 import React from "react";
 
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import JamSessionCarousel from "../../components/jamSessions/JamSessionCarousel";
+import JamMemsCarousel from "../../components/jamMems/JamMemsCarousel";
 import MapBottomSheet from "../../components/map/MapBottomSheet";
 import styles from "./styles";
 import { Text } from "@ui-kitten/components";
@@ -15,8 +15,8 @@ const DefaultBottomSheet = () => {
                 showsVerticalScrollIndicator
             >
                 <View style={styles.jamSessionStack}>
-                    <Text>hi</Text>
-                    <JamSessionCarousel />
+                    <Text style={styles.text}>Jam Mems</Text>
+                    <JamMemsCarousel />
                 </View>
             </BottomSheetScrollView>
         </MapBottomSheet>
