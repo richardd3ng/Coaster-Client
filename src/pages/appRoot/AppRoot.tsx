@@ -1,13 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
 
-import Map from "../map/Map";
+import MapPage from "../mapPage/MapPage";
 import styles from "./styles";
 
 const AppRoot = () => {
     return (
         <View style={styles.container}>
-            <Map />
+            <MapPage />
             <StatusBar style="auto" />
         </View>
     );

@@ -1,22 +1,22 @@
-import React from "react";
 import { Button, Icon } from "@ui-kitten/components";
-import styles from "../shared/styles";
+import styles from "./styles";
 
 interface MapIconButtonProps {
+    name: string;
     onPress: () => void;
     filled: boolean;
 }
 
-const MapIconButton = (props: MapIconButtonProps) => {
+const MapIconButton: React.FC<MapIconButtonProps> = (
+    props: MapIconButtonProps
+) => {
     return (
         <Button
-            style={styles.iconButton}
+            style={styles.mapIconButton}
             appearance="ghost"
             accessoryLeft={
                 <Icon
-                    name={
-                        props.filled ? "navigation-2" : "navigation-2-outline"
-                    }
+                    name={props.filled ? props.name : `${props.name}-outline`}
                 />
             }
             onPress={props.onPress}
