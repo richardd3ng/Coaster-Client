@@ -21,6 +21,7 @@ GOOGLE_MAPS_API_KEY=<secret>
 5. Press i to open the iOS simulator
    
 ### Expo Go (all platforms)
+Note: background location tracking capabilities aren't enabled on Expo Go
 1. In `.env`, set `EXPO_DEV_MODE=true`
 2. Download Expo Go on a mobile [iOS](https://apps.apple.com/us/app/expo-go/id982107779) or [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_US&gl=US&pli=1) device
 4. In the project root, run `pnpm expo start`
