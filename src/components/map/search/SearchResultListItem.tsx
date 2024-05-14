@@ -11,7 +11,7 @@ import MapContext, { MapContextType } from "../../../context/mapContext";
 import { PlaceData } from "../../../utils/locationUtils";
 import styles from "./styles";
 
-interface SearchResultListItems {
+interface SearchResultListItemProps {
     item: PlaceData;
 }
 
@@ -30,7 +30,9 @@ const LocationIcon = () => {
     );
 };
 
-const SearchResultListItem = (props: SearchResultListItems) => {
+const SearchResultListItem: React.FC<SearchResultListItemProps> = (
+    props: SearchResultListItemProps
+) => {
     const { setRegion, setFollowsUserLocation } =
         useContext<MapContextType>(MapContext);
     const { setSnapPointIndex } = useContext<MapBottomSheetContextType>(

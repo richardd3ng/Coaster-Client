@@ -29,6 +29,9 @@ importers:
       expo:
         specifier: ~50.0.17
         version: 50.0.17(@babel/core@7.24.5)(@react-native/babel-preset@0.73.21(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5)))(encoding@0.1.13)
+      expo-background-fetch:
+        specifier: ~11.8.1
+        version: 11.8.1(expo@50.0.17(@babel/core@7.24.5)(@react-native/babel-preset@0.73.21(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5)))(encoding@0.1.13))
       expo-image:
         specifier: ^1.10.6
         version: 1.10.6(expo@50.0.17(@babel/core@7.24.5)(@react-native/babel-preset@0.73.21(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5)))(encoding@0.1.13))
@@ -1907,6 +1910,11 @@ packages:
 
   expo-asset@9.0.2:
     resolution: {integrity: sha512-PzYKME1MgUOoUvwtdzhAyXkjXOXGiSYqGKG/MsXwWr0Ef5wlBaBm2DCO9V6KYbng5tBPFu6hTjoRNil1tBOSow==}
+
+  expo-background-fetch@11.8.1:
+    resolution: {integrity: sha512-WkWgj1RZsBjIt/J2HvYhfNi+8WEM6vEptuUj6r/vW9w+kXzDo5z/+pkr7YnPgQIhc4P7Z/j7TlM43azUpIEFZA==}
+    peerDependencies:
+      expo: '*'
 
   expo-constants@15.4.6:
     resolution: {integrity: sha512-vizE69dww2Vl0PTWWvDmK0Jo2/J+WzdcMZlA05YEnEYofQuhKxTVsiuipf79mSOmFavt4UQYC1UnzptzKyfmiQ==}
@@ -6542,6 +6550,11 @@ snapshots:
     transitivePeerDependencies:
       - expo
       - supports-color
+
+  expo-background-fetch@11.8.1(expo@50.0.17(@babel/core@7.24.5)(@react-native/babel-preset@0.73.21(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5)))(encoding@0.1.13)):
+    dependencies:
+      expo: 50.0.17(@babel/core@7.24.5)(@react-native/babel-preset@0.73.21(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5)))(encoding@0.1.13)
+      expo-task-manager: 11.7.3(expo@50.0.17(@babel/core@7.24.5)(@react-native/babel-preset@0.73.21(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5)))(encoding@0.1.13))
 
   expo-constants@15.4.6(expo@50.0.17(@babel/core@7.24.5)(@react-native/babel-preset@0.73.21(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5)))(encoding@0.1.13)):
     dependencies:

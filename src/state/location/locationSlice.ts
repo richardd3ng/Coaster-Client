@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LatLng } from "react-native-maps";
 
 import { LocationTimestamp } from "../../types/custom";
 
@@ -15,18 +14,11 @@ const locationSlice = createSlice({
     name: "location",
     initialState,
     reducers: {
-        appendToHistory: (
-            state,
-            action: PayloadAction<{
-                coords: LatLng;
-                timestamp: number;
-            }>
-        ) => {
+        appendToHistory: (state, action: PayloadAction<LocationTimestamp>) => {
             const { coords, timestamp } = action.payload;
-            console.log(
-                `tracked snapshot: latitude: ${action.payload.coords.latitude}, longitude: ${action.payload.coords.longitude}, timestamp: ${action.payload.timestamp}`
-            );
-            console.log("history length:", state.history.length);
+            if (state.history.length % 50 === 0) {
+                console.log("history length:", state.history.length);
+            }
             return {
                 history: [
                     ...state.history,
@@ -37,9 +29,19 @@ const locationSlice = createSlice({
                 ],
             };
         },
+        clearHistoryBeforeTimestamp: (state, action: PayloadAction<number>) => {
+            const index = state.history.findIndex(
+                (locationTimestamp) =>
+                    locationTimestamp.timestamp >= action.payload
+            );
+            return {
+                history: index === -1 ? [] : state.history.slice(index),
+            };
+        },
     },
 });
 
-export const { appendToHistory } = locationSlice.actions;
+export const { appendToHistory, clearHistoryBeforeTimestamp } =
+    locationSlice.actions;
 
 export default locationSlice.reducer;

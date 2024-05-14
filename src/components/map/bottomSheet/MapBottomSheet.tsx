@@ -1,7 +1,6 @@
 import React, {
     ReactNode,
     useCallback,
-    useContext,
     useMemo,
     useRef,
     useState,
@@ -13,7 +12,8 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { Input } from "@ui-kitten/components";
 
 import MapBottomSheetContext from "../../../context/mapBottomSheetContext";
-import { PlaceData, getGeoData2 } from "../../../utils/locationUtils";
+import { ModalType, useModal } from "../../../context/modalContext";
+import { PlaceData, fetchGeoData } from "../../../utils/locationUtils";
 import ProfileIconButton from "../profile/ProfileIconButton";
 import styles from "./styles";
 import SearchBar from "../../shared/SearchBar";
@@ -197,6 +197,7 @@ const MapBottomSheet: React.FC<MapBottomSheetProps> = ({ children }) => {
         null
     );
     const [showProfile, setShowProfile] = useState<boolean>(true);
+    const { presentModal } = useModal();
 
     const handleSearch = useCallback(async (query: string) => {
         // const results = await getGeoData2(query);
@@ -227,6 +228,24 @@ const MapBottomSheet: React.FC<MapBottomSheetProps> = ({ children }) => {
         setSnapPointIndex(2);
     }, []);
 
+    const CancelButton = () => {
+        return (
+            <TouchableOpacity
+                onPress={resetBottomSheet}
+                style={{ alignSelf: "center" }}
+            >
+                <Text
+                    style={{
+                        fontSize: 16,
+                        color: "blue",
+                    }}
+                >
+                    Cancel
+                </Text>
+            </TouchableOpacity>
+        );
+    };
+
     const TopRow = (
         <View style={styles.bottomSheetTopRow}>
             <View
@@ -244,21 +263,12 @@ const MapBottomSheet: React.FC<MapBottomSheetProps> = ({ children }) => {
                 />
             </View>
             {showProfile ? (
-                <ProfileIconButton />
+                <ProfileIconButton
+                    onPress={() => presentModal(ModalType.Profile)}
+                    style={styles.profileIconButton}
+                />
             ) : (
-                <TouchableOpacity
-                    onPress={resetBottomSheet}
-                    style={{ alignSelf: "center" }}
-                >
-                    <Text
-                        style={{
-                            fontSize: 16,
-                            color: "blue",
-                        }}
-                    >
-                        Cancel
-                    </Text>
-                </TouchableOpacity>
+                <CancelButton />
             )}
         </View>
     );

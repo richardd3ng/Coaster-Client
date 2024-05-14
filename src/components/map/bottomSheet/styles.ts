@@ -20,6 +20,12 @@ const styles = StyleSheet.create({
         paddingRight: 12,
         borderRadius: 10,
     },
+    profileIconButton: {
+        height: 40,
+        width: 40,
+        backgroundColor: "gray",
+        borderRadius: 25,
+    },
 });
 
 export default styles;

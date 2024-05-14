@@ -1,75 +1,18 @@
 import React, { useMemo, useCallback } from "react";
-import { View, Text } from "react-native";
+
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
     BottomSheetModal,
     BottomSheetView,
     BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Button, Icon } from "@ui-kitten/components";
+import { Text, View } from "react-native";
+
 import { ModalType, useModal } from "../../../context/modalContext";
+import ProfileIconButton from "./ProfileIconButton";
+import ProfileList from "./ProfileList";
 import styles from "./styles";
-
-import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { PlaceData } from "../../../utils/locationUtils";
-import SearchResultListItem from "../search/SearchResultListItem";
-import { Divider } from "@ui-kitten/components";
-import { TouchableOpacity } from "react-native";
-
-interface SearchResultsListProps {
-    results: PlaceData[];
-}
-
-const SearchResultsList: React.FC<SearchResultsListProps> = (
-    props: SearchResultsListProps
-) => {
-    const renderItem = useCallback(
-        ({ item }: { item: PlaceData }) => <SearchResultListItem item={item} />,
-        []
-    );
-
-    return (
-        <>
-            <View
-                style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: 16,
-                        paddingLeft: 16,
-                        paddingVertical: 12,
-                        color: "gray",
-                    }}
-                >
-                    Locations
-                </Text>
-                <TouchableOpacity
-                    style={{ paddingRight: 16 }}
-                    onPress={() => console.log("show more locations")}
-                >
-                    <Text
-                        style={{
-                            fontSize: 16,
-                            paddingLeft: 16,
-                            paddingVertical: 12,
-                            color: "blue",
-                        }}
-                    >
-                        More
-                    </Text>
-                </TouchableOpacity>
-            </View>
-            <Divider style={{ backgroundColor: "gray" }} />
-            <BottomSheetFlatList
-                data={props.results}
-                keyExtractor={(result) => result.placeId}
-                renderItem={renderItem}
-            />
-        </>
-    );
-};
 
 const ProfileBottomModal: React.FC = () => {
     const { modalRefs, dismissModal, isModalVisible } = useModal();
@@ -83,6 +26,47 @@ const ProfileBottomModal: React.FC = () => {
         },
         [dismissModal]
     );
+
+    const CloseButton = (
+        <Button
+            style={{
+                width: 20,
+                height: 20,
+                borderRadius: 20,
+                position: "absolute",
+                top: 4,
+                right: 4,
+            }}
+            appearance="ghost"
+            accessoryLeft={<Icon name={"close"} fill="gray" />}
+            onPress={() => dismissModal(ModalType.Profile)}
+        />
+    );
+
+    const TopRow: React.FC = () => {
+        return (
+            <View style={styles.profileBottomModalTopRow}>
+                <ProfileIconButton style={styles.profileIconButton} />
+                <View
+                    style={{
+                        paddingLeft: 16,
+                        justifyContent: "center",
+                        paddingRight: 32,
+                    }}
+                >
+                    <View>
+                        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                            Richard Deng
+                        </Text>
+                        <Text style={{ fontSize: 16, color: "gray" }}>
+                            rld39
+                        </Text>
+                    </View>
+                </View>
+                {CloseButton}
+            </View>
+        );
+    };
 
     return (
         <GestureHandlerRootView style={styles.gestureHandlerRootView}>
@@ -109,9 +93,9 @@ const ProfileBottomModal: React.FC = () => {
                         onChange={handleSheetChanges}
                         handleComponent={null}
                     >
+                        <TopRow />
                         <BottomSheetView style={styles.contentContainer}>
-                            <Text>TODO: Add Profile Stuff Here</Text>
-                            {/* <SearchResultsList results={mockData} /> */}
+                            <ProfileList />
                         </BottomSheetView>
                     </BottomSheetModal>
                 </View>

@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import locationReducer from "./location/locationSlice";
+import snapshotReducer from "./snapshot/snapshotSlice";
 
 const store = configureStore({
     reducer: {
         location: locationReducer,
+        snapshot: snapshotReducer,
     },
 });
 
