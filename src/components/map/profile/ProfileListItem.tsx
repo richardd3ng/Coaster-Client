@@ -1,14 +1,23 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import React from "react";
+import {
+    StyleProp,
+    Text,
+    TouchableOpacity,
+    View,
+    ViewStyle,
+} from "react-native";
 import { Button, Divider, Icon } from "@ui-kitten/components";
-
 import { ProfileOption } from "../../../types/custom";
 import styles from "./styles";
 
 export interface ProfileListItemProps {
-    profileOption: ProfileOption;
+    text: ProfileOption;
     onPress: () => void;
     icon?: React.ReactElement;
     hideArrow?: boolean;
+    hideDivider?: boolean;
+    textColor?: string;
+    style?: StyleProp<ViewStyle>;
 }
 
 const ArrowIcon = (
@@ -19,7 +28,7 @@ const ArrowIcon = (
             backgroundColor: "white",
         }}
         appearance="ghost"
-        accessoryLeft={<Icon name={"arrow-right"} fill="gray" />}
+        accessoryLeft={<Icon name={"arrow-ios-forward"} fill="gray" />}
     />
 );
 
@@ -28,14 +37,23 @@ const ProfileListItem: React.FC<ProfileListItemProps> = (
 ) => {
     return (
         <TouchableOpacity onPress={props.onPress}>
-            <View style={styles.profileListItemContainer}>
+            <View style={[styles.profileListItemContainer, props.style]}>
                 {props.icon}
-                <Text style={{ fontSize: 16, paddingLeft: 16 }}>
-                    {props.profileOption}
+                <Text
+                    style={{
+                        fontSize: 16,
+                        paddingLeft: 16,
+                        flex: 1,
+                        color: props.textColor,
+                    }}
+                >
+                    {props.text}
                 </Text>
-                {props.hideArrow ? undefined : ArrowIcon}
+                {!props.hideArrow && ArrowIcon}
             </View>
-            <Divider style={styles.profileListItemDivider} />
+            {!props.hideDivider && (
+                <Divider style={styles.profileListItemDivider} />
+            )}
         </TouchableOpacity>
     );
 };

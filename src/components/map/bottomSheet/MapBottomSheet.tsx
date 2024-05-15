@@ -191,7 +191,7 @@ const mockData: PlaceData[] = [
 const MapBottomSheet: React.FC<MapBottomSheetProps> = ({ children }) => {
     const bottomSheetRef = useRef<BottomSheet>(null);
     const searchBarInputRef = useRef<Input>(null);
-    const snapPoints = useMemo(() => ["10%", "30%", "95%"], []);
+    const snapPoints = useMemo(() => ["10%", "30%", "92.5%"], []);
     const [snapPointIndex, setSnapPointIndex] = useState<number>(0);
     const [searchResults, setSearchResults] = useState<PlaceData[] | null>(
         null
@@ -200,9 +200,9 @@ const MapBottomSheet: React.FC<MapBottomSheetProps> = ({ children }) => {
     const { presentModal } = useModal();
 
     const handleSearch = useCallback(async (query: string) => {
-        // const results = await getGeoData2(query);
-        // setSearchResults(results);
-        setSearchResults(mockData);
+        const results = await fetchGeoData(query);
+        setSearchResults(results);
+        // setSearchResults(mockData);
         setSnapPointIndex(2);
     }, []);
 

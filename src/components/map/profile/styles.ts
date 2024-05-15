@@ -1,10 +1,8 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    contentContainer: {
-        flex: 1,
+    container: {
         backgroundColor: "#EAEAEA",
-        width: "100%",
     },
     gestureHandlerRootView: {
         ...StyleSheet.absoluteFillObject,
@@ -33,7 +31,6 @@ const styles = StyleSheet.create({
     },
     profileListItemDivider: { backgroundColor: "gray", marginLeft: 64 },
     profileBottomSheetFlatList: {
-        borderRadius: 10,
         marginHorizontal: 16,
         marginBottom: 42,
     },

@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
     },
     bottomSheetHandle: {
         backgroundColor: "#EAEAEA",
+        borderTopRightRadius: 15,
+        borderTopLeftRadius: 15,
     },
     bottomSheetTopRow: {
         flexDirection: "row",

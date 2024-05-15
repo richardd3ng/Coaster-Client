@@ -3,7 +3,7 @@ import React, { useMemo, useCallback } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
     BottomSheetModal,
-    BottomSheetView,
+    BottomSheetScrollView,
     BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 import { Button, Icon } from "@ui-kitten/components";
@@ -82,7 +82,7 @@ const ProfileBottomModal: React.FC = () => {
                             ? undefined
                             : "box-none",
                         backgroundColor: isModalVisible(ModalType.Profile)
-                            ? "rgba(128, 128, 128, 0.2)"
+                            ? "rgba(128, 128, 128, 0.25)"
                             : undefined,
                     }}
                 >
@@ -92,11 +92,10 @@ const ProfileBottomModal: React.FC = () => {
                         snapPoints={snapPoints}
                         onChange={handleSheetChanges}
                         handleComponent={null}
+                        backgroundStyle={styles.container}
                     >
                         <TopRow />
-                        <BottomSheetView style={styles.contentContainer}>
-                            <ProfileList />
-                        </BottomSheetView>
+                        <ProfileList />
                     </BottomSheetModal>
                 </View>
             </BottomSheetModalProvider>

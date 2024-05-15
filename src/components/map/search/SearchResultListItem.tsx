@@ -41,7 +41,6 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = (
 
     const handleSelect = () => {
         setFollowsUserLocation(false);
-        props.item.coords.latitude;
         const region: Region = {
             latitude: props.item.coords.latitude,
             longitude: props.item.coords.longitude,

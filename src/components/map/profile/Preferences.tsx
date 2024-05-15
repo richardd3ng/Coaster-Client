@@ -12,14 +12,14 @@ const PreferencesIcon = (
             backgroundColor: "gray",
         }}
         appearance="ghost"
-        accessoryLeft={<Icon name={"settings"} fill="black" />}
+        accessoryLeft={<Icon name={"settings-2"} fill="black" />}
     />
 );
 
 const Preferences: React.FC = () => {
     return (
         <ProfileListItem
-            profileOption={ProfileOption.PREFERENCES}
+            text={ProfileOption.PREFERENCES}
             onPress={() => {}}
             icon={PreferencesIcon}
         />

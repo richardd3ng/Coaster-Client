@@ -19,9 +19,13 @@ const AccountIcon = (
 const Account: React.FC = () => {
     return (
         <ProfileListItem
-            profileOption={ProfileOption.ACCOUNT}
+            text={ProfileOption.ACCOUNT}
             onPress={() => {}}
             icon={AccountIcon}
+            style={{
+                borderTopRightRadius: 10,
+                borderTopLeftRadius: 10,
+            }}
         />
     );
 };

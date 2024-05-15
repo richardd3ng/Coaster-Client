@@ -19,10 +19,16 @@ const LogoutIcon = (
 const Logout: React.FC = () => {
     return (
         <ProfileListItem
-            profileOption={ProfileOption.LOGOUT}
+            text={ProfileOption.LOGOUT}
             onPress={() => {}}
             icon={LogoutIcon}
             hideArrow
+            hideDivider
+            textColor="red"
+            style={{
+                borderBottomRightRadius: 10,
+                borderBottomLeftRadius: 10,
+            }}
         />
     );
 };
