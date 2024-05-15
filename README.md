@@ -1,17 +1,22 @@
-# Coaster
+# Coaster Client
 ## Developer Guide
 ### Setup
 1. Install [pnpm](https://pnpm.io/installation) (faster than npm) for package management
 2. Install expo: `pnpm i expo -w` (this is the pattern for installing all packages with pnpm, do NOT use npm)
 3. Clone this GitHub repository
-8. In the project root, run `pnpm install`
-9. In the project root, create a `.env` file with the format shown below (missing details will be provided by someone who knows them)
+4. In the project root, run `pnpm install`
+5. In the project root, create a `.env` file with the format shown below (missing details will be provided by someone who knows them)
 ```
 EXPO_DEV_MODE=false
 ATLAS_URI="<database connection string>"
 GOOGLE_MAPS_API_KEY=<secret>
 ```
 - Note: when adding new environment variables, also modify `src/types/env.d.ts`
+6. The nodejs version (22.1.0) is specified in `.tool-versions`, and the xcode version (15.3 (15E204a)) in `.xcode-version`. You can use runtime version managers to manage these. For example: 
+```
+asdf local nodejs 22.1.0
+xcodes select 15.3 (15E204a)
+```
 
 ### iOS Simulator (Mac only)
 1. In `.env`, set `EXPO_DEV_MODE=false`
