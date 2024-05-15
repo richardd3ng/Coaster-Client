@@ -7,6 +7,7 @@ import {
     useRef,
     useState,
 } from "react";
+
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 export enum ModalType {

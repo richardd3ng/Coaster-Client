@@ -4,18 +4,19 @@ import MapView from "react-native-maps";
 import { Text, View } from "react-native";
 
 import { DateFilter, MapRegion, SocialFilter } from "../../types/custom";
-import DefaultBottomSheet from "../defaultBottomSheet/DefaultBottomSheet";
 import {
     DEFAULT_DATE_FILTER,
     DEFAULT_SOCIAL_FILTER,
 } from "../../utils/defaults";
 import { EXPO_DEV_MODE } from "@env";
+import MapBottomSheet from "../../components/map/bottomSheet/MapBottomSheet";
 import MapContext from "../../context/mapContext";
 import MapIconButton from "../../components/map/MapIconButton";
 import { ModalProvider } from "../../context/modalContext";
 import ProfileBottomModal from "../../components/map/profile/ProfileBottomModal";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
+import { BottomSheetProvider } from "../../context/bottomSheetContext";
 
 const MapScreen = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
@@ -75,7 +76,7 @@ const MapScreen = () => {
 
     const BottomSheet = useMemo(
         () => (
-            <>
+            <BottomSheetProvider>
                 <ModalProvider>
                     <MapContext.Provider
                         value={{
@@ -87,11 +88,11 @@ const MapScreen = () => {
                             setRegion,
                         }}
                     >
-                        <DefaultBottomSheet />
+                        <MapBottomSheet />
                     </MapContext.Provider>
                     <ProfileBottomModal />
                 </ModalProvider>
-            </>
+            </BottomSheetProvider>
         ),
         []
     );
