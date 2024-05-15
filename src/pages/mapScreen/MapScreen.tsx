@@ -10,13 +10,13 @@ import {
 } from "../../utils/defaults";
 import { EXPO_DEV_MODE } from "@env";
 import MapBottomSheet from "../../components/map/bottomSheet/MapBottomSheet";
-import MapContext from "../../context/mapContext";
+import MapContext from "../../context/MapContext";
 import MapIconButton from "../../components/map/MapIconButton";
-import { ModalProvider } from "../../context/modalContext";
+import { ModalProvider } from "../../context/ModalContext";
 import ProfileBottomModal from "../../components/map/profile/ProfileBottomModal";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
-import { BottomSheetProvider } from "../../context/bottomSheetContext";
+import { BottomSheetProvider } from "../../context/BottomSheetContext";
 
 const MapScreen = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
