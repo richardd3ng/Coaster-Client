@@ -11,10 +11,11 @@ export interface SnapShot {
 }
 
 export interface JamMem {
+    id: number;
     place: string;
     title: string;
-    start: Date;
-    end: Date;
+    startTimestamp: number;
+    endTimestamp: number;
 }
 
 export enum DateFilter {

@@ -1,4 +1,62 @@
+import { JamMem } from "../types/custom";
 import { PlaceData } from "../utils/locationUtils";
+
+export const mockJamMemData: JamMem[] = [
+    {
+        id: 1,
+        place: "New York",
+        title: "Jam Session in Central Park",
+        startTimestamp: 1630454400000,
+        endTimestamp: 1630454400000,
+        // start: new Date("2021-09-01"),
+        // end: new Date("2021-09-01"),
+    },
+    {
+        id: 2,
+        place: "San Francisco",
+        title: "Music under the Golden Gate Bridge",
+        // start: new Date("2021-09-01"),
+        // end: new Date("2021-09-01"),
+        startTimestamp: 1630454400000,
+        endTimestamp: 1630454400000,
+    },
+    {
+        id: 3,
+        place: "Ohio",
+        title: "This is a really long jam session title that may span a ton of lines",
+        // start: new Date("2021-09-01"),
+        // end: new Date("2021-09-01"),
+        startTimestamp: 1630454400000,
+        endTimestamp: 1630454400000,
+    },
+    {
+        id: 4,
+        place: "Lake Tahoe",
+        title: "Fishing Jam",
+        // start: new Date("2021-09-01"),
+        // end: new Date("2021-09-01"),
+        startTimestamp: 1630454400000,
+        endTimestamp: 1630454400000,
+    },
+    {
+        id: 5,
+        place: "China",
+        title: "Jason's House",
+        // start: new Date("2021-09-01"),
+        // end: new Date("2021-09-01"),
+        startTimestamp: 1630454400000,
+        endTimestamp: 1630454400000,
+    },
+    {
+        id: 6,
+        place: "Myrtle Beach",
+        title: "Spanish Galleon",
+        // start: new Date("2021-09-01"),
+        // end: new Date("2021-09-01"),
+        startTimestamp: 1630454400000,
+        endTimestamp: 1630454400000,
+    },
+];
 
 export const mockPlaceData: PlaceData[] = [
     {

@@ -44,7 +44,7 @@ export const BottomSheetProvider: React.FC<BottomSheetProviderProps> = ({
     const [snapIndexes, setSnapIndexes] = useState<
         Record<BottomSheetType, number>
     >({
-        [BottomSheetType.Map]: 0, // Initial snap index for each BottomSheet type
+        [BottomSheetType.Map]: 0,
     });
 
     const setSnapIndex = useCallback(

@@ -1,4 +1,4 @@
-import React from "react";
+import { useRef } from "react";
 
 import type {
     StyleProp,
@@ -9,8 +9,15 @@ import type {
 import { Text, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
 
+import {
+    BottomSheetType,
+    useBottomSheet,
+} from "../../context/BottomSheetContext";
 import { JamMem } from "../../types/custom";
+import { setSelectedJamMemId } from "../../state/jamMem/jamMemSlice";
+import store from "../../state/store";
 import styles from "./styles";
+import { ModalType, useModal } from "../../context/ModalContext";
 
 interface CarouselImageItemProps {
     style?: StyleProp<ViewStyle>;
@@ -24,9 +31,11 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = (
     props: CarouselImageItemProps
 ) => {
     const index = props.index ?? 0;
-    const source = React.useRef<ImageURISource>({
+    const source = useRef<ImageURISource>({
         uri: `https://picsum.photos/id/${index}/400/300`,
     }).current;
+    const { presentModal } = useModal();
+    const { setSnapIndex: setBottomSheetSnapIndex } = useBottomSheet();
 
     const JamSessionImageItemText = () => {
         return (
@@ -38,16 +47,25 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = (
             >
                 <Text style={styles.titleText}>{props.jamMem.title}</Text>
                 <Text style={styles.placeText}>{props.jamMem.place}</Text>
-                <Text
-                    style={styles.dateText}
-                >{`${props.jamMem.start.toDateString()} - ${props.jamMem.end.toDateString()}`}</Text>
+                <Text style={styles.dateText}>{`${new Date(
+                    props.jamMem.startTimestamp
+                ).toDateString()} - ${new Date(
+                    props.jamMem.endTimestamp
+                ).toDateString()}`}</Text>
             </View>
         );
     };
 
     return (
         <TouchableOpacity
-            onPress={() => console.log("pressed:", props.jamMem.title)}
+            onPress={() => {
+                setBottomSheetSnapIndex(BottomSheetType.Map, 1);
+                store.dispatch({
+                    type: setSelectedJamMemId.type,
+                    payload: props.jamMem.id,
+                });
+                presentModal(ModalType.JamMem);
+            }}
             style={[styles.imageItemContainer, props.style]}
         >
             <Image

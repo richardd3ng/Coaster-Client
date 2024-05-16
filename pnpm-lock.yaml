@@ -50,9 +50,6 @@ importers:
       react-native:
         specifier: 0.73.6
         version: 0.73.6(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13)(react@18.2.0)
-      react-native-geocoding:
-        specifier: ^0.5.0
-        version: 0.5.0
       react-native-gesture-handler:
         specifier: ~2.14.1
         version: 2.14.1(react-native@0.73.6(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
@@ -3194,9 +3191,6 @@ packages:
     peerDependencies:
       react: 16.5.0
       react-native-svg: ^9.4.0
-
-  react-native-geocoding@0.5.0:
-    resolution: {integrity: sha512-peTXRpRxPLiZpbTW43AOvoXXAEoS+eLnSo4KRY0hcL9F2hulWE5r7o5KiaLx8AWj35c6EJP3fdGHe754q2Gd2Q==}
 
   react-native-gesture-handler@2.14.1:
     resolution: {integrity: sha512-YiM1BApV4aKeuwsM6O4C2ufwewYEKk6VMXOt0YqEZFMwABBFWhXLySFZYjBSNRU2USGppJbfHP1q1DfFQpKhdA==}
@@ -7946,8 +7940,6 @@ snapshots:
     dependencies:
       react: 18.2.0
       react-native-svg: 13.8.0(react-native@0.73.6(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
-
-  react-native-geocoding@0.5.0: {}
 
   react-native-gesture-handler@2.14.1(react-native@0.73.6(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13)(react@18.2.0))(react@18.2.0):
     dependencies:

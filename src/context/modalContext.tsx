@@ -7,11 +7,11 @@ import {
     useRef,
     useState,
 } from "react";
-
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 export enum ModalType {
     Profile,
+    JamMem,
 }
 
 interface ModalContextType {
@@ -19,6 +19,8 @@ interface ModalContextType {
     dismissModal: (modalType: ModalType) => void;
     modalRefs: Record<ModalType, MutableRefObject<BottomSheetModal | null>>;
     isModalVisible: (modalType: ModalType) => boolean;
+    snapIndexes: Record<ModalType, number>;
+    setSnapIndex: (modalType: ModalType, index: number) => void;
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -33,11 +35,19 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         MutableRefObject<BottomSheetModal | null>
     > = {
         [ModalType.Profile]: useRef<BottomSheetModal>(null),
+        [ModalType.JamMem]: useRef<BottomSheetModal>(null),
     };
+
     const [visibleModals, setVisibleModals] = useState<
         Record<ModalType, boolean>
     >({
         [ModalType.Profile]: false,
+        [ModalType.JamMem]: false,
+    });
+
+    const [snapIndexes, setSnapIndexes] = useState<Record<ModalType, number>>({
+        [ModalType.Profile]: 0,
+        [ModalType.JamMem]: 0,
     });
 
     const presentModal = useCallback((modalType: ModalType) => {
@@ -55,9 +65,20 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         [visibleModals]
     );
 
+    const setSnapIndex = useCallback((modalType: ModalType, index: number) => {
+        setSnapIndexes((prev) => ({ ...prev, [modalType]: index }));
+    }, []);
+
     return (
         <ModalContext.Provider
-            value={{ presentModal, dismissModal, modalRefs, isModalVisible }}
+            value={{
+                presentModal,
+                dismissModal,
+                modalRefs,
+                isModalVisible,
+                snapIndexes,
+                setSnapIndex,
+            }}
         >
             {children}
         </ModalContext.Provider>

@@ -10,7 +10,7 @@ import {
     useBottomSheet,
 } from "../../../context/BottomSheetContext";
 import JamMemsCarousel from "../../jamMems/JamMemsCarousel";
-import { mockPlaceData } from "../../../data/mockData";
+import { mockPlaceData } from "../../../mockData/constants";
 import { ModalType, useModal } from "../../../context/ModalContext";
 import { PlaceData, fetchGeoData } from "../../../utils/locationUtils";
 import ProfileIconButton from "../profile/ProfileIconButton";
