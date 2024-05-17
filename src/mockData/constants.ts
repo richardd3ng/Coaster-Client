@@ -1,5 +1,8 @@
+import { generateRandomSnapshots } from "./scripts";
 import { JamMem } from "../types/custom";
 import { PlaceData } from "../utils/locationUtils";
+
+export const mockPoints = generateRandomSnapshots(1_000);
 
 export const mockJamMemData: JamMem[] = [
     {

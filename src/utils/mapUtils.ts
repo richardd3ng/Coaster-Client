@@ -4,18 +4,28 @@ import { Region } from "react-native-maps";
 const { height, width } = Dimensions.get("window");
 
 export enum ZoomLevel {
-    LEVEL_1 = 0.00005,
-    LEVEL_2 = 0.0001,
-    LEVEL_3 = 0.0005,
-    LEVEL_4 = 0.001,
-    LEVEL_5 = 0.005,
-    LEVEL_6 = 0.01,
-    LEVEL_7 = 0.05,
-    LEVEL_8 = 0.1,
-    LEVEL_9 = 0.5,
+    LEVEL_1 = 1,
+    LEVEL_2,
+    LEVEL_3,
+    LEVEL_4,
+    LEVEL_5,
+    LEVEL_6,
+    LEVEL_7,
+    LEVEL_8,
+    LEVEL_9,
 }
 
-type ZoomLevelType = { [key in keyof typeof ZoomLevel]: number };
+export const ZOOM_LEVELS: Record<ZoomLevel, number> = {
+    [ZoomLevel.LEVEL_1]: 0.5,
+    [ZoomLevel.LEVEL_2]: 0.1,
+    [ZoomLevel.LEVEL_3]: 0.05,
+    [ZoomLevel.LEVEL_4]: 0.01,
+    [ZoomLevel.LEVEL_5]: 0.005,
+    [ZoomLevel.LEVEL_6]: 0.001,
+    [ZoomLevel.LEVEL_7]: 0.0005,
+    [ZoomLevel.LEVEL_8]: 0.0001,
+    [ZoomLevel.LEVEL_9]: 0.00005,
+};
 
 export const computeZoomLevelFromRegion = (region: Region): number => {
     return Math.max(
@@ -25,15 +35,22 @@ export const computeZoomLevelFromRegion = (region: Region): number => {
 };
 
 export const computeDeltaFromZoomLevel = (zoomLevel: ZoomLevel): number => {
-    return zoomLevel * width;
+    return ZOOM_LEVELS[zoomLevel] * width;
 };
 
 export const getNearestZoomLevel = (zoom: number): ZoomLevel => {
-    const zoomLevelValues = Object.values(
-        ZoomLevel
-    ) as ZoomLevelType[keyof ZoomLevelType][];
+    let nearestZoomLevel: ZoomLevel = ZoomLevel.LEVEL_1;
+    let minDifference = Math.abs(ZOOM_LEVELS[ZoomLevel.LEVEL_1] - zoom);
 
-    return zoomLevelValues.reduce((prev, curr) =>
-        Math.abs(curr - zoom) < Math.abs(prev - zoom) ? curr : prev
-    ) as ZoomLevel;
+    Object.values(ZoomLevel).forEach((value) => {
+        const level = value as ZoomLevel;
+        const currentZoomLevel = ZOOM_LEVELS[level];
+        const difference = Math.abs(currentZoomLevel - zoom);
+        if (difference < minDifference) {
+            nearestZoomLevel = level;
+            minDifference = difference;
+        }
+    });
+
+    return nearestZoomLevel;
 };
