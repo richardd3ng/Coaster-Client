@@ -1,9 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-
-import MapView, { Callout, Marker } from "react-native-maps";
+import React, { useContext, useEffect, useState } from "react";
+import MapView from "react-native-maps";
 import { Text } from "react-native";
-
-import ClusterMarker from "../../components/map/ClusterMarker";
 import { EXPO_DEV_MODE } from "@env";
 import { fetchClusters } from "../../api/clusterAPI";
 import { mockPoints } from "../../mockData/constants";
@@ -18,12 +15,16 @@ import {
     ZoomLevel,
 } from "../../utils/mapUtils";
 import { DEFAULT_ZOOM_LEVEL } from "../../utils/defaults";
+import ClusterMarker from "../../components/map/ClusterMarker";
+
+const MemoizedMarker = React.memo(({ cluster }: { cluster: SongCluster }) => (
+    <ClusterMarker cluster={cluster} />
+));
 
 const MapScreen = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
     const { region, setRegion, followsUserLocation, setFollowsUserLocation } =
         useContext<MapContextType>(MapContext);
-    // const [cluster, setCluster] = useState<any>(null);
     const [zoomLevel, setZoomLevel] = useState<ZoomLevel>(DEFAULT_ZOOM_LEVEL);
     const [clusters, setClusters] = useState<SongCluster[]>([]);
 
@@ -66,24 +67,13 @@ const MapScreen = () => {
             onPanDrag={() => setFollowsUserLocation(false)}
         >
             {clusters.map((c: SongCluster, i: number) => (
-                <Marker key={i} coordinate={c.coords} tracksViewChanges={false}>
-                    <Callout>
-                        <Text>{`Top 10: ${mapToString(c.top10Songs)}`}</Text>
-                    </Callout>
-                </Marker>
+                <MemoizedMarker key={i} cluster={c} />
             ))}
         </MapView>
     ) : (
         <Text>Loading...</Text>
         // TODO: Loading Spinner
     );
-};
-
-const mapToString = (map: Map<number, number>) => {
-    if (!map) return "undefined";
-    return Array.from(map.entries())
-        .map(([key, value]) => `${key}: ${value}`)
-        .join(", ");
 };
 
 export default MapScreen;

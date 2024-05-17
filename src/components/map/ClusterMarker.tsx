@@ -1,37 +1,31 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
-
-const Style = StyleSheet.create({
-    container: {
-        flexDirection: "column",
-        alignSelf: "flex-start",
-    },
-    bubble: {
-        flex: 0,
-        flexDirection: "row",
-        alignSelf: "flex-start",
-        backgroundColor: "#ffbbbb",
-        padding: 4,
-        borderRadius: 4,
-        borderColor: "#ffbbbb",
-        borderWidth: 1,
-    },
-    count: {
-        color: "#fff",
-        fontSize: 13,
-    },
-});
+import { Text } from "react-native";
+import { Marker, Callout } from "react-native-maps";
+import { SongCluster } from "../../api/clusterAPI";
 
 interface ClusterMarkerProps {
-    count: number;
+    cluster: SongCluster;
 }
 
-const ClusterMarker: React.FC<ClusterMarkerProps> = ({ count }) => (
-    <View style={Style.container}>
-        <View style={Style.bubble}>
-            <Text style={Style.count}>{count}</Text>
-        </View>
-    </View>
-);
+const ClusterMarker: React.FC<ClusterMarkerProps> = (
+    props: ClusterMarkerProps
+) => {
+    return (
+        <Marker coordinate={props.cluster.coords} tracksViewChanges={false}>
+            <Callout>
+                <Text>{`Top 10: ${mapToString(
+                    props.cluster.top10Songs
+                )}`}</Text>
+            </Callout>
+        </Marker>
+    );
+};
+
+const mapToString = (map: Map<number, number>) => {
+    if (!map) return "undefined";
+    return Array.from(map.entries())
+        .map(([key, value]) => `${key}: ${value}`)
+        .join(", ");
+};
 
 export default ClusterMarker;

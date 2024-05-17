@@ -2,7 +2,7 @@ import { generateRandomSnapshots } from "./scripts";
 import { JamMem } from "../types/custom";
 import { PlaceData } from "../api/locationAPI";
 
-export const mockPoints = generateRandomSnapshots(1_000);
+export const mockPoints = generateRandomSnapshots(10_000);
 
 export const mockJamMemData: JamMem[] = [
     {
