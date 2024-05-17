@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { PlaceData } from "../../../utils/locationUtils";
+import { PlaceData } from "../../../api/locationAPI";
 import SearchResultListItem from "./SearchResultListItem";
 import { Divider } from "@ui-kitten/components";
 import { Text, TouchableOpacity, View } from "react-native";

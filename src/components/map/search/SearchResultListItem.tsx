@@ -9,7 +9,7 @@ import {
     useBottomSheet,
 } from "../../../context/BottomSheetContext";
 import MapContext, { MapContextType } from "../../../context/MapContext";
-import { PlaceData } from "../../../utils/locationUtils";
+import { PlaceData } from "../../../api/locationAPI";
 import styles from "./styles";
 
 interface SearchResultListItemProps {

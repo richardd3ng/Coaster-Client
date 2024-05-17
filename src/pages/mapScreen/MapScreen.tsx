@@ -1,21 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 
-import MapView, { Callout, Marker, Region } from "react-native-maps";
-import { Dimensions, Text } from "react-native";
+import MapView, { Callout, Marker } from "react-native-maps";
+import { Text } from "react-native";
 
-import { SongCluster } from "../../mockData/scripts";
 import ClusterMarker from "../../components/map/ClusterMarker";
 import { EXPO_DEV_MODE } from "@env";
-import { fetchClusters } from "../../mockData/scripts";
+import { fetchClusters } from "../../api/clusterAPI";
 import { mockPoints } from "../../mockData/constants";
 import MapContext, { MapContextType } from "../../context/MapContext";
+import { SongCluster } from "../../api/clusterAPI";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
 import {
-    ZoomLevel,
     computeDeltaFromZoomLevel,
     computeZoomLevelFromRegion,
     getNearestZoomLevel,
+    ZoomLevel,
 } from "../../utils/mapUtils";
 import { DEFAULT_ZOOM_LEVEL } from "../../utils/defaults";
 

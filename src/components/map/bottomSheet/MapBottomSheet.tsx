@@ -12,7 +12,7 @@ import {
 import JamMemsCarousel from "../../jamMems/JamMemsCarousel";
 import { mockPlaceData } from "../../../mockData/constants";
 import { ModalType, useModal } from "../../../context/ModalContext";
-import { PlaceData, fetchGeoData } from "../../../utils/locationUtils";
+import { PlaceData, fetchGeoData } from "../../../api/locationAPI";
 import ProfileIconButton from "../profile/ProfileIconButton";
 import styles from "./styles";
 import SearchBar from "../../shared/SearchBar";

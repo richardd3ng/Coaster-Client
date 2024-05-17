@@ -18,7 +18,7 @@ import { ModalType, useModal } from "../../context/ModalContext";
 import styles from "./styles";
 import { JamMem } from "../../types/custom";
 import { RootState } from "../../state/store";
-import { fetchJamMemDetails } from "../../controllers/jamMemController";
+import { fetchJamMemDetails } from "../../api/jamMemAPI";
 
 const JamMemBottomModal: React.FC = () => {
     const [selectedJamMem, setSelectedJamMem] = useState<JamMem | null>(null);

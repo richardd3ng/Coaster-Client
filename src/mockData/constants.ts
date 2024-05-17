@@ -1,6 +1,6 @@
 import { generateRandomSnapshots } from "./scripts";
 import { JamMem } from "../types/custom";
-import { PlaceData } from "../utils/locationUtils";
+import { PlaceData } from "../api/locationAPI";
 
 export const mockPoints = generateRandomSnapshots(1_000);
 
