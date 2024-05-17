@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import MapView from "react-native-maps";
 import { Text } from "react-native";
 import { EXPO_DEV_MODE } from "@env";
-import { fetchClusters } from "../../api/clusterAPI";
-import { mockPoints } from "../../mockData/constants";
+import { fetchClusters, loadPoints } from "../../api/clusterAPI";
 import MapContext, { MapContextType } from "../../context/MapContext";
+import { mockPoints } from "../../mockData/constants";
 import { SongCluster } from "../../api/clusterAPI";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
@@ -37,7 +37,8 @@ const MapScreen = () => {
                 latitudeDelta: delta,
                 longitudeDelta: delta,
             });
-            setClusters(fetchClusters(mockPoints, zoomLevel));
+            loadPoints(mockPoints);
+            setClusters(fetchClusters(zoomLevel));
         }
     }, []);
 
@@ -51,7 +52,7 @@ const MapScreen = () => {
                     "fetching new clusters at zoomLevel:",
                     newZoomLevel
                 );
-                setClusters(fetchClusters(mockPoints, newZoomLevel));
+                setClusters(fetchClusters(newZoomLevel));
             }
             setZoomLevel(newZoomLevel);
         }
