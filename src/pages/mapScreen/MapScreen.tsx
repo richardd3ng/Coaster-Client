@@ -1,6 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
+
 import MapView, { Region } from "react-native-maps";
 import { Text } from "react-native";
+
+import { DEFAULT_LOCATION } from "../../utils/defaults";
 import { EXPO_DEV_MODE } from "@env";
 import MapContext, { MapContextType } from "../../hooks/context/MapContext";
 import { SongCluster } from "../../utils/superclusterManager";
@@ -11,7 +14,8 @@ import { calculateBBox, getMapZoom } from "../../utils/mapUtils";
 import superclusterManager from "../../utils/superclusterManager";
 
 const MapScreen = () => {
-    const location = useTracking(EXPO_DEV_MODE === "false");
+    const location =
+        EXPO_DEV_MODE === "true" ? DEFAULT_LOCATION : useTracking(true);
     const {
         region,
         setRegion,
