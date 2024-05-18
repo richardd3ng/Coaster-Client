@@ -5,16 +5,17 @@ export interface LocationTimestamp {
     timestamp: number;
 }
 
-export interface SnapShot {
+export interface Snapshot {
     locationTimestamp: LocationTimestamp;
     songId: number;
 }
 
 export interface JamMem {
+    id: number;
     place: string;
     title: string;
-    start: Date;
-    end: Date;
+    startTimestamp: number;
+    endTimestamp: number;
 }
 
 export enum DateFilter {

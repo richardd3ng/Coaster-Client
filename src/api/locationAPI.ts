@@ -27,9 +27,8 @@ export const fetchGeoData = async (
     const url = `${BASE_URL}?query=${query}&key=${GOOGLE_MAPS_API_KEY}`;
     try {
         const response = await axios.get(url);
-        console.log(
-            `found ${response.data.results.length} results: ${response.data.results}`
-        );
+        console.log(`found ${response.data.results.length} results:`);
+        console.log(response.data.results);
         const places: PlaceData[] = [];
         for (const result of response.data.results) {
             const latitudeDelta =

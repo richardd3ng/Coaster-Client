@@ -1,124 +1,70 @@
-import { useEffect, useMemo, useState } from "react";
-
-import MapView from "react-native-maps";
-import { Text, View } from "react-native";
-
-import { DateFilter, MapRegion, SocialFilter } from "../../types/custom";
-import DefaultBottomSheet from "../defaultBottomSheet/DefaultBottomSheet";
-import {
-    DEFAULT_DATE_FILTER,
-    DEFAULT_SOCIAL_FILTER,
-} from "../../utils/defaults";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import MapView, { Region } from "react-native-maps";
+import { Text } from "react-native";
 import { EXPO_DEV_MODE } from "@env";
-import MapContext from "../../context/mapContext";
-import MapIconButton from "../../components/map/MapIconButton";
-import { ModalProvider } from "../../context/modalContext";
-import ProfileBottomModal from "../../components/map/profile/ProfileBottomModal";
+import MapContext, { MapContextType } from "../../hooks/context/MapContext";
+import { SongCluster } from "../../utils/superclusterManager";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
+import ClusterMarker from "../../components/map/ClusterMarker";
+import { calculateBBox, getMapZoom } from "../../utils/mapUtils";
+import superclusterManager from "../../utils/superclusterManager";
+
+const MemoizedMarker = React.memo(({ cluster }: { cluster: SongCluster }) => (
+    <ClusterMarker cluster={cluster} />
+));
 
 const MapScreen = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
-    const [region, setRegion] = useState<MapRegion>(null);
-    const [followsUserLocation, setFollowsUserLocation] =
-        useState<boolean>(true);
-    const [dateFilter, setDateFilter] =
-        useState<DateFilter>(DEFAULT_DATE_FILTER);
-    const [socialFilter, setSocialFilter] = useState<SocialFilter>(
-        DEFAULT_SOCIAL_FILTER
-    );
+    const {
+        region,
+        setRegion,
+        followsUserLocation,
+        setFollowsUserLocation,
+        socialFilter,
+    } = useContext<MapContextType>(MapContext);
+    const isInitialized = useRef(false);
+    const [clusters, setClusters] = useState<SongCluster[]>([]);
 
     useEffect(() => {
-        if (location) {
-            setRegion({
+        if (location && !isInitialized.current) {
+            const initialRegion: Region = {
                 latitude: location.latitude,
                 longitude: location.longitude,
                 latitudeDelta: 0.01,
                 longitudeDelta: 0.01,
-            });
+            };
+            setRegion(initialRegion);
+            isInitialized.current = true;
         }
-    }, []);
+    }, [location, setRegion]);
 
-    const NavButton = useMemo(
-        () => (
-            <MapIconButton
-                name="navigation-2"
-                onPress={() => setFollowsUserLocation(!followsUserLocation)}
-                filled={followsUserLocation}
-            />
-        ),
-        [followsUserLocation]
-    );
+    useEffect(() => {
+        if (region) {
+            const bBox = calculateBBox(region);
+            const zoom = getMapZoom(region, bBox, 1);
+            setClusters(
+                superclusterManager.getClusters(socialFilter, bBox, zoom)
+            );
+        }
+    }, [region, socialFilter]);
 
-    const SocialFilterStack = useMemo(
-        () => (
-            <View style={styles.buttonStack}>
-                <MapIconButton
-                    name="person"
-                    onPress={() => setSocialFilter(SocialFilter.ME)}
-                    filled={socialFilter === SocialFilter.ME}
-                />
-                <MapIconButton
-                    name="people"
-                    onPress={() => setSocialFilter(SocialFilter.FRIENDS)}
-                    filled={socialFilter === SocialFilter.FRIENDS}
-                />
-                <MapIconButton
-                    name="globe-2"
-                    onPress={() => setSocialFilter(SocialFilter.GLOBAL)}
-                    filled={socialFilter === SocialFilter.GLOBAL}
-                />
-            </View>
-        ),
-        [socialFilter]
-    );
-
-    const BottomSheet = useMemo(
-        () => (
-            <>
-                <ModalProvider>
-                    <MapContext.Provider
-                        value={{
-                            dateFilter,
-                            socialFilter,
-                            followsUserLocation,
-                            setFollowsUserLocation,
-                            region,
-                            setRegion,
-                        }}
-                    >
-                        <DefaultBottomSheet />
-                    </MapContext.Provider>
-                    <ProfileBottomModal />
-                </ModalProvider>
-            </>
-        ),
-        []
-    );
-
-    return (
-        <>
-            <View style={styles.mapContainer}>
-                {location && region ? (
-                    <MapView
-                        style={styles.map}
-                        region={region}
-                        showsUserLocation={true}
-                        followsUserLocation={followsUserLocation}
-                        onRegionChange={setRegion}
-                        onPanDrag={() => setFollowsUserLocation(false)}
-                    />
-                ) : (
-                    <Text>Loading...</Text>
-                    // TODO: Loading Spinner
-                )}
-                <View style={styles.buttonContainer}>
-                    {NavButton}
-                    {SocialFilterStack}
-                </View>
-            </View>
-            {BottomSheet}
-        </>
+    return location && region ? (
+        <MapView
+            style={styles.map}
+            region={region}
+            showsUserLocation={true}
+            followsUserLocation={followsUserLocation}
+            onRegionChangeComplete={setRegion}
+            onPanDrag={() => setFollowsUserLocation(false)}
+        >
+            {clusters.map((c: SongCluster, i: number) => (
+                <MemoizedMarker key={i} cluster={c} />
+            ))}
+        </MapView>
+    ) : (
+        <Text>Loading...</Text>
+        // TODO: Loading Spinner
     );
 };
 

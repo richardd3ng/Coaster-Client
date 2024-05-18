@@ -4,11 +4,12 @@ import { Region } from "react-native-maps";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Button, Divider, Icon } from "@ui-kitten/components";
 
-import MapBottomSheetContext, {
-    MapBottomSheetContextType,
-} from "../../../context/mapBottomSheetContext";
-import MapContext, { MapContextType } from "../../../context/mapContext";
-import { PlaceData } from "../../../utils/locationUtils";
+import {
+    BottomSheetType,
+    useBottomSheet,
+} from "../../../hooks/context/BottomSheetContext";
+import MapContext, { MapContextType } from "../../../hooks/context/MapContext";
+import { PlaceData } from "../../../api/locationAPI";
 import styles from "./styles";
 
 interface SearchResultListItemProps {
@@ -35,9 +36,7 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = (
 ) => {
     const { setRegion, setFollowsUserLocation } =
         useContext<MapContextType>(MapContext);
-    const { setSnapPointIndex } = useContext<MapBottomSheetContextType>(
-        MapBottomSheetContext
-    );
+    const { setSnapIndex } = useBottomSheet();
 
     const handleSelect = () => {
         setFollowsUserLocation(false);
@@ -49,7 +48,7 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = (
         };
         console.log("traveling to:", region);
         setRegion(region);
-        setSnapPointIndex(0);
+        setSnapIndex(BottomSheetType.Map, 0);
     };
 
     return (

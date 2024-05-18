@@ -7,6 +7,14 @@ const styles = StyleSheet.create({
     carousel: {
         width: width,
     },
+    container: {
+        backgroundColor: "#EAEAEA",
+    },
+    gestureHandlerRootView: {
+        ...StyleSheet.absoluteFillObject,
+        flex: 1,
+        pointerEvents: "box-none",
+    },
     image: {
         width: "100%",
         height: "100%",
