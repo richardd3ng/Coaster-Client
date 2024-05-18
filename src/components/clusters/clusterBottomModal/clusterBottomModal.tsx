@@ -18,38 +18,46 @@ import {
     ModalType,
     useModal,
 } from "../../../hooks/context/ModalContext";
-import { INVALID_JAM_MEM_ID } from "../../../state/jamMem/jamMemSlice";
-import { JamMem } from "../../../types/custom";
 import { RootState } from "../../../state/store";
-import { fetchJamMemDetails } from "../../../api/jamMemAPI";
 import styles from "./styles";
+import { Song } from "../../../types/custom";
+import { fetchManySongs } from "../../../api/songAPI";
 
-const JamMemBottomModal: React.FC = () => {
-    const [selectedJamMem, setSelectedJamMem] = useState<JamMem | null>(null);
+interface SongFrequency extends Song {
+    frequency: number;
+}
+
+const ClusterBottomModal: React.FC = () => {
     const { refs: modalRefs, dismiss, snapIndexes } = useModal();
     const { setSnapIndex } = useBottomSheet();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
+    const [clusterData, setClusterData] = useState<SongFrequency[]>([]);
 
-    const selectedJamMemId = useSelector((state: RootState) => {
-        return state.jamMem.selectedJamMemId;
+    const selectedCluster = useSelector((state: RootState) => {
+        return state.cluster.selectedCluster;
     });
 
     useEffect(() => {
-        const fetchJamMemData = async () => {
-            if (selectedJamMemId !== INVALID_JAM_MEM_ID) {
-                const jamMemDetails = await fetchJamMemDetails(
-                    selectedJamMemId
-                );
-                setSelectedJamMem(jamMemDetails);
+        const fetchClusterData = async () => {
+            if (selectedCluster) {
+                const songIds = selectedCluster.topSongs.map((song) => song[0]);
+                const songs = await fetchManySongs(songIds);
+                const songFrequencies = songs.map((song) => {
+                    const frequency = selectedCluster.topSongs.find(
+                        (topSong) => topSong[0] === song.id
+                    )?.[1];
+                    return { ...song, frequency: frequency || 0 };
+                });
+                setClusterData(songFrequencies);
             }
         };
 
-        fetchJamMemData();
-    }, [selectedJamMemId]);
+        fetchClusterData();
+    }, [selectedCluster]);
 
     const handleClose = () => {
-        dismiss(ModalType.JamMem);
-        setSnapIndex(BottomSheetType.Map, 1);
+        dismiss(ModalType.Cluster);
+        setSnapIndex(BottomSheetType.Map, 0);
     };
 
     const handleSheetChanges = (index: number) => {
@@ -62,18 +70,18 @@ const JamMemBottomModal: React.FC = () => {
         <GestureHandlerRootView style={styles.gestureHandlerRootView}>
             <BottomSheetModalProvider>
                 <BottomSheetModal
-                    ref={modalRefs[ModalType.JamMem]}
-                    index={snapIndexes[ModalType.JamMem]}
+                    ref={modalRefs[ModalType.Cluster]}
+                    index={snapIndexes[ModalType.Cluster]}
                     snapPoints={snapPoints}
                     handleComponent={null}
                     backgroundStyle={styles.container}
                     onChange={handleSheetChanges}
                 >
-                    {selectedJamMem ? (
-                        <Text>{selectedJamMem.title}</Text>
-                    ) : (
-                        <Text>Loading...</Text> // TODO: Add loading spinner
-                    )}
+                    {clusterData.map((song) => (
+                        <Text
+                            key={song.id}
+                        >{`${song.title}: ${song.frequency}`}</Text>
+                    ))}
                     <CloseButton onPress={handleClose} />
                 </BottomSheetModal>
             </BottomSheetModalProvider>
@@ -81,4 +89,4 @@ const JamMemBottomModal: React.FC = () => {
     );
 };
 
-export default JamMemBottomModal;
+export default ClusterBottomModal;

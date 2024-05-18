@@ -1,10 +1,17 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 
 import { Image, View } from "react-native";
 import { Marker, Callout } from "react-native-maps";
 
+import {
+    BottomSheetType,
+    useBottomSheet,
+} from "../../../hooks/context/BottomSheetContext";
+import { ModalType, useModal } from "../../../hooks/context/ModalContext";
 import { SongCluster } from "../../../utils/superclusterManager";
+import store from "../../../state/store";
 import styles, { getImageStyle } from "./styles";
+import { setSelectedCluster } from "../../../state/cluster/clusterSlice";
 
 interface ClusterMarkerProps {
     cluster: SongCluster;
@@ -14,13 +21,25 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = (
     props: ClusterMarkerProps
 ) => {
     const { width, height } = getImageStyle(props.cluster.size);
+    const { present, setSnapIndex } = useModal();
+    const { close } = useBottomSheet();
     // decide on styling based on the size of the cluster
+
+    const handlePress = useCallback((cluster: SongCluster) => {
+        store.dispatch({
+            type: setSelectedCluster.type,
+            payload: cluster,
+        });
+        close(BottomSheetType.Map);
+        present(ModalType.Cluster);
+        setSnapIndex(ModalType.Cluster, 1);
+    }, []);
+
     return (
         <Marker coordinate={props.cluster.coords} tracksViewChanges={false}>
             <Callout
                 style={styles.callout}
-                onPress={() => console.log("Pressed:", props.cluster.topSongs)}
-                onTouchCancel={() => console.log("Touch cancelled")}
+                onPress={() => handlePress(props.cluster)}
             >
                 <View style={styles.imageContainer}>
                     <Image

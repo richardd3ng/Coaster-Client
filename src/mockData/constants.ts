@@ -1,8 +1,8 @@
-import { generateRandomSongPoints } from "./scripts";
-import { JamMem } from "../types/custom";
+import { generateSongs } from "./scripts";
+import { JamMem, Song } from "../types/custom";
 import { PlaceData } from "../api/locationAPI";
 
-export const mockPoints = generateRandomSongPoints(10_000);
+export const mockSongData: Song[] = generateSongs();
 
 export const mockJamMemData: JamMem[] = [
     {

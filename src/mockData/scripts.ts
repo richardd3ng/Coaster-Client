@@ -1,6 +1,20 @@
 import { PointFeature } from "supercluster";
 
 import { SongPointProps } from "../utils/superclusterManager";
+import { Song } from "../types/custom";
+
+export const generateSongs: () => Song[] = () => {
+    const songData: Song[] = [];
+    for (let i = 0; i < 50; i++) {
+        songData.push({
+            id: i,
+            title: `Song ${i}`,
+            artist: `Artist ${i}`,
+            albumURI: "https://picsum.photos/200/300",
+        });
+    }
+    return songData;
+};
 
 export const generateRandomSongPoints = (
     numPoints: number

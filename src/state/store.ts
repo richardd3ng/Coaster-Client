@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import clusterReducer from "./cluster/clusterSlice";
 import jamMemReducer from "./jamMem/jamMemSlice";
 import locationReducer from "./location/locationSlice";
 import snapshotReducer from "./snapshot/snapshotSlice";
 
 const store = configureStore({
     reducer: {
+        cluster: clusterReducer,
         jamMem: jamMemReducer,
         location: locationReducer,
         snapshot: snapshotReducer,
