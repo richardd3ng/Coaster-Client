@@ -1,46 +1,27 @@
-import { useMemo, useCallback, useRef } from "react";
+import { useMemo, useCallback } from "react";
 
 import {
     BottomSheetModal,
     BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
-import { Button, Icon } from "@ui-kitten/components";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 
+import CloseButton from "../../shared/closeButton/CloseButton";
 import { ModalType, useModal } from "../../../hooks/context/ModalContext";
 import ProfileIconButton from "./ProfileIconButton";
 import ProfileList from "./ProfileList";
 import styles from "./styles";
 
 const ProfileBottomModal: React.FC = () => {
-    const { modalRefs, dismissModal, isModalVisible } = useModal();
+    const { refs: modalRefs, dismiss, isVisible } = useModal();
     const snapPoints = useMemo(() => ["40%"], []);
 
-    const handleSheetChanges = useCallback(
-        (index: number) => {
-            if (index === -1) {
-                dismissModal(ModalType.Profile);
-            }
-        },
-        [dismissModal]
-    );
-
-    const CloseButton = (
-        <Button
-            style={{
-                width: 20,
-                height: 20,
-                borderRadius: 20,
-                position: "absolute",
-                top: 4,
-                right: 4,
-            }}
-            appearance="ghost"
-            accessoryLeft={<Icon name={"close"} fill="gray" />}
-            onPress={() => dismissModal(ModalType.Profile)}
-        />
-    );
+    const handleSheetChanges = useCallback((index: number) => {
+        if (index === -1) {
+            dismiss(ModalType.Profile);
+        }
+    }, []);
 
     const TopRow: React.FC = () => {
         return (
@@ -62,7 +43,7 @@ const ProfileBottomModal: React.FC = () => {
                         </Text>
                     </View>
                 </View>
-                {CloseButton}
+                <CloseButton onPress={() => dismiss(ModalType.Profile)} />
             </View>
         );
     };
@@ -77,10 +58,10 @@ const ProfileBottomModal: React.FC = () => {
                         justifyContent: "center",
                         width: "100%",
                         height: "100%",
-                        pointerEvents: isModalVisible(ModalType.Profile)
+                        pointerEvents: isVisible(ModalType.Profile)
                             ? undefined
                             : "box-none",
-                        backgroundColor: isModalVisible(ModalType.Profile)
+                        backgroundColor: isVisible(ModalType.Profile)
                             ? "rgba(128, 128, 128, 0.25)"
                             : undefined,
                     }}

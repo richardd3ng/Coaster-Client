@@ -1,11 +1,11 @@
 import { PointFeature } from "supercluster";
 
-import { SongPoint } from "../utils/superclusterManager";
+import { SongPointProps } from "../utils/superclusterManager";
 
 export const generateRandomSongPoints = (
     numPoints: number
-): PointFeature<SongPoint>[] => {
-    const snapshots: PointFeature<SongPoint>[] = [];
+): PointFeature<SongPointProps>[] => {
+    const snapshots: PointFeature<SongPointProps>[] = [];
     for (let i = 0; i < numPoints; i++) {
         const latitude = Math.random() * 180 - 90; // Random latitude between -90 and 90
         const longitude = Math.random() * 360 - 180; // Random longitude between -180 and 180

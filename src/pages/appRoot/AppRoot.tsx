@@ -10,7 +10,7 @@ import {
     DEFAULT_DATE_FILTER,
     DEFAULT_SOCIAL_FILTER,
 } from "../../utils/defaults";
-import JamMemBottomModal from "../../components/jamMems/JamMemBottomModal";
+import JamMemBottomModal from "../../components/jamMems/jamMemBottomModal/JamMemBottomModal";
 import MapBottomSheet from "../../components/map/bottomSheet/MapBottomSheet";
 import MapContext from "../../hooks/context/MapContext";
 import MapIconButton from "../../components/map/MapIconButton";

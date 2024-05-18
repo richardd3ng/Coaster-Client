@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import MapView, { Region } from "react-native-maps";
 import { Text } from "react-native";
 import { EXPO_DEV_MODE } from "@env";
@@ -6,13 +6,9 @@ import MapContext, { MapContextType } from "../../hooks/context/MapContext";
 import { SongCluster } from "../../utils/superclusterManager";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
-import ClusterMarker from "../../components/map/ClusterMarker";
+import ClusterMarker from "../../components/map/clusterMarker/ClusterMarker";
 import { calculateBBox, getMapZoom } from "../../utils/mapUtils";
 import superclusterManager from "../../utils/superclusterManager";
-
-const MemoizedMarker = React.memo(({ cluster }: { cluster: SongCluster }) => (
-    <ClusterMarker cluster={cluster} />
-));
 
 const MapScreen = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
@@ -58,8 +54,8 @@ const MapScreen = () => {
             onRegionChangeComplete={setRegion}
             onPanDrag={() => setFollowsUserLocation(false)}
         >
-            {clusters.map((c: SongCluster, i: number) => (
-                <MemoizedMarker key={i} cluster={c} />
+            {clusters.map((cluster: SongCluster, index: number) => (
+                <ClusterMarker key={index} cluster={cluster} />
             ))}
         </MapView>
     ) : (

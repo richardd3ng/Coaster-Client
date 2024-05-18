@@ -1,7 +1,7 @@
 import Carousel from "react-native-reanimated-carousel";
 import { Dimensions } from "react-native";
 
-import CarouselItem from "./CarouselItem";
+import CarouselItem from "./carouselItem/CarouselItem";
 import { mockJamMemData } from "../../mockData/constants";
 import styles from "./styles";
 
@@ -18,12 +18,7 @@ const JamMemsCarousel = () => {
             data={mockJamMemData}
             loop={false}
             renderItem={({ index }) => (
-                <CarouselItem
-                    key={index}
-                    index={index}
-                    pretty
-                    jamMem={mockJamMemData[index]}
-                />
+                <CarouselItem key={index} jamMem={mockJamMemData[index]} />
             )}
         />
     );

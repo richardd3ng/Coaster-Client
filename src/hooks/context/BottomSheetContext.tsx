@@ -1,4 +1,4 @@
-import {
+import React, {
     createContext,
     MutableRefObject,
     ReactNode,
@@ -7,7 +7,6 @@ import {
     useRef,
     useState,
 } from "react";
-
 import BottomSheet from "@gorhom/bottom-sheet";
 
 export enum BottomSheetType {
@@ -15,12 +14,10 @@ export enum BottomSheetType {
 }
 
 interface BottomSheetContextType {
-    bottomSheetRefs: Record<
-        BottomSheetType,
-        MutableRefObject<BottomSheet | null>
-    >;
+    refs: Record<BottomSheetType, MutableRefObject<BottomSheet | null>>;
     snapIndexes: Record<BottomSheetType, number>;
     setSnapIndex: (bottomSheetType: BottomSheetType, index: number) => void;
+    close: (bottomSheetType: BottomSheetType) => void;
 }
 
 const BottomSheetContext = createContext<BottomSheetContextType | undefined>(
@@ -34,7 +31,7 @@ interface BottomSheetProviderProps {
 export const BottomSheetProvider: React.FC<BottomSheetProviderProps> = ({
     children,
 }) => {
-    const bottomSheetRefs: Record<
+    const refs: Record<
         BottomSheetType,
         MutableRefObject<BottomSheet | null>
     > = {
@@ -49,7 +46,8 @@ export const BottomSheetProvider: React.FC<BottomSheetProviderProps> = ({
 
     const setSnapIndex = useCallback(
         (bottomSheetType: BottomSheetType, index: number) => {
-            const bottomSheet = bottomSheetRefs[bottomSheetType]?.current;
+            console.log("setting snap index to:", index);
+            const bottomSheet = refs[bottomSheetType]?.current;
             if (bottomSheet) {
                 bottomSheet.snapToIndex(index);
                 setSnapIndexes((prev) => ({
@@ -62,12 +60,31 @@ export const BottomSheetProvider: React.FC<BottomSheetProviderProps> = ({
                 );
             }
         },
-        [bottomSheetRefs]
+        [refs]
+    );
+
+    const close = useCallback(
+        (bottomSheetType: BottomSheetType) => {
+            const bottomSheet = refs[bottomSheetType]?.current;
+            if (bottomSheet) {
+                bottomSheet.close();
+            } else {
+                console.warn(
+                    `No BottomSheet found for type ${bottomSheetType}`
+                );
+            }
+        },
+        [refs]
     );
 
     return (
         <BottomSheetContext.Provider
-            value={{ bottomSheetRefs, snapIndexes, setSnapIndex }}
+            value={{
+                refs,
+                snapIndexes,
+                setSnapIndex,
+                close,
+            }}
         >
             {children}
         </BottomSheetContext.Provider>

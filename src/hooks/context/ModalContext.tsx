@@ -14,11 +14,13 @@ export enum ModalType {
     JamMem,
 }
 
+export const DEFAULT_SNAP_POINTS = ["10%", "35%", "92.5%"];
+
 interface ModalContextType {
-    presentModal: (modalType: ModalType) => void;
-    dismissModal: (modalType: ModalType) => void;
-    modalRefs: Record<ModalType, MutableRefObject<BottomSheetModal | null>>;
-    isModalVisible: (modalType: ModalType) => boolean;
+    present: (modalType: ModalType) => void;
+    dismiss: (modalType: ModalType) => void;
+    refs: Record<ModalType, MutableRefObject<BottomSheetModal | null>>;
+    isVisible: (modalType: ModalType) => boolean;
     snapIndexes: Record<ModalType, number>;
     setSnapIndex: (modalType: ModalType, index: number) => void;
 }
@@ -30,17 +32,12 @@ interface ModalProviderProps {
 }
 
 export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
-    const modalRefs: Record<
-        ModalType,
-        MutableRefObject<BottomSheetModal | null>
-    > = {
+    const refs: Record<ModalType, MutableRefObject<BottomSheetModal | null>> = {
         [ModalType.Profile]: useRef<BottomSheetModal>(null),
         [ModalType.JamMem]: useRef<BottomSheetModal>(null),
     };
 
-    const [visibleModals, setVisibleModals] = useState<
-        Record<ModalType, boolean>
-    >({
+    const [visible, setVisible] = useState<Record<ModalType, boolean>>({
         [ModalType.Profile]: false,
         [ModalType.JamMem]: false,
     });
@@ -50,19 +47,19 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         [ModalType.JamMem]: 0,
     });
 
-    const presentModal = useCallback((modalType: ModalType) => {
-        modalRefs[modalType]?.current?.present();
-        setVisibleModals((prev) => ({ ...prev, [modalType]: true }));
+    const present = useCallback((modalType: ModalType) => {
+        refs[modalType]?.current?.present();
+        setVisible((prev) => ({ ...prev, [modalType]: true }));
     }, []);
 
-    const dismissModal = useCallback((modalType: ModalType) => {
-        modalRefs[modalType]?.current?.dismiss();
-        setVisibleModals((prev) => ({ ...prev, [modalType]: false }));
+    const dismiss = useCallback((modalType: ModalType) => {
+        refs[modalType]?.current?.dismiss();
+        setVisible((prev) => ({ ...prev, [modalType]: false }));
     }, []);
 
-    const isModalVisible = useCallback(
-        (modalType: ModalType) => !!visibleModals[modalType],
-        [visibleModals]
+    const isVisible = useCallback(
+        (modalType: ModalType) => !!visible[modalType],
+        [visible]
     );
 
     const setSnapIndex = useCallback((modalType: ModalType, index: number) => {
@@ -72,10 +69,10 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     return (
         <ModalContext.Provider
             value={{
-                presentModal,
-                dismissModal,
-                modalRefs,
-                isModalVisible,
+                present,
+                dismiss,
+                refs,
+                isVisible,
                 snapIndexes,
                 setSnapIndex,
             }}

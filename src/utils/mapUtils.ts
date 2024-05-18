@@ -6,7 +6,7 @@ const { height, width } = Dimensions.get("window");
 
 export const MAP_CONFIG = {
     minZoom: 1,
-    maxZoom: 20,
+    maxZoom: 16,
 };
 
 export const calculateBBox = (region: Region): BoundingBox => {

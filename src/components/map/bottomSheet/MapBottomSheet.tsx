@@ -11,7 +11,11 @@ import {
 } from "../../../hooks/context/BottomSheetContext";
 import JamMemsCarousel from "../../jamMems/JamMemsCarousel";
 import { mockPlaceData } from "../../../mockData/constants";
-import { ModalType, useModal } from "../../../hooks/context/ModalContext";
+import {
+    DEFAULT_SNAP_POINTS,
+    ModalType,
+    useModal,
+} from "../../../hooks/context/ModalContext";
 import { PlaceData, fetchGeoData } from "../../../api/locationAPI";
 import ProfileIconButton from "../profile/ProfileIconButton";
 import styles from "./styles";
@@ -20,13 +24,17 @@ import SearchResultsList from "../search/SearchResultsList";
 
 const MapBottomSheet: React.FC = () => {
     const searchBarInputRef = useRef<Input>(null);
-    const snapPoints = useMemo(() => ["10%", "35%", "92.5%"], []);
+    const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
     const [searchResults, setSearchResults] = useState<PlaceData[] | null>(
         null
     );
     const [showProfile, setShowProfile] = useState<boolean>(true);
-    const { presentModal } = useModal();
-    const { bottomSheetRefs, snapIndexes, setSnapIndex } = useBottomSheet();
+    const { present } = useModal();
+    const {
+        refs: bottomSheetRefs,
+        snapIndexes,
+        setSnapIndex,
+    } = useBottomSheet();
 
     const handleSearch = useCallback(async (query: string) => {
         const results = await fetchGeoData(query);
@@ -93,7 +101,7 @@ const MapBottomSheet: React.FC = () => {
             </View>
             {showProfile ? (
                 <ProfileIconButton
-                    onPress={() => presentModal(ModalType.Profile)}
+                    onPress={() => present(ModalType.Profile)}
                     style={styles.profileIconButton}
                 />
             ) : (
