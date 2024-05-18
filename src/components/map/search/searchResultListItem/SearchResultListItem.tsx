@@ -1,16 +1,15 @@
-import { useContext } from "react";
-
+import { Divider } from "@ui-kitten/components";
 import { Region } from "react-native-maps";
 import { Text, TouchableOpacity, View } from "react-native";
-import { Button, Divider, Icon } from "@ui-kitten/components";
 
 import {
     BottomSheetType,
     useBottomSheet,
-} from "../../../hooks/context/BottomSheetContext";
-import MapContext, { MapContextType } from "../../../hooks/context/MapContext";
-import { PlaceData } from "../../../api/locationAPI";
+} from "../../../../hooks/context/BottomSheetContext";
+import IconButton from "../../../shared/iconButton/IconButton";
+import { PlaceData } from "../../../../api/locationAPI";
 import styles from "./styles";
+import { useMapContext } from "../../../../hooks/context/MapContext";
 
 interface SearchResultListItemProps {
     item: PlaceData;
@@ -18,15 +17,10 @@ interface SearchResultListItemProps {
 
 const LocationIcon = () => {
     return (
-        <Button
-            style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                backgroundColor: "white",
-            }}
-            appearance="ghost"
-            accessoryLeft={<Icon name={"pin"} fill="green" />}
+        <IconButton
+            iconName="pin"
+            iconColor="green"
+            style={{ backgroundColor: "white" }}
         />
     );
 };
@@ -34,8 +28,7 @@ const LocationIcon = () => {
 const SearchResultListItem: React.FC<SearchResultListItemProps> = (
     props: SearchResultListItemProps
 ) => {
-    const { setRegion, setFollowsUserLocation } =
-        useContext<MapContextType>(MapContext);
+    const { setRegion, setFollowsUserLocation } = useMapContext();
     const { setSnapIndex } = useBottomSheet();
 
     const handleSelect = () => {
@@ -46,31 +39,24 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = (
             latitudeDelta: props.item.latitudeDelta,
             longitudeDelta: props.item.longitudeDelta,
         };
-        console.log("traveling to:", region);
         setRegion(region);
         setSnapIndex(BottomSheetType.Map, 0);
     };
 
     return (
         <TouchableOpacity onPress={handleSelect}>
-            <View style={styles.searchResultsItemContainer}>
+            <View style={styles.listItemContainer}>
                 <LocationIcon />
-                <View
-                    style={{
-                        paddingLeft: 16,
-                        justifyContent: "center",
-                        paddingRight: 32,
-                    }}
-                >
+                <View style={styles.textContainer}>
                     <View>
-                        <Text style={{ fontSize: 16 }}>{props.item.name}</Text>
-                        <Text style={{ fontSize: 14 }}>
+                        <Text style={styles.placeText}>{props.item.name}</Text>
+                        <Text style={styles.addressText}>
                             {props.item.address}
                         </Text>
                     </View>
                 </View>
             </View>
-            <Divider style={{ backgroundColor: "gray", marginLeft: 72 }} />
+            <Divider style={styles.divider} />
         </TouchableOpacity>
     );
 };

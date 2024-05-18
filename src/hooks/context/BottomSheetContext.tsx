@@ -46,7 +46,6 @@ export const BottomSheetProvider: React.FC<BottomSheetProviderProps> = ({
 
     const setSnapIndex = useCallback(
         (bottomSheetType: BottomSheetType, index: number) => {
-            console.log("setting snap index to:", index);
             const bottomSheet = refs[bottomSheetType]?.current;
             if (bottomSheet) {
                 bottomSheet.snapToIndex(index);

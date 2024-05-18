@@ -1,8 +1,19 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    container: {
+    bottomSheetModal: {
         backgroundColor: "#EAEAEA",
+    },
+    bottomSheetModalContainer: {
+        flex: 1,
+        padding: 24,
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+    },
+    displayNameText: {
+        fontSize: 20,
+        fontWeight: "bold",
     },
     gestureHandlerRootView: {
         ...StyleSheet.absoluteFillObject,
@@ -22,17 +33,14 @@ const styles = StyleSheet.create({
         backgroundColor: "gray",
         borderRadius: 25,
     },
-    profileListItemContainer: {
-        flexDirection: "row",
-        paddingHorizontal: 8,
-        paddingVertical: 8,
-        backgroundColor: "white",
-        alignItems: "center",
+    textContainer: {
+        paddingLeft: 16,
+        justifyContent: "center",
+        paddingRight: 32,
     },
-    profileListItemDivider: { backgroundColor: "gray", marginLeft: 64 },
-    profileBottomSheetFlatList: {
-        marginHorizontal: 16,
-        marginBottom: 42,
+    usernameText: {
+        fontSize: 16,
+        color: "gray",
     },
 });
 

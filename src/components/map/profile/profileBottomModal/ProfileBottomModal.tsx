@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 import {
     BottomSheetModal,
@@ -7,10 +7,10 @@ import {
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 
-import CloseButton from "../../shared/closeButton/CloseButton";
-import { ModalType, useModal } from "../../../hooks/context/ModalContext";
-import ProfileIconButton from "./ProfileIconButton";
-import ProfileList from "./ProfileList";
+import CloseButton from "../../../shared/closeButton/CloseButton";
+import IconButton from "../../../shared/iconButton/IconButton";
+import { ModalType, useModal } from "../../../../hooks/context/ModalContext";
+import ProfileList from "../profileList/ProfileList";
 import styles from "./styles";
 
 const ProfileBottomModal: React.FC = () => {
@@ -26,22 +26,14 @@ const ProfileBottomModal: React.FC = () => {
     const TopRow: React.FC = () => {
         return (
             <View style={styles.profileBottomModalTopRow}>
-                <ProfileIconButton style={styles.profileIconButton} />
-                <View
-                    style={{
-                        paddingLeft: 16,
-                        justifyContent: "center",
-                        paddingRight: 32,
-                    }}
-                >
-                    <View>
-                        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                            Richard Deng
-                        </Text>
-                        <Text style={{ fontSize: 16, color: "gray" }}>
-                            rld39
-                        </Text>
-                    </View>
+                <IconButton
+                    style={styles.profileIconButton}
+                    iconName="person"
+                    iconColor="blue"
+                />
+                <View style={styles.textContainer}>
+                    <Text style={styles.displayNameText}>Richard Deng</Text>
+                    <Text style={styles.usernameText}>rld39</Text>
                 </View>
                 <CloseButton onPress={() => dismiss(ModalType.Profile)} />
             </View>
@@ -53,11 +45,7 @@ const ProfileBottomModal: React.FC = () => {
             <BottomSheetModalProvider>
                 <View
                     style={{
-                        flex: 1,
-                        padding: 24,
-                        justifyContent: "center",
-                        width: "100%",
-                        height: "100%",
+                        ...styles.bottomSheetModalContainer,
                         pointerEvents: isVisible(ModalType.Profile)
                             ? undefined
                             : "box-none",
@@ -72,7 +60,7 @@ const ProfileBottomModal: React.FC = () => {
                         snapPoints={snapPoints}
                         onChange={handleSheetChanges}
                         handleComponent={null}
-                        backgroundStyle={styles.container}
+                        backgroundStyle={styles.bottomSheetModal}
                     >
                         <TopRow />
                         <ProfileList />

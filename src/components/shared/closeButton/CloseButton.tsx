@@ -6,10 +6,11 @@ import styles from "./styles";
 const CloseButton: React.FC<ButtonProps> = (props: ButtonProps) => {
     return (
         <Button
-            style={[styles.button, props.style]}
-            appearance="ghost"
             accessoryLeft={<Icon name={"close"} fill="gray" />}
+            appearance="ghost"
             onPress={props.onPress}
+            style={[styles.button, props.style]}
+            {...props}
         />
     );
 };

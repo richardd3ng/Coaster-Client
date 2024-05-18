@@ -1,8 +1,8 @@
 import Carousel from "react-native-reanimated-carousel";
 import { Dimensions } from "react-native";
 
-import CarouselItem from "./carouselItem/CarouselItem";
-import { mockJamMemData } from "../../mockData/constants";
+import CarouselItem from "../carouselItem/CarouselItem";
+import { mockJamMemData } from "../../../mockData/constants";
 import styles from "./styles";
 
 const CAROUSEL_WIDTH = Dimensions.get("window").width;

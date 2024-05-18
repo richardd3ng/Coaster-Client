@@ -1,17 +1,17 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import MapView, { Region } from "react-native-maps";
+import MapView from "react-native-maps";
 import { Text } from "react-native";
 
+import { MAP_CONFIG, calculateBBox, getMapZoom } from "../../utils/mapUtils";
+import ClusterMarker from "../../components/map/clusterMarker/ClusterMarker";
 import { DEFAULT_LOCATION } from "../../utils/defaults";
 import { EXPO_DEV_MODE } from "@env";
-import MapContext, { MapContextType } from "../../hooks/context/MapContext";
+import { useMapContext } from "../../hooks/context/MapContext";
 import { SongCluster } from "../../utils/superclusterManager";
 import styles from "./styles";
-import useTracking from "../../hooks/useTracking";
-import ClusterMarker from "../../components/map/clusterMarker/ClusterMarker";
-import { calculateBBox, getMapZoom } from "../../utils/mapUtils";
 import superclusterManager from "../../utils/superclusterManager";
+import useTracking from "../../hooks/useTracking";
 
 const MapScreen = () => {
     const location =
@@ -22,19 +22,18 @@ const MapScreen = () => {
         followsUserLocation,
         setFollowsUserLocation,
         socialFilter,
-    } = useContext<MapContextType>(MapContext);
+    } = useMapContext();
     const isInitialized = useRef(false);
     const [clusters, setClusters] = useState<SongCluster[]>([]);
 
     useEffect(() => {
         if (location && !isInitialized.current) {
-            const initialRegion: Region = {
+            setRegion({
                 latitude: location.latitude,
                 longitude: location.longitude,
                 latitudeDelta: 0.01,
                 longitudeDelta: 0.01,
-            };
-            setRegion(initialRegion);
+            });
             isInitialized.current = true;
         }
     }, [location, setRegion]);
@@ -42,7 +41,7 @@ const MapScreen = () => {
     useEffect(() => {
         if (region) {
             const bBox = calculateBBox(region);
-            const zoom = getMapZoom(region, bBox, 1);
+            const zoom = getMapZoom(region, bBox, MAP_CONFIG.minZoom);
             setClusters(
                 superclusterManager.getClusters(socialFilter, bBox, zoom)
             );

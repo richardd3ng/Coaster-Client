@@ -7,12 +7,6 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
     },
-    cluster: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1,
-    },
     image: { width: 90, height: 90 },
     imageContainer: {
         alignItems: "center",

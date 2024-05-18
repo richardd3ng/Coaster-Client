@@ -13,7 +13,7 @@ const MapIconButton: React.FC<MapIconButtonProps> = (
 ) => {
     return (
         <Button
-            style={styles.mapIconButton}
+            style={styles.button}
             appearance="ghost"
             accessoryLeft={
                 <Icon

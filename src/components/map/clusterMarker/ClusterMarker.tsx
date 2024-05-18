@@ -1,6 +1,8 @@
-import React, { memo } from "react";
+import { memo } from "react";
+
 import { Image, View } from "react-native";
 import { Marker, Callout } from "react-native-maps";
+
 import { SongCluster } from "../../../utils/superclusterManager";
 import styles, { getImageStyle } from "./styles";
 

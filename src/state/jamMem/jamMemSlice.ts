@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { JamMem } from "../../types/custom";
-
 export const INVALID_JAM_MEM_ID = -1;
 
 export type JamMemState = {

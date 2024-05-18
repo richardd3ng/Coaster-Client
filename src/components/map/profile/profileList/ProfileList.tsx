@@ -2,10 +2,10 @@ import { useCallback } from "react";
 
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 
-import Account from "./Account";
-import Logout from "./Logout";
-import Preferences from "./Preferences";
-import { ProfileOption } from "../../../types/custom";
+import Account from "../account/Account";
+import Logout from "../logout/Logout";
+import Preferences from "../preferences/Preferences";
+import { ProfileOption } from "../../../../types/custom";
 import styles from "./styles";
 
 const componentMap = new Map<ProfileOption, JSX.Element>([
@@ -26,7 +26,7 @@ const ProfileList: React.FC = () => {
             keyExtractor={(profileOption) => profileOption.toString()}
             renderItem={renderItem}
             showsVerticalScrollIndicator={false}
-            style={styles.profileBottomSheetFlatList}
+            style={styles.flatlist}
         />
     );
 };

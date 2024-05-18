@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    mapIconButton: {
+    button: {
         alignSelf: "flex-start",
         height: 50,
         width: 50,

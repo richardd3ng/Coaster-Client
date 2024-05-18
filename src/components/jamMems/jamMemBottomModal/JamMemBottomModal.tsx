@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
 import {
     BottomSheetModal,
     BottomSheetModalProvider,
@@ -7,20 +8,21 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text } from "react-native";
 import { useSelector } from "react-redux";
 
+import {
+    BottomSheetType,
+    useBottomSheet,
+} from "../../../hooks/context/BottomSheetContext";
 import CloseButton from "../../shared/closeButton/CloseButton";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
     useModal,
 } from "../../../hooks/context/ModalContext";
+import { INVALID_JAM_MEM_ID } from "../../../state/jamMem/jamMemSlice";
 import { JamMem } from "../../../types/custom";
 import { RootState } from "../../../state/store";
 import { fetchJamMemDetails } from "../../../api/jamMemAPI";
 import styles from "./styles";
-import {
-    BottomSheetType,
-    useBottomSheet,
-} from "../../../hooks/context/BottomSheetContext";
 
 const JamMemBottomModal: React.FC = () => {
     const [selectedJamMem, setSelectedJamMem] = useState<JamMem | null>(null);
@@ -34,7 +36,7 @@ const JamMemBottomModal: React.FC = () => {
 
     useEffect(() => {
         const fetchJamMemData = async () => {
-            if (selectedJamMemId !== -1) {
+            if (selectedJamMemId !== INVALID_JAM_MEM_ID) {
                 const jamMemDetails = await fetchJamMemDetails(
                     selectedJamMemId
                 );

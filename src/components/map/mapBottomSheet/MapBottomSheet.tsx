@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -9,18 +9,18 @@ import {
     BottomSheetType,
     useBottomSheet,
 } from "../../../hooks/context/BottomSheetContext";
-import JamMemsCarousel from "../../jamMems/JamMemsCarousel";
-import { mockPlaceData } from "../../../mockData/constants";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
     useModal,
 } from "../../../hooks/context/ModalContext";
+import JamMemsCarousel from "../../jamMems/jamMemsCarousel/JamMemsCarousel";
+import { mockPlaceData } from "../../../mockData/constants";
 import { PlaceData, fetchGeoData } from "../../../api/locationAPI";
-import ProfileIconButton from "../profile/ProfileIconButton";
+import SearchBar from "../../shared/searchBar/SearchBar";
+import SearchResultsList from "../search/searchResultsList/SearchResultsList";
 import styles from "./styles";
-import SearchBar from "../../shared/SearchBar";
-import SearchResultsList from "../search/SearchResultsList";
+import IconButton from "../../shared/iconButton/IconButton";
 
 const MapBottomSheet: React.FC = () => {
     const searchBarInputRef = useRef<Input>(null);
@@ -65,20 +65,13 @@ const MapBottomSheet: React.FC = () => {
         setSnapIndex(BottomSheetType.Map, 2);
     }, []);
 
-    const CancelButton = () => {
+    const CancelButton: React.FC = () => {
         return (
             <TouchableOpacity
                 onPress={resetBottomSheet}
                 style={{ alignSelf: "center" }}
             >
-                <Text
-                    style={{
-                        fontSize: 16,
-                        color: "blue",
-                    }}
-                >
-                    Cancel
-                </Text>
+                <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
         );
     };
@@ -100,9 +93,11 @@ const MapBottomSheet: React.FC = () => {
                 />
             </View>
             {showProfile ? (
-                <ProfileIconButton
+                <IconButton
                     onPress={() => present(ModalType.Profile)}
                     style={styles.profileIconButton}
+                    iconName="person"
+                    iconColor="blue"
                 />
             ) : (
                 <CancelButton />
@@ -130,7 +125,7 @@ const MapBottomSheet: React.FC = () => {
                         showsVerticalScrollIndicator
                     >
                         <View style={styles.jamSessionStack}>
-                            <Text style={styles.text}>Jam Mems</Text>
+                            <Text style={styles.headerText}>Jam Mems</Text>
                             <JamMemsCarousel />
                         </View>
                     </BottomSheetScrollView>
