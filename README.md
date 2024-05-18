@@ -34,3 +34,9 @@ Note: background location tracking capabilities aren't enabled on Expo Go
 
 ### Prebuilding
 1. See [Expo Prebuild](https://docs.expo.dev/workflow/prebuild/) if you need to generate native code for the project (Note: not a common workflow, ask beforehand if necessary)
+
+### Code Conventions
+- Code Conventions generally follow [this guide](https://medium.com/@mahesh.nagpure.mailbox/react-native-coding-standard-structure-ab5c5f9e6784) and [this guide](https://gilshaan.medium.com/react-native-coding-standards-and-best-practices-5b4b5c9f4076)
+- Follow existing directory structure (capitalization patterns, styling files, etc.)
+- Organize imports in alphabetical order, grouped by React, npm libraries, and our own modules, separated by an empty line
+- Use [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for VSCode
