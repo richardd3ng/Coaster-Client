@@ -1,27 +1,61 @@
-import { createContext } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
-import { DateFilter, MapRegion, SocialFilter } from "../../types/custom";
+import { DateFilter, SocialFilter, MapRegion } from "../../types/custom";
 import {
     DEFAULT_DATE_FILTER,
     DEFAULT_SOCIAL_FILTER,
 } from "../../utils/defaults";
 
-export interface MapContextType {
-    dateFilter: DateFilter;
-    socialFilter: SocialFilter;
-    followsUserLocation: boolean;
-    setFollowsUserLocation: (followsUser: boolean) => void;
+interface MapContextType {
     region: MapRegion;
     setRegion: (region: MapRegion) => void;
+    dateFilter: DateFilter;
+    setDateFilter: (filter: DateFilter) => void;
+    socialFilter: SocialFilter;
+    setSocialFilter: (filter: SocialFilter) => void;
+    followsUserLocation: boolean;
+    setFollowsUserLocation: (follows: boolean) => void;
 }
 
 const MapContext = createContext<MapContextType>({
-    dateFilter: DEFAULT_DATE_FILTER,
-    socialFilter: DEFAULT_SOCIAL_FILTER,
-    followsUserLocation: true,
-    setFollowsUserLocation: () => {},
     region: null,
     setRegion: () => {},
+    dateFilter: DEFAULT_DATE_FILTER,
+    setDateFilter: () => {},
+    socialFilter: DEFAULT_SOCIAL_FILTER,
+    setSocialFilter: () => {},
+    followsUserLocation: true,
+    setFollowsUserLocation: () => {},
 });
 
-export default MapContext;
+export const MapContextProvider: React.FC<{ children: ReactNode }> = ({
+    children,
+}) => {
+    const [region, setRegion] = useState<MapRegion | null>(null);
+    const [dateFilter, setDateFilter] =
+        useState<DateFilter>(DEFAULT_DATE_FILTER);
+    const [socialFilter, setSocialFilter] = useState<SocialFilter>(
+        DEFAULT_SOCIAL_FILTER
+    );
+    const [followsUserLocation, setFollowsUserLocation] =
+        useState<boolean>(true);
+
+    return (
+        <MapContext.Provider
+            value={{
+                region,
+                setRegion,
+                dateFilter,
+                setDateFilter,
+                socialFilter,
+                setSocialFilter,
+                followsUserLocation,
+                setFollowsUserLocation,
+            }}
+        >
+            {children}
+        </MapContext.Provider>
+    );
+};
+
+export const useMapContext = () => useContext<MapContextType>(MapContext);

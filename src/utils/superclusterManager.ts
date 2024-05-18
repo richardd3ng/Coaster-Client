@@ -1,20 +1,24 @@
 import Supercluster, { ClusterFeature, PointFeature } from "supercluster";
 import { SocialFilter } from "../types/custom";
-import {
-    fetchSongPointsMe,
-    fetchSongPointsGlobal,
-    fetchSongPointsFriends,
-} from "../api/clusterAPI";
+import { fetchSongPoints } from "../api/clusterAPI";
 import { LatLng } from "react-native-maps";
 import { BoundingBox } from "@mapbox/geo-viewport";
+import { MAP_CONFIG } from "./mapUtils";
+
+const TOP_SONGS_COUNT = 10;
 
 export interface SongCluster {
     coords: LatLng;
-    topSongs: number[][]; // [id, count]
+    topSongs: number[][]; // [id, frequency]
+    size: number;
 }
 
-export interface SongPoint {
+export interface SongPointProps {
     songId: number;
+}
+
+export interface SongClusterProps {
+    songs: Map<number, number>; // [id, frequency]
 }
 
 class SuperclusterManager {
@@ -25,13 +29,10 @@ class SuperclusterManager {
     private globalSupercluster: Supercluster;
 
     options = {
-        map: (props: SongPoint) => ({
+        map: (props: SongPointProps): SongClusterProps => ({
             songs: new Map([[props.songId, 1]]),
         }),
-        reduce: (
-            accumulated: { songs: Map<number, number> },
-            props: { songs: Map<number, number> }
-        ) => {
+        reduce: (accumulated: SongClusterProps, props: SongClusterProps) => {
             const songs = accumulated.songs || new Map();
             props.songs.forEach((count, songId) => {
                 if (songs.has(songId)) {
@@ -42,7 +43,7 @@ class SuperclusterManager {
             });
             accumulated.songs = songs;
         },
-        maxZoom: 10,
+        maxZoom: MAP_CONFIG.maxZoom,
     };
 
     private constructor() {
@@ -62,9 +63,9 @@ class SuperclusterManager {
         console.log("Loading data...");
         const start = Date.now();
         const [mePoints, friendsPoints, globalPoints] = await Promise.all([
-            fetchSongPointsMe(),
-            fetchSongPointsFriends(),
-            fetchSongPointsGlobal(),
+            fetchSongPoints(SocialFilter.ME),
+            fetchSongPoints(SocialFilter.FRIENDS),
+            fetchSongPoints(SocialFilter.GLOBAL),
         ]);
         this.meSupercluster.load(mePoints);
         this.friendsSupercluster.load(friendsPoints);
@@ -90,10 +91,9 @@ class SuperclusterManager {
         bBox: BoundingBox,
         zoom: number
     ): SongCluster[] => {
-        const start = Date.now();
         const index = this.getSuperclusterInstance(filter);
         const clusters = index.getClusters(bBox, zoom).map((item) => {
-            if ("properties" in item && "songs" in item.properties) {
+            if (item.properties.point_count > 1) {
                 const cluster = item as ClusterFeature<{
                     songs: Map<number, number>;
                 }>;
@@ -104,16 +104,18 @@ class SuperclusterManager {
                     },
                     topSongs: Array.from(cluster.properties.songs.entries())
                         .sort((a, b) => b[1] - a[1])
-                        .slice(0, 10),
+                        .slice(0, TOP_SONGS_COUNT),
+                    size: cluster.properties.point_count,
                 };
             } else {
-                const point = item as PointFeature<SongPoint>;
+                const point = item as PointFeature<SongPointProps>;
                 return {
                     coords: {
                         latitude: point.geometry.coordinates[1],
                         longitude: point.geometry.coordinates[0],
                     },
                     topSongs: [[point.properties.songId, 1]],
+                    size: 1,
                 };
             }
         });

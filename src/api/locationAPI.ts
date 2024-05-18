@@ -1,6 +1,7 @@
-import { GOOGLE_MAPS_API_KEY } from "@env";
-import { LatLng } from "react-native-maps";
 import axios from "axios";
+import { LatLng } from "react-native-maps";
+
+import { GOOGLE_MAPS_API_KEY } from "@env";
 
 export interface PlaceData {
     placeId: string;
