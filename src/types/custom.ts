@@ -18,6 +18,13 @@ export interface JamMem {
     endTimestamp: number;
 }
 
+export interface Song {
+    id: number;
+    title: string;
+    artist: string;
+    albumURI: string;
+}
+
 export enum DateFilter {
     NONE,
     WEEK,

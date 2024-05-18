@@ -5,8 +5,10 @@ import { View } from "react-native";
 
 import * as SplashScreen from "expo-splash-screen";
 import BottomSheetsAndModals from "../bottomSheetsAndModals/BottomSheetsAndModals";
+import { BottomSheetProvider } from "../../hooks/context/BottomSheetContext";
 import { MapContextProvider } from "../../hooks/context/MapContext";
 import MapScreen from "../mapScreen/MapScreen";
+import { ModalProvider } from "../../hooks/context/ModalContext";
 import RightButtonPanel from "../../components/map/rightButtonPanel/RightButtonPanel";
 import styles from "./styles";
 import superclusterManager from "../../utils/superclusterManager";
@@ -38,9 +40,13 @@ const AppRoot = () => {
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
             <MapContextProvider>
-                <MapScreen />
-                <RightButtonPanel />
-                <BottomSheetsAndModals />
+                <ModalProvider>
+                    <BottomSheetProvider>
+                        <MapScreen />
+                        <RightButtonPanel />
+                        <BottomSheetsAndModals />
+                    </BottomSheetProvider>
+                </ModalProvider>
             </MapContextProvider>
         </View>
     );
