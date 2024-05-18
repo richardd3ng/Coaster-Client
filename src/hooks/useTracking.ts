@@ -50,6 +50,7 @@ const useTracking = (isActive: boolean) => {
 
     useEffect(() => {
         if (!isActive) {
+            console.log("not active");
             return;
         }
         const startLocationUpdates = async () => {
