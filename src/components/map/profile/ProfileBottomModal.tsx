@@ -8,7 +8,7 @@ import { Button, Icon } from "@ui-kitten/components";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 
-import { ModalType, useModal } from "../../../context/ModalContext";
+import { ModalType, useModal } from "../../../hooks/context/ModalContext";
 import ProfileIconButton from "./ProfileIconButton";
 import ProfileList from "./ProfileList";
 import styles from "./styles";

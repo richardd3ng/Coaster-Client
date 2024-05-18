@@ -5,7 +5,7 @@ export interface LocationTimestamp {
     timestamp: number;
 }
 
-export interface SnapShot {
+export interface Snapshot {
     locationTimestamp: LocationTimestamp;
     songId: number;
 }

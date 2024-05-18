@@ -12,12 +12,12 @@ import { Image } from "expo-image";
 import {
     BottomSheetType,
     useBottomSheet,
-} from "../../context/BottomSheetContext";
+} from "../../hooks/context/BottomSheetContext";
 import { JamMem } from "../../types/custom";
 import { setSelectedJamMemId } from "../../state/jamMem/jamMemSlice";
 import store from "../../state/store";
 import styles from "./styles";
-import { ModalType, useModal } from "../../context/ModalContext";
+import { ModalType, useModal } from "../../hooks/context/ModalContext";
 
 interface CarouselImageItemProps {
     style?: StyleProp<ViewStyle>;

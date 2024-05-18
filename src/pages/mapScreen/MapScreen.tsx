@@ -1,21 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import MapView from "react-native-maps";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import MapView, { Region } from "react-native-maps";
 import { Text } from "react-native";
 import { EXPO_DEV_MODE } from "@env";
-import { fetchClusters, loadPoints } from "../../api/clusterAPI";
-import MapContext, { MapContextType } from "../../context/MapContext";
-import { mockPoints } from "../../mockData/constants";
-import { SongCluster } from "../../api/clusterAPI";
+import MapContext, { MapContextType } from "../../hooks/context/MapContext";
+import { SongCluster } from "../../utils/superclusterManager";
 import styles from "./styles";
 import useTracking from "../../hooks/useTracking";
-import {
-    computeDeltaFromZoomLevel,
-    computeZoomLevelFromRegion,
-    getNearestZoomLevel,
-    ZoomLevel,
-} from "../../utils/mapUtils";
-import { DEFAULT_ZOOM_LEVEL } from "../../utils/defaults";
 import ClusterMarker from "../../components/map/ClusterMarker";
+import { calculateBBox, getMapZoom } from "../../utils/mapUtils";
+import superclusterManager from "../../utils/superclusterManager";
 
 const MemoizedMarker = React.memo(({ cluster }: { cluster: SongCluster }) => (
     <ClusterMarker cluster={cluster} />
@@ -23,40 +16,38 @@ const MemoizedMarker = React.memo(({ cluster }: { cluster: SongCluster }) => (
 
 const MapScreen = () => {
     const location = useTracking(EXPO_DEV_MODE === "false");
-    const { region, setRegion, followsUserLocation, setFollowsUserLocation } =
-        useContext<MapContextType>(MapContext);
-    const [zoomLevel, setZoomLevel] = useState<ZoomLevel>(DEFAULT_ZOOM_LEVEL);
+    const {
+        region,
+        setRegion,
+        followsUserLocation,
+        setFollowsUserLocation,
+        socialFilter,
+    } = useContext<MapContextType>(MapContext);
+    const isInitialized = useRef(false);
     const [clusters, setClusters] = useState<SongCluster[]>([]);
 
     useEffect(() => {
-        if (location) {
-            const delta = computeDeltaFromZoomLevel(zoomLevel);
-            setRegion({
+        if (location && !isInitialized.current) {
+            const initialRegion: Region = {
                 latitude: location.latitude,
                 longitude: location.longitude,
-                latitudeDelta: delta,
-                longitudeDelta: delta,
-            });
-            loadPoints(mockPoints);
-            setClusters(fetchClusters(zoomLevel));
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+            };
+            setRegion(initialRegion);
+            isInitialized.current = true;
         }
-    }, []);
+    }, [location, setRegion]);
 
     useEffect(() => {
         if (region) {
-            const newZoomLevel = getNearestZoomLevel(
-                computeZoomLevelFromRegion(region)
+            const bBox = calculateBBox(region);
+            const zoom = getMapZoom(region, bBox, 1);
+            setClusters(
+                superclusterManager.getClusters(socialFilter, bBox, zoom)
             );
-            if (newZoomLevel !== zoomLevel) {
-                console.log(
-                    "fetching new clusters at zoomLevel:",
-                    newZoomLevel
-                );
-                setClusters(fetchClusters(newZoomLevel));
-            }
-            setZoomLevel(newZoomLevel);
         }
-    }, [region]);
+    }, [region, socialFilter]);
 
     return location && region ? (
         <MapView

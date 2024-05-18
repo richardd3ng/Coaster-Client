@@ -7,8 +7,8 @@ import { Button, Divider, Icon } from "@ui-kitten/components";
 import {
     BottomSheetType,
     useBottomSheet,
-} from "../../../context/BottomSheetContext";
-import MapContext, { MapContextType } from "../../../context/MapContext";
+} from "../../../hooks/context/BottomSheetContext";
+import MapContext, { MapContextType } from "../../../hooks/context/MapContext";
 import { PlaceData } from "../../../api/locationAPI";
 import styles from "./styles";
 

@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
+import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
 
-import { BottomSheetProvider } from "../../context/BottomSheetContext";
+import { BottomSheetProvider } from "../../hooks/context/BottomSheetContext";
 import { DateFilter, SocialFilter } from "../../types/custom";
 import {
     DEFAULT_DATE_FILTER,
@@ -11,19 +12,19 @@ import {
 } from "../../utils/defaults";
 import JamMemBottomModal from "../../components/jamMems/JamMemBottomModal";
 import MapBottomSheet from "../../components/map/bottomSheet/MapBottomSheet";
-import MapContext from "../../context/MapContext";
+import MapContext from "../../hooks/context/MapContext";
 import MapIconButton from "../../components/map/MapIconButton";
 import { MapRegion } from "../../types/custom";
 import MapScreen from "../mapScreen/MapScreen";
-import { ModalProvider } from "../../context/ModalContext";
+import { ModalProvider } from "../../hooks/context/ModalContext";
 import ProfileBottomModal from "../../components/map/profile/ProfileBottomModal";
 import styles from "./styles";
-// import useSnapshot from "../../hooks/useSnapshotBackground";
+import superclusterManager from "../../utils/superclusterManager";
+
+SplashScreen.preventAutoHideAsync();
 
 const AppRoot = () => {
-    // useSnapshot();
     const [region, setRegion] = useState<MapRegion>(null);
-
     const [dateFilter, setDateFilter] =
         useState<DateFilter>(DEFAULT_DATE_FILTER);
     const [socialFilter, setSocialFilter] = useState<SocialFilter>(
@@ -31,6 +32,22 @@ const AppRoot = () => {
     );
     const [followsUserLocation, setFollowsUserLocation] =
         useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        const loadData = async () => {
+            await superclusterManager.loadData();
+            setLoading(false);
+        };
+
+        loadData();
+    }, []);
+
+    const onLayoutRootView = useCallback(async () => {
+        if (!loading) {
+            await SplashScreen.hideAsync();
+        }
+    }, [loading]);
 
     const SocialFilterStack = useMemo(
         () => (
@@ -79,8 +96,12 @@ const AppRoot = () => {
         [followsUserLocation]
     );
 
+    if (loading) {
+        return null;
+    }
+
     return (
-        <View style={styles.container}>
+        <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
             <MapContext.Provider
                 value={{

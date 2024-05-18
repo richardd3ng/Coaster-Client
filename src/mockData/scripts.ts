@@ -1,8 +1,8 @@
 import { PointFeature } from "supercluster";
 
-import { SongPoint } from "../api/clusterAPI";
+import { SongPoint } from "../utils/superclusterManager";
 
-export const generateRandomSnapshots = (
+export const generateRandomSongPoints = (
     numPoints: number
 ): PointFeature<SongPoint>[] => {
     const snapshots: PointFeature<SongPoint>[] = [];
@@ -12,7 +12,7 @@ export const generateRandomSnapshots = (
         snapshots.push({
             type: "Feature",
             properties: {
-                songId: Math.floor(Math.random() * 10),
+                songId: Math.floor(Math.random() * 50),
             },
             geometry: {
                 type: "Point",
@@ -20,6 +20,5 @@ export const generateRandomSnapshots = (
             },
         });
     }
-    console.log("generated:", snapshots.length, "points");
     return snapshots;
 };

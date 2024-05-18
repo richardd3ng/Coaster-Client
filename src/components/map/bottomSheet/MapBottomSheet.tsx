@@ -8,10 +8,10 @@ import { Input } from "@ui-kitten/components";
 import {
     BottomSheetType,
     useBottomSheet,
-} from "../../../context/BottomSheetContext";
+} from "../../../hooks/context/BottomSheetContext";
 import JamMemsCarousel from "../../jamMems/JamMemsCarousel";
 import { mockPlaceData } from "../../../mockData/constants";
-import { ModalType, useModal } from "../../../context/ModalContext";
+import { ModalType, useModal } from "../../../hooks/context/ModalContext";
 import { PlaceData, fetchGeoData } from "../../../api/locationAPI";
 import ProfileIconButton from "../profile/ProfileIconButton";
 import styles from "./styles";

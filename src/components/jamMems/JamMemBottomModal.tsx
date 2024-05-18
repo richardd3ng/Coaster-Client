@@ -14,7 +14,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 import { useSelector } from "react-redux";
 
-import { ModalType, useModal } from "../../context/ModalContext";
+import { ModalType, useModal } from "../../hooks/context/ModalContext";
 import styles from "./styles";
 import { JamMem } from "../../types/custom";
 import { RootState } from "../../state/store";
