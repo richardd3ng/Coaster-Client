@@ -43,5 +43,3 @@ export enum ProfileOption {
     PREFERENCES = "Preferences",
     LOGOUT = "Log Out",
 }
-
-export type MapRegion = Region | null;

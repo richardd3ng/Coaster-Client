@@ -3,12 +3,9 @@ import { useEffect } from "react";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { Alert } from "react-native";
-import { LatLng } from "react-native-maps";
-import { useSelector } from "react-redux";
 
-import { appendToHistory } from "../state/location/locationSlice";
+import { appendToHistoryState } from "../state/storeUtils";
 import { LocationTimestamp } from "../types/custom";
-import store, { RootState } from "../state/store";
 
 const LOCATION_TASK_NAME = "location";
 const LOCATION_UPDATE_TIME_INTERVAL_MILLISECONDS = 10000;
@@ -35,22 +32,13 @@ TaskManager.defineTask(
             },
             timestamp: locations[0].timestamp,
         };
-        store.dispatch({
-            type: appendToHistory.type,
-            payload: locationTimestamp,
-        });
+        appendToHistoryState(locationTimestamp);
     }
 );
 
-const useTracking = (isActive: boolean) => {
-    const currentLocation: LatLng | null = useSelector((state: RootState) => {
-        const history = state.location.history;
-        return history.length > 0 ? history[history.length - 1].coords : null;
-    });
-
+const useTracking = (isActive: boolean): void => {
     useEffect(() => {
         if (!isActive) {
-            console.log("not active");
             return;
         }
         const startLocationUpdates = async () => {
@@ -76,8 +64,6 @@ const useTracking = (isActive: boolean) => {
             console.log("Stopped receiving location updates");
         };
     }, [isActive]);
-
-    return currentLocation;
 };
 
 export default useTracking;

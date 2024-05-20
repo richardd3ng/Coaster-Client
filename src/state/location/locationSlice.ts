@@ -1,13 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+import { Region } from "react-native-maps";
+
 import { LocationTimestamp } from "../../types/custom";
 
 export type LocationState = {
     history: LocationTimestamp[];
+    currentRegion: Region | null;
 };
 
 const initialState: LocationState = {
     history: [],
+    currentRegion: null,
 };
 
 const locationSlice = createSlice({
@@ -16,9 +20,7 @@ const locationSlice = createSlice({
     reducers: {
         appendToHistory: (state, action: PayloadAction<LocationTimestamp>) => {
             const { coords, timestamp } = action.payload;
-            if (state.history.length % 50 === 0) {
-                console.log("history length:", state.history.length);
-            }
+            console.log("history length:", state.history.length);
             return {
                 history: [
                     ...state.history,
@@ -27,6 +29,7 @@ const locationSlice = createSlice({
                         timestamp,
                     },
                 ],
+                currentRegion: state.currentRegion,
             };
         },
         clearHistoryBeforeTimestamp: (state, action: PayloadAction<number>) => {
@@ -36,12 +39,22 @@ const locationSlice = createSlice({
             );
             return {
                 history: index === -1 ? [] : state.history.slice(index),
+                currentRegion: state.currentRegion,
+            };
+        },
+        setCurrentRegion: (state, action: PayloadAction<Region>) => {
+            return {
+                history: state.history,
+                currentRegion: action.payload,
             };
         },
     },
 });
 
-export const { appendToHistory, clearHistoryBeforeTimestamp } =
-    locationSlice.actions;
+export const {
+    appendToHistory,
+    clearHistoryBeforeTimestamp,
+    setCurrentRegion,
+} = locationSlice.actions;
 
 export default locationSlice.reducer;

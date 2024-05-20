@@ -1,14 +1,12 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-import { DateFilter, SocialFilter, MapRegion } from "../../types/custom";
+import { DateFilter, SocialFilter } from "../../types/custom";
 import {
     DEFAULT_DATE_FILTER,
     DEFAULT_SOCIAL_FILTER,
 } from "../../utils/defaults";
 
 interface MapContextType {
-    region: MapRegion;
-    setRegion: (region: MapRegion) => void;
     dateFilter: DateFilter;
     setDateFilter: (filter: DateFilter) => void;
     socialFilter: SocialFilter;
@@ -18,8 +16,6 @@ interface MapContextType {
 }
 
 const MapContext = createContext<MapContextType>({
-    region: null,
-    setRegion: () => {},
     dateFilter: DEFAULT_DATE_FILTER,
     setDateFilter: () => {},
     socialFilter: DEFAULT_SOCIAL_FILTER,
@@ -31,7 +27,6 @@ const MapContext = createContext<MapContextType>({
 export const MapContextProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
-    const [region, setRegion] = useState<MapRegion | null>(null);
     const [dateFilter, setDateFilter] =
         useState<DateFilter>(DEFAULT_DATE_FILTER);
     const [socialFilter, setSocialFilter] = useState<SocialFilter>(
@@ -43,8 +38,6 @@ export const MapContextProvider: React.FC<{ children: ReactNode }> = ({
     return (
         <MapContext.Provider
             value={{
-                region,
-                setRegion,
                 dateFilter,
                 setDateFilter,
                 socialFilter,

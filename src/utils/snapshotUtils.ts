@@ -1,12 +1,12 @@
+import { getHistoryState } from "../state/storeUtils";
 import { LocationTimestamp } from "../types/custom";
-import store from "../state/store";
 
 export const getClosestLocationTimestamp = (
     timestamp: number
 ): LocationTimestamp => {
     // const THRESHOLD = 600000; // closest timestamp must be within 10 minutes
     const THRESHOLD = Infinity;
-    const history: LocationTimestamp[] = store.getState().location.history;
+    const history = getHistoryState();
     let left = 0,
         right = history.length - 1;
     while (left < right) {
