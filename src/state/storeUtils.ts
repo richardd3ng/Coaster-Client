@@ -3,6 +3,7 @@ import { LatLng, Region } from "react-native-maps";
 import store from "./store";
 import {
     appendToHistoryAction,
+    clearHistoryBeforeTimestampAction,
     setCurrentRegionAction,
     setSelectedClusterAction,
     setSelectedJamMemIdAction,
@@ -11,19 +12,25 @@ import { LocationTimestamp } from "../types/custom";
 import { SongCluster } from "../utils/superclusterManager";
 
 /* dispatchers */
-export const appendToHistoryState = (locationTimestamp: LocationTimestamp) => {
+export const dispatchAppendToHistory = (
+    locationTimestamp: LocationTimestamp
+) => {
     store.dispatch(appendToHistoryAction(locationTimestamp));
 };
 
-export const setCurrentRegionState = (region: Region) => {
+export const dispatchClearHistoryBeforeTimestamp = (timestamp: number) => {
+    store.dispatch(clearHistoryBeforeTimestampAction(timestamp));
+};
+
+export const dispatchSetCurrentRegion = (region: Region) => {
     store.dispatch(setCurrentRegionAction(region));
 };
 
-export const setSelectedClusterState = (cluster: SongCluster) => {
+export const dispatchSetSelectedCluster = (cluster: SongCluster) => {
     store.dispatch(setSelectedClusterAction(cluster));
 };
 
-export const setSelectedJamMemIdState = (id: number) => {
+export const dispatchSetSelectedJamMemId = (id: number) => {
     store.dispatch(setSelectedJamMemIdAction(id));
 };
 

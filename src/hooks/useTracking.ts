@@ -4,7 +4,7 @@ import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { Alert } from "react-native";
 
-import { appendToHistoryState } from "../state/storeUtils";
+import { dispatchAppendToHistory } from "../state/storeUtils";
 import { LocationTimestamp } from "../types/custom";
 
 const LOCATION_TASK_NAME = "location";
@@ -32,7 +32,7 @@ TaskManager.defineTask(
             },
             timestamp: locations[0].timestamp,
         };
-        appendToHistoryState(locationTimestamp);
+        dispatchAppendToHistory(locationTimestamp);
     }
 );
 

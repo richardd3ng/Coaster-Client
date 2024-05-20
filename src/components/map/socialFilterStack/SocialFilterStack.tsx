@@ -6,6 +6,7 @@ import MapIconButton from "../mapIconButton/MapIconButton";
 import { SocialFilter } from "../../../types/custom";
 import styles from "./styles";
 import { useMapContext } from "../../../hooks/context/MapContext";
+import { dispatchClearHistoryBeforeTimestamp } from "../../../state/storeUtils";
 
 const SocialFilterStack: React.FC = () => {
     const { socialFilter, setSocialFilter } = useMapContext();
@@ -20,7 +21,10 @@ const SocialFilterStack: React.FC = () => {
                 />
                 <MapIconButton
                     name="people"
-                    onPress={() => setSocialFilter(SocialFilter.FRIENDS)}
+                    onPress={() => {
+                        setSocialFilter(SocialFilter.FRIENDS);
+                        dispatchClearHistoryBeforeTimestamp(Date.now());
+                    }}
                     filled={socialFilter === SocialFilter.FRIENDS}
                 />
                 <MapIconButton

@@ -2,7 +2,10 @@
 
 import { Region } from "react-native-maps";
 
-import { appendToHistory } from "./location/locationSlice";
+import {
+    appendToHistory,
+    clearHistoryBeforeTimestamp,
+} from "./location/locationSlice";
 import { LocationTimestamp } from "../types/custom";
 import { setCurrentRegion } from "./location/locationSlice";
 import { setSelectedJamMemId } from "./jamMem/jamMemSlice";
@@ -13,6 +16,13 @@ export const appendToHistoryAction = (locationTimestamp: LocationTimestamp) => {
     return {
         type: appendToHistory.type,
         payload: locationTimestamp,
+    };
+};
+
+export const clearHistoryBeforeTimestampAction = (timestamp: number) => {
+    return {
+        type: clearHistoryBeforeTimestamp.type,
+        payload: timestamp,
     };
 };
 
