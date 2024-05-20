@@ -14,11 +14,11 @@ import {
     ModalType,
     useModal,
 } from "../../../hooks/context/ModalContext";
-import JamMemsCarousel from "../../jamMems/jamMemsCarousel/JamMemsCarousel";
+import JamMemsCarousel from "./jamMems/jamMemsCarousel/JamMemsCarousel";
 import { mockPlaceData } from "../../../mockData/constants";
 import { PlaceData, fetchGeoData } from "../../../api/locationAPI";
 import SearchBar from "../../shared/searchBar/SearchBar";
-import SearchResultsList from "../search/searchResultsList/SearchResultsList";
+import SearchResultsList from "./search/searchResultsList/SearchResultsList";
 import styles from "./styles";
 import IconButton from "../../shared/iconButton/IconButton";
 
