@@ -8,7 +8,7 @@ import {
 } from "../../../../hooks/context/BottomSheetContext";
 import IconButton from "../../../shared/iconButton/IconButton";
 import { PlaceData } from "../../../../api/locationAPI";
-import { setCurrentRegionState } from "../../../../state/storeUtils";
+import { dispatchSetCurrentRegion } from "../../../../state/storeUtils";
 import styles from "./styles";
 import { useMapContext } from "../../../../hooks/context/MapContext";
 
@@ -40,7 +40,7 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = (
             latitudeDelta: props.item.latitudeDelta,
             longitudeDelta: props.item.longitudeDelta,
         };
-        setCurrentRegionState(region);
+        dispatchSetCurrentRegion(region);
         setSnapIndex(BottomSheetType.Map, 0);
     };
 

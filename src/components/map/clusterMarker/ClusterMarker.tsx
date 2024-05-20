@@ -8,7 +8,7 @@ import {
     useBottomSheet,
 } from "../../../hooks/context/BottomSheetContext";
 import { ModalType, useModal } from "../../../hooks/context/ModalContext";
-import { setSelectedClusterState } from "../../../state/storeUtils";
+import { dispatchSetSelectedCluster } from "../../../state/storeUtils";
 import { SongCluster } from "../../../utils/superclusterManager";
 import styles, { getImageStyle } from "./styles";
 
@@ -25,7 +25,7 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = (
     // decide on styling based on the size of the cluster
 
     const handlePress = useCallback((cluster: SongCluster) => {
-        setSelectedClusterState(cluster);
+        dispatchSetSelectedCluster(cluster);
         close(BottomSheetType.Map);
         present(ModalType.Cluster);
         setSnapIndex(ModalType.Cluster, 1);

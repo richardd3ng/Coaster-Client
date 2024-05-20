@@ -1,19 +1,51 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { configureStore } from "@reduxjs/toolkit";
+import {
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+} from "redux-persist";
 
 import clusterReducer from "./cluster/clusterSlice";
 import jamMemReducer from "./jamMem/jamMemSlice";
 import locationReducer from "./location/locationSlice";
 import snapshotReducer from "./snapshot/snapshotSlice";
 
+const persistConfig = {
+    key: "root",
+    storage: AsyncStorage,
+};
+
+const persistedLocationReducer = persistReducer(persistConfig, locationReducer);
+
 const store = configureStore({
     reducer: {
         cluster: clusterReducer,
         jamMem: jamMemReducer,
-        location: locationReducer,
+        location: persistedLocationReducer,
         snapshot: snapshotReducer,
     },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [
+                    FLUSH,
+                    REHYDRATE,
+                    PAUSE,
+                    PERSIST,
+                    PURGE,
+                    REGISTER,
+                ],
+            },
+        }),
 });
 
+export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 

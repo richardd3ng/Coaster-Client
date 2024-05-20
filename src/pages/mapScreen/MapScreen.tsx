@@ -11,7 +11,7 @@ import styles from "./styles";
 import superclusterManager from "../../utils/superclusterManager";
 
 import useCurrentLocation from "../../hooks/useCurrentLocation";
-import { setCurrentRegionState } from "../../state/storeUtils";
+import { dispatchSetCurrentRegion } from "../../state/storeUtils";
 import useCurrentRegion from "../../hooks/useCurrentRegion";
 
 const MapScreen = () => {
@@ -24,7 +24,7 @@ const MapScreen = () => {
 
     useEffect(() => {
         if (location && !isInitialized.current) {
-            setCurrentRegionState({
+            dispatchSetCurrentRegion({
                 latitude: location.latitude,
                 longitude: location.longitude,
                 latitudeDelta: 0.01,
@@ -32,7 +32,7 @@ const MapScreen = () => {
             });
             isInitialized.current = true;
         }
-    }, [location, setCurrentRegionState]);
+    }, [location, dispatchSetCurrentRegion]);
 
     useEffect(() => {
         if (region) {
@@ -50,7 +50,7 @@ const MapScreen = () => {
             region={region}
             showsUserLocation
             followsUserLocation={followsUserLocation}
-            onRegionChangeComplete={setCurrentRegionState}
+            onRegionChangeComplete={dispatchSetCurrentRegion}
             onPanDrag={() => setFollowsUserLocation(false)}
             showsCompass
             showsScale
