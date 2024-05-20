@@ -24,9 +24,9 @@ export interface SongClusterProps {
 class SuperclusterManager {
     private static instance: SuperclusterManager;
 
-    private meSupercluster: Supercluster;
-    private friendsSupercluster: Supercluster;
-    private globalSupercluster: Supercluster;
+    private meSupercluster: Supercluster<SongPointProps, SongClusterProps>;
+    private friendsSupercluster: Supercluster<SongPointProps, SongClusterProps>;
+    private globalSupercluster: Supercluster<SongPointProps, SongClusterProps>;
 
     options = {
         map: (props: SongPointProps): SongClusterProps => ({

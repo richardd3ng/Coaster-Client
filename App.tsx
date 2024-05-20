@@ -1,9 +1,9 @@
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { Provider } from "react-redux";
 
 import AppRoot from "./src/pages/appRoot/AppRoot";
-import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import store from "./src/state/store";
 
 const App = () => {

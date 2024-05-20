@@ -8,6 +8,7 @@ import {
 } from "../../../../hooks/context/BottomSheetContext";
 import IconButton from "../../../shared/iconButton/IconButton";
 import { PlaceData } from "../../../../api/locationAPI";
+import { setCurrentRegionState } from "../../../../state/storeUtils";
 import styles from "./styles";
 import { useMapContext } from "../../../../hooks/context/MapContext";
 
@@ -28,7 +29,7 @@ const LocationIcon = () => {
 const SearchResultListItem: React.FC<SearchResultListItemProps> = (
     props: SearchResultListItemProps
 ) => {
-    const { setRegion, setFollowsUserLocation } = useMapContext();
+    const { setFollowsUserLocation } = useMapContext();
     const { setSnapIndex } = useBottomSheet();
 
     const handleSelect = () => {
@@ -39,7 +40,7 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = (
             latitudeDelta: props.item.latitudeDelta,
             longitudeDelta: props.item.longitudeDelta,
         };
-        setRegion(region);
+        setCurrentRegionState(region);
         setSnapIndex(BottomSheetType.Map, 0);
     };
 

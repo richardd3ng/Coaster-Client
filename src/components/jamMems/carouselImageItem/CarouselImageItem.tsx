@@ -10,8 +10,7 @@ import {
 } from "../../../hooks/context/BottomSheetContext";
 import { JamMem } from "../../../types/custom";
 import { ModalType, useModal } from "../../../hooks/context/ModalContext";
-import { setSelectedJamMemId } from "../../../state/jamMem/jamMemSlice";
-import store from "../../../state/store";
+import { setSelectedJamMemIdState } from "../../../state/storeUtils";
 import styles from "./styles";
 
 interface CarouselImageItemProps {
@@ -43,10 +42,7 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = (
     };
 
     const onPress = () => {
-        store.dispatch({
-            type: setSelectedJamMemId.type,
-            payload: props.jamMem.id,
-        });
+        setSelectedJamMemIdState(props.jamMem.id);
         close(BottomSheetType.Map);
         present(ModalType.JamMem);
         setSnapIndex(ModalType.JamMem, 1);

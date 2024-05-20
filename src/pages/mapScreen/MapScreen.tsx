@@ -5,30 +5,26 @@ import { Text } from "react-native";
 
 import { MAP_CONFIG, calculateBBox, getMapZoom } from "../../utils/mapUtils";
 import ClusterMarker from "../../components/map/clusterMarker/ClusterMarker";
-import { DEFAULT_LOCATION } from "../../utils/defaults";
-import { EXPO_DEV_MODE } from "@env";
 import { useMapContext } from "../../hooks/context/MapContext";
 import { SongCluster } from "../../utils/superclusterManager";
 import styles from "./styles";
 import superclusterManager from "../../utils/superclusterManager";
-import useTracking from "../../hooks/useTracking";
+
+import useCurrentLocation from "../../hooks/useCurrentLocation";
+import { setCurrentRegionState } from "../../state/storeUtils";
+import useCurrentRegion from "../../hooks/useCurrentRegion";
 
 const MapScreen = () => {
-    const location =
-        EXPO_DEV_MODE === "true" ? DEFAULT_LOCATION : useTracking(true);
-    const {
-        region,
-        setRegion,
-        followsUserLocation,
-        setFollowsUserLocation,
-        socialFilter,
-    } = useMapContext();
+    const { followsUserLocation, setFollowsUserLocation, socialFilter } =
+        useMapContext();
     const isInitialized = useRef(false);
     const [clusters, setClusters] = useState<SongCluster[]>([]);
+    const location = useCurrentLocation();
+    const region = useCurrentRegion();
 
     useEffect(() => {
         if (location && !isInitialized.current) {
-            setRegion({
+            setCurrentRegionState({
                 latitude: location.latitude,
                 longitude: location.longitude,
                 latitudeDelta: 0.01,
@@ -36,7 +32,7 @@ const MapScreen = () => {
             });
             isInitialized.current = true;
         }
-    }, [location, setRegion]);
+    }, [location, setCurrentRegionState]);
 
     useEffect(() => {
         if (region) {
@@ -52,10 +48,14 @@ const MapScreen = () => {
         <MapView
             style={styles.map}
             region={region}
-            showsUserLocation={true}
+            showsUserLocation
             followsUserLocation={followsUserLocation}
-            onRegionChangeComplete={setRegion}
+            onRegionChangeComplete={setCurrentRegionState}
             onPanDrag={() => setFollowsUserLocation(false)}
+            showsCompass
+            showsScale
+            loadingEnabled
+            showsMyLocationButton={false}
         >
             {clusters.map((cluster: SongCluster, index: number) => (
                 <ClusterMarker key={index} cluster={cluster} />
