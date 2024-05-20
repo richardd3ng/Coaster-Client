@@ -1,4 +1,4 @@
-import { LatLng, Region } from "react-native-maps";
+import { LatLng } from "react-native-maps";
 
 export interface LocationTimestamp {
     coords: LatLng;
@@ -26,20 +26,20 @@ export interface Song {
 }
 
 export enum DateFilter {
-    NONE,
-    WEEK,
-    MONTH,
-    YEAR,
+    None,
+    Week,
+    Month,
+    Year,
 }
 
 export enum SocialFilter {
-    ME,
-    FRIENDS,
-    GLOBAL,
+    Me,
+    Friends,
+    Global,
 }
 
 export enum ProfileOption {
-    ACCOUNT = "Account Settings",
-    PREFERENCES = "Preferences",
-    LOGOUT = "Log Out",
+    Account = "Account Settings",
+    Preferences = "Preferences",
+    Logout = "Log Out",
 }

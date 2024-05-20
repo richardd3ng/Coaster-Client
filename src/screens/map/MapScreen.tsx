@@ -8,7 +8,7 @@ import { MapContextProvider } from "../../hooks/context/MapContext";
 import { ModalProvider } from "../../hooks/context/ModalContext";
 import ProfileBottomModal from "../../components/map/mapBottomSheet/profile/profileBottomModal/ProfileBottomModal";
 
-const Map = () => {
+const MapScreen: React.FC = () => {
     return (
         <MapContextProvider>
             <ModalProvider>
@@ -24,4 +24,4 @@ const Map = () => {
         </MapContextProvider>
     );
 };
-export default Map;
+export default MapScreen;

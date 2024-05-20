@@ -2,7 +2,6 @@ import { PointFeature } from "supercluster";
 
 import { SongPointProps } from "../utils/superclusterManager";
 import { Song } from "../types/custom";
-import { LatLng } from "react-native-maps";
 
 export const generateSongs: () => Song[] = () => {
     const songData: Song[] = [];

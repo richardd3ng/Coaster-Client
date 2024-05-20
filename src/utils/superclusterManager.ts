@@ -63,9 +63,9 @@ class SuperclusterManager {
         console.log("Loading data...");
         const start = Date.now();
         const [mePoints, friendsPoints, globalPoints] = await Promise.all([
-            fetchSongPoints(SocialFilter.ME),
-            fetchSongPoints(SocialFilter.FRIENDS),
-            fetchSongPoints(SocialFilter.GLOBAL),
+            fetchSongPoints(SocialFilter.Me),
+            fetchSongPoints(SocialFilter.Friends),
+            fetchSongPoints(SocialFilter.Global),
         ]);
         this.meSupercluster.load(mePoints);
         this.friendsSupercluster.load(friendsPoints);
@@ -75,11 +75,11 @@ class SuperclusterManager {
 
     private getSuperclusterInstance = (filter: SocialFilter): Supercluster => {
         switch (filter) {
-            case SocialFilter.ME:
+            case SocialFilter.Me:
                 return this.meSupercluster;
-            case SocialFilter.FRIENDS:
+            case SocialFilter.Friends:
                 return this.friendsSupercluster;
-            case SocialFilter.GLOBAL:
+            case SocialFilter.Global:
                 return this.globalSupercluster;
             default:
                 throw new Error("Unknown filter type");

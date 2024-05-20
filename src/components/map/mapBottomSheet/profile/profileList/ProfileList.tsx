@@ -9,9 +9,9 @@ import { ProfileOption } from "../../../../../types/custom";
 import styles from "./styles";
 
 const componentMap = new Map<ProfileOption, JSX.Element>([
-    [ProfileOption.ACCOUNT, <Account />],
-    [ProfileOption.PREFERENCES, <Preferences />],
-    [ProfileOption.LOGOUT, <Logout />],
+    [ProfileOption.Account, <Account />],
+    [ProfileOption.Preferences, <Preferences />],
+    [ProfileOption.Logout, <Logout />],
 ]);
 
 const ProfileList: React.FC = () => {

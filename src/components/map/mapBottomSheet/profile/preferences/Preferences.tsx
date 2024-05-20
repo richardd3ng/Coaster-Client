@@ -10,7 +10,7 @@ const PreferencesIcon = (
 const Preferences: React.FC = () => {
     return (
         <ProfileListItem
-            text={ProfileOption.PREFERENCES}
+            text={ProfileOption.Preferences}
             onPress={() => console.log("pressed preferences")}
             icon={PreferencesIcon}
             style={styles.profileListItem}

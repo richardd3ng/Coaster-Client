@@ -10,7 +10,7 @@ const Account: React.FC = () => {
 
     return (
         <ProfileListItem
-            text={ProfileOption.ACCOUNT}
+            text={ProfileOption.Account}
             onPress={() => console.log("pressed account settings")}
             icon={AccountIcon}
             style={styles.profileListItem}

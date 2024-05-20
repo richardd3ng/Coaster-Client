@@ -8,11 +8,11 @@ export const fetchSongPoints = async (
     filter: SocialFilter
 ): Promise<PointFeature<SongPointProps>[]> => {
     switch (filter) {
-        case SocialFilter.ME:
+        case SocialFilter.Me:
             return generateRandomSongPoints(100);
-        case SocialFilter.FRIENDS:
+        case SocialFilter.Friends:
             return generateRandomSongPoints(1_000);
-        case SocialFilter.GLOBAL:
+        case SocialFilter.Global:
             return generateRandomSongPoints(10_000);
         default:
             throw new Error("Unknown filter type");

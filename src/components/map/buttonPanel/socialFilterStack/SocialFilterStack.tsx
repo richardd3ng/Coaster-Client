@@ -16,21 +16,21 @@ const SocialFilterStack: React.FC = () => {
             <View style={styles.buttonStack}>
                 <MapIconButton
                     name="person"
-                    onPress={() => setSocialFilter(SocialFilter.ME)}
-                    filled={socialFilter === SocialFilter.ME}
+                    onPress={() => setSocialFilter(SocialFilter.Me)}
+                    filled={socialFilter === SocialFilter.Me}
                 />
                 <MapIconButton
                     name="people"
                     onPress={() => {
-                        setSocialFilter(SocialFilter.FRIENDS);
+                        setSocialFilter(SocialFilter.Friends);
                         dispatchClearHistoryBeforeTimestamp(Date.now());
                     }}
-                    filled={socialFilter === SocialFilter.FRIENDS}
+                    filled={socialFilter === SocialFilter.Friends}
                 />
                 <MapIconButton
                     name="globe-2"
-                    onPress={() => setSocialFilter(SocialFilter.GLOBAL)}
-                    filled={socialFilter === SocialFilter.GLOBAL}
+                    onPress={() => setSocialFilter(SocialFilter.Global)}
+                    filled={socialFilter === SocialFilter.Global}
                 />
             </View>
         );

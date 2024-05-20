@@ -10,7 +10,6 @@ import {
 } from "../../../../utils/mapUtils";
 import ClusterMarker from "../clusterMarker/ClusterMarker";
 import { dispatchSetCurrentRegion } from "../../../../state/storeUtils";
-import { EXPO_DEV_MODE } from "@env";
 import { SongCluster } from "../../../../utils/superclusterManager";
 import styles from "./styles";
 import superclusterManager from "../../../../utils/superclusterManager";
@@ -20,13 +19,18 @@ import { useMapContext } from "../../../../hooks/context/MapContext";
 import useTracking from "../../../../hooks/useTracking";
 
 const ClusteredMapView = () => {
-    useTracking(EXPO_DEV_MODE === "false");
+    const [_tracking, setTracking] = useTracking();
     const { followsUserLocation, setFollowsUserLocation, socialFilter } =
         useMapContext();
     const isInitialized = useRef(false);
     const [clusters, setClusters] = useState<SongCluster[]>([]);
     const location = useCurrentLocation();
     const region = useCurrentRegion();
+
+    useEffect(() => {
+        console.log("setting tracking to true");
+        setTracking(true);
+    }, []);
 
     useEffect(() => {
         if (location && !isInitialized.current) {
