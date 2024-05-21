@@ -71,7 +71,8 @@ const LoginButton = () => {
         <CustomPressable
             style={styles.button}
             onPress={() => {
-                promptAsync();
+                // promptAsync();
+                navigate(ScreenName.Loading);
             }}
             activeOpacity={0.8}
         >

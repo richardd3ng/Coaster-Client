@@ -14,13 +14,13 @@ const MapScreen: React.FC = () => {
             <ModalProvider>
                 <BottomSheetProvider>
                     <ClusteredMapView />
+                    <ButtonPanel />
                     <ClusterBottomModal />
                     <MapBottomSheet />
                     <JamMemBottomModal />
                     <ProfileBottomModal />
                 </BottomSheetProvider>
             </ModalProvider>
-            <ButtonPanel />
         </MapContextProvider>
     );
 };

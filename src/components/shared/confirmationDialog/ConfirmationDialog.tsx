@@ -1,8 +1,9 @@
 import React from "react";
-import { Modal, View, Text, Button, Pressable } from "react-native";
-import { Divider } from "@ui-kitten/components";
+import { Modal, View, Text } from "react-native";
+import { Button, Divider } from "@ui-kitten/components";
 
 import styles from "./styles";
+import TextButton from "../textButton/TextButton";
 
 interface ConfirmationDialogProps {
     open: boolean;
@@ -28,20 +29,23 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (
         >
             <View style={styles.overlay}>
                 <View style={styles.dialog}>
-                    <Text>{props.text}</Text>
+                    <Text style={styles.dialogText}>{props.text}</Text>
                     <Divider style={styles.horizontalDivider} />
                     <View style={styles.buttonContainer}>
-                        <Pressable
+                        <TextButton
                             onPress={props.onClose}
-                            style={({ pressed }) => [
-                                { opacity: pressed ? 0.5 : 1.0 },
-                            ]}
+                            activeOpacity={0.5}
+                            style={styles.cancelButton}
+                            text="Cancel"
+                            textStyle={styles.cancelText}
                         />
                         <Divider style={styles.verticalDivider} />
-                        <Button
-                            title={props.confirmText || "Confirm"}
+                        <TextButton
                             onPress={handleConfirm}
-                            color={"red"}
+                            activeOpacity={0.5}
+                            style={styles.confirmButton}
+                            text={props.confirmText || "Confirm"}
+                            textStyle={styles.confirmText}
                         />
                     </View>
                 </View>

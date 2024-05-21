@@ -5,13 +5,44 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         width: "100%",
+        backgroundColor: "gray",
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+    },
+    cancelButton: {
+        backgroundColor: "#EAEAEA",
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 0,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        flex: 1,
+        borderColor: "#EAEAEA",
+    },
+    confirmButton: {
+        backgroundColor: "#EAEAEA",
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 10,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        flex: 1,
+        borderColor: "#EAEAEA",
+    },
+    dialogText: {
+        fontWeight: "bold",
+    },
+    cancelText: {
+        color: "#007AFF",
+        fontWeight: "500",
+    },
+    confirmText: {
+        color: "red",
     },
     dialog: {
         width: 300,
-        paddingTop: 10,
+        paddingTop: 15,
         borderRadius: 10,
         alignItems: "center",
-        backgroundColor: "white",
+        backgroundColor: "#EAEAEA",
     },
     overlay: {
         flex: 1,
@@ -20,14 +51,14 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
     horizontalDivider: {
-        marginTop: 10,
+        marginTop: 15,
         backgroundColor: "black",
         width: "100%",
     },
     verticalDivider: {
         backgroundColor: "black",
-        height: "100%",
         width: 1,
+        height: "100%",
     },
 });
 
