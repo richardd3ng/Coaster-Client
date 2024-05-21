@@ -4,10 +4,10 @@ import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 
-import AppRoot from "./src/pages/appRoot/AppRoot";
+import AppRoot from "./src/screens/appRoot/AppRoot";
 import store, { persistor } from "./src/state/store";
 
-const App = () => {
+const App: React.FC = () => {
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>

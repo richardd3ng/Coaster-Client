@@ -2,23 +2,24 @@ import { useCallback, useMemo, useRef, useState } from "react";
 
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 import { Input } from "@ui-kitten/components";
 
 import {
     BottomSheetType,
     useBottomSheet,
 } from "../../../hooks/context/BottomSheetContext";
+import CustomPressable from "../../shared/customPressable/CustomPressable";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
     useModal,
 } from "../../../hooks/context/ModalContext";
-import JamMemsCarousel from "../../jamMems/jamMemsCarousel/JamMemsCarousel";
+import JamMemsCarousel from "./jamMems/jamMemsCarousel/JamMemsCarousel";
 import { mockPlaceData } from "../../../mockData/constants";
 import { PlaceData, fetchGeoData } from "../../../api/locationAPI";
 import SearchBar from "../../shared/searchBar/SearchBar";
-import SearchResultsList from "../search/searchResultsList/SearchResultsList";
+import SearchResultsList from "./search/searchResultsList/SearchResultsList";
 import styles from "./styles";
 import IconButton from "../../shared/iconButton/IconButton";
 
@@ -67,12 +68,12 @@ const MapBottomSheet: React.FC = () => {
 
     const CancelButton: React.FC = () => {
         return (
-            <TouchableOpacity
+            <CustomPressable
                 onPress={resetBottomSheet}
                 style={{ alignSelf: "center" }}
             >
                 <Text style={styles.cancelText}>Cancel</Text>
-            </TouchableOpacity>
+            </CustomPressable>
         );
     };
 

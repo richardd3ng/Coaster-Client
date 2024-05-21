@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { Alert } from "react-native";
 
 import { dispatchAppendToHistory } from "../state/storeUtils";
+import { EXPO_DEV_MODE } from "@env";
 import { LocationTimestamp } from "../types/custom";
 
 const LOCATION_TASK_NAME = "location";
@@ -36,9 +37,14 @@ TaskManager.defineTask(
     }
 );
 
-const useTracking = (isActive: boolean): void => {
+const useTracking = (): [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>
+] => {
+    const [tracking, setTracking] = useState<boolean>(false);
+
     useEffect(() => {
-        if (!isActive) {
+        if (!tracking || EXPO_DEV_MODE === "true") {
             return;
         }
         const startLocationUpdates = async () => {
@@ -63,7 +69,9 @@ const useTracking = (isActive: boolean): void => {
             Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
             console.log("Stopped receiving location updates");
         };
-    }, [isActive]);
+    }, [tracking]);
+
+    return [tracking, setTracking];
 };
 
 export default useTracking;
