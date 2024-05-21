@@ -27,8 +27,17 @@ const styles = StyleSheet.create({
         flex: 1,
         borderColor: "#EAEAEA",
     },
-    dialogText: {
+    textContainer: {
+        paddingHorizontal: 16,
+    },
+    titleText: {
+        // paddingHorizontal: 6,
         fontWeight: "bold",
+        fontSize: 16,
+    },
+    descriptionText: {
+        paddingTop: 10,
+        fontSize: 14,
     },
     cancelText: {
         color: "#007AFF",
@@ -36,6 +45,7 @@ const styles = StyleSheet.create({
     },
     confirmText: {
         color: "red",
+        fontWeight: "300",
     },
     dialog: {
         width: 300,

@@ -7,7 +7,8 @@ import TextButton from "../textButton/TextButton";
 
 interface ConfirmationDialogProps {
     open: boolean;
-    text: string;
+    title: string;
+    description?: string;
     onClose: () => void;
     onConfirm: () => void;
     confirmText?: string;
@@ -29,7 +30,14 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (
         >
             <View style={styles.overlay}>
                 <View style={styles.dialog}>
-                    <Text style={styles.dialogText}>{props.text}</Text>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.titleText}>{props.title}</Text>
+                        {props.description && (
+                            <Text style={styles.descriptionText}>
+                                {props.description}
+                            </Text>
+                        )}
+                    </View>
                     <Divider style={styles.horizontalDivider} />
                     <View style={styles.buttonContainer}>
                         <TextButton

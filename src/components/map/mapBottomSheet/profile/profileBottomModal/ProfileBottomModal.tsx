@@ -8,14 +8,18 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 
 import CloseButton from "../../../../shared/closeButton/CloseButton";
+import {
+    DEFAULT_SNAP_POINTS,
+    ModalType,
+    useModal,
+} from "../../../../../hooks/context/ModalContext";
 import IconButton from "../../../../shared/iconButton/IconButton";
-import { ModalType, useModal } from "../../../../../hooks/context/ModalContext";
 import ProfileList from "../profileList/ProfileList";
 import styles from "./styles";
 
 const ProfileBottomModal: React.FC = () => {
     const { refs: modalRefs, dismiss, isVisible } = useModal();
-    const snapPoints = useMemo(() => ["40%"], []);
+    const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[1]], []);
 
     const handleSheetChanges = useCallback((index: number) => {
         if (index === -1) {

@@ -37,7 +37,7 @@ const Logout: React.FC = () => {
             />
             <ConfirmationDialog
                 open={showConfiramtionDialog}
-                text="Are you sure you want to log out?"
+                title="Are you sure you want to log out?"
                 onClose={() => setShowConfirmationDialog(false)}
                 onConfirm={handleLogout}
             />

@@ -43,3 +43,8 @@ export enum ProfileOption {
     Preferences = "Preferences",
     Logout = "Log Out",
 }
+
+export enum PreferencesOption {
+    TrackSnapshots = "Track Snapshots",
+    ShareSnapshots = "Share Snapshots",
+}

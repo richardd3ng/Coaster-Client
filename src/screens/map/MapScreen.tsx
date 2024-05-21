@@ -6,6 +6,7 @@ import JamMemBottomModal from "../../components/map/mapBottomSheet/jamMems/jamMe
 import MapBottomSheet from "../../components/map/mapBottomSheet/MapBottomSheet";
 import { MapContextProvider } from "../../hooks/context/MapContext";
 import { ModalProvider } from "../../hooks/context/ModalContext";
+import PreferencesBottomModal from "../../components/map/mapBottomSheet/profile/preferences/preferencesBottomModal/PreferencesBottomModal";
 import ProfileBottomModal from "../../components/map/mapBottomSheet/profile/profileBottomModal/ProfileBottomModal";
 
 const MapScreen: React.FC = () => {
@@ -19,6 +20,7 @@ const MapScreen: React.FC = () => {
                     <MapBottomSheet />
                     <JamMemBottomModal />
                     <ProfileBottomModal />
+                    <PreferencesBottomModal />
                 </BottomSheetProvider>
             </ModalProvider>
         </MapContextProvider>
