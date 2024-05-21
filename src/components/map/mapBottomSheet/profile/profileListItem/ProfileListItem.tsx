@@ -1,12 +1,7 @@
 import { Divider } from "@ui-kitten/components";
-import {
-    StyleProp,
-    Text,
-    TouchableOpacity,
-    View,
-    ViewStyle,
-} from "react-native";
+import { StyleProp, Text, View, ViewStyle } from "react-native";
 
+import CustomPressable from "../../../../shared/customPressable/CustomPressable";
 import IconButton from "../../../../shared/iconButton/IconButton";
 import { ProfileOption } from "../../../../../types/custom";
 import styles from "./styles";
@@ -33,7 +28,7 @@ const ProfileListItem: React.FC<ProfileListItemProps> = (
     props: ProfileListItemProps
 ) => {
     return (
-        <TouchableOpacity onPress={props.onPress}>
+        <CustomPressable onPress={props.onPress}>
             <View style={[styles.container, props.style]}>
                 {props.icon}
                 <Text style={[styles.text, { color: props.textColor }]}>
@@ -42,7 +37,7 @@ const ProfileListItem: React.FC<ProfileListItemProps> = (
                 {!props.hideArrow && ArrowIcon}
             </View>
             {!props.hideDivider && <Divider style={styles.divider} />}
-        </TouchableOpacity>
+        </CustomPressable>
     );
 };
 

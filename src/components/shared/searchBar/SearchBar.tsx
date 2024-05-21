@@ -1,12 +1,13 @@
 import React, { forwardRef, useState } from "react";
 
+import CustomPressable from "../customPressable/CustomPressable";
 import { Icon, IconElement, Input } from "@ui-kitten/components";
-import { TextInputProps, TouchableOpacity } from "react-native";
+import { TextInputProps } from "react-native";
 
-type SearchBarProps = {
+interface SearchBarProps extends TextInputProps {
     onClear: () => void;
     onSearch: (query: string) => void;
-} & TextInputProps;
+}
 
 const SearchBar: React.ForwardRefRenderFunction<Input, SearchBarProps> = (
     props: SearchBarProps,
@@ -31,9 +32,9 @@ const SearchBar: React.ForwardRefRenderFunction<Input, SearchBarProps> = (
     };
 
     const CloseIconButton = (
-        <TouchableOpacity onPress={handleClear}>
+        <CustomPressable onPress={handleClear}>
             <CloseIcon />
-        </TouchableOpacity>
+        </CustomPressable>
     );
 
     return (

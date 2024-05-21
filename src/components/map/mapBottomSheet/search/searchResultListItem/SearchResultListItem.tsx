@@ -1,11 +1,12 @@
 import { Divider } from "@ui-kitten/components";
 import { Region } from "react-native-maps";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 
 import {
     BottomSheetType,
     useBottomSheet,
 } from "../../../../../hooks/context/BottomSheetContext";
+import CustomPressable from "../../../../shared/customPressable/CustomPressable";
 import IconButton from "../../../../shared/iconButton/IconButton";
 import { PlaceData } from "../../../../../api/locationAPI";
 import { dispatchSetCurrentRegion } from "../../../../../state/storeUtils";
@@ -45,7 +46,7 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = (
     };
 
     return (
-        <TouchableOpacity onPress={handleSelect}>
+        <CustomPressable onPress={handleSelect}>
             <View style={styles.listItemContainer}>
                 <LocationIcon />
                 <View style={styles.textContainer}>
@@ -58,7 +59,7 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = (
                 </View>
             </View>
             <Divider style={styles.divider} />
-        </TouchableOpacity>
+        </CustomPressable>
     );
 };
 

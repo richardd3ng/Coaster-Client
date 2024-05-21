@@ -2,12 +2,13 @@ import { useRef } from "react";
 
 import { Image } from "expo-image";
 import { ImageURISource, StyleProp, ViewStyle } from "react-native";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 
 import {
     BottomSheetType,
     useBottomSheet,
 } from "../../../../../hooks/context/BottomSheetContext";
+import CustomPressable from "../../../../shared/customPressable/CustomPressable";
 import { JamMem } from "../../../../../types/custom";
 import { ModalType, useModal } from "../../../../../hooks/context/ModalContext";
 import { dispatchSetSelectedJamMemId } from "../../../../../state/storeUtils";
@@ -49,7 +50,7 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = (
     };
 
     return (
-        <TouchableOpacity
+        <CustomPressable
             onPress={onPress}
             style={[styles.imageItemContainer, props.style]}
         >
@@ -59,6 +60,6 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = (
                 source={source}
             />
             <JamSessionImageItemText />
-        </TouchableOpacity>
+        </CustomPressable>
     );
 };

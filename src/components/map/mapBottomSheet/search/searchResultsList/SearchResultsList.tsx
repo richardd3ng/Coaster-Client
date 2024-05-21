@@ -2,8 +2,9 @@ import { useCallback } from "react";
 
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { Divider } from "@ui-kitten/components";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 
+import CustomPressable from "../../../../shared/customPressable/CustomPressable";
 import { PlaceData } from "../../../../../api/locationAPI";
 import SearchResultListItem from "../searchResultListItem/SearchResultListItem";
 import styles from "./styles";
@@ -24,12 +25,12 @@ const SearchResultsList: React.FC<SearchResultsListProps> = (
         return (
             <View style={styles.headerContainer}>
                 <Text style={styles.locationsText}>Locations</Text>
-                <TouchableOpacity
+                <CustomPressable
                     style={styles.moreTextButton}
                     onPress={() => console.log("show more locations")}
                 >
                     <Text style={styles.moreText}>More</Text>
-                </TouchableOpacity>
+                </CustomPressable>
             </View>
         );
     };

@@ -28,7 +28,6 @@ const ClusteredMapView = () => {
     const region = useCurrentRegion();
 
     useEffect(() => {
-        console.log("setting tracking to true");
         setTracking(true);
     }, []);
 

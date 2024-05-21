@@ -1,20 +1,12 @@
-import { View, Button } from "react-native";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { View } from "react-native";
+import LoginButton from "../../components/login/loginButton/LoginButton";
 
-import { RootStackParamList, ScreenName } from "../../types/navigation";
 import styles from "./styles";
 
-type LoginProps = NativeStackScreenProps<RootStackParamList, ScreenName.Login>;
-
-const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
-    const handleLogin = () => {
-        console.log("Log in with Spotify button pressed");
-        props.navigation.navigate(ScreenName.Loading);
-    };
-
+const LoginScreen: React.FC = () => {
     return (
         <View style={styles.container}>
-            <Button title="Log in with Spotify" onPress={handleLogin} />
+            <LoginButton />
         </View>
     );
 };
