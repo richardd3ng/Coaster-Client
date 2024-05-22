@@ -3,7 +3,7 @@
 import { Region } from "react-native-maps";
 
 import {
-    appendToHistory,
+    recordLocationTimestamp,
     clearHistoryBeforeTimestamp,
 } from "./location/locationSlice";
 import { LocationTimestamp } from "../types/custom";
@@ -12,9 +12,11 @@ import { setSelectedJamMemId } from "./jamMem/jamMemSlice";
 import { setSelectedCluster } from "./cluster/clusterSlice";
 import { SongCluster } from "../utils/superclusterManager";
 
-export const appendToHistoryAction = (locationTimestamp: LocationTimestamp) => {
+export const recordLocationTimestampAction = (
+    locationTimestamp: LocationTimestamp
+) => {
     return {
-        type: appendToHistory.type,
+        type: recordLocationTimestamp.type,
         payload: locationTimestamp,
     };
 };

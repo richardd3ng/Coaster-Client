@@ -16,7 +16,7 @@ export enum ModalType {
     Profile,
 }
 
-export const DEFAULT_SNAP_POINTS = ["10%", "35%", "92.5%"];
+export const DEFAULT_SNAP_POINTS = ["12%", "35%", "92%"];
 
 interface ModalContextType {
     present: (modalType: ModalType) => void;

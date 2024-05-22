@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     },
     jamSessionStack: {
         flex: 1,
+        paddingTop: 20,
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "flex-start",

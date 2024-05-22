@@ -2,8 +2,8 @@ import { LatLng, Region } from "react-native-maps";
 
 import store from "./store";
 import {
-    appendToHistoryAction,
     clearHistoryBeforeTimestampAction,
+    recordLocationTimestampAction,
     setCurrentRegionAction,
     setSelectedClusterAction,
     setSelectedJamMemIdAction,
@@ -12,10 +12,10 @@ import { LocationTimestamp } from "../types/custom";
 import { SongCluster } from "../utils/superclusterManager";
 
 /* dispatchers */
-export const dispatchAppendToHistory = (
+export const dispatchRecordLocationTimestamp = (
     locationTimestamp: LocationTimestamp
 ) => {
-    store.dispatch(appendToHistoryAction(locationTimestamp));
+    store.dispatch(recordLocationTimestampAction(locationTimestamp));
 };
 
 export const dispatchClearHistoryBeforeTimestamp = (timestamp: number) => {
@@ -40,8 +40,7 @@ export const getHistoryState = (): LocationTimestamp[] => {
 };
 
 export const getCurrentLocationState = (): LatLng | null => {
-    const history = store.getState().location.history;
-    return history.length > 0 ? history[history.length - 1].coords : null;
+    return store.getState().location.currentLocation;
 };
 
 export const getCurrentRegionState = (): Region | null => {

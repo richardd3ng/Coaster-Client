@@ -3,17 +3,14 @@ import { useState, useEffect } from "react";
 import { LatLng } from "react-native-maps";
 
 import store from "../state/store";
-import { getHistoryState } from "../state/storeUtils";
+import { getCurrentLocationState } from "../state/storeUtils";
 
 const useCurrentLocation = () => {
     const [currentLocation, setCurrentLocation] = useState<LatLng | null>(null);
 
     useEffect(() => {
         const handleChange = () => {
-            const history = getHistoryState();
-            const location =
-                history.length > 0 ? history[history.length - 1].coords : null;
-            setCurrentLocation(location);
+            setCurrentLocation(getCurrentLocationState());
         };
 
         const unsubscribe = store.subscribe(handleChange);
