@@ -15,7 +15,6 @@ const Preferences: React.FC = () => {
             text={ProfileOption.Preferences}
             onPress={() => present(ModalType.Preferences)}
             icon={PreferencesIcon}
-            style={styles.profileListItem}
         />
     );
 };

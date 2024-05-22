@@ -5,8 +5,8 @@ const styles = StyleSheet.create({
         backgroundColor: "red",
     },
     profileListItem: {
-        borderTopRightRadius: 10,
-        borderTopLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10,
     },
 });
 

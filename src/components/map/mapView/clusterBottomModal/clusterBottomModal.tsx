@@ -22,8 +22,9 @@ import { RootState } from "../../../../state/store";
 import styles from "./styles";
 import { Song } from "../../../../types/custom";
 import { fetchManySongs } from "../../../../api/songAPI";
+import ClusterList from "./clusterList/ClusterList";
 
-interface SongFrequency extends Song {
+export interface SongFrequency extends Song {
     frequency: number;
 }
 
@@ -77,11 +78,8 @@ const ClusterBottomModal: React.FC = () => {
                     backgroundStyle={styles.container}
                     onChange={handleSheetChanges}
                 >
-                    {clusterData.map((song) => (
-                        <Text
-                            key={song.id}
-                        >{`${song.title}: ${song.frequency}`}</Text>
-                    ))}
+                    <Text>{selectedCluster?.size}</Text>
+                    <ClusterList clusterData={clusterData} />
                     <CloseButton onPress={handleClose} />
                 </BottomSheetModal>
             </BottomSheetModalProvider>

@@ -50,12 +50,8 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = (
             <View style={styles.listItemContainer}>
                 <LocationIcon />
                 <View style={styles.textContainer}>
-                    <View>
-                        <Text style={styles.placeText}>{props.item.name}</Text>
-                        <Text style={styles.addressText}>
-                            {props.item.address}
-                        </Text>
-                    </View>
+                    <Text style={styles.placeText}>{props.item.name}</Text>
+                    <Text style={styles.addressText}>{props.item.address}</Text>
                 </View>
             </View>
             <Divider style={styles.divider} />

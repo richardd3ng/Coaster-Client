@@ -23,7 +23,6 @@ const PreferencesList: React.FC = () => {
             data={Array.from(componentMap.keys())}
             keyExtractor={(profileOption) => profileOption.toString()}
             renderItem={renderItem}
-            showsVerticalScrollIndicator={false}
             style={styles.flatlist}
         />
     );
