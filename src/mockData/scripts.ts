@@ -8,6 +8,7 @@ export const generateSongs: () => Song[] = () => {
     for (let i = 0; i < 50; i++) {
         songData.push({
             id: i,
+            uri: "spotify:track:6fTt0CH2t0mdeB2N9XFG5r",
             title: `Song ${i}`,
             artist: `Artist ${i}`,
             albumURI: "https://picsum.photos/200/300",

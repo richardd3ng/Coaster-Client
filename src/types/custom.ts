@@ -20,6 +20,7 @@ export interface JamMem {
 
 export interface Song {
     id: number;
+    uri: string;
     title: string;
     artist: string;
     albumURI: string;
