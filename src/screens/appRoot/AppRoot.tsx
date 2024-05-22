@@ -1,13 +1,14 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
 
-import { NavigationContainer } from "@react-navigation/native";
-import styles from "./styles";
-import MapScreen from "../map/MapScreen";
-import LoginScreen from "../login/LoginScreen";
-import { RootStackParamList, ScreenName } from "../../types/navigation";
+import FriendsScreen from "../friends/FriendsScreen";
 import LoadingScreen from "../loading/LoadingScreen";
+import LoginScreen from "../login/LoginScreen";
+import MapScreen from "../map/MapScreen";
+import { RootStackParamList, ScreenName } from "../../types/navigation";
+import styles from "./styles";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -26,6 +27,7 @@ const AppRoot: React.FC = () => {
                         component={LoadingScreen}
                     />
                     <Stack.Screen name={ScreenName.Map} component={MapScreen} />
+                    <Stack.Screen name={ScreenName.Friends} component={FriendsScreen} />
                 </Stack.Navigator>
             </NavigationContainer>
         </View>

@@ -1,5 +1,10 @@
 import { NavigationProp } from "@react-navigation/native";
 
+export enum FriendsTabName {
+    Connections = "Connections",
+    Requests = "Requests",
+}
+
 export enum ScreenName {
     Login = "Login",
     Loading = "Loading",

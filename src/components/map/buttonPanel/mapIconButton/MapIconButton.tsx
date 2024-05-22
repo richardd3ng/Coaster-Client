@@ -1,10 +1,9 @@
-import { Button, Icon } from "@ui-kitten/components";
+import { Button, ButtonProps, Icon } from "@ui-kitten/components";
 
 import styles from "./styles";
 
-interface MapIconButtonProps {
+interface MapIconButtonProps extends ButtonProps {
     name: string;
-    onPress: () => void;
     filled: boolean;
 }
 
