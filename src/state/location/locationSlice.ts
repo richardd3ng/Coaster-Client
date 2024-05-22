@@ -38,13 +38,9 @@ const locationSlice = createSlice({
                 currentRegion: state.currentRegion,
             };
         },
-        clearHistoryBeforeTimestamp: (state, action: PayloadAction<number>) => {
-            const index = state.history.findIndex(
-                (locationTimestamp) =>
-                    locationTimestamp.timestamp >= action.payload
-            );
+        clearHistory: (state) => {
             return {
-                history: index === -1 ? [] : state.history.slice(index),
+                history: [],
                 currentLocation: state.currentLocation,
                 currentRegion: state.currentRegion,
             };
@@ -59,10 +55,7 @@ const locationSlice = createSlice({
     },
 });
 
-export const {
-    recordLocationTimestamp,
-    clearHistoryBeforeTimestamp,
-    setCurrentRegion,
-} = locationSlice.actions;
+export const { recordLocationTimestamp, clearHistory, setCurrentRegion } =
+    locationSlice.actions;
 
 export default locationSlice.reducer;

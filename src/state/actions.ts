@@ -4,7 +4,7 @@ import { Region } from "react-native-maps";
 
 import {
     recordLocationTimestamp,
-    clearHistoryBeforeTimestamp,
+    clearHistory,
 } from "./location/locationSlice";
 import { LocationTimestamp } from "../types/custom";
 import { setCurrentRegion } from "./location/locationSlice";
@@ -21,10 +21,9 @@ export const recordLocationTimestampAction = (
     };
 };
 
-export const clearHistoryBeforeTimestampAction = (timestamp: number) => {
+export const clearHistoryAction = () => {
     return {
-        type: clearHistoryBeforeTimestamp.type,
-        payload: timestamp,
+        type: clearHistory.type,
     };
 };
 

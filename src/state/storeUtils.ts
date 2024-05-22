@@ -2,7 +2,7 @@ import { LatLng, Region } from "react-native-maps";
 
 import store from "./store";
 import {
-    clearHistoryBeforeTimestampAction,
+    clearHistoryAction,
     recordLocationTimestampAction,
     setCurrentRegionAction,
     setSelectedClusterAction,
@@ -18,8 +18,8 @@ export const dispatchRecordLocationTimestamp = (
     store.dispatch(recordLocationTimestampAction(locationTimestamp));
 };
 
-export const dispatchClearHistoryBeforeTimestamp = (timestamp: number) => {
-    store.dispatch(clearHistoryBeforeTimestampAction(timestamp));
+export const dispatchClearHistory = () => {
+    store.dispatch(clearHistoryAction());
 };
 
 export const dispatchSetCurrentRegion = (region: Region) => {
