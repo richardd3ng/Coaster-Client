@@ -11,7 +11,6 @@ import styles from "./styles";
 const LoadingScreen: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const { navigate } = useNavigation<StackNavigation>();
-    console.log("rendered loading screen");
 
     useEffect(() => {
         const loadData = async () => {

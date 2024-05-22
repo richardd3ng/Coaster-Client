@@ -16,7 +16,11 @@
             "supportsTablet": true,
             "bundleIdentifier": "com.anonymous.Coaster",
             "infoPlist": {
-                "LSApplicationQueriesSchemes": ["spotify"]
+                "LSApplicationQueriesSchemes": ["spotify"],
+                "UIBackgroundModes": ["location", "fetch"],
+                "NSLocationWhenInUseUsageDescription": "Coaster needs access to your location while you are using it to track the songs you play at each location.",
+                "NSLocationAlwaysAndWhenInUseUsageDescription": "Coaster needs access to your location at all times to continuously track the songs you play, even when the app is in the background.",
+                "NSLocationAlwaysUsageDescription": "Coaster needs access to your location at all times to track the songs you play at each location, ensuring accurate logging even when the app is not in the foreground."
             }
         },
         "android": {
@@ -42,6 +46,11 @@
                     "locationAlwaysAndWhenInUsePermission": "Allow Coaster to use your location."
                 }
             ]
-        ]
+        ],
+        "build": {
+            "preview": {
+                "developmentClient": true
+            }
+        }
     }
 }
