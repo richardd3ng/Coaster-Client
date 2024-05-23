@@ -1,6 +1,6 @@
 import IconButton from "../../../../shared/iconButton/IconButton";
 import ProfileListItem from "../profileListItem/ProfileListItem";
-import { ProfileOption } from "../../../../../types/custom";
+import { ProfileOption } from "../../../../../types/navigation";
 import styles from "./styles";
 
 const Account: React.FC = () => {

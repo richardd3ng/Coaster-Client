@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import ConfirmationDialog from "../../../../../shared/confirmationDialog/ConfirmationDialog";
-import { PreferencesOption } from "../../../../../../types/custom";
+import { PreferencesOption } from "../../../../../../types/navigation";
 import styles from "./styles";
 import ToggledListItem from "../toggledListItem/ToggledListItem";
 

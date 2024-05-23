@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import globalStyles from "../../../../../../constants/globalStyles";
+import globalStyles from "../../../../../../constants/theme/globalStyles";
 
 const styles = StyleSheet.create({
     flatlist: {

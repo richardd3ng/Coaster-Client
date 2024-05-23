@@ -6,7 +6,7 @@ import { Alert } from "react-native";
 
 import { dispatchRecordLocationTimestamp } from "../state/storeUtils";
 import { EXPO_DEV_MODE } from "@env";
-import { LocationTimestamp } from "../types/custom";
+import { LocationTimestamp } from "../types/entities";
 
 const LOCATION_TASK_NAME = "location";
 

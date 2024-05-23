@@ -1,5 +1,5 @@
 import Supercluster, { ClusterFeature, PointFeature } from "supercluster";
-import { SocialFilter } from "../types/custom";
+import { SocialFilter } from "../types/filters";
 import { fetchSongPoints } from "../api/clusterAPI";
 import { LatLng } from "react-native-maps";
 import { BoundingBox } from "@mapbox/geo-viewport";

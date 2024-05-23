@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
 import { fetchJamMem, fetchJamMemMetadatas } from "../../api/jamMemAPI";
-import { JamMem, JamMemMetadata } from "../../types/custom";
+import { JamMem, JamMemMetadata } from "../../types/entities";
 
 export const useJamMem = (id: number): UseQueryResult<JamMem, Error> => {
     return useQuery<JamMem>({

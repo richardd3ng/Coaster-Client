@@ -1,12 +1,10 @@
 import { StyleSheet } from "react-native";
 
-import globalStyles from "../../../../../../constants/globalStyles";
-
-const bottomSheetModalStyles = globalStyles.bottomSheetModal;
+import globalStyles from "../../../../../../constants/theme/globalStyles";
 
 const styles = StyleSheet.create({
     bottomSheetModal: {
-        backgroundColor: "#EAEAEA",
+        backgroundColor: globalStyles.common.backgroundColor,
     },
     HeaderText: {
         fontSize: 20,
@@ -14,10 +12,10 @@ const styles = StyleSheet.create({
     },
     preferencesBottomModalTopRow: {
         flexDirection: "row",
-        padding: bottomSheetModalStyles.paddingHorizontal,
-        backgroundColor: "#EAEAEA",
-        borderTopLeftRadius: bottomSheetModalStyles.borderRadius,
-        borderTopRightRadius: bottomSheetModalStyles.borderRadius,
+        padding: globalStyles.bottomSheetModal.paddingHorizontal,
+        backgroundColor: globalStyles.common.backgroundColor,
+        borderTopLeftRadius: globalStyles.bottomSheetModal.borderRadius,
+        borderTopRightRadius: globalStyles.bottomSheetModal.borderRadius,
     },
 });
 

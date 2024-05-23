@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 
-import { PreferencesOption } from "../../../../../../types/custom";
+import { PreferencesOption } from "../../../../../../types/navigation";
 import ShareSnapshots from "../shareSnapshots/ShareSnapshots";
 import styles from "./styles";
 import TrackSnapshots from "../trackSnapshots/TrackSnapshots";

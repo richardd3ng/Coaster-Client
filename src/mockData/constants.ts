@@ -1,5 +1,5 @@
 import { generateSongs } from "./scripts";
-import { JamMem, Song, User } from "../types/custom";
+import { JamMem, Song, User } from "../types/entities";
 import { PlaceData } from "../api/locationAPI";
 
 export const mockUserData: User[] = [

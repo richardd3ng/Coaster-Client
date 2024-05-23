@@ -40,28 +40,3 @@ export interface Song {
     artist: string;
     albumURI: string;
 }
-
-/* Misc. */
-export enum DateFilter {
-    None,
-    Week,
-    Month,
-    Year,
-}
-
-export enum SocialFilter {
-    Me,
-    Friends,
-    Global,
-}
-
-export enum ProfileOption {
-    Account = "Account Settings",
-    Preferences = "Preferences",
-    Logout = "Log Out",
-}
-
-export enum PreferencesOption {
-    TrackSnapshots = "Track Snapshots",
-    ShareSnapshots = "Share Snapshots",
-}

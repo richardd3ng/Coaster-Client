@@ -19,10 +19,12 @@ import { dispatchSetSelectedJamMemId } from "../../../../../state/storeUtils";
 import ErrorView from "../../../../shared/errorView/ErrorView";
 import LoadingView from "../../../../shared/loadingView/LoadingView";
 import { RootState } from "../../../../../state/store";
-import styles from "./styles";
 import { useJamMem } from "../../../../../hooks/react-query/useQueryHooks";
+import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
+import createStyles from "./styles";
 
 const JamMemBottomModal: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
     const { refs: modalRefs, dismiss, snapIndexes } = useModal();
     const { setSnapIndex } = useBottomSheet();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);

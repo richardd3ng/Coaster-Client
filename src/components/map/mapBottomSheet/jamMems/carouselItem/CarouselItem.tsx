@@ -1,7 +1,7 @@
 import Animated from "react-native-reanimated";
 
 import { CarouselImageItem } from "../carouselImageItem/CarouselImageItem";
-import { JamMemMetadata } from "../../../../../types/custom";
+import { JamMemMetadata } from "../../../../../types/entities";
 import styles from "./styles";
 
 interface CarouselItemProps {

@@ -6,7 +6,7 @@ import {
     recordLocationTimestamp,
     clearHistory,
 } from "./location/locationSlice";
-import { LocationTimestamp } from "../types/custom";
+import { LocationTimestamp } from "../types/entities";
 import { setCurrentRegion } from "./location/locationSlice";
 import { setSelectedJamMemId } from "./jamMem/jamMemSlice";
 import { setSelectedCluster } from "./cluster/clusterSlice";

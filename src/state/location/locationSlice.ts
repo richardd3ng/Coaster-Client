@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { LatLng, Region } from "react-native-maps";
 
-import { LocationTimestamp } from "../../types/custom";
+import { LocationTimestamp } from "../../types/entities";
 
 export type LocationState = {
     history: LocationTimestamp[];

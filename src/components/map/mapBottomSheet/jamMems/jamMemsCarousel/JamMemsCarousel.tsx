@@ -3,7 +3,7 @@ import { Dimensions } from "react-native";
 
 import CarouselItem from "../carouselItem/CarouselItem";
 import styles from "./styles";
-import { JamMemMetadata } from "../../../../../types/custom";
+import { JamMemMetadata } from "../../../../../types/entities";
 
 const CAROUSEL_WIDTH = Dimensions.get("window").width;
 const COUNT = 2;

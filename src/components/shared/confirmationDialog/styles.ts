@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+import globalStyles from "../../../constants/theme/globalStyles";
+
 const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: "row",
@@ -10,22 +12,22 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 10,
     },
     cancelButton: {
-        backgroundColor: "#EAEAEA",
+        backgroundColor: globalStyles.common.backgroundColor,
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 0,
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
         flex: 1,
-        borderColor: "#EAEAEA",
+        borderColor: globalStyles.common.backgroundColor,
     },
     confirmButton: {
-        backgroundColor: "#EAEAEA",
+        backgroundColor: globalStyles.common.backgroundColor,
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 10,
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
         flex: 1,
-        borderColor: "#EAEAEA",
+        borderColor: globalStyles.common.backgroundColor,
     },
     textContainer: {
         paddingHorizontal: 16,
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
         paddingTop: 15,
         borderRadius: 10,
         alignItems: "center",
-        backgroundColor: "#EAEAEA",
+        backgroundColor: globalStyles.common.backgroundColor,
     },
     overlay: {
         flex: 1,
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     },
     verticalDivider: {
         backgroundColor: "black",
-        width: 1,
+        width: StyleSheet.hairlineWidth,
         height: "100%",
     },
 });

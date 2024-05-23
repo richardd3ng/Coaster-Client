@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { View } from "react-native";
 
 import MapIconButton from "../mapIconButton/MapIconButton";
-import { SocialFilter } from "../../../../types/custom";
+import { SocialFilter } from "../../../../types/filters";
 import styles from "./styles";
 import { useMapContext } from "../../../../hooks/context/MapContext";
 import { dispatchClearHistory } from "../../../../state/storeUtils";

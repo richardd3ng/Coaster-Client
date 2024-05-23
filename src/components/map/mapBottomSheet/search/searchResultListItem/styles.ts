@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { BOTTOM_SHEET_MODAL_PADDING } from "../../../../../constants/globalStyles";
+import globalStyles from "../../../../../constants/theme/globalStyles";
 
 const styles = StyleSheet.create({
     addressText: {
@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
     divider: { backgroundColor: "gray", marginLeft: 72 },
     listItemContainer: {
         flexDirection: "row",
-        backgroundColor: "#EAEAEA",
-        paddingHorizontal: BOTTOM_SHEET_MODAL_PADDING,
+        backgroundColor: globalStyles.common.backgroundColor,
+        paddingHorizontal: globalStyles.bottomSheetModal.paddingHorizontal,
         paddingVertical: 12,
     },
     placeText: {

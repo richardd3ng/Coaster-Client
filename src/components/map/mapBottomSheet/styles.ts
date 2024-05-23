@@ -1,7 +1,5 @@
 import { StyleSheet } from "react-native";
-import globalStyles from "../../../constants/globalStyles";
-
-const bottomSheetModalStyles = globalStyles.bottomSheetModal;
+import globalStyles from "../../../constants/theme/globalStyles";
 
 const styles = StyleSheet.create({
     cancelText: {
@@ -11,12 +9,12 @@ const styles = StyleSheet.create({
     bottomSheetContentContainer: {
         flex: 1,
         alignItems: "center",
-        backgroundColor: "#EAEAEA",
+        backgroundColor: globalStyles.common.backgroundColor,
     },
     bottomSheetHandle: {
-        backgroundColor: "#EAEAEA",
-        borderTopRightRadius: bottomSheetModalStyles.borderRadius,
-        borderTopLeftRadius: bottomSheetModalStyles.borderRadius,
+        backgroundColor: globalStyles.common.backgroundColor,
+        borderTopRightRadius: globalStyles.bottomSheetModal.borderRadius,
+        borderTopLeftRadius: globalStyles.bottomSheetModal.borderRadius,
     },
     bottomSheetTextInput: {
         paddingRight: 12,
@@ -25,9 +23,9 @@ const styles = StyleSheet.create({
     bottomSheetTopRow: {
         flexDirection: "row",
         verticalAlign: "middle",
-        paddingHorizontal: bottomSheetModalStyles.paddingHorizontal,
+        paddingHorizontal: globalStyles.bottomSheetModal.paddingHorizontal,
         paddingBottom: 24,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: globalStyles.common.backgroundColor,
     },
     cancelButton: {
         alignSelf: "center",
@@ -46,8 +44,8 @@ const styles = StyleSheet.create({
     headerText: {
         color: "#6E6E6E",
         fontSize: 16,
-        paddingHorizontal: bottomSheetModalStyles.paddingHorizontal,
-        paddingBottom: bottomSheetModalStyles.paddingHorizontal / 2,
+        paddingHorizontal: globalStyles.bottomSheetModal.paddingHorizontal,
+        paddingBottom: globalStyles.bottomSheetModal.paddingHorizontal / 2,
     },
     jamSessionStack: {
         flex: 1,

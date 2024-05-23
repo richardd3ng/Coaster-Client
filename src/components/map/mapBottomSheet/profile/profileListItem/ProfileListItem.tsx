@@ -3,7 +3,7 @@ import { StyleProp, Text, View, ViewStyle } from "react-native";
 
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
 import IconButton from "../../../../shared/iconButton/IconButton";
-import { ProfileOption } from "../../../../../types/custom";
+import { ProfileOption } from "../../../../../types/navigation";
 import styles from "./styles";
 
 export interface ProfileListItemProps {

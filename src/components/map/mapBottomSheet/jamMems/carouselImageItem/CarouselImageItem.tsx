@@ -9,7 +9,7 @@ import {
     useBottomSheet,
 } from "../../../../../hooks/context/BottomSheetContext";
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
-import { JamMemMetadata } from "../../../../../types/custom";
+import { JamMemMetadata } from "../../../../../types/entities";
 import { ModalType, useModal } from "../../../../../hooks/context/ModalContext";
 import { dispatchSetSelectedJamMemId } from "../../../../../state/storeUtils";
 import styles from "./styles";

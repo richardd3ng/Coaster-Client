@@ -3,7 +3,7 @@ import { useState } from "react";
 import ConfirmationDialog from "../../../../shared/confirmationDialog/ConfirmationDialog";
 import IconButton from "../../../../shared/iconButton/IconButton";
 import ProfileListItem from "../profileListItem/ProfileListItem";
-import { ProfileOption } from "../../../../../types/custom";
+import { ProfileOption } from "../../../../../types/navigation";
 import { ScreenName, StackNavigation } from "../../../../../types/navigation";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";

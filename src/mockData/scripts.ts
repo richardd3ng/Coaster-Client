@@ -1,7 +1,7 @@
 import { PointFeature } from "supercluster";
 
 import { SongPointProps } from "../utils/superclusterManager";
-import { Song } from "../types/custom";
+import { Song } from "../types/entities";
 
 export const generateSongs: () => Song[] = () => {
     const songData: Song[] = [];

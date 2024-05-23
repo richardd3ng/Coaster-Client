@@ -1,4 +1,4 @@
-import { Song } from "../types/custom";
+import { Song } from "../types/entities";
 import { mockSongData } from "../mockData/constants";
 
 export const fetchManySongs = async (songIds: number[]): Promise<Song[]> => {

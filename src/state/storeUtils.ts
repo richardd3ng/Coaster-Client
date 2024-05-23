@@ -8,7 +8,7 @@ import {
     setSelectedClusterAction,
     setSelectedJamMemIdAction,
 } from "./actions";
-import { LocationTimestamp } from "../types/custom";
+import { LocationTimestamp } from "../types/entities";
 import { SongCluster } from "../utils/superclusterManager";
 
 /* dispatchers */

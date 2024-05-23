@@ -5,7 +5,7 @@ import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import Account from "../account/Account";
 import Logout from "../logout/Logout";
 import Preferences from "../preferences/Preferences";
-import { ProfileOption } from "../../../../../types/custom";
+import { ProfileOption } from "../../../../../types/navigation";
 import styles from "./styles";
 
 const componentMap = new Map<ProfileOption, JSX.Element>([

@@ -1,5 +1,5 @@
 import { mockJamMemData } from "../mockData/constants";
-import { JamMem, JamMemMetadata } from "../types/custom";
+import { JamMem, JamMemMetadata } from "../types/entities";
 
 export const fetchJamMemMetadatas = async (): Promise<JamMemMetadata[]> => {
     await new Promise((resolve) => setTimeout(resolve, 5000)); // Simulate network delay

@@ -20,3 +20,14 @@ export type RootStackParamList = {
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;
+
+export enum ProfileOption {
+    Account = "Account Settings",
+    Preferences = "Preferences",
+    Logout = "Log Out",
+}
+
+export enum PreferencesOption {
+    TrackSnapshots = "Track Snapshots",
+    ShareSnapshots = "Share Snapshots",
+}

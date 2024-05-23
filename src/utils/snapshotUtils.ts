@@ -1,5 +1,5 @@
 import { getHistoryState } from "../state/storeUtils";
-import { LocationTimestamp } from "../types/custom";
+import { LocationTimestamp } from "../types/entities";
 
 export const getClosestLocationTimestamp = (
     timestamp: number

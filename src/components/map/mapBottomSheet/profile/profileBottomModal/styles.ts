@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
-import globalStyles from "../../../../../constants/globalStyles";
+
+import globalStyles from "../../../../../constants/theme/globalStyles";
 
 const styles = StyleSheet.create({
     bottomSheetModal: {
-        backgroundColor: "#EAEAEA",
+        backgroundColor: globalStyles.common.backgroundColor,
     },
     bottomSheetModalContainer: {
         flex: 1,
@@ -19,9 +20,9 @@ const styles = StyleSheet.create({
     profileBottomModalTopRow: {
         flexDirection: "row",
         padding: globalStyles.bottomSheetModal.paddingHorizontal,
-        backgroundColor: "#EAEAEA",
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
+        backgroundColor: globalStyles.common.backgroundColor,
+        borderTopLeftRadius: globalStyles.bottomSheetModal.borderRadius,
+        borderTopRightRadius: globalStyles.bottomSheetModal.borderRadius,
     },
     profileIconButton: {
         height: 50,

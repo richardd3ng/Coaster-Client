@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-import { DateFilter, SocialFilter } from "../../types/custom";
+import { DateFilter, SocialFilter } from "../../types/filters";
 import {
     DEFAULT_DATE_FILTER,
     DEFAULT_SOCIAL_FILTER,
-} from "../../utils/defaults";
+} from "../../constants/defaults";
 
 interface MapContextType {
     dateFilter: DateFilter;

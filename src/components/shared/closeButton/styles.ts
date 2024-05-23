@@ -6,14 +6,12 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 14,
         right: 14,
-        borderWidth: 1,
-        borderColor: "gainsboro",
         backgroundColor: "gainsboro",
     },
     icon: {
         width: 24,
         height: 24,
-    }
+    },
 });
 
 export default styles;

@@ -18,7 +18,7 @@ import {
 } from "../../../../hooks/context/ModalContext";
 import { fetchManySongs } from "../../../../api/songAPI";
 import { RootState } from "../../../../state/store";
-import { Song } from "../../../../types/custom";
+import { Song } from "../../../../types/entities";
 import styles from "./styles";
 
 export interface SongFrequency extends Song {
