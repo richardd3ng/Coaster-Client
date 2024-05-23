@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+import createStyles from "./styles";
 import { ScreenName, StackNavigation } from "../../types/navigation";
-import styles from "./styles";
 import superclusterManager from "../../utils/superclusterManager";
+import useThemeAwareObject from "../../hooks/useThemeAwareObject";
 
 const LoadingScreen: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
     const [loading, setLoading] = useState<boolean>(true);
     const { navigate } = useNavigation<StackNavigation>();
 

@@ -11,6 +11,7 @@ import {
     useBottomSheet,
 } from "../../../../hooks/context/BottomSheetContext";
 import CloseButton from "../../../shared/closeButton/CloseButton";
+import createStyles from "./styles";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
@@ -19,13 +20,14 @@ import {
 import { fetchManySongs } from "../../../../api/songAPI";
 import { RootState } from "../../../../state/store";
 import { Song } from "../../../../types/entities";
-import styles from "./styles";
+import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
 
 export interface SongFrequency extends Song {
     frequency: number;
 }
 
 const ClusterBottomModal: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
     const { refs: modalRefs, dismiss, snapIndexes } = useModal();
     const { setSnapIndex } = useBottomSheet();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);

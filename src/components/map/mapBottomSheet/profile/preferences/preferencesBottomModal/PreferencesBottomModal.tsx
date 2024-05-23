@@ -5,15 +5,17 @@ import { Text, View } from "react-native";
 
 import BottomModalWrapper from "../../../../../shared/bottomModalWrapper/BottomModalWrapper";
 import CloseButton from "../../../../../shared/closeButton/CloseButton";
+import createStyles from "./styles";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
     useModal,
 } from "../../../../../../hooks/context/ModalContext";
 import PreferencesList from "../preferencesList/PreferencesList";
-import styles from "./styles";
+import useThemeAwareObject from "../../../../../../hooks/useThemeAwareObject";
 
 const PreferencesBottomModal: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
     const { refs: modalRefs, dismiss } = useModal();
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[1]], []);
 
@@ -26,7 +28,7 @@ const PreferencesBottomModal: React.FC = () => {
     const TopRow: React.FC = () => {
         return (
             <View style={styles.preferencesBottomModalTopRow}>
-                <Text style={styles.HeaderText}>Preferences</Text>
+                <Text style={styles.headerText}>Preferences</Text>
                 <CloseButton onPress={() => dismiss(ModalType.Preferences)} />
             </View>
         );

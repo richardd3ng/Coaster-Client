@@ -2,9 +2,9 @@ import { Divider } from "@ui-kitten/components";
 import { StyleProp, Switch, Text, View, ViewStyle } from "react-native";
 
 import CustomPressable from "../../../../../shared/customPressable/CustomPressable";
-import globalStyles from "../../../../../../constants/theme/globalStyles";
+import createStyles from "./styles";
 import { PreferencesOption } from "../../../../../../types/navigation";
-import styles from "./styles";
+import useThemeAwareObject from "../../../../../../hooks/useThemeAwareObject";
 
 export interface ToggledListItemProps {
     text: PreferencesOption;
@@ -21,13 +21,15 @@ const ToggledListItem: React.FC<ToggledListItemProps> = ({
     style,
     isEnabled,
 }: ToggledListItemProps) => {
+    const styles = useThemeAwareObject(createStyles);
+
     return (
         <CustomPressable onPress={onPress}>
             <View style={[styles.container, style]}>
                 <Text style={styles.text}>{text}</Text>
                 <Switch
                     trackColor={{
-                        false: globalStyles.common.backgroundColor,
+                        false: styles.switch.backgroundColor,
                         true: "#32CD32",
                     }}
                     value={isEnabled}

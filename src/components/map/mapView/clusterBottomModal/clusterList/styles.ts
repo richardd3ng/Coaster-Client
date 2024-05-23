@@ -1,18 +1,20 @@
 import { StyleSheet } from "react-native";
 
-import globalStyles from "../../../../../constants/theme/globalStyles";
+import { Theme } from "../../../../../types/theme";
 
-const styles = StyleSheet.create({
-    divider: {
-        width: "100%",
-        backgroundColor: globalStyles.common.backgroundColor,
-        height: 10,
-    },
-    flatList: {
-        paddingTop: 36,
-        backgroundColor: globalStyles.common.backgroundColor,
-        paddingHorizontal: globalStyles.bottomSheetModal.paddingHorizontal,
-    },
-});
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        divider: {
+            width: "100%",
+            backgroundColor: theme.color.background,
+            height: 10,
+        },
+        flatList: {
+            paddingTop: 36,
+            backgroundColor: theme.color.background,
+            paddingHorizontal: theme.spacing.double,
+        },
+    });
+};
 
-export default styles;
+export default createStyles;

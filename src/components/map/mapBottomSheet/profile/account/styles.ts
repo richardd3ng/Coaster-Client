@@ -1,13 +1,17 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-    icon: {
-        backgroundColor: "lightblue",
-    },
-    profileListItem: {
-        borderTopRightRadius: 10,
-        borderTopLeftRadius: 10,
-    },
-});
+import { Theme } from "../../../../../types/theme";
 
-export default styles;
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        icon: {
+            backgroundColor: "lightblue",
+        },
+        profileListItem: {
+            borderTopRightRadius: theme.border.radiusSecondary,
+            borderTopLeftRadius: theme.border.radiusSecondary,
+        },
+    });
+};
+
+export default createStyles;

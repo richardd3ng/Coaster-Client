@@ -2,10 +2,11 @@ import { useCallback } from "react";
 
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 
+import createStyles from "./styles";
 import { PreferencesOption } from "../../../../../../types/navigation";
 import ShareSnapshots from "../shareSnapshots/ShareSnapshots";
-import styles from "./styles";
 import TrackSnapshots from "../trackSnapshots/TrackSnapshots";
+import useThemeAwareObject from "../../../../../../hooks/useThemeAwareObject";
 
 const componentMap = new Map<PreferencesOption, JSX.Element>([
     [PreferencesOption.TrackSnapshots, <TrackSnapshots />],
@@ -13,6 +14,8 @@ const componentMap = new Map<PreferencesOption, JSX.Element>([
 ]);
 
 const PreferencesList: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
+    
     const renderItem = useCallback(
         ({ item }: { item: PreferencesOption }) => componentMap.get(item)!,
         []

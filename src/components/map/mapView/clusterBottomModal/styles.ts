@@ -1,9 +1,13 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-    bottomSheetModal: {
-        backgroundColor: "#EAEAEA",
-    },
-});
+import { Theme } from "../../../../types/theme";
 
-export default styles;
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        bottomSheetModal: {
+            backgroundColor: theme.color.background,
+        },
+    });
+};
+
+export default createStyles;

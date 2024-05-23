@@ -5,6 +5,7 @@ import { Text, View } from "react-native";
 
 import BottomModalWrapper from "../../../../shared/bottomModalWrapper/BottomModalWrapper";
 import CloseButton from "../../../../shared/closeButton/CloseButton";
+import createStyles from "./styles";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
@@ -12,9 +13,10 @@ import {
 } from "../../../../../hooks/context/ModalContext";
 import IconButton from "../../../../shared/iconButton/IconButton";
 import ProfileList from "../profileList/ProfileList";
-import styles from "./styles";
+import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 const ProfileBottomModal: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
     const { refs: modalRefs, dismiss, isVisible } = useModal();
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[1]], []);
 

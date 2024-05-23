@@ -1,22 +1,24 @@
 import { StyleSheet } from "react-native";
 
-import globalStyles from "../../../../../../constants/theme/globalStyles";
+import { Theme } from "../../../../../../types/theme";
 
-const styles = StyleSheet.create({
-    bottomSheetModal: {
-        backgroundColor: globalStyles.common.backgroundColor,
-    },
-    HeaderText: {
-        fontSize: 20,
-        fontWeight: "bold",
-    },
-    preferencesBottomModalTopRow: {
-        flexDirection: "row",
-        padding: globalStyles.bottomSheetModal.paddingHorizontal,
-        backgroundColor: globalStyles.common.backgroundColor,
-        borderTopLeftRadius: globalStyles.bottomSheetModal.borderRadius,
-        borderTopRightRadius: globalStyles.bottomSheetModal.borderRadius,
-    },
-});
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        bottomSheetModal: {
+            backgroundColor: theme.color.background,
+        },
+        headerText: {
+            fontSize: theme.font.xlarge,
+            fontWeight: "bold",
+        },
+        preferencesBottomModalTopRow: {
+            flexDirection: "row",
+            padding: theme.spacing.double,
+            backgroundColor: theme.color.background,
+            borderTopLeftRadius: theme.border.radiusPrimary,
+            borderTopRightRadius: theme.border.radiusPrimary,
+        },
+    });
+};
 
-export default styles;
+export default createStyles;

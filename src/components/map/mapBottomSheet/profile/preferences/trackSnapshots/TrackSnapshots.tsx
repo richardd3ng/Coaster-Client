@@ -1,11 +1,13 @@
 import { useState } from "react";
 
 import ConfirmationDialog from "../../../../../shared/confirmationDialog/ConfirmationDialog";
+import createStyles from "./styles";
 import { PreferencesOption } from "../../../../../../types/navigation";
-import styles from "./styles";
 import ToggledListItem from "../toggledListItem/ToggledListItem";
+import useThemeAwareObject from "../../../../../../hooks/useThemeAwareObject";
 
 const TrackSnapshots: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
     const [showConfiramtionDialog, setShowConfirmationDialog] =
         useState<boolean>(false);
     const [isEnabled, setIsEnabled] = useState<boolean>(false);

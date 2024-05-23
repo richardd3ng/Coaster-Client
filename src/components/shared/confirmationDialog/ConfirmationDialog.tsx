@@ -3,8 +3,9 @@ import React from "react";
 import { Modal, View, Text } from "react-native";
 import { Divider } from "@ui-kitten/components";
 
-import styles from "./styles";
+import createStyles from "./styles";
 import TextButton from "../textButton/TextButton";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface ConfirmationDialogProps {
     open: boolean;
@@ -23,6 +24,8 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
     onConfirm,
     confirmText = "Confirm",
 }: ConfirmationDialogProps) => {
+    const styles = useThemeAwareObject(createStyles);
+
     const handleConfirm = () => {
         onClose();
         onConfirm();

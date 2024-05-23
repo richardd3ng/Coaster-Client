@@ -3,10 +3,11 @@ import { useCallback } from "react";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 
 import Account from "../account/Account";
+import createStyles from "./styles";
 import Logout from "../logout/Logout";
 import Preferences from "../preferences/Preferences";
 import { ProfileOption } from "../../../../../types/navigation";
-import styles from "./styles";
+import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 const componentMap = new Map<ProfileOption, JSX.Element>([
     [ProfileOption.Account, <Account />],
@@ -15,6 +16,7 @@ const componentMap = new Map<ProfileOption, JSX.Element>([
 ]);
 
 const ProfileList: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
     const renderItem = useCallback(
         ({ item }: { item: ProfileOption }) => componentMap.get(item)!,
         []

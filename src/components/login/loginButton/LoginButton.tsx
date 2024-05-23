@@ -6,9 +6,9 @@ import {
 } from "expo-auth-session";
 import { Text } from "react-native";
 
+import createStyles from "./styles";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import SpotifyIcon from "../spotifyIcon/SpotifyIcon";
-import styles from "./styles";
 import { ScreenName, StackNavigation } from "../../../types/navigation";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -16,6 +16,7 @@ import {
     SPOTIFY_CLIENT_SECRET,
     SPOTIFY_REDIRECT_URI,
 } from "@env";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const discovery = {
     authorizationEndpoint: "https://accounts.spotify.com/authorize",
@@ -23,6 +24,7 @@ const discovery = {
 };
 
 const LoginButton = () => {
+    const styles = useThemeAwareObject(createStyles);
     const { navigate } = useNavigation<StackNavigation>();
     const [request, response, promptAsync] = useAuthRequest(
         {

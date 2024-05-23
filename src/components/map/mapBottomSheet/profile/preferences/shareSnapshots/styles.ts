@@ -1,10 +1,14 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-    toggledListItem: {
-        borderBottomRightRadius: 10,
-        borderBottomLeftRadius: 10,
-    },
-});
+import { Theme } from "../../../../../../types/theme";
 
-export default styles;
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        toggledListItem: {
+            borderBottomRightRadius: theme.border.radiusSecondary,
+            borderBottomLeftRadius: theme.border.radiusSecondary,
+        },
+    });
+};
+
+export default createStyles;

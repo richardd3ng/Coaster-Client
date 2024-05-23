@@ -2,9 +2,10 @@ import { Divider } from "@ui-kitten/components";
 import { StyleProp, Text, View, ViewStyle } from "react-native";
 
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
+import createStyles from "./styles";
 import IconButton from "../../../../shared/iconButton/IconButton";
 import { ProfileOption } from "../../../../../types/navigation";
-import styles from "./styles";
+import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 export interface ProfileListItemProps {
     text: ProfileOption;
@@ -33,6 +34,8 @@ const ProfileListItem: React.FC<ProfileListItemProps> = ({
     textColor,
     style,
 }: ProfileListItemProps) => {
+    const styles = useThemeAwareObject(createStyles);
+
     return (
         <CustomPressable onPress={onPress}>
             <View style={[styles.container, style]}>

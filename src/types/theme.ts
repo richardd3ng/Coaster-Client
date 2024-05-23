@@ -1,9 +1,17 @@
+export interface BorderTheme {
+    radiusPrimary: number;
+    radiusSecondary: number;
+}
+
 export interface ColorTheme {
-    primary: string;
-    onPrimary: string;
-    surface: string;
-    onSurface: string;
     background: string;
+}
+
+export interface FontTheme {
+    small: number;
+    medium: number;
+    large: number;
+    xlarge: number;
 }
 
 export interface SpacingTheme {
@@ -11,13 +19,10 @@ export interface SpacingTheme {
     double: number;
 }
 
-export interface BorderTheme {
-    radius: number;
-}
-
 export interface Theme {
     id: string;
+    border: BorderTheme;
+    font: FontTheme;
     color: ColorTheme;
     spacing: SpacingTheme;
-    border: BorderTheme;
 }

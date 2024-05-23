@@ -1,12 +1,14 @@
 import { StyleSheet } from "react-native";
 
-import globalStyles from "../../../../../constants/theme/globalStyles";
+import { Theme } from "../../../../../types/theme";
 
-const styles = StyleSheet.create({
-    flatlist: {
-        paddingHorizontal: globalStyles.bottomSheetModal.paddingHorizontal,
-        paddingBottom: 42,
-    },
-});
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        flatlist: {
+            paddingHorizontal: theme.spacing.double,
+            paddingBottom: 42,
+        },
+    });
+};
 
-export default styles;
+export default createStyles;

@@ -4,8 +4,9 @@ import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { Divider } from "@ui-kitten/components";
 
 import ClusterListItem from "../custerListItem/ClusterListItem";
+import createStyles from "./styles";
 import { SongFrequency } from "../ClusterBottomModal";
-import styles from "./styles";
+import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 interface ClusterListProps {
     clusterData: SongFrequency[];
@@ -14,6 +15,8 @@ interface ClusterListProps {
 const ClusterList: React.FC<ClusterListProps> = ({
     clusterData,
 }: ClusterListProps) => {
+    const styles = useThemeAwareObject(createStyles);
+
     const renderItem = useCallback(
         ({ item }: { item: SongFrequency }) => (
             <ClusterListItem songFrequency={item} />

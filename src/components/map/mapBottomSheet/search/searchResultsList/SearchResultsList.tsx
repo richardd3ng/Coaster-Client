@@ -5,9 +5,10 @@ import { Divider } from "@ui-kitten/components";
 import { Text, View } from "react-native";
 
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
+import createStyles from "./styles";
 import { PlaceData } from "../../../../../api/locationAPI";
 import SearchResultListItem from "../searchResultListItem/SearchResultListItem";
-import styles from "./styles";
+import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 interface SearchResultsListProps {
     results: PlaceData[];
@@ -16,6 +17,8 @@ interface SearchResultsListProps {
 const SearchResultsList: React.FC<SearchResultsListProps> = ({
     results,
 }: SearchResultsListProps) => {
+    const styles = useThemeAwareObject(createStyles);
+
     const renderItem = useCallback(
         ({ item }: { item: PlaceData }) => <SearchResultListItem item={item} />,
         []

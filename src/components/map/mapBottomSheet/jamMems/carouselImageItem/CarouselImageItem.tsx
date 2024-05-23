@@ -9,10 +9,11 @@ import {
     useBottomSheet,
 } from "../../../../../hooks/context/BottomSheetContext";
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
+import createStyles from "./styles";
 import { JamMemMetadata } from "../../../../../types/entities";
 import { ModalType, useModal } from "../../../../../hooks/context/ModalContext";
 import { dispatchSetSelectedJamMemId } from "../../../../../state/storeUtils";
-import styles from "./styles";
+import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 interface CarouselImageItemProps {
     style?: StyleProp<ViewStyle>;
@@ -23,6 +24,7 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
     jamMem,
     ...props
 }: CarouselImageItemProps) => {
+    const styles = useThemeAwareObject(createStyles);
     const source = useRef<ImageURISource>({
         uri: `https://picsum.photos/id/0/400/300`,
     }).current;

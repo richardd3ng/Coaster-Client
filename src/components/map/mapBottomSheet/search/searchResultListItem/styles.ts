@@ -1,26 +1,28 @@
 import { StyleSheet } from "react-native";
 
-import globalStyles from "../../../../../constants/theme/globalStyles";
+import { Theme } from "../../../../../types/theme";
 
-const styles = StyleSheet.create({
-    addressText: {
-        fontSize: 14,
-    },
-    divider: { backgroundColor: "gray", marginLeft: 72 },
-    listItemContainer: {
-        flexDirection: "row",
-        backgroundColor: globalStyles.common.backgroundColor,
-        paddingHorizontal: globalStyles.bottomSheetModal.paddingHorizontal,
-        paddingVertical: 12,
-    },
-    placeText: {
-        fontSize: 16,
-    },
-    textContainer: {
-        paddingLeft: 16,
-        justifyContent: "center",
-        paddingRight: 32,
-    },
-});
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        addressText: {
+            fontSize: theme.font.small,
+        },
+        divider: { backgroundColor: "gray", marginLeft: 72 },
+        listItemContainer: {
+            flexDirection: "row",
+            backgroundColor: theme.color.background,
+            paddingHorizontal: theme.spacing.double,
+            paddingVertical: 12,
+        },
+        placeText: {
+            fontSize: theme.font.medium,
+        },
+        textContainer: {
+            paddingLeft: theme.font.medium,
+            justifyContent: "center",
+            paddingRight: 32,
+        },
+    });
+};
 
-export default styles;
+export default createStyles;

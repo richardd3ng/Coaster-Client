@@ -7,11 +7,12 @@ import {
     useBottomSheet,
 } from "../../../../../hooks/context/BottomSheetContext";
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
+import createStyles from "./styles";
 import IconButton from "../../../../shared/iconButton/IconButton";
 import { PlaceData } from "../../../../../api/locationAPI";
 import { dispatchSetCurrentRegion } from "../../../../../state/storeUtils";
-import styles from "./styles";
 import { useMapContext } from "../../../../../hooks/context/MapContext";
+import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 interface SearchResultListItemProps {
     item: PlaceData;
@@ -30,6 +31,7 @@ const LocationIcon = () => {
 const SearchResultListItem: React.FC<SearchResultListItemProps> = ({
     item,
 }: SearchResultListItemProps) => {
+    const styles = useThemeAwareObject(createStyles);
     const { setFollowsUserLocation } = useMapContext();
     const { setSnapIndex } = useBottomSheet();
 

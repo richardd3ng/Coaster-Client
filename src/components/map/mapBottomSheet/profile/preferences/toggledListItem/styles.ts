@@ -1,18 +1,25 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        paddingHorizontal: 8,
-        paddingVertical: 8,
-        backgroundColor: "white",
-        alignItems: "center",
-    },
-    divider: { backgroundColor: "gray" },
-    text: {
-        fontSize: 16,
-        flex: 1,
-    },
-});
+import { Theme } from "../../../../../../types/theme";
 
-export default styles;
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        container: {
+            flexDirection: "row",
+            paddingHorizontal: theme.spacing.base,
+            paddingVertical: theme.spacing.base,
+            backgroundColor: "white",
+            alignItems: "center",
+        },
+        divider: { backgroundColor: "gray" },
+        switch: {
+            backgroundColor: theme.color.background,
+        },
+        text: {
+            fontSize: theme.font.medium,
+            flex: 1,
+        },
+    });
+};
+
+export default createStyles;
