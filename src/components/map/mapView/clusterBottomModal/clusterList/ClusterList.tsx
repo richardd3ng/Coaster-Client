@@ -4,7 +4,7 @@ import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { Divider } from "@ui-kitten/components";
 
 import ClusterListItem from "../custerListItem/ClusterListItem";
-import { SongFrequency } from "../clusterBottomModal";
+import { SongFrequency } from "../ClusterBottomModal";
 import styles from "./styles";
 
 interface ClusterListProps {

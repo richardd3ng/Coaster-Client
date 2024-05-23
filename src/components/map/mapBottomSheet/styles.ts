@@ -1,4 +1,7 @@
 import { StyleSheet } from "react-native";
+import globalStyles from "../../../constants/globalStyles";
+
+const bottomSheetModalStyles = globalStyles.bottomSheetModal;
 
 const styles = StyleSheet.create({
     cancelText: {
@@ -12,8 +15,8 @@ const styles = StyleSheet.create({
     },
     bottomSheetHandle: {
         backgroundColor: "#EAEAEA",
-        borderTopRightRadius: 15,
-        borderTopLeftRadius: 15,
+        borderTopRightRadius: bottomSheetModalStyles.borderRadius,
+        borderTopLeftRadius: bottomSheetModalStyles.borderRadius,
     },
     bottomSheetTextInput: {
         paddingRight: 12,
@@ -22,7 +25,7 @@ const styles = StyleSheet.create({
     bottomSheetTopRow: {
         flexDirection: "row",
         verticalAlign: "middle",
-        paddingHorizontal: 16,
+        paddingHorizontal: bottomSheetModalStyles.paddingHorizontal,
         paddingBottom: 24,
         backgroundColor: "#EAEAEA",
     },
@@ -43,24 +46,20 @@ const styles = StyleSheet.create({
     headerText: {
         color: "#6E6E6E",
         fontSize: 16,
-        borderRadius: 5,
-        overflow: "hidden",
-        paddingLeft: 16,
-        paddingBottom: 8,
+        paddingHorizontal: bottomSheetModalStyles.paddingHorizontal,
+        paddingBottom: bottomSheetModalStyles.paddingHorizontal / 2,
     },
     jamSessionStack: {
         flex: 1,
-        paddingTop: 20,
+        paddingTop: 20, // only show top row when at snap index 0, space feels a bit awkward tho
         flexDirection: "column",
         width: "100%",
-        // justifyContent: "flex-start",
-        // alignItems: "flex-start",
     },
     profileIconButton: {
         height: 40,
         width: 40,
         backgroundColor: "lightgray",
-        borderRadius: 25,
+        borderRadius: 20,
     },
 });
 

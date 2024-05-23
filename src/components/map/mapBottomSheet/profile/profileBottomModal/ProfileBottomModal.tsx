@@ -1,12 +1,9 @@
 import { useCallback, useMemo } from "react";
 
-import {
-    BottomSheetModal,
-    BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Text, View } from "react-native";
 
+import BottomModalWrapper from "../../../../shared/bottomModalWrapper/BottomModalWrapper";
 import CloseButton from "../../../../shared/closeButton/CloseButton";
 import {
     DEFAULT_SNAP_POINTS,
@@ -45,33 +42,31 @@ const ProfileBottomModal: React.FC = () => {
     };
 
     return (
-        <GestureHandlerRootView style={styles.gestureHandlerRootView}>
-            <BottomSheetModalProvider>
-                <View
-                    style={{
-                        ...styles.bottomSheetModalContainer,
-                        pointerEvents: isVisible(ModalType.Profile)
-                            ? undefined
-                            : "box-none",
-                        backgroundColor: isVisible(ModalType.Profile)
-                            ? "rgba(128, 128, 128, 0.25)"
-                            : undefined,
-                    }}
+        <BottomModalWrapper>
+            <View
+                style={{
+                    ...styles.bottomSheetModalContainer,
+                    pointerEvents: isVisible(ModalType.Profile)
+                        ? undefined
+                        : "box-none",
+                    backgroundColor: isVisible(ModalType.Profile)
+                        ? "rgba(128, 128, 128, 0.25)"
+                        : undefined,
+                }}
+            >
+                <BottomSheetModal
+                    ref={modalRefs[ModalType.Profile]}
+                    index={0}
+                    snapPoints={snapPoints}
+                    onChange={handleSheetChanges}
+                    handleComponent={null}
+                    backgroundStyle={styles.bottomSheetModal}
                 >
-                    <BottomSheetModal
-                        ref={modalRefs[ModalType.Profile]}
-                        index={0}
-                        snapPoints={snapPoints}
-                        onChange={handleSheetChanges}
-                        handleComponent={null}
-                        backgroundStyle={styles.bottomSheetModal}
-                    >
-                        <TopRow />
-                        <ProfileList />
-                    </BottomSheetModal>
-                </View>
-            </BottomSheetModalProvider>
-        </GestureHandlerRootView>
+                    <TopRow />
+                    <ProfileList />
+                </BottomSheetModal>
+            </View>
+        </BottomModalWrapper>
     );
 };
 

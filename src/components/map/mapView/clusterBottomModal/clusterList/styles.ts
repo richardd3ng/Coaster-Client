@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+import globalStyles from "../../../../../constants/globalStyles";
+
 const styles = StyleSheet.create({
     divider: {
         width: "100%",
@@ -7,9 +9,9 @@ const styles = StyleSheet.create({
         height: 10,
     },
     flatList: {
-        paddingTop: 24,
+        paddingTop: 36,
         backgroundColor: "#EAEAEA",
-        paddingHorizontal: 16,
+        paddingHorizontal: globalStyles.bottomSheetModal.paddingHorizontal,
     },
 });
 

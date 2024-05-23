@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     titleText: {
-        // paddingHorizontal: 6,
         fontWeight: "bold",
         fontSize: 16,
     },

@@ -1,12 +1,9 @@
 import { useCallback, useMemo } from "react";
 
-import {
-    BottomSheetModal,
-    BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Text, View } from "react-native";
 
+import BottomModalWrapper from "../../../../../shared/bottomModalWrapper/BottomModalWrapper";
 import CloseButton from "../../../../../shared/closeButton/CloseButton";
 import {
     DEFAULT_SNAP_POINTS,
@@ -36,21 +33,19 @@ const PreferencesBottomModal: React.FC = () => {
     };
 
     return (
-        <GestureHandlerRootView style={styles.gestureHandlerRootView}>
-            <BottomSheetModalProvider>
-                <BottomSheetModal
-                    ref={modalRefs[ModalType.Preferences]}
-                    index={0}
-                    snapPoints={snapPoints}
-                    onChange={handleSheetChanges}
-                    handleComponent={null}
-                    backgroundStyle={styles.bottomSheetModal}
-                >
-                    <TopRow />
-                    <PreferencesList />
-                </BottomSheetModal>
-            </BottomSheetModalProvider>
-        </GestureHandlerRootView>
+        <BottomModalWrapper>
+            <BottomSheetModal
+                ref={modalRefs[ModalType.Preferences]}
+                index={0}
+                snapPoints={snapPoints}
+                onChange={handleSheetChanges}
+                handleComponent={null}
+                backgroundStyle={styles.bottomSheetModal}
+            >
+                <TopRow />
+                <PreferencesList />
+            </BottomSheetModal>
+        </BottomModalWrapper>
     );
 };
 

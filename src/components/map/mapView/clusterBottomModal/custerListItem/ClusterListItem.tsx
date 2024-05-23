@@ -2,7 +2,7 @@ import { Image, Text, View } from "react-native";
 
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
 import styles from "./styles";
-import { SongFrequency } from "../clusterBottomModal";
+import { SongFrequency } from "../ClusterBottomModal";
 import { openSongInSpotify } from "../../../../../utils/spotifyUtils";
 
 interface ClusterListItemProps {

@@ -1,13 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 
-import {
-    BottomSheetModal,
-    BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Text } from "react-native";
 import { useSelector } from "react-redux";
 
+import BottomModalWrapper from "../../../shared/bottomModalWrapper/BottomModalWrapper";
+import ClusterList from "./clusterList/ClusterList";
 import {
     BottomSheetType,
     useBottomSheet,
@@ -18,11 +16,10 @@ import {
     ModalType,
     useModal,
 } from "../../../../hooks/context/ModalContext";
-import { RootState } from "../../../../state/store";
-import styles from "./styles";
-import { Song } from "../../../../types/custom";
 import { fetchManySongs } from "../../../../api/songAPI";
-import ClusterList from "./clusterList/ClusterList";
+import { RootState } from "../../../../state/store";
+import { Song } from "../../../../types/custom";
+import styles from "./styles";
 
 export interface SongFrequency extends Song {
     frequency: number;
@@ -68,22 +65,20 @@ const ClusterBottomModal: React.FC = () => {
     };
 
     return (
-        <GestureHandlerRootView style={styles.gestureHandlerRootView}>
-            <BottomSheetModalProvider>
-                <BottomSheetModal
-                    ref={modalRefs[ModalType.Cluster]}
-                    index={snapIndexes[ModalType.Cluster]}
-                    snapPoints={snapPoints}
-                    handleComponent={null}
-                    backgroundStyle={styles.container}
-                    onChange={handleSheetChanges}
-                >
-                    <Text>{selectedCluster?.size}</Text>
-                    <ClusterList clusterData={clusterData} />
-                    <CloseButton onPress={handleClose} />
-                </BottomSheetModal>
-            </BottomSheetModalProvider>
-        </GestureHandlerRootView>
+        <BottomModalWrapper>
+            <BottomSheetModal
+                ref={modalRefs[ModalType.Cluster]}
+                index={snapIndexes[ModalType.Cluster]}
+                snapPoints={snapPoints}
+                handleComponent={null}
+                backgroundStyle={styles.bottomSheetModal}
+                onChange={handleSheetChanges}
+            >
+                <Text>{selectedCluster?.size}</Text>
+                <ClusterList clusterData={clusterData} />
+                <CloseButton onPress={handleClose} />
+            </BottomSheetModal>
+        </BottomModalWrapper>
     );
 };
 

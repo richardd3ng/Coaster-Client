@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import globalStyles from "../../../../../constants/globalStyles";
 
 const styles = StyleSheet.create({
     bottomSheetModal: {
@@ -15,14 +16,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
     },
-    gestureHandlerRootView: {
-        ...StyleSheet.absoluteFillObject,
-        width: "100%",
-        pointerEvents: "box-none",
-    },
     profileBottomModalTopRow: {
         flexDirection: "row",
-        padding: 16,
+        padding: globalStyles.bottomSheetModal.paddingHorizontal,
         backgroundColor: "#EAEAEA",
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,

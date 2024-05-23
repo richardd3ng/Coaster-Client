@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+import { BOTTOM_SHEET_MODAL_PADDING } from "../../../../../constants/globalStyles";
+
 const styles = StyleSheet.create({
     addressText: {
         fontSize: 14,
@@ -8,7 +10,7 @@ const styles = StyleSheet.create({
     listItemContainer: {
         flexDirection: "row",
         backgroundColor: "#EAEAEA",
-        paddingHorizontal: 16,
+        paddingHorizontal: BOTTOM_SHEET_MODAL_PADDING,
         paddingVertical: 12,
     },
     placeText: {

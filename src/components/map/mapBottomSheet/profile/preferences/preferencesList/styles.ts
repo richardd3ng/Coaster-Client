@@ -1,9 +1,11 @@
 import { StyleSheet } from "react-native";
 
+import globalStyles from "../../../../../../constants/globalStyles";
+
 const styles = StyleSheet.create({
     flatlist: {
-        marginHorizontal: 16,
-        marginBottom: 42,
+        paddingHorizontal: globalStyles.bottomSheetModal.paddingHorizontal,
+        paddingBottom: 42,
     },
 });
 
