@@ -30,7 +30,7 @@ export const dispatchSetSelectedCluster = (cluster: SongCluster) => {
     store.dispatch(setSelectedClusterAction(cluster));
 };
 
-export const dispatchSetSelectedJamMemId = (id: number) => {
+export const dispatchSetSelectedJamMemId = (id: number | null) => {
     store.dispatch(setSelectedJamMemIdAction(id));
 };
 

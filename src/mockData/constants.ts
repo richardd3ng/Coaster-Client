@@ -1,51 +1,97 @@
 import { generateSongs } from "./scripts";
-import { JamMem, Song } from "../types/custom";
+import { JamMem, Song, User } from "../types/custom";
 import { PlaceData } from "../api/locationAPI";
+
+export const mockUserData: User[] = [
+    {
+        id: 1,
+        username: "shanggang",
+        displayName: "Jason Shang",
+    },
+    {
+        id: 2,
+        username: "rdengomng",
+        displayName: "Richard Deng",
+    },
+    {
+        id: 3,
+        username: "joshisacow",
+        displayName: "Josh Chen",
+    },
+    {
+        id: 4,
+        username: "anikapawlak",
+        displayName: "Anika Pawlak",
+    },
+    {
+        id: 5,
+        username: "doingdiane",
+        displayName: "Diane Lee",
+    },
+];
 
 export const mockSongData: Song[] = generateSongs();
 
 export const mockJamMemData: JamMem[] = [
     {
         id: 1,
+        ownerId: 1,
         place: "New York",
         title: "Jam Session in Central Park",
-        startTimestamp: 1630454400000,
-        endTimestamp: 1630497600000,
+        start: new Date(1630454400000),
+        end: new Date(1630497600000),
+        snapshots: [],
+        friends: mockUserData,
     },
     {
         id: 2,
+        ownerId: 1,
         place: "San Francisco",
         title: "Music under the Golden Gate Bridge",
-        startTimestamp: 1630454400000,
-        endTimestamp: 1630522800000,
+        start: new Date(1630454400000),
+        end: new Date(1630522800000),
+        snapshots: [],
+        friends: mockUserData,
     },
     {
         id: 3,
+        ownerId: 1,
         place: "Ohio",
         title: "This is a really long jam session title that may span a ton of lines",
-        startTimestamp: 1630454400000,
-        endTimestamp: 1630579200000,
+        start: new Date(1630454400000),
+        end: new Date(1630579200000),
+        snapshots: [],
+        friends: mockUserData,
     },
     {
         id: 4,
+        ownerId: 1,
         place: "Lake Tahoe",
         title: "Fishing Jam",
-        startTimestamp: 1630454400000,
-        endTimestamp: 1630747200000,
+        start: new Date(1630454400000),
+        end: new Date(1630747200000),
+        snapshots: [],
+        friends: mockUserData,
     },
     {
         id: 5,
+        ownerId: 1,
         place: "China",
         title: "Jason's House",
-        startTimestamp: 1630454400000,
-        endTimestamp: 1633065600000,
+        start: new Date(1630454400000),
+        end: new Date(1633065600000),
+        snapshots: [],
+        friends: mockUserData,
     },
     {
         id: 6,
+        ownerId: 1,
         place: "Myrtle Beach",
         title: "Spanish Galleon",
-        startTimestamp: 1630454400000,
-        endTimestamp: 1638148800000, // Three months later
+        start: new Date(1630454400000),
+        end: new Date(1638148800000),
+        snapshots: [],
+        friends: mockUserData,
     },
 ];
 

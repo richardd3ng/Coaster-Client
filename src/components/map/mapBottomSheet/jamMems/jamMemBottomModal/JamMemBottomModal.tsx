@@ -5,7 +5,7 @@ import {
     BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Text } from "react-native";
+import { ActivityIndicator, Text } from "react-native";
 import { useSelector } from "react-redux";
 
 import {
@@ -18,11 +18,11 @@ import {
     ModalType,
     useModal,
 } from "../../../../../hooks/context/ModalContext";
-import { INVALID_JAM_MEM_ID } from "../../../../../state/jamMem/jamMemSlice";
+import { fetchJamMem } from "../../../../../api/jamMemAPI";
 import { JamMem } from "../../../../../types/custom";
 import { RootState } from "../../../../../state/store";
-import { fetchJamMemDetails } from "../../../../../api/jamMemAPI";
 import styles from "./styles";
+import { dispatchSetSelectedJamMemId } from "../../../../../state/storeUtils";
 
 const JamMemBottomModal: React.FC = () => {
     const [selectedJamMem, setSelectedJamMem] = useState<JamMem | null>(null);
@@ -35,19 +35,17 @@ const JamMemBottomModal: React.FC = () => {
     });
 
     useEffect(() => {
-        const fetchJamMemData = async () => {
-            if (selectedJamMemId !== INVALID_JAM_MEM_ID) {
-                const jamMemDetails = await fetchJamMemDetails(
-                    selectedJamMemId
-                );
-                setSelectedJamMem(jamMemDetails);
+        const fetchJamMemDetails = async () => {
+            if (selectedJamMemId) {
+                setSelectedJamMem(await fetchJamMem(selectedJamMemId));
             }
         };
-
-        fetchJamMemData();
+        fetchJamMemDetails();
     }, [selectedJamMemId]);
 
     const handleClose = () => {
+        dispatchSetSelectedJamMemId(null);
+        setSelectedJamMem(null);
         dismiss(ModalType.JamMem);
         setSnapIndex(BottomSheetType.Map, 1);
     };
@@ -72,7 +70,7 @@ const JamMemBottomModal: React.FC = () => {
                     {selectedJamMem ? (
                         <Text>{selectedJamMem.title}</Text>
                     ) : (
-                        <Text>Loading...</Text> // TODO: Add loading spinner
+                        <ActivityIndicator />
                     )}
                     <CloseButton onPress={handleClose} />
                 </BottomSheetModal>

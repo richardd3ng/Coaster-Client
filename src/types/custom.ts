@@ -1,5 +1,13 @@
 import { LatLng } from "react-native-maps";
 
+/* Users */
+export interface User {
+    id: number;
+    username: string;
+    displayName: string;
+}
+
+/* Snapshots */
 export interface LocationTimestamp {
     coords: LatLng;
     timestamp: number;
@@ -10,14 +18,21 @@ export interface Snapshot {
     songId: number;
 }
 
+/* Jam Mems */
 export interface JamMem {
     id: number;
+    ownerId: number;
     place: string;
     title: string;
-    startTimestamp: number;
-    endTimestamp: number;
+    start: Date;
+    end: Date;
+    snapshots: Snapshot[];
+    friends: User[];
 }
 
+export interface JamMemMetadata extends Omit<JamMem, "snapshots" | "friends"> {}
+
+/* Songs */
 export interface Song {
     id: number;
     uri: string;
@@ -26,6 +41,7 @@ export interface Song {
     albumURI: string;
 }
 
+/* Misc. */
 export enum DateFilter {
     None,
     Week,

@@ -9,14 +9,14 @@ import {
     useBottomSheet,
 } from "../../../../../hooks/context/BottomSheetContext";
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
-import { JamMem } from "../../../../../types/custom";
+import { JamMemMetadata } from "../../../../../types/custom";
 import { ModalType, useModal } from "../../../../../hooks/context/ModalContext";
 import { dispatchSetSelectedJamMemId } from "../../../../../state/storeUtils";
 import styles from "./styles";
 
 interface CarouselImageItemProps {
     style?: StyleProp<ViewStyle>;
-    jamMem: JamMem;
+    jamMem: JamMemMetadata;
 }
 
 export const CarouselImageItem: React.FC<CarouselImageItemProps> = (
@@ -34,9 +34,9 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = (
                 <Text style={styles.titleText}>{props.jamMem.title}</Text>
                 <Text style={styles.placeText}>{props.jamMem.place}</Text>
                 <Text style={styles.dateText}>{`${new Date(
-                    props.jamMem.startTimestamp
+                    props.jamMem.start
                 ).toDateString()} - ${new Date(
-                    props.jamMem.endTimestamp
+                    props.jamMem.end
                 ).toDateString()}`}</Text>
             </View>
         );
