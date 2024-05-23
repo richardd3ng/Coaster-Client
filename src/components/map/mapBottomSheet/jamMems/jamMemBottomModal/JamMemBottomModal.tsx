@@ -1,13 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import {
     BottomSheetModal,
     BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { ActivityIndicator, Text } from "react-native";
+import { Text } from "react-native";
 import { useSelector } from "react-redux";
 
+import BottomModalLoading from "../../../../shared/bottomModalLoading/BottomModalLoading";
 import {
     BottomSheetType,
     useBottomSheet,
@@ -18,34 +19,31 @@ import {
     ModalType,
     useModal,
 } from "../../../../../hooks/context/ModalContext";
-import { fetchJamMem } from "../../../../../api/jamMemAPI";
-import { JamMem } from "../../../../../types/custom";
+import { dispatchSetSelectedJamMemId } from "../../../../../state/storeUtils";
 import { RootState } from "../../../../../state/store";
 import styles from "./styles";
-import { dispatchSetSelectedJamMemId } from "../../../../../state/storeUtils";
+import { useJamMem } from "../../../../../hooks/react-query/useQueryHooks";
+import BottomModalError from "../../../../shared/bottomModalError/BottomModalError";
 
 const JamMemBottomModal: React.FC = () => {
-    const [selectedJamMem, setSelectedJamMem] = useState<JamMem | null>(null);
     const { refs: modalRefs, dismiss, snapIndexes } = useModal();
     const { setSnapIndex } = useBottomSheet();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
 
     const selectedJamMemId = useSelector((state: RootState) => {
         return state.jamMem.selectedJamMemId;
-    });
+    })!;
 
-    useEffect(() => {
-        const fetchJamMemDetails = async () => {
-            if (selectedJamMemId) {
-                setSelectedJamMem(await fetchJamMem(selectedJamMemId));
-            }
-        };
-        fetchJamMemDetails();
-    }, [selectedJamMemId]);
+    const {
+        data: selectedJamMem,
+        isLoading,
+        isError,
+        error,
+        refetch,
+    } = useJamMem(selectedJamMemId);
 
     const handleClose = () => {
         dispatchSetSelectedJamMemId(null);
-        setSelectedJamMem(null);
         dismiss(ModalType.JamMem);
         setSnapIndex(BottomSheetType.Map, 1);
     };
@@ -55,6 +53,18 @@ const JamMemBottomModal: React.FC = () => {
             handleClose();
         }
     };
+
+    const ModalContent = isLoading ? (
+        <BottomModalLoading />
+    ) : isError ? (
+        <BottomModalError
+            message={error.message}
+            suggestion="Server may be down"
+            onTryAgain={refetch}
+        />
+    ) : selectedJamMem ? (
+        <Text>{selectedJamMem.title}</Text>
+    ) : null;
 
     return (
         <GestureHandlerRootView style={styles.gestureHandlerRootView}>
@@ -67,11 +77,7 @@ const JamMemBottomModal: React.FC = () => {
                     backgroundStyle={styles.container}
                     onChange={handleSheetChanges}
                 >
-                    {selectedJamMem ? (
-                        <Text>{selectedJamMem.title}</Text>
-                    ) : (
-                        <ActivityIndicator />
-                    )}
+                    {ModalContent}
                     <CloseButton onPress={handleClose} />
                 </BottomSheetModal>
             </BottomSheetModalProvider>

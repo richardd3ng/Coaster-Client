@@ -15,7 +15,7 @@ const JamMemsCarousel = () => {
 
     useEffect(() => {
         const fetchJamMemsForUser = async () => {
-            setJamMems(await fetchJamMemMetadatas(1));
+            setJamMems(await fetchJamMemMetadatas());
         };
         fetchJamMemsForUser();
     }, []);
