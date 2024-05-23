@@ -1,9 +1,10 @@
 import { Image, Text, View } from "react-native";
 
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
-import styles from "./styles";
+import createStyles from "./styles";
 import { SongFrequency } from "../ClusterBottomModal";
 import { openSongInSpotify } from "../../../../../utils/spotifyUtils";
+import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 interface ClusterListItemProps {
     songFrequency: SongFrequency;
@@ -12,6 +13,8 @@ interface ClusterListItemProps {
 const ClusterListItem: React.FC<ClusterListItemProps> = ({
     songFrequency,
 }: ClusterListItemProps) => {
+    const styles = useThemeAwareObject(createStyles);
+
     const handleSelect = () => {
         openSongInSpotify(songFrequency.uri);
     };
