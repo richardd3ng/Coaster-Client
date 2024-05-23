@@ -5,7 +5,7 @@ import { Divider } from "@ui-kitten/components";
 
 import ClusterListItem from "../custerListItem/ClusterListItem";
 import createStyles from "./styles";
-import { SongFrequency } from "../BottomModal";
+import { SongFrequency } from "../ClusterBottomModal";
 import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 interface ClusterListProps {

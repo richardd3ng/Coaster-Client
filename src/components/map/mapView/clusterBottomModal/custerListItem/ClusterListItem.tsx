@@ -2,7 +2,7 @@ import { Image, Text, View } from "react-native";
 
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import { SongFrequency } from "../BottomModal";
+import { SongFrequency } from "../ClusterBottomModal";
 import { openSongInSpotify } from "../../../../../utils/spotifyUtils";
 import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
