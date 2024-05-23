@@ -1,6 +1,6 @@
 import { BottomSheetProvider } from "../../hooks/context/BottomSheetContext";
 import ButtonPanel from "../../components/map/buttonPanel/ButtonPanel";
-import ClusterBottomModal from "../../components/map/mapView/clusterBottomModal/ClusterBottomModal";
+import ClusterBottomModal from "../../components/map/mapView/clusterBottomModal/BottomModal";
 import ClusteredMapView from "../../components/map/mapView/clusteredMapView/ClusteredMapView";
 import JamMemBottomModal from "../../components/map/mapBottomSheet/jamMems/jamMemBottomModal/JamMemBottomModal";
 import MapBottomSheet from "../../components/map/mapBottomSheet/MapBottomSheet";
