@@ -27,19 +27,19 @@ const LocationIcon = () => {
     );
 };
 
-const SearchResultListItem: React.FC<SearchResultListItemProps> = (
-    props: SearchResultListItemProps
-) => {
+const SearchResultListItem: React.FC<SearchResultListItemProps> = ({
+    item,
+}: SearchResultListItemProps) => {
     const { setFollowsUserLocation } = useMapContext();
     const { setSnapIndex } = useBottomSheet();
 
     const handleSelect = () => {
         setFollowsUserLocation(false);
         const region: Region = {
-            latitude: props.item.coords.latitude,
-            longitude: props.item.coords.longitude,
-            latitudeDelta: props.item.latitudeDelta,
-            longitudeDelta: props.item.longitudeDelta,
+            latitude: item.coords.latitude,
+            longitude: item.coords.longitude,
+            latitudeDelta: item.latitudeDelta,
+            longitudeDelta: item.longitudeDelta,
         };
         dispatchSetCurrentRegion(region);
         setSnapIndex(BottomSheetType.Map, 0);
@@ -50,8 +50,8 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = (
             <View style={styles.listItemContainer}>
                 <LocationIcon />
                 <View style={styles.textContainer}>
-                    <Text style={styles.placeText}>{props.item.name}</Text>
-                    <Text style={styles.addressText}>{props.item.address}</Text>
+                    <Text style={styles.placeText}>{item.name}</Text>
+                    <Text style={styles.addressText}>{item.address}</Text>
                 </View>
             </View>
             <Divider style={styles.divider} />

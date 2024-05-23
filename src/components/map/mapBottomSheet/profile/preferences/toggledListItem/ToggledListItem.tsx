@@ -13,23 +13,27 @@ export interface ToggledListItemProps {
     isEnabled: boolean;
 }
 
-const ToggledListItem: React.FC<ToggledListItemProps> = (
-    props: ToggledListItemProps
-) => {
+const ToggledListItem: React.FC<ToggledListItemProps> = ({
+    text,
+    onPress,
+    hideDivider,
+    style,
+    isEnabled,
+}: ToggledListItemProps) => {
     return (
-        <CustomPressable onPress={props.onPress}>
-            <View style={[styles.container, props.style]}>
-                <Text style={styles.text}>{props.text}</Text>
+        <CustomPressable onPress={onPress}>
+            <View style={[styles.container, style]}>
+                <Text style={styles.text}>{text}</Text>
                 <Switch
                     trackColor={{ false: "#EAEAEA", true: "#32CD32" }}
-                    value={props.isEnabled}
-                    onValueChange={props.onPress}
+                    value={isEnabled}
+                    onValueChange={onPress}
                     style={{
-                        pointerEvents: props.isEnabled ? "none" : undefined,
+                        pointerEvents: isEnabled ? "none" : undefined,
                     }}
                 />
             </View>
-            {!props.hideDivider && <Divider style={styles.divider} />}
+            {!hideDivider && <Divider style={styles.divider} />}
         </CustomPressable>
     );
 };

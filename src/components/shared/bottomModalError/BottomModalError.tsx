@@ -1,6 +1,7 @@
-import { Text, View } from "react-native";
-import styles from "./styles";
 import { Icon } from "@ui-kitten/components";
+import { Text, View } from "react-native";
+
+import styles from "./styles";
 import TextButton from "../textButton/TextButton";
 
 interface BottomModalErrorProps {

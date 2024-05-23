@@ -19,9 +19,10 @@ interface CarouselImageItemProps {
     jamMem: JamMemMetadata;
 }
 
-export const CarouselImageItem: React.FC<CarouselImageItemProps> = (
-    props: CarouselImageItemProps
-) => {
+export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
+    jamMem,
+    ...props
+}: CarouselImageItemProps) => {
     const source = useRef<ImageURISource>({
         uri: `https://picsum.photos/id/0/400/300`,
     }).current;
@@ -31,19 +32,19 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = (
     const JamSessionImageItemText = () => {
         return (
             <View style={styles.textContainer}>
-                <Text style={styles.titleText}>{props.jamMem.title}</Text>
-                <Text style={styles.placeText}>{props.jamMem.place}</Text>
+                <Text style={styles.titleText}>{jamMem.title}</Text>
+                <Text style={styles.placeText}>{jamMem.place}</Text>
                 <Text style={styles.dateText}>{`${new Date(
-                    props.jamMem.start
+                    jamMem.start
                 ).toDateString()} - ${new Date(
-                    props.jamMem.end
+                    jamMem.end
                 ).toDateString()}`}</Text>
             </View>
         );
     };
 
     const onPress = () => {
-        dispatchSetSelectedJamMemId(props.jamMem.id);
+        dispatchSetSelectedJamMemId(jamMem.id);
         close(BottomSheetType.Map);
         present(ModalType.JamMem);
         setSnapIndex(ModalType.JamMem, 1);

@@ -8,12 +8,12 @@ interface CarouselItemProps {
     jamMem: JamMemMetadata;
 }
 
-const CarouselItem: React.FC<CarouselItemProps> = (
-    props: CarouselItemProps
-) => {
+const CarouselItem: React.FC<CarouselItemProps> = ({
+    jamMem,
+}: CarouselItemProps) => {
     return (
         <Animated.View style={styles.animatedView}>
-            <CarouselImageItem jamMem={props.jamMem} />
+            <CarouselImageItem jamMem={jamMem} />
         </Animated.View>
     );
 };

@@ -4,9 +4,8 @@ import { ActivityIndicator, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { ScreenName, StackNavigation } from "../../types/navigation";
-import superclusterManager from "../../utils/superclusterManager";
-
 import styles from "./styles";
+import superclusterManager from "../../utils/superclusterManager";
 
 const LoadingScreen: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);

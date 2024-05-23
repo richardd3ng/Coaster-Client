@@ -9,11 +9,11 @@ interface ClusterListItemProps {
     songFrequency: SongFrequency;
 }
 
-const ClusterListItem: React.FC<ClusterListItemProps> = (
-    props: ClusterListItemProps
-) => {
+const ClusterListItem: React.FC<ClusterListItemProps> = ({
+    songFrequency,
+}: ClusterListItemProps) => {
     const handleSelect = () => {
-        openSongInSpotify(props.songFrequency.uri)
+        openSongInSpotify(songFrequency.uri);
     };
 
     return (
@@ -21,7 +21,7 @@ const ClusterListItem: React.FC<ClusterListItemProps> = (
             <View style={styles.listItemContainer}>
                 <View style={styles.frequencyContainer}>
                     <Text style={styles.frequncyText}>
-                        {`${props.songFrequency.frequency}`}
+                        {`${songFrequency.frequency}`}
                     </Text>
                 </View>
                 <View style={styles.imageContainer}>
@@ -33,16 +33,14 @@ const ClusterListItem: React.FC<ClusterListItemProps> = (
                     />
                 </View>
                 <View style={styles.textContainer}>
-                    <Text style={styles.titleText}>
-                        {props.songFrequency.title}
-                    </Text>
+                    <Text style={styles.titleText}>{songFrequency.title}</Text>
                     <Text style={styles.artistText}>
-                        {props.songFrequency.artist}
+                        {songFrequency.artist}
                     </Text>
                 </View>
                 <View style={styles.frequencyContainer}>
                     <Text style={styles.frequncyText}>
-                        {props.songFrequency.frequency}
+                        {songFrequency.frequency}
                     </Text>
                 </View>
             </View>

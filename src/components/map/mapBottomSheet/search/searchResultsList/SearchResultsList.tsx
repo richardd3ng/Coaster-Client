@@ -13,9 +13,9 @@ interface SearchResultsListProps {
     results: PlaceData[];
 }
 
-const SearchResultsList: React.FC<SearchResultsListProps> = (
-    props: SearchResultsListProps
-) => {
+const SearchResultsList: React.FC<SearchResultsListProps> = ({
+    results,
+}: SearchResultsListProps) => {
     const renderItem = useCallback(
         ({ item }: { item: PlaceData }) => <SearchResultListItem item={item} />,
         []
@@ -40,7 +40,7 @@ const SearchResultsList: React.FC<SearchResultsListProps> = (
             <LocationsHeader />
             <Divider style={styles.divider} />
             <BottomSheetFlatList
-                data={props.results}
+                data={results}
                 keyExtractor={(result) => result.placeId}
                 renderItem={renderItem}
             />

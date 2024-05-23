@@ -1,7 +1,9 @@
 import React from "react";
-import { Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { Text, View } from "react-native";
+
 import { FriendsTabName } from "../../types/navigation";
 
 const Tab = createBottomTabNavigator();

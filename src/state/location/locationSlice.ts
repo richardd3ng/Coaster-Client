@@ -25,7 +25,8 @@ const locationSlice = createSlice({
             action: PayloadAction<LocationTimestamp>
         ) => {
             const { coords, timestamp } = action.payload;
-            console.log("history length:", state.history.length);
+            console.log("coords:", coords, "timestamp:", timestamp);
+            console.log("history length:", state.history.length + 1);
             return {
                 history: [
                     ...state.history,

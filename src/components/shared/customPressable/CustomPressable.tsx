@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Pressable, PressableProps, StyleProp, ViewStyle } from "react-native";
 
 interface CustomPressableProps extends PressableProps {
@@ -7,8 +8,8 @@ interface CustomPressableProps extends PressableProps {
 }
 
 const CustomPressable: React.FC<CustomPressableProps> = ({
-    style,
     activeOpacity = 0.5,
+    style,
     ...props
 }) => {
     return (

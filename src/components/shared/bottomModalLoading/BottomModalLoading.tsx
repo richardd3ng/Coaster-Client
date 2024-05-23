@@ -1,4 +1,5 @@
 import { ActivityIndicator, Text, View } from "react-native";
+
 import styles from "./styles";
 
 const BottomModalLoading: React.FC = () => {

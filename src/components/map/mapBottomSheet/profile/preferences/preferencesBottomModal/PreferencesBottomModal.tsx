@@ -13,8 +13,8 @@ import {
     ModalType,
     useModal,
 } from "../../../../../../hooks/context/ModalContext";
-import styles from "./styles";
 import PreferencesList from "../preferencesList/PreferencesList";
+import styles from "./styles";
 
 const PreferencesBottomModal: React.FC = () => {
     const { refs: modalRefs, dismiss } = useModal();

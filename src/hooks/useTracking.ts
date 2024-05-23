@@ -4,13 +4,14 @@ import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { Alert } from "react-native";
 
-import { dispatchRecordLocationTimestamp } from "../state/storeUtils";
+import {
+    dispatchRecordLocationTimestamp,
+    getHistoryState,
+} from "../state/storeUtils";
 import { EXPO_DEV_MODE } from "@env";
-import { LocationTimestamp } from "../types/custom";
 
 const LOCATION_TASK_NAME = "location";
-const LOCATION_UPDATE_TIME_INTERVAL_MILLISECONDS = 10000;
-const LOCATION_UPDATE_DISTANCE_INTERVAL_METERS = 50;
+const LOCATION_UPDATE_INTERVAL_MILLISECONDS = 300_000; // 5 min
 
 interface LocationTaskData {
     locations: Location.LocationObject[];
@@ -26,14 +27,21 @@ TaskManager.defineTask(
             console.error("Error receiving location updates:", error.message);
             return;
         }
-        const locationTimestamp: LocationTimestamp = {
-            coords: {
-                latitude: locations[0].coords.latitude,
-                longitude: locations[0].coords.longitude,
-            },
-            timestamp: locations[0].timestamp,
-        };
-        dispatchRecordLocationTimestamp(locationTimestamp);
+        const timestamp = locations[0].timestamp;
+        const history = getHistoryState();
+        if (
+            history.length == 0 ||
+            timestamp - history[history.length - 1].timestamp >=
+                LOCATION_UPDATE_INTERVAL_MILLISECONDS
+        ) {
+            dispatchRecordLocationTimestamp({
+                coords: {
+                    latitude: locations[0].coords.latitude,
+                    longitude: locations[0].coords.longitude,
+                },
+                timestamp,
+            });
+        }
     }
 );
 
@@ -58,8 +66,6 @@ const useTracking = (): [
             }
             await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
                 accuracy: Location.Accuracy.Balanced,
-                timeInterval: LOCATION_UPDATE_TIME_INTERVAL_MILLISECONDS,
-                distanceInterval: LOCATION_UPDATE_DISTANCE_INTERVAL_METERS,
             });
             console.log("Started receiving location updates");
         };

@@ -13,8 +13,10 @@ import { dispatchSetCurrentRegion } from "../../../../state/storeUtils";
 import { SongCluster } from "../../../../utils/superclusterManager";
 import styles from "./styles";
 import superclusterManager from "../../../../utils/superclusterManager";
-import useCurrentLocation from "../../../../hooks/useCurrentLocation";
-import useCurrentRegion from "../../../../hooks/useCurrentRegion";
+import {
+    useCurrentLocation,
+    useCurrentRegion,
+} from "../../../../hooks/redux/useSelectorHooks";
 import { useMapContext } from "../../../../hooks/context/MapContext";
 import useTracking from "../../../../hooks/useTracking";
 

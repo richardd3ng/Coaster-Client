@@ -10,21 +10,26 @@ interface SearchBarProps extends TextInputProps {
 }
 
 const SearchBar: React.ForwardRefRenderFunction<Input, SearchBarProps> = (
-    props: SearchBarProps,
+    {
+        onClear,
+        onSearch,
+        placeholder="Search",
+        ...props
+    }: SearchBarProps,
     ref: React.ForwardedRef<Input>
 ) => {
     const [query, setQuery] = useState<string>("");
 
     const handleSubmit = () => {
         if (query.trim() !== "") {
-            props.onSearch(query);
+            onSearch(query);
         }
     };
 
     const handleClear = () => {
         (ref as React.RefObject<Input>).current?.clear();
         setQuery("");
-        props.onClear();
+        onClear();
     };
 
     const CloseIcon = (props: any): IconElement => {
@@ -42,7 +47,7 @@ const SearchBar: React.ForwardRefRenderFunction<Input, SearchBarProps> = (
             ref={ref}
             accessoryLeft={<Icon name="search" />}
             accessoryRight={CloseIconButton}
-            placeholder={props.placeholder || "Search"}
+            placeholder={placeholder}
             onChangeText={setQuery}
             onSubmitEditing={handleSubmit}
             {...props}

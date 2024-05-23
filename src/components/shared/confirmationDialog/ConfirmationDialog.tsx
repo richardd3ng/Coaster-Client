@@ -1,6 +1,7 @@
 import React from "react";
+
 import { Modal, View, Text } from "react-native";
-import { Button, Divider } from "@ui-kitten/components";
+import { Divider } from "@ui-kitten/components";
 
 import styles from "./styles";
 import TextButton from "../textButton/TextButton";
@@ -14,34 +15,35 @@ interface ConfirmationDialogProps {
     confirmText?: string;
 }
 
-const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (
-    props: ConfirmationDialogProps
-) => {
+const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
+    open,
+    title,
+    description,
+    onClose,
+    onConfirm,
+    confirmText = "Confirm",
+}: ConfirmationDialogProps) => {
     const handleConfirm = () => {
-        props.onClose();
-        props.onConfirm();
+        onClose();
+        onConfirm();
     };
 
     return (
-        <Modal
-            transparent={true}
-            visible={props.open}
-            onRequestClose={props.onClose}
-        >
+        <Modal transparent={true} visible={open} onRequestClose={onClose}>
             <View style={styles.overlay}>
                 <View style={styles.dialog}>
                     <View style={styles.textContainer}>
-                        <Text style={styles.titleText}>{props.title}</Text>
-                        {props.description && (
+                        <Text style={styles.titleText}>{title}</Text>
+                        {description && (
                             <Text style={styles.descriptionText}>
-                                {props.description}
+                                {description}
                             </Text>
                         )}
                     </View>
                     <Divider style={styles.horizontalDivider} />
                     <View style={styles.buttonContainer}>
                         <TextButton
-                            onPress={props.onClose}
+                            onPress={onClose}
                             activeOpacity={0.5}
                             style={styles.cancelButton}
                             text="Cancel"
@@ -52,7 +54,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (
                             onPress={handleConfirm}
                             activeOpacity={0.5}
                             style={styles.confirmButton}
-                            text={props.confirmText || "Confirm"}
+                            text={confirmText}
                             textStyle={styles.confirmText}
                         />
                     </View>
