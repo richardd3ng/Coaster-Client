@@ -1,22 +1,24 @@
 import { Icon } from "@ui-kitten/components";
-import { Text, View } from "react-native";
+import { StyleProp, Text, View, ViewStyle } from "react-native";
 
 import styles from "./styles";
 import TextButton from "../textButton/TextButton";
 
-interface BottomModalErrorProps {
+interface ErrorViewProps {
     message: string;
     suggestion?: string;
     onTryAgain: () => void;
+    containerStyle?: StyleProp<ViewStyle>;
 }
 
-const BottomModalError: React.FC<BottomModalErrorProps> = ({
+const ErrorView: React.FC<ErrorViewProps> = ({
     message,
     suggestion = "Check your internet connection",
     onTryAgain,
-}: BottomModalErrorProps) => {
+    containerStyle,
+}: ErrorViewProps) => {
     return (
-        <View style={styles.errorContainer}>
+        <View style={[styles.errorContainer, containerStyle]}>
             <Text style={styles.errorMessage}>{message}</Text>
             <Text style={styles.suggestionText}>{suggestion}</Text>
             <TextButton
@@ -32,4 +34,4 @@ const BottomModalError: React.FC<BottomModalErrorProps> = ({
     );
 };
 
-export default BottomModalError;
+export default ErrorView;

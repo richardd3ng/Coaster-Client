@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     icon: {
-        backgroundColor: "yellow",
+        backgroundColor: "lightblue",
     },
     profileListItem: {
         borderTopRightRadius: 10,

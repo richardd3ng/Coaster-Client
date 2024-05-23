@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     },
     errorContainer: {
         position: "absolute",
-        top: "15%",
+        top: "12.5%",
         left: 0,
         right: 0,
         justifyContent: "center",

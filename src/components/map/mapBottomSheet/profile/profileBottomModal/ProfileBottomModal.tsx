@@ -33,7 +33,7 @@ const ProfileBottomModal: React.FC = () => {
                 <IconButton
                     style={styles.profileIconButton}
                     iconName="person"
-                    iconColor="blue"
+                    iconColor="royalblue"
                 />
                 <View style={styles.textContainer}>
                     <Text style={styles.displayNameText}>Richard Deng</Text>

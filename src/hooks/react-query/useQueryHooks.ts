@@ -3,14 +3,17 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { fetchJamMem, fetchJamMemMetadatas } from "../../api/jamMemAPI";
 import { JamMem, JamMemMetadata } from "../../types/custom";
 
-export const useJamMem = (id: number): UseQueryResult<JamMem> => {
+export const useJamMem = (id: number): UseQueryResult<JamMem, Error> => {
     return useQuery<JamMem>({
         queryKey: getQueryKeyForUseJamMem(id),
         queryFn: () => fetchJamMem(id),
     });
 };
 
-export const useJamMemMetadatas = () => {
+export const useJamMemMetadatas = (): UseQueryResult<
+    JamMemMetadata[],
+    Error
+> => {
     return useQuery<JamMemMetadata[]>({
         queryKey: getQueryKeyForUseJamMemMetadatas(),
         queryFn: () => fetchJamMemMetadatas(),

@@ -8,7 +8,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text } from "react-native";
 import { useSelector } from "react-redux";
 
-import BottomModalLoading from "../../../../shared/bottomModalLoading/BottomModalLoading";
+import LoadingView from "../../../../shared/loadingView/LoadingView";
 import {
     BottomSheetType,
     useBottomSheet,
@@ -23,7 +23,7 @@ import { dispatchSetSelectedJamMemId } from "../../../../../state/storeUtils";
 import { RootState } from "../../../../../state/store";
 import styles from "./styles";
 import { useJamMem } from "../../../../../hooks/react-query/useQueryHooks";
-import BottomModalError from "../../../../shared/bottomModalError/BottomModalError";
+import ErrorView from "../../../../shared/errorView/ErrorView";
 
 const JamMemBottomModal: React.FC = () => {
     const { refs: modalRefs, dismiss, snapIndexes } = useModal();
@@ -55,9 +55,9 @@ const JamMemBottomModal: React.FC = () => {
     };
 
     const ModalContent = isLoading ? (
-        <BottomModalLoading />
+        <LoadingView />
     ) : isError ? (
-        <BottomModalError
+        <ErrorView
             message={error.message}
             suggestion="Server may be down"
             onTryAgain={refetch}

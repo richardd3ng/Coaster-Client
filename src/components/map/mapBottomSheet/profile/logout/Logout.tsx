@@ -32,7 +32,7 @@ const Logout: React.FC = () => {
                 icon={LogoutIcon}
                 hideArrow
                 hideDivider
-                textColor="red"
+                textColor="crimson"
                 style={styles.profileListItem}
             />
             <ConfirmationDialog

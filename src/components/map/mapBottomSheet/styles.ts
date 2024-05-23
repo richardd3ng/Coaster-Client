@@ -26,10 +26,19 @@ const styles = StyleSheet.create({
         paddingBottom: 24,
         backgroundColor: "#EAEAEA",
     },
+    cancelButton: {
+        alignSelf: "center",
+    },
+    errorContainer: {
+        top: "7.5%",
+    },
     gestureHandlerRootView: {
         flex: 1,
         width: "100%",
         pointerEvents: "box-none",
+    },
+    loadingContainer: {
+        top: "7.5%",
     },
     headerText: {
         color: "#6E6E6E",
@@ -43,13 +52,14 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 20,
         flexDirection: "column",
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
+        width: "100%",
+        // justifyContent: "flex-start",
+        // alignItems: "flex-start",
     },
     profileIconButton: {
         height: 40,
         width: 40,
-        backgroundColor: "gray",
+        backgroundColor: "lightgray",
         borderRadius: 25,
     },
 });

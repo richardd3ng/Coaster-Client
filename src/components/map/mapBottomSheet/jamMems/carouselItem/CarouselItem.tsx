@@ -5,11 +5,11 @@ import { JamMemMetadata } from "../../../../../types/custom";
 import styles from "./styles";
 
 interface CarouselItemProps {
-    jamMem: JamMemMetadata;
+    jamMemMetadata: JamMemMetadata;
 }
 
 const CarouselItem: React.FC<CarouselItemProps> = ({
-    jamMem,
+    jamMemMetadata: jamMem,
 }: CarouselItemProps) => {
     return (
         <Animated.View style={styles.animatedView}>

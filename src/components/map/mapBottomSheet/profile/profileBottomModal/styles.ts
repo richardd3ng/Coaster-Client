@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     profileIconButton: {
         height: 50,
         width: 50,
-        backgroundColor: "gray",
+        backgroundColor: "lightgray",
         borderRadius: 25,
     },
     textContainer: {

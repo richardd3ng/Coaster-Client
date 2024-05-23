@@ -16,6 +16,8 @@ const initialState: LocationState = {
     currentRegion: null,
 };
 
+const UPDATE_INTERVAL_MILLISECONDS = 300_000; // 5 minutes
+
 const locationSlice = createSlice({
     name: "location",
     initialState,
@@ -25,16 +27,24 @@ const locationSlice = createSlice({
             action: PayloadAction<LocationTimestamp>
         ) => {
             const { coords, timestamp } = action.payload;
-            console.log("coords:", coords, "timestamp:", timestamp);
-            console.log("history length:", state.history.length + 1);
+            const newHistory = [...state.history];
+            if (
+                state.history.length === 0 ||
+                timestamp - state.history[state.history.length - 1].timestamp >
+                    UPDATE_INTERVAL_MILLISECONDS
+            ) {
+                newHistory.push(action.payload);
+                console.log(
+                    "coords:",
+                    coords,
+                    "timestamp:",
+                    timestamp,
+                    "history length:",
+                    newHistory.length
+                );
+            }
             return {
-                history: [
-                    ...state.history,
-                    {
-                        coords,
-                        timestamp,
-                    },
-                ],
+                history: newHistory,
                 currentLocation: coords,
                 currentRegion: state.currentRegion,
             };

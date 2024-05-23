@@ -9,6 +9,7 @@ const CloseButton: React.FC<ButtonProps> = ({ ...props }: ButtonProps) => {
         <Button
             accessoryLeft={<Icon name={"close"} fill="gray" />}
             appearance="ghost"
+            size="large"
             onPress={props.onPress}
             style={[styles.button, props.style]}
             {...props}
