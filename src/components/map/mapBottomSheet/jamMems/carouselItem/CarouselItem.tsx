@@ -1,19 +1,19 @@
 import Animated from "react-native-reanimated";
 
 import { CarouselImageItem } from "../carouselImageItem/CarouselImageItem";
-import { JamMem } from "../../../../../types/custom";
+import { JamMemMetadata } from "../../../../../types/entities";
 import styles from "./styles";
 
 interface CarouselItemProps {
-    jamMem: JamMem;
+    jamMemMetadata: JamMemMetadata;
 }
 
-const CarouselItem: React.FC<CarouselItemProps> = (
-    props: CarouselItemProps
-) => {
+const CarouselItem: React.FC<CarouselItemProps> = ({
+    jamMemMetadata: jamMem,
+}: CarouselItemProps) => {
     return (
         <Animated.View style={styles.animatedView}>
-            <CarouselImageItem jamMem={props.jamMem} />
+            <CarouselImageItem jamMem={jamMem} />
         </Animated.View>
     );
 };

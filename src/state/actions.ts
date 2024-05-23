@@ -3,26 +3,27 @@
 import { Region } from "react-native-maps";
 
 import {
-    appendToHistory,
-    clearHistoryBeforeTimestamp,
+    recordLocationTimestamp,
+    clearHistory,
 } from "./location/locationSlice";
-import { LocationTimestamp } from "../types/custom";
+import { LocationTimestamp } from "../types/entities";
 import { setCurrentRegion } from "./location/locationSlice";
 import { setSelectedJamMemId } from "./jamMem/jamMemSlice";
 import { setSelectedCluster } from "./cluster/clusterSlice";
 import { SongCluster } from "../utils/superclusterManager";
 
-export const appendToHistoryAction = (locationTimestamp: LocationTimestamp) => {
+export const recordLocationTimestampAction = (
+    locationTimestamp: LocationTimestamp
+) => {
     return {
-        type: appendToHistory.type,
+        type: recordLocationTimestamp.type,
         payload: locationTimestamp,
     };
 };
 
-export const clearHistoryBeforeTimestampAction = (timestamp: number) => {
+export const clearHistoryAction = () => {
     return {
-        type: clearHistoryBeforeTimestamp.type,
-        payload: timestamp,
+        type: clearHistory.type,
     };
 };
 
@@ -40,7 +41,7 @@ export const setSelectedClusterAction = (cluster: SongCluster) => {
     };
 };
 
-export const setSelectedJamMemIdAction = (id: number) => {
+export const setSelectedJamMemIdAction = (id: number | null) => {
     return {
         type: setSelectedJamMemId.type,
         payload: id,

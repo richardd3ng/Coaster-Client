@@ -1,60 +1,72 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { Region } from "react-native-maps";
+import { LatLng, Region } from "react-native-maps";
 
-import { LocationTimestamp } from "../../types/custom";
+import { LocationTimestamp } from "../../types/entities";
 
 export type LocationState = {
     history: LocationTimestamp[];
+    currentLocation: LatLng | null;
     currentRegion: Region | null;
 };
 
 const initialState: LocationState = {
     history: [],
+    currentLocation: null,
     currentRegion: null,
 };
+
+const UPDATE_INTERVAL_MILLISECONDS = 300_000; // 5 minutes
 
 const locationSlice = createSlice({
     name: "location",
     initialState,
     reducers: {
-        appendToHistory: (state, action: PayloadAction<LocationTimestamp>) => {
+        recordLocationTimestamp: (
+            state,
+            action: PayloadAction<LocationTimestamp>
+        ) => {
             const { coords, timestamp } = action.payload;
-            console.log("history length:", state.history.length);
+            const newHistory = [...state.history];
+            if (
+                state.history.length === 0 ||
+                timestamp - state.history[state.history.length - 1].timestamp >
+                    UPDATE_INTERVAL_MILLISECONDS
+            ) {
+                newHistory.push(action.payload);
+                console.log(
+                    "coords:",
+                    coords,
+                    "timestamp:",
+                    timestamp,
+                    "history length:",
+                    newHistory.length
+                );
+            }
             return {
-                history: [
-                    ...state.history,
-                    {
-                        coords,
-                        timestamp,
-                    },
-                ],
+                history: newHistory,
+                currentLocation: coords,
                 currentRegion: state.currentRegion,
             };
         },
-        clearHistoryBeforeTimestamp: (state, action: PayloadAction<number>) => {
-            const index = state.history.findIndex(
-                (locationTimestamp) =>
-                    locationTimestamp.timestamp >= action.payload
-            );
+        clearHistory: (state) => {
             return {
-                history: index === -1 ? [] : state.history.slice(index),
+                history: [],
+                currentLocation: state.currentLocation,
                 currentRegion: state.currentRegion,
             };
         },
         setCurrentRegion: (state, action: PayloadAction<Region>) => {
             return {
                 history: state.history,
+                currentLocation: state.currentLocation,
                 currentRegion: action.payload,
             };
         },
     },
 });
 
-export const {
-    appendToHistory,
-    clearHistoryBeforeTimestamp,
-    setCurrentRegion,
-} = locationSlice.actions;
+export const { recordLocationTimestamp, clearHistory, setCurrentRegion } =
+    locationSlice.actions;
 
 export default locationSlice.reducer;

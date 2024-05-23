@@ -4,13 +4,11 @@ import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { Alert } from "react-native";
 
-import { dispatchAppendToHistory } from "../state/storeUtils";
+import { dispatchRecordLocationTimestamp } from "../state/storeUtils";
 import { EXPO_DEV_MODE } from "@env";
-import { LocationTimestamp } from "../types/custom";
+import { LocationTimestamp } from "../types/entities";
 
 const LOCATION_TASK_NAME = "location";
-const LOCATION_UPDATE_TIME_INTERVAL_MILLISECONDS = 10000;
-const LOCATION_UPDATE_DISTANCE_INTERVAL_METERS = 50;
 
 interface LocationTaskData {
     locations: Location.LocationObject[];
@@ -33,7 +31,7 @@ TaskManager.defineTask(
             },
             timestamp: locations[0].timestamp,
         };
-        dispatchAppendToHistory(locationTimestamp);
+        dispatchRecordLocationTimestamp(locationTimestamp);
     }
 );
 
@@ -58,8 +56,6 @@ const useTracking = (): [
             }
             await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
                 accuracy: Location.Accuracy.Balanced,
-                timeInterval: LOCATION_UPDATE_TIME_INTERVAL_MILLISECONDS,
-                distanceInterval: LOCATION_UPDATE_DISTANCE_INTERVAL_METERS,
             });
             console.log("Started receiving location updates");
         };

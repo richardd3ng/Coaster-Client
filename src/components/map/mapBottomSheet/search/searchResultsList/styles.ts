@@ -1,24 +1,28 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-    divider: { backgroundColor: "gray" },
-    headerContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-    locationsText: {
-        fontSize: 16,
-        paddingLeft: 16,
-        paddingVertical: 12,
-        color: "gray",
-    },
-    moreText: {
-        fontSize: 16,
-        paddingLeft: 16,
-        paddingVertical: 12,
-        color: "blue",
-    },
-    moreTextButton: { paddingRight: 16 },
-});
+import { Theme } from "../../../../../types/theme";
 
-export default styles;
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        divider: { backgroundColor: "gray" },
+        headerContainer: {
+            flexDirection: "row",
+            justifyContent: "space-between",
+        },
+        locationsText: {
+            fontSize: theme.font.medium,
+            paddingLeft: theme.spacing.double,
+            paddingVertical: 12,
+            color: "gray",
+        },
+        moreText: {
+            fontSize: theme.font.medium,
+            paddingLeft: theme.spacing.double,
+            paddingVertical: 12,
+            color: "blue",
+        },
+        moreTextButton: { paddingRight: theme.spacing.double },
+    });
+};
+
+export default createStyles;

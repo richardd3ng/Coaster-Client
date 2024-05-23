@@ -1,10 +1,14 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-    flatlist: {
-        marginHorizontal: 16,
-        marginBottom: 42,
-    },
-});
+import { Theme } from "../../../../../types/theme";
 
-export default styles;
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        flatlist: {
+            paddingHorizontal: theme.spacing.double,
+            paddingBottom: 42,
+        },
+    });
+};
+
+export default createStyles;

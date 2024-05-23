@@ -1,23 +1,25 @@
 import { useState } from "react";
 
 import ConfirmationDialog from "../../../../shared/confirmationDialog/ConfirmationDialog";
+import createStyles from "./styles";
 import IconButton from "../../../../shared/iconButton/IconButton";
 import ProfileListItem from "../profileListItem/ProfileListItem";
-import { ProfileOption } from "../../../../../types/custom";
+import { ProfileOption } from "../../../../../types/navigation";
 import { ScreenName, StackNavigation } from "../../../../../types/navigation";
-import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
+import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 import useTracking from "../../../../../hooks/useTracking";
 
-const LogoutIcon = (
-    <IconButton iconName="log-out" iconColor="black" style={styles.icon} />
-);
-
 const Logout: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
     const { navigate } = useNavigation<StackNavigation>();
     const [_tracking, setTracking] = useTracking();
     const [showConfiramtionDialog, setShowConfirmationDialog] =
         useState<boolean>(false);
+
+    const LogoutIcon = (
+        <IconButton iconName="log-out" iconColor="black" style={styles.icon} />
+    );
 
     const handleLogout = () => {
         setTracking(false);
@@ -32,12 +34,12 @@ const Logout: React.FC = () => {
                 icon={LogoutIcon}
                 hideArrow
                 hideDivider
-                textColor="red"
+                textColor="crimson"
                 style={styles.profileListItem}
             />
             <ConfirmationDialog
                 open={showConfiramtionDialog}
-                text="Are you sure you want to log out?"
+                title="Are you sure you want to log out?"
                 onClose={() => setShowConfirmationDialog(false)}
                 onConfirm={handleLogout}
             />

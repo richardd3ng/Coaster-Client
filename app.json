@@ -14,7 +14,14 @@
         "assetBundlePatterns": ["**/*"],
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "com.anonymous.Coaster"
+            "bundleIdentifier": "com.anonymous.Coaster",
+            "infoPlist": {
+                "LSApplicationQueriesSchemes": ["spotify"],
+                "UIBackgroundModes": ["location", "fetch"],
+                "NSLocationWhenInUseUsageDescription": "Coaster needs access to your location while you are using it to track the songs you play at each location.",
+                "NSLocationAlwaysAndWhenInUseUsageDescription": "Coaster needs access to your location at all times to continuously track the songs you play, even when the app is in the background.",
+                "NSLocationAlwaysUsageDescription": "Coaster needs access to your location at all times to track the songs you play at each location, ensuring accurate logging even when the app is not in the foreground."
+            }
         },
         "android": {
             "adaptiveIcon": {
@@ -31,6 +38,19 @@
                 "projectId": "b416cf5c-3b9e-45e2-ad40-dab80f550344"
             }
         },
-        "scheme": "Coaster"
+        "scheme": "Coaster",
+        "plugins": [
+            [
+                "expo-location",
+                {
+                    "locationAlwaysAndWhenInUsePermission": "Allow Coaster to use your location."
+                }
+            ]
+        ],
+        "build": {
+            "preview": {
+                "developmentClient": true
+            }
+        }
     }
 }

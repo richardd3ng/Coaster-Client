@@ -2,12 +2,15 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     button: {
-        width: 20,
-        height: 20,
-        borderRadius: 20,
+        borderRadius: 30,
         position: "absolute",
-        top: 4,
-        right: 4,
+        top: 14,
+        right: 14,
+        backgroundColor: "gainsboro",
+    },
+    icon: {
+        width: 24,
+        height: 24,
     },
 });
 

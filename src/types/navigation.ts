@@ -1,5 +1,10 @@
 import { NavigationProp } from "@react-navigation/native";
 
+export enum FriendsTabName {
+    Connections = "Connections",
+    Requests = "Requests",
+}
+
 export enum ScreenName {
     Login = "Login",
     Loading = "Loading",
@@ -15,3 +20,14 @@ export type RootStackParamList = {
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;
+
+export enum ProfileOption {
+    Account = "Account Settings",
+    Preferences = "Preferences",
+    Logout = "Log Out",
+}
+
+export enum PreferencesOption {
+    TrackSnapshots = "Track Snapshots",
+    ShareSnapshots = "Share Snapshots",
+}

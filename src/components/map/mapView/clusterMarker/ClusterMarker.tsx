@@ -16,10 +16,10 @@ interface ClusterMarkerProps {
     cluster: SongCluster;
 }
 
-const ClusterMarker: React.FC<ClusterMarkerProps> = (
-    props: ClusterMarkerProps
-) => {
-    const { width, height } = getImageStyle(props.cluster.size);
+const ClusterMarker: React.FC<ClusterMarkerProps> = ({
+    cluster,
+}: ClusterMarkerProps) => {
+    const { width, height } = getImageStyle(cluster.size);
     const { present, setSnapIndex } = useModal();
     const { close } = useBottomSheet();
     // decide on styling based on the size of the cluster
@@ -32,10 +32,10 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = (
     }, []);
 
     return (
-        <Marker coordinate={props.cluster.coords} tracksViewChanges={false}>
+        <Marker coordinate={cluster.coords} tracksViewChanges={false}>
             <Callout
                 style={styles.callout}
-                onPress={() => handlePress(props.cluster)}
+                onPress={() => handlePress(cluster)}
             >
                 <View style={styles.imageContainer}>
                     <Image

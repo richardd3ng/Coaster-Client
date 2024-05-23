@@ -3,10 +3,10 @@ import { useMemo } from "react";
 import { View } from "react-native";
 
 import MapIconButton from "../mapIconButton/MapIconButton";
-import { SocialFilter } from "../../../../types/custom";
+import { SocialFilter } from "../../../../types/filters";
 import styles from "./styles";
 import { useMapContext } from "../../../../hooks/context/MapContext";
-import { dispatchClearHistoryBeforeTimestamp } from "../../../../state/storeUtils";
+import { dispatchClearHistory } from "../../../../state/storeUtils";
 
 const SocialFilterStack: React.FC = () => {
     const { socialFilter, setSocialFilter } = useMapContext();
@@ -23,7 +23,7 @@ const SocialFilterStack: React.FC = () => {
                     name="people"
                     onPress={() => {
                         setSocialFilter(SocialFilter.Friends);
-                        dispatchClearHistoryBeforeTimestamp(Date.now());
+                        dispatchClearHistory();
                     }}
                     filled={socialFilter === SocialFilter.Friends}
                 />

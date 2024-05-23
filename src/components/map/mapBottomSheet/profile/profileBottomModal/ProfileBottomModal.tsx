@@ -1,21 +1,24 @@
 import { useCallback, useMemo } from "react";
 
-import {
-    BottomSheetModal,
-    BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Text, View } from "react-native";
 
+import BottomModalWrapper from "../../../../shared/bottomModalWrapper/BottomModalWrapper";
 import CloseButton from "../../../../shared/closeButton/CloseButton";
+import createStyles from "./styles";
+import {
+    DEFAULT_SNAP_POINTS,
+    ModalType,
+    useModal,
+} from "../../../../../hooks/context/ModalContext";
 import IconButton from "../../../../shared/iconButton/IconButton";
-import { ModalType, useModal } from "../../../../../hooks/context/ModalContext";
 import ProfileList from "../profileList/ProfileList";
-import styles from "./styles";
+import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 const ProfileBottomModal: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
     const { refs: modalRefs, dismiss, isVisible } = useModal();
-    const snapPoints = useMemo(() => ["40%"], []);
+    const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[1]], []);
 
     const handleSheetChanges = useCallback((index: number) => {
         if (index === -1) {
@@ -29,7 +32,7 @@ const ProfileBottomModal: React.FC = () => {
                 <IconButton
                     style={styles.profileIconButton}
                     iconName="person"
-                    iconColor="blue"
+                    iconColor="royalblue"
                 />
                 <View style={styles.textContainer}>
                     <Text style={styles.displayNameText}>Richard Deng</Text>
@@ -41,33 +44,31 @@ const ProfileBottomModal: React.FC = () => {
     };
 
     return (
-        <GestureHandlerRootView style={styles.gestureHandlerRootView}>
-            <BottomSheetModalProvider>
-                <View
-                    style={{
-                        ...styles.bottomSheetModalContainer,
-                        pointerEvents: isVisible(ModalType.Profile)
-                            ? undefined
-                            : "box-none",
-                        backgroundColor: isVisible(ModalType.Profile)
-                            ? "rgba(128, 128, 128, 0.25)"
-                            : undefined,
-                    }}
+        <BottomModalWrapper>
+            <View
+                style={{
+                    ...styles.bottomSheetModalContainer,
+                    pointerEvents: isVisible(ModalType.Profile)
+                        ? undefined
+                        : "box-none",
+                    backgroundColor: isVisible(ModalType.Profile)
+                        ? "rgba(128, 128, 128, 0.25)"
+                        : undefined,
+                }}
+            >
+                <BottomSheetModal
+                    ref={modalRefs[ModalType.Profile]}
+                    index={0}
+                    snapPoints={snapPoints}
+                    onChange={handleSheetChanges}
+                    handleComponent={null}
+                    backgroundStyle={styles.bottomSheetModal}
                 >
-                    <BottomSheetModal
-                        ref={modalRefs[ModalType.Profile]}
-                        index={0}
-                        snapPoints={snapPoints}
-                        onChange={handleSheetChanges}
-                        handleComponent={null}
-                        backgroundStyle={styles.bottomSheetModal}
-                    >
-                        <TopRow />
-                        <ProfileList />
-                    </BottomSheetModal>
-                </View>
-            </BottomSheetModalProvider>
-        </GestureHandlerRootView>
+                    <TopRow />
+                    <ProfileList />
+                </BottomSheetModal>
+            </View>
+        </BottomModalWrapper>
     );
 };
 

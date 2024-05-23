@@ -1,6 +1,7 @@
 import IconButton from "../../../../shared/iconButton/IconButton";
+import { ModalType, useModal } from "../../../../../hooks/context/ModalContext";
 import ProfileListItem from "../profileListItem/ProfileListItem";
-import { ProfileOption } from "../../../../../types/custom";
+import { ProfileOption } from "../../../../../types/navigation";
 import styles from "./styles";
 
 const PreferencesIcon = (
@@ -8,12 +9,12 @@ const PreferencesIcon = (
 );
 
 const Preferences: React.FC = () => {
+    const { present } = useModal();
     return (
         <ProfileListItem
             text={ProfileOption.Preferences}
-            onPress={() => console.log("pressed preferences")}
+            onPress={() => present(ModalType.Preferences)}
             icon={PreferencesIcon}
-            style={styles.profileListItem}
         />
     );
 };

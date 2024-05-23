@@ -1,25 +1,22 @@
-import { Button, Icon } from "@ui-kitten/components";
+import { Button, ButtonProps, Icon } from "@ui-kitten/components";
 
 import styles from "./styles";
 
-interface MapIconButtonProps {
+interface MapIconButtonProps extends ButtonProps {
     name: string;
-    onPress: () => void;
     filled: boolean;
 }
 
-const MapIconButton: React.FC<MapIconButtonProps> = (
-    props: MapIconButtonProps
-) => {
+const MapIconButton: React.FC<MapIconButtonProps> = ({
+    name,
+    filled,
+    ...props
+}: MapIconButtonProps) => {
     return (
         <Button
             style={styles.button}
             appearance="ghost"
-            accessoryLeft={
-                <Icon
-                    name={props.filled ? props.name : `${props.name}-outline`}
-                />
-            }
+            accessoryLeft={<Icon name={filled ? name : `${name}-outline`} />}
             onPress={props.onPress}
         />
     );

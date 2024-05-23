@@ -2,7 +2,7 @@ import { PointFeature } from "supercluster";
 
 import { generateRandomSongPoints } from "../mockData/scripts";
 import { SongPointProps } from "../utils/superclusterManager";
-import { SocialFilter } from "../types/custom";
+import { SocialFilter } from "../types/filters";
 
 export const fetchSongPoints = async (
     filter: SocialFilter

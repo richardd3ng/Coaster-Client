@@ -7,11 +7,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#1DB954",
     },
-    title: {
-        fontSize: 24,
-        marginBottom: 20,
-        color: "white",
-    },
 });
 
 export default styles;

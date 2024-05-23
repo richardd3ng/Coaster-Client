@@ -5,10 +5,13 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 import { Input } from "@ui-kitten/components";
 
+import ErrorView from "../../shared/errorView/ErrorView";
+import LoadingView from "../../shared/loadingView/LoadingView";
 import {
     BottomSheetType,
     useBottomSheet,
 } from "../../../hooks/context/BottomSheetContext";
+import createStyles from "./styles";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import {
     DEFAULT_SNAP_POINTS,
@@ -20,10 +23,12 @@ import { mockPlaceData } from "../../../mockData/constants";
 import { PlaceData, fetchGeoData } from "../../../api/locationAPI";
 import SearchBar from "../../shared/searchBar/SearchBar";
 import SearchResultsList from "./search/searchResultsList/SearchResultsList";
-import styles from "./styles";
 import IconButton from "../../shared/iconButton/IconButton";
+import { useJamMemMetadatas } from "../../../hooks/react-query/useQueryHooks";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const MapBottomSheet: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
     const searchBarInputRef = useRef<Input>(null);
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
     const [searchResults, setSearchResults] = useState<PlaceData[] | null>(
@@ -36,6 +41,13 @@ const MapBottomSheet: React.FC = () => {
         snapIndexes,
         setSnapIndex,
     } = useBottomSheet();
+    const {
+        data: jamMemMetadatas,
+        isLoading,
+        isError,
+        error,
+        refetch,
+    } = useJamMemMetadatas();
 
     const handleSearch = useCallback(async (query: string) => {
         const results = await fetchGeoData(query);
@@ -70,7 +82,7 @@ const MapBottomSheet: React.FC = () => {
         return (
             <CustomPressable
                 onPress={resetBottomSheet}
-                style={{ alignSelf: "center" }}
+                style={styles.cancelButton}
             >
                 <Text style={styles.cancelText}>Cancel</Text>
             </CustomPressable>
@@ -98,13 +110,25 @@ const MapBottomSheet: React.FC = () => {
                     onPress={() => present(ModalType.Profile)}
                     style={styles.profileIconButton}
                     iconName="person"
-                    iconColor="blue"
+                    iconColor="royalblue"
                 />
             ) : (
                 <CancelButton />
             )}
         </View>
     );
+
+    const JamMemsContent = isLoading ? (
+        <LoadingView containerStyle={styles.loadingContainer} />
+    ) : isError ? (
+        <ErrorView
+            message={error.message}
+            onTryAgain={refetch}
+            containerStyle={styles.errorContainer}
+        />
+    ) : jamMemMetadatas ? (
+        <JamMemsCarousel jamMemMetadatas={jamMemMetadatas} />
+    ) : null;
 
     return (
         <GestureHandlerRootView style={styles.gestureHandlerRootView}>
@@ -127,7 +151,7 @@ const MapBottomSheet: React.FC = () => {
                     >
                         <View style={styles.jamSessionStack}>
                             <Text style={styles.headerText}>Jam Mems</Text>
-                            <JamMemsCarousel />
+                            {JamMemsContent}
                         </View>
                     </BottomSheetScrollView>
                 )}

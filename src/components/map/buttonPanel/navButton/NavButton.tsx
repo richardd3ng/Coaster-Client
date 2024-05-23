@@ -12,15 +12,17 @@ const NavButton: React.FC = () => {
     const { followsUserLocation, setFollowsUserLocation } = useMapContext();
 
     const handlePress = useCallback(() => {
-        const location = getCurrentLocationState();
-        const region = getCurrentRegionState();
-        if (location && region) {
-            dispatchSetCurrentRegion({
-                latitude: location.latitude,
-                longitude: location.longitude,
-                latitudeDelta: region.latitudeDelta,
-                longitudeDelta: region.longitudeDelta,
-            });
+        if (!followsUserLocation) {
+            const location = getCurrentLocationState();
+            const region = getCurrentRegionState();
+            if (location && region) {
+                dispatchSetCurrentRegion({
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                    latitudeDelta: region.latitudeDelta,
+                    longitudeDelta: region.longitudeDelta,
+                });
+            }
         }
         setFollowsUserLocation(!followsUserLocation);
     }, [followsUserLocation, setFollowsUserLocation, dispatchSetCurrentRegion]);
