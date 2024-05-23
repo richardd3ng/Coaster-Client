@@ -27,7 +27,6 @@ export interface SongFrequency extends Song {
 }
 
 const ClusterBottomModal: React.FC = () => {
-    // test
     const styles = useThemeAwareObject(createStyles);
     const { refs: modalRefs, dismiss, snapIndexes } = useModal();
     const { setSnapIndex } = useBottomSheet();
