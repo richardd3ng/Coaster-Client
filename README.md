@@ -19,6 +19,7 @@ xcodes select 15.3 (15E204a)
 ```
 
 ### iOS Simulator (Mac only)
+Note: deep-linking capabilities aren't enabled on the simulator (i.e. opening other apps)
 1. In `.env`, set `EXPO_DEV_MODE=false`
 2. Install [XCode](https://developer.apple.com/xcode/) (takes a few hours)
 3. Install iOS on XCode (takes ~1 hour): XCode > Settings > Platforms > iOS
