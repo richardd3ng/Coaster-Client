@@ -26,7 +26,7 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
 }: CarouselImageItemProps) => {
     const styles = useThemeAwareObject(createStyles);
     const source = useRef<ImageURISource>({
-        uri: jamMem.coverImage,
+        uri: jamMem.coverUri,
     }).current;
     const { close } = useBottomSheet();
     const { present, setSnapIndex } = useModal();

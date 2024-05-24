@@ -2,7 +2,7 @@ import React from "react";
 
 import { Pressable, PressableProps, StyleProp, ViewStyle } from "react-native";
 
-interface CustomPressableProps extends PressableProps {
+export interface CustomPressableProps extends PressableProps {
     activeOpacity?: number;
     style?: StyleProp<ViewStyle>;
 }

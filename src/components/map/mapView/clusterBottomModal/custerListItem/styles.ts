@@ -8,6 +8,9 @@ const createStyles = (theme: Theme) => {
             fontSize: theme.font.small,
             color: "gray",
         },
+        errorText: {
+            color: "gray",
+        },
         listItemContainer: {
             paddingLeft: 2,
             flexDirection: "row",
@@ -20,12 +23,12 @@ const createStyles = (theme: Theme) => {
             fontWeight: "500",
         },
         textContainer: {
-            justifyContent: "center",
+            alignItems: "center",
             flex: 9,
         },
         frequencyContainer: {
-            flex: 1,
             alignItems: "center",
+            flex: 1,
         },
         frequncyText: {
             fontSize: theme.font.large,

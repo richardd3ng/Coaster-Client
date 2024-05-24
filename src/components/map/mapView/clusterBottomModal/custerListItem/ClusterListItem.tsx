@@ -1,50 +1,77 @@
+import { useEffect } from "react";
+
 import { Image, Text, View } from "react-native";
 
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import { SongFrequency } from "../ClusterBottomModal";
+import ErrorView from "../../../../shared/errorView/ErrorView";
+import LoadingView from "../../../../shared/loadingView/LoadingView";
 import { openSongInSpotify } from "../../../../../utils/spotifyUtils";
+import { useSong } from "../../../../../hooks/react-query/useQueryHooks";
 import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 interface ClusterListItemProps {
-    songFrequency: SongFrequency;
+    songIdFrequency: number[]; // [id, frequency]
+    registerRefetch: (refetch: () => void) => void;
 }
 
 const ClusterListItem: React.FC<ClusterListItemProps> = ({
-    songFrequency,
+    songIdFrequency,
+    registerRefetch,
 }: ClusterListItemProps) => {
     const styles = useThemeAwareObject(createStyles);
+    const [id, frequency] = songIdFrequency;
+    const { data: song, isLoading, isError, error, refetch } = useSong(id);
+
+    useEffect(() => {
+        if (registerRefetch) {
+            registerRefetch(refetch);
+        }
+    }, [registerRefetch, refetch]);
 
     const handleSelect = () => {
-        openSongInSpotify(songFrequency.uri);
+        if (song) {
+            openSongInSpotify(song.uri);
+        }
     };
+
+    const SongContent = isLoading ? (
+        <LoadingView containerStyle={styles.textContainer} hideText />
+    ) : isError ? (
+        <ErrorView
+            containerStyle={styles.textContainer}
+            message={error.message}
+            messageStyle={styles.errorText}
+            hideSuggestion
+        />
+    ) : song ? (
+        <View style={styles.textContainer}>
+            <Text style={styles.titleText}>{song.title}</Text>
+            <Text style={styles.artistText}>{song.artist}</Text>
+        </View>
+    ) : null;
 
     return (
         <CustomPressable onPress={handleSelect}>
             <View style={styles.listItemContainer}>
                 <View style={styles.frequencyContainer}>
                     <Text style={styles.frequncyText}>
-                        {`${songFrequency.frequency}`}
+                        {`${songIdFrequency[1]}`}
                     </Text>
                 </View>
                 <View style={styles.imageContainer}>
                     <Image
                         source={{
-                            uri: "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+                            uri:
+                                song?.albumUri ??
+                                "https://picsum.photos/200/300",
                         }}
                         style={styles.image}
                     />
                 </View>
-                <View style={styles.textContainer}>
-                    <Text style={styles.titleText}>{songFrequency.title}</Text>
-                    <Text style={styles.artistText}>
-                        {songFrequency.artist}
-                    </Text>
-                </View>
+                {SongContent}
                 <View style={styles.frequencyContainer}>
-                    <Text style={styles.frequncyText}>
-                        {songFrequency.frequency}
-                    </Text>
+                    <Text style={styles.frequncyText}>{frequency}</Text>
                 </View>
             </View>
         </CustomPressable>

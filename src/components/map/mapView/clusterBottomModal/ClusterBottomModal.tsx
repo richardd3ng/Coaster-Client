@@ -17,21 +17,17 @@ import {
     ModalType,
     useModal,
 } from "../../../../hooks/context/ModalContext";
-import { fetchManySongs } from "../../../../api/songAPI";
 import { RootState } from "../../../../state/store";
-import { Song } from "../../../../types/entities";
+import { SongIdFrequencies } from "../../../../utils/superclusterManager";
 import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
-
-export interface SongFrequency extends Song {
-    frequency: number;
-}
 
 const ClusterBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const { refs: modalRefs, dismiss, snapIndexes } = useModal();
     const { setSnapIndex } = useBottomSheet();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
-    const [clusterData, setClusterData] = useState<SongFrequency[]>([]);
+    const [songIdFrequencies, setSongIdFrequencies] =
+        useState<SongIdFrequencies>([]);
 
     const selectedCluster = useSelector((state: RootState) => {
         return state.cluster.selectedCluster;
@@ -40,15 +36,7 @@ const ClusterBottomModal: React.FC = () => {
     useEffect(() => {
         const fetchClusterData = async () => {
             if (selectedCluster) {
-                const songIds = selectedCluster.topSongs.map((song) => song[0]);
-                const songs = await fetchManySongs(songIds);
-                const songFrequencies = songs.map((song) => {
-                    const frequency = selectedCluster.topSongs.find(
-                        (topSong) => topSong[0] === song.id
-                    )?.[1];
-                    return { ...song, frequency: frequency || 0 };
-                });
-                setClusterData(songFrequencies);
+                setSongIdFrequencies(selectedCluster.topSongs);
             }
         };
 
@@ -77,7 +65,7 @@ const ClusterBottomModal: React.FC = () => {
                 onChange={handleSheetChanges}
             >
                 <Text>{selectedCluster?.size}</Text>
-                <ClusterList clusterData={clusterData} />
+                <ClusterList songIdFrequencies={songIdFrequencies} />
                 <CloseButton onPress={handleClose} />
             </BottomSheetModal>
         </BottomModalWrapper>

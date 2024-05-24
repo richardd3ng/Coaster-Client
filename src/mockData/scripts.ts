@@ -11,7 +11,8 @@ export const generateSongs: () => Song[] = () => {
             uri: "spotify:track:6fTt0CH2t0mdeB2N9XFG5r",
             title: `Song ${i}`,
             artist: `Artist ${i}`,
-            albumURI: "https://picsum.photos/200/300",
+            albumUri:
+                "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
         });
     }
     return songData;

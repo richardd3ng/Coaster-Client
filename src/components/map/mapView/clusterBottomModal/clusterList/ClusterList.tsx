@@ -1,37 +1,53 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { Divider } from "@ui-kitten/components";
 
 import ClusterListItem from "../custerListItem/ClusterListItem";
 import createStyles from "./styles";
-import { SongFrequency } from "../ClusterBottomModal";
+import { SongIdFrequencies } from "../../../../../utils/superclusterManager";
 import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 interface ClusterListProps {
-    clusterData: SongFrequency[];
+    songIdFrequencies: SongIdFrequencies;
 }
 
 const ClusterList: React.FC<ClusterListProps> = ({
-    clusterData,
+    songIdFrequencies,
 }: ClusterListProps) => {
     const styles = useThemeAwareObject(createStyles);
+    const [refetchFunctions, setRefetchFunctions] = useState<(() => void)[]>(
+        []
+    );
+
+    const registerRefetch = useCallback((refetch: () => void) => {
+        setRefetchFunctions((prev) => [...prev, refetch]);
+    }, []);
+
+    const onRefresh = useCallback(() => {
+        refetchFunctions.forEach((refetch) => refetch());
+    }, [refetchFunctions]);
 
     const renderItem = useCallback(
-        ({ item }: { item: SongFrequency }) => (
-            <ClusterListItem songFrequency={item} />
+        ({ item }: { item: number[] }) => (
+            <ClusterListItem
+                songIdFrequency={item}
+                registerRefetch={registerRefetch}
+            />
         ),
         []
     );
 
     return (
         <BottomSheetFlatList
-            data={clusterData}
-            keyExtractor={(item) => item.id.toString()}
+            data={songIdFrequencies}
+            keyExtractor={(item) => item[0].toString()}
             renderItem={renderItem}
             showsVerticalScrollIndicator
             style={styles.flatList}
             ItemSeparatorComponent={() => <Divider style={styles.divider} />}
+            refreshing={false}
+            onRefresh={onRefresh}
         />
     );
 };

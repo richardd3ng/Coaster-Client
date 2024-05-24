@@ -7,9 +7,11 @@ import { MAP_CONFIG } from "./mapUtils";
 
 const TOP_SONGS_COUNT = 10;
 
+export type SongIdFrequencies = number[][]; // [id, frequency]
+
 export interface SongCluster {
     coords: LatLng;
-    topSongs: number[][]; // [id, frequency]
+    topSongs: SongIdFrequencies;
     size: number;
 }
 

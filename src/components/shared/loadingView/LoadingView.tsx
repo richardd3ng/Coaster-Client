@@ -10,15 +10,17 @@ import styles from "./styles";
 
 interface LoadingViewProps {
     containerStyle?: StyleProp<ViewStyle>;
+    hideText?: boolean;
 }
 
 const LoadingView: React.FC<LoadingViewProps> = ({
-    containerStyle,
+    containerStyle = styles.loadingContainer,
+    hideText = false,
 }: LoadingViewProps) => {
     return (
-        <View style={[styles.loadingContainer, containerStyle]}>
+        <View style={containerStyle}>
             <ActivityIndicator style={styles.spinner} />
-            <Text style={styles.text}>Loading...</Text>
+            {!hideText && <Text style={styles.text}>Loading...</Text>}
         </View>
     );
 };

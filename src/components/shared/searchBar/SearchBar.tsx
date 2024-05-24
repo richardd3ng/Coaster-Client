@@ -10,12 +10,7 @@ interface SearchBarProps extends TextInputProps {
 }
 
 const SearchBar: React.ForwardRefRenderFunction<Input, SearchBarProps> = (
-    {
-        onClear,
-        onSearch,
-        placeholder="Search",
-        ...props
-    }: SearchBarProps,
+    { onClear, onSearch, placeholder = "Search", ...props }: SearchBarProps,
     ref: React.ForwardedRef<Input>
 ) => {
     const [query, setQuery] = useState<string>("");

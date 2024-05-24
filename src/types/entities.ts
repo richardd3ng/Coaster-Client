@@ -26,12 +26,13 @@ export interface JamMem {
     location: string;
     start: Date;
     end: Date;
-    coverImage: string;
+    coverUri: string;
     snapshots: Snapshot[];
     friends: User[];
 }
 
-export interface JamMemMetadata extends Omit<JamMem, "snapshots" | "friends"> {}
+export interface JamMemMetadata
+    extends Omit<JamMem, "ownerId" | "snapshots" | "friends"> {}
 
 export interface JamMemCreationArgs
     extends Omit<JamMem, "id" | "ownerId" | "snapshots" | "friends"> {}
@@ -42,5 +43,5 @@ export interface Song {
     uri: string;
     title: string;
     artist: string;
-    albumURI: string;
+    albumUri: string;
 }

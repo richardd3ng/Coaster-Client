@@ -6,7 +6,7 @@ import styles from "./styles";
 
 const FriendsButton: React.FC = () => {
     const { navigate } = useNavigation<StackNavigation>();
-    
+
     return (
         <MapIconButton
             name="people"

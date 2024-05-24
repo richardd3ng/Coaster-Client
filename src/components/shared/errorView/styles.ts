@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     },
     buttonIcon: {},
     buttonText: { color: "royalblue" },
-    errorMessage: {
+    messageText: {
         fontWeight: "bold",
         paddingBottom: 10,
     },

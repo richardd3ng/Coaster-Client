@@ -1,22 +1,20 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { fetchJamMem, fetchJamMemMetadatas } from "../../api/jamMemAPI";
-import { JamMem, JamMemMetadata } from "../../types/entities";
+import { fetchSong } from "../../api/songAPI";
 
-export const useJamMem = (id: number): UseQueryResult<JamMem, Error> => {
-    return useQuery<JamMem>({
+/* Jam Mems */
+export const useJamMem = (id: number) => {
+    return useQuery({
         queryKey: getQueryKeyForUseJamMem(id),
         queryFn: () => fetchJamMem(id),
     });
 };
 
-export const useJamMemMetadatas = (): UseQueryResult<
-    JamMemMetadata[],
-    Error
-> => {
-    return useQuery<JamMemMetadata[]>({
+export const useJamMemMetadatas = () => {
+    return useQuery({
         queryKey: getQueryKeyForUseJamMemMetadatas(),
-        queryFn: () => fetchJamMemMetadatas(),
+        queryFn: fetchJamMemMetadatas,
     });
 };
 
@@ -26,4 +24,16 @@ export const getQueryKeyForUseJamMem = (id: number) => {
 
 export const getQueryKeyForUseJamMemMetadatas = () => {
     return ["jamMemMetadatas"];
+};
+
+/* Songs */
+export const useSong = (id: number) => {
+    return useQuery({
+        queryKey: getQueryKeyForUseSong(id),
+        queryFn: () => fetchSong(id),
+    });
+};
+
+export const getQueryKeyForUseSong = (id: number) => {
+    return ["song", id];
 };
