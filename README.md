@@ -23,8 +23,7 @@ Note: deep-linking capabilities aren't enabled on the simulator (i.e. opening ot
 1. In `.env`, set `EXPO_DEV_MODE=false`
 2. Install [XCode](https://developer.apple.com/xcode/) (takes a few hours)
 3. Install iOS on XCode (takes ~1 hour): XCode > Settings > Platforms > iOS
-4. In the project root, run `pnpm expo start`
-5. Press i to open the iOS simulator
+4. In the project root, run `npx expo run:ios`
    
 ### Expo Go (all platforms)
 Note: background location tracking capabilities aren't enabled on Expo Go
