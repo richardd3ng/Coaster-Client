@@ -8,7 +8,6 @@
 5. In the project root, create a `.env` file with the format shown below (missing details will be provided by someone who knows them)
 ```
 EXPO_DEV_MODE=false
-ATLAS_URI="<database connection string>"
 GOOGLE_MAPS_API_KEY=<secret>
 ```
 - Note: when adding new environment variables, also modify `src/types/env.d.ts`
