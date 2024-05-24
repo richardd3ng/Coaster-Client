@@ -16,3 +16,8 @@ export const fetchJamMem = async (id: number): Promise<JamMem> => {
         throw new Error("Unable to open Jam Mem");
     }
 };
+
+export const createJamMem = async (jamMem: JamMem): Promise<JamMem> => {
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
+    return jamMem;
+}

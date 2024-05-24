@@ -1,8 +1,9 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 
+import * as ImagePicker from "expo-image-picker";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Text, View } from "react-native";
+import { Button, Text, View } from "react-native";
 import { Input } from "@ui-kitten/components";
 
 import ErrorView from "../../shared/errorView/ErrorView";
@@ -130,6 +131,19 @@ const MapBottomSheet: React.FC = () => {
         <JamMemsCarousel jamMemMetadatas={jamMemMetadatas} />
     ) : null;
 
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            console.log(result);
+        } else {
+            alert("You did not select any image.");
+        }
+    };
+
     return (
         <GestureHandlerRootView style={styles.gestureHandlerRootView}>
             <BottomSheet
@@ -151,6 +165,10 @@ const MapBottomSheet: React.FC = () => {
                     >
                         <View style={styles.jamSessionStack}>
                             <Text style={styles.headerText}>Jam Mems</Text>
+                            <Button
+                                title="+ Jam Mem"
+                                onPress={pickImage}
+                            />
                             {JamMemsContent}
                         </View>
                     </BottomSheetScrollView>

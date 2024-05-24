@@ -16,9 +16,9 @@ const MapScreen: React.FC = () => {
                 <BottomSheetProvider>
                     <ClusteredMapView />
                     <ButtonPanel />
-                    <ClusterBottomModal />
                     <MapBottomSheet />
                     <JamMemBottomModal />
+                    <ClusterBottomModal />
                     <ProfileBottomModal />
                     <PreferencesBottomModal />
                 </BottomSheetProvider>
@@ -26,4 +26,5 @@ const MapScreen: React.FC = () => {
         </MapContextProvider>
     );
 };
+
 export default MapScreen;

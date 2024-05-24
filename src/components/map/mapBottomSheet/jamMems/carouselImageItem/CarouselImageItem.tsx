@@ -26,7 +26,7 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
 }: CarouselImageItemProps) => {
     const styles = useThemeAwareObject(createStyles);
     const source = useRef<ImageURISource>({
-        uri: `https://picsum.photos/id/0/400/300`,
+        uri: jamMem.coverImage,
     }).current;
     const { close } = useBottomSheet();
     const { present, setSnapIndex } = useModal();
@@ -35,7 +35,7 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
         return (
             <View style={styles.textContainer}>
                 <Text style={styles.titleText}>{jamMem.title}</Text>
-                <Text style={styles.placeText}>{jamMem.place}</Text>
+                <Text style={styles.placeText}>{jamMem.location}</Text>
                 <Text style={styles.dateText}>{`${new Date(
                     jamMem.start
                 ).toDateString()} - ${new Date(

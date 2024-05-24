@@ -22,15 +22,19 @@ export interface Snapshot {
 export interface JamMem {
     id: number;
     ownerId: number;
-    place: string;
     title: string;
+    location: string;
     start: Date;
     end: Date;
+    coverImage: string;
     snapshots: Snapshot[];
     friends: User[];
 }
 
 export interface JamMemMetadata extends Omit<JamMem, "snapshots" | "friends"> {}
+
+export interface JamMemCreationArgs
+    extends Omit<JamMem, "id" | "ownerId" | "snapshots" | "friends"> {}
 
 /* Songs */
 export interface Song {
