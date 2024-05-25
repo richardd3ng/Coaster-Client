@@ -34,12 +34,12 @@ const JamMemsStack: React.FC = () => {
     }, [createJamMemIsError]);
 
     const JamMemsContent = isLoading ? (
-        <LoadingView containerStyle={styles.loadingContainer} />
+        <LoadingView containerStyle={styles.errorLoadingContainer} />
     ) : isError ? (
         <ErrorView
             message={error.message}
             onTryAgain={refetch}
-            containerStyle={styles.errorContainer}
+            containerStyle={styles.errorLoadingContainer}
         />
     ) : jamMemMetadatas ? (
         <JamMemsCarousel jamMemMetadatas={jamMemMetadatas} />

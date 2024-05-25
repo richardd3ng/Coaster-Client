@@ -10,7 +10,6 @@ const createStyles = (theme: Theme) => {
             height: 10,
         },
         flatList: {
-            paddingTop: 36,
             backgroundColor: theme.color.background,
             paddingHorizontal: theme.spacing.double,
         },

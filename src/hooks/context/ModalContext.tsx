@@ -10,6 +10,7 @@ import {
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 export enum ModalType {
+    Account,
     Cluster,
     JamMem,
     Preferences,
@@ -35,6 +36,7 @@ interface ModalProviderProps {
 
 export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     const refs: Record<ModalType, MutableRefObject<BottomSheetModal | null>> = {
+        [ModalType.Account]: useRef<BottomSheetModal>(null),
         [ModalType.Cluster]: useRef<BottomSheetModal>(null),
         [ModalType.JamMem]: useRef<BottomSheetModal>(null),
         [ModalType.Preferences]: useRef<BottomSheetModal>(null),
@@ -42,6 +44,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     };
 
     const [visible, setVisible] = useState<Record<ModalType, boolean>>({
+        [ModalType.Account]: false,
         [ModalType.Cluster]: false,
         [ModalType.JamMem]: false,
         [ModalType.Preferences]: false,
@@ -49,6 +52,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     });
 
     const [snapIndexes, setSnapIndexes] = useState<Record<ModalType, number>>({
+        [ModalType.Account]: 0,
         [ModalType.Cluster]: 0,
         [ModalType.JamMem]: 0,
         [ModalType.Preferences]: 0,

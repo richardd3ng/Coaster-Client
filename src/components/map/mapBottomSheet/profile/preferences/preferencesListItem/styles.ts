@@ -4,6 +4,9 @@ import { Theme } from "../../../../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
+        button: {
+            backgroundColor: "white",
+        },
         container: {
             flexDirection: "row",
             paddingHorizontal: theme.spacing.base,
@@ -12,12 +15,15 @@ const createStyles = (theme: Theme) => {
             alignItems: "center",
         },
         divider: { backgroundColor: "gray" },
-        switch: {
-            backgroundColor: theme.color.background,
-        },
         text: {
             fontSize: theme.font.medium,
             flex: 1,
+        },
+        spinner: {
+            height: 24,
+            width: 24,
+            paddingRight: 18,
+            paddingVertical: 20,
         },
     });
 };

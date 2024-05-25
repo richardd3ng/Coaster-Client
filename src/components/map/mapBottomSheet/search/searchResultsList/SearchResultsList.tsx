@@ -6,12 +6,12 @@ import { Text, View } from "react-native";
 
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import { PlaceData } from "../../../../../api/locationAPI";
+import { Place } from "../../../../../api/placesAPI";
 import SearchResultListItem from "../searchResultListItem/SearchResultListItem";
 import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 interface SearchResultsListProps {
-    results: PlaceData[];
+    results: Place[];
 }
 
 const SearchResultsList: React.FC<SearchResultsListProps> = ({
@@ -20,7 +20,7 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({
     const styles = useThemeAwareObject(createStyles);
 
     const renderItem = useCallback(
-        ({ item }: { item: PlaceData }) => <SearchResultListItem item={item} />,
+        ({ item }: { item: Place }) => <SearchResultListItem item={item} />,
         []
     );
 

@@ -4,11 +4,13 @@ import { Theme } from "../../../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        errorContainer: {
-            top: "7.5%",
-        },
-        loadingContainer: {
-            top: "7.5%",
+        errorLoadingContainer: {
+            position: "absolute",
+            top: "12.5%",
+            left: 0,
+            right: 0,
+            justifyContent: "center",
+            alignItems: "center",
         },
         headerText: {
             color: "#6E6E6E",

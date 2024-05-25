@@ -1,3 +1,4 @@
+import AccountBottomModal from "../../components/map/mapBottomSheet/profile/account/accountBottomModal/AccountBottomModal";
 import { BottomSheetProvider } from "../../hooks/context/BottomSheetContext";
 import ButtonPanel from "../../components/map/buttonPanel/ButtonPanel";
 import ClusterBottomModal from "../../components/map/mapView/clusterBottomModal/ClusterBottomModal";
@@ -20,6 +21,7 @@ const MapScreen: React.FC = () => {
                     <JamMemBottomModal />
                     <ClusterBottomModal />
                     <ProfileBottomModal />
+                    <AccountBottomModal />
                     <PreferencesBottomModal />
                 </BottomSheetProvider>
             </ModalProvider>

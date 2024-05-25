@@ -2,7 +2,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { Input } from "@ui-kitten/components";
 
 import {
@@ -14,19 +14,18 @@ import createStyles from "./styles";
 import { DEFAULT_SNAP_POINTS } from "../../../hooks/context/ModalContext";
 import JamMemsStack from "./jamMems/jamMemsStack/JamMemsStack";
 import { mockPlaceData } from "../../../mockData/constants";
-import { PlaceData, fetchGeoData } from "../../../api/locationAPI";
+import { Place, fetchPlaces } from "../../../api/placesAPI";
 import ProfileIconButton from "./profile/profileIconButton/ProfileIconButton";
 import SearchBar from "../../shared/searchBar/SearchBar";
 import SearchResultsList from "./search/searchResultsList/SearchResultsList";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { AxiosError } from "axios";
 
 const MapBottomSheet: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const searchBarInputRef = useRef<Input>(null);
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
-    const [searchResults, setSearchResults] = useState<PlaceData[] | null>(
-        null
-    );
+    const [searchResults, setSearchResults] = useState<Place[] | null>(null);
     const [showProfile, setShowProfile] = useState<boolean>(true);
     const {
         refs: bottomSheetRefs,
@@ -40,10 +39,13 @@ const MapBottomSheet: React.FC = () => {
     }, []);
 
     const handleSearch = useCallback(async (query: string) => {
-        const results = await fetchGeoData(query);
-        setSearchResults(results);
-        // setSearchResults(mockPlaceData);
-        setSnapIndex(BottomSheetType.Map, 2);
+        try {
+            const results = await fetchPlaces(query);
+            setSearchResults(results);
+            setSnapIndex(BottomSheetType.Map, 2);
+        } catch (error) {
+            Alert.alert((error as AxiosError).message);
+        }
     }, []);
 
     const handleSheetChanges = useCallback((index: number) => {
@@ -103,7 +105,6 @@ const MapBottomSheet: React.FC = () => {
                 onChange={handleSheetChanges}
                 snapPoints={snapPoints}
                 handleStyle={styles.bottomSheetHandle}
-                
             >
                 {TopRow}
                 {searchResults ? (

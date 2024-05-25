@@ -11,11 +11,13 @@ import { useSong } from "../../../../../hooks/react-query/useQueryHooks";
 import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 interface ClusterListItemProps {
+    rank: number;
     songIdFrequency: number[]; // [id, frequency]
     registerRefetch: (refetch: () => void) => void;
 }
 
 const ClusterListItem: React.FC<ClusterListItemProps> = ({
+    rank,
     songIdFrequency,
     registerRefetch,
 }: ClusterListItemProps) => {
@@ -36,10 +38,10 @@ const ClusterListItem: React.FC<ClusterListItemProps> = ({
     };
 
     const SongContent = isLoading ? (
-        <LoadingView containerStyle={styles.textContainer} hideText />
+        <LoadingView containerStyle={styles.errorLoadingContainer} hideText />
     ) : isError ? (
         <ErrorView
-            containerStyle={styles.textContainer}
+            containerStyle={styles.errorLoadingContainer}
             message={error.message}
             messageStyle={styles.errorText}
             hideSuggestion
@@ -54,10 +56,8 @@ const ClusterListItem: React.FC<ClusterListItemProps> = ({
     return (
         <CustomPressable onPress={handleSelect}>
             <View style={styles.listItemContainer}>
-                <View style={styles.frequencyContainer}>
-                    <Text style={styles.frequncyText}>
-                        {`${songIdFrequency[1]}`}
-                    </Text>
+                <View style={styles.rankContainer}>
+                    <Text style={styles.rankText}>{rank}</Text>
                 </View>
                 <View style={styles.imageContainer}>
                     <Image
@@ -71,7 +71,8 @@ const ClusterListItem: React.FC<ClusterListItemProps> = ({
                 </View>
                 {SongContent}
                 <View style={styles.frequencyContainer}>
-                    <Text style={styles.frequncyText}>{frequency}</Text>
+                    <Text style={styles.playCountText}>Play Count</Text>
+                    <Text style={styles.frequencyText}>{frequency}</Text>
                 </View>
             </View>
         </CustomPressable>

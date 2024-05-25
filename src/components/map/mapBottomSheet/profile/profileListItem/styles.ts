@@ -4,6 +4,7 @@ import { Theme } from "../../../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
+        button: { backgroundColor: "white" },
         container: {
             flexDirection: "row",
             paddingHorizontal: theme.spacing.base,

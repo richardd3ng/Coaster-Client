@@ -1,32 +1,42 @@
 import { generateSongs } from "./scripts";
 import { JamMem, Song, User } from "../types/entities";
-import { PlaceData } from "../api/locationAPI";
+import { Place } from "../api/placesAPI";
 
 export const mockUserData: User[] = [
     {
         id: 1,
         username: "shanggang",
         displayName: "Jason Shang",
+        trackSnapshots: true,
+        shareSnapshots: true,
     },
     {
         id: 2,
         username: "rdengomng",
         displayName: "Richard Deng",
+        trackSnapshots: true,
+        shareSnapshots: true,
     },
     {
         id: 3,
         username: "joshisacow",
         displayName: "Josh Chen",
+        trackSnapshots: true,
+        shareSnapshots: true,
     },
     {
         id: 4,
         username: "anikapawlak",
         displayName: "Anika Pawlak",
+        trackSnapshots: true,
+        shareSnapshots: true,
     },
     {
         id: 5,
         username: "doingdiane",
         displayName: "Diane Lee",
+        trackSnapshots: true,
+        shareSnapshots: true,
     },
 ];
 
@@ -107,7 +117,7 @@ export const mockJamMemData: JamMem[] = [
     },
 ];
 
-export const mockPlaceData: PlaceData[] = [
+export const mockPlaceData: Place[] = [
     {
         address: "1701 US-220, Stokesdale, NC 27357, United States",
         coords: { latitude: 36.2950075, longitude: -79.93951609999999 },

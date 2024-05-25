@@ -2,9 +2,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { createJamMem } from "../../api/jamMemAPI";
 import {
-    getQueryKeyForUseJamMem,
+    getQueryKeyForUseCurrentUser,
     getQueryKeyForUseJamMemMetadatas,
 } from "./useQueryHooks";
+import { updateCurrentUser } from "../../api/userAPI";
 
 export const useMutationToCreateJamMem = () => {
     const queryClient = useQueryClient();
@@ -14,6 +15,18 @@ export const useMutationToCreateJamMem = () => {
         onSuccess: () =>
             queryClient.invalidateQueries({
                 queryKey: getQueryKeyForUseJamMemMetadatas(),
+            }),
+    });
+};
+
+export const useMutationToUpdateUser = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: updateCurrentUser,
+        onSuccess: () =>
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUseCurrentUser(),
             }),
     });
 };

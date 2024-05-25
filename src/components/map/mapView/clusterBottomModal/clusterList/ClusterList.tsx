@@ -29,8 +29,9 @@ const ClusterList: React.FC<ClusterListProps> = ({
     }, [refetchFunctions]);
 
     const renderItem = useCallback(
-        ({ item }: { item: number[] }) => (
+        ({ item, index }: { item: number[]; index: number }) => (
             <ClusterListItem
+                rank={index + 1}
                 songIdFrequency={item}
                 registerRefetch={registerRefetch}
             />

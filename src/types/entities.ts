@@ -5,6 +5,15 @@ export interface User {
     id: number;
     username: string;
     displayName: string;
+    trackSnapshots: boolean;
+    shareSnapshots: boolean;
+}
+
+export interface UserUpdateArgs {
+    username?: string;
+    displayName?: string;
+    trackSnapshots?: boolean;
+    shareShapshots?: boolean;
 }
 
 /* Snapshots */

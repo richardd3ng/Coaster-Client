@@ -1,17 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { Text } from "react-native";
 import { useSelector } from "react-redux";
 
-import BottomModalWrapper from "../../../shared/bottomModalWrapper/BottomModalWrapper";
-import ClusterList from "./clusterList/ClusterList";
+import BottomModalTopRow from "../../../shared/bottomModalTopRow/BottomModalTopRow";
 import {
     BottomSheetType,
     useBottomSheet,
 } from "../../../../hooks/context/BottomSheetContext";
-import CloseButton from "../../../shared/closeButton/CloseButton";
-import createStyles from "./styles";
+import ClusterList from "./clusterList/ClusterList";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
@@ -19,15 +15,14 @@ import {
 } from "../../../../hooks/context/ModalContext";
 import { RootState } from "../../../../state/store";
 import { SongIdFrequencies } from "../../../../utils/superclusterManager";
-import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
+import BottomModal from "../../../shared/bottomModal/BottomModal";
 
 const ClusterBottomModal: React.FC = () => {
-    const styles = useThemeAwareObject(createStyles);
-    const { refs: modalRefs, dismiss, snapIndexes } = useModal();
+    const { dismiss } = useModal();
     const { setSnapIndex } = useBottomSheet();
-    const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
     const [songIdFrequencies, setSongIdFrequencies] =
         useState<SongIdFrequencies>([]);
+    const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
 
     const selectedCluster = useSelector((state: RootState) => {
         return state.cluster.selectedCluster;
@@ -55,20 +50,18 @@ const ClusterBottomModal: React.FC = () => {
     };
 
     return (
-        <BottomModalWrapper>
-            <BottomSheetModal
-                ref={modalRefs[ModalType.Cluster]}
-                index={snapIndexes[ModalType.Cluster]}
-                snapPoints={snapPoints}
-                handleComponent={null}
-                backgroundStyle={styles.bottomSheetModal}
-                onChange={handleSheetChanges}
-            >
-                <Text>{selectedCluster?.size}</Text>
-                <ClusterList songIdFrequencies={songIdFrequencies} />
-                <CloseButton onPress={handleClose} />
-            </BottomSheetModal>
-        </BottomModalWrapper>
+        <BottomModal
+            modalType={ModalType.Cluster}
+            snapPoints={snapPoints}
+            onChange={handleSheetChanges}
+        >
+            <BottomModalTopRow
+                headerText={`Total Songs: ${selectedCluster?.size}`}
+                modalType={ModalType.Cluster}
+                onClose={handleClose}
+            />
+            <ClusterList songIdFrequencies={songIdFrequencies} />
+        </BottomModal>
     );
 };
 

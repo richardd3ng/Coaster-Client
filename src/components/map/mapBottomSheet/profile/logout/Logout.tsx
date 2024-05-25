@@ -35,7 +35,7 @@ const Logout: React.FC = () => {
                 hideArrow
                 hideDivider
                 textColor="crimson"
-                style={styles.profileListItem}
+                containerStyle={styles.profileListItem}
             />
             <ConfirmationDialog
                 open={showConfiramtionDialog}

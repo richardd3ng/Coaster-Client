@@ -14,16 +14,8 @@ export interface ProfileListItemProps {
     hideArrow?: boolean;
     hideDivider?: boolean;
     textColor?: string;
-    style?: StyleProp<ViewStyle>;
+    containerStyle?: StyleProp<ViewStyle>;
 }
-
-const ArrowIcon = (
-    <IconButton
-        iconName="arrow-ios-forward"
-        iconColor="gray"
-        style={{ backgroundColor: "white" }}
-    />
-);
 
 const ProfileListItem: React.FC<ProfileListItemProps> = ({
     text,
@@ -32,13 +24,22 @@ const ProfileListItem: React.FC<ProfileListItemProps> = ({
     hideArrow,
     hideDivider,
     textColor,
-    style,
+    containerStyle,
 }: ProfileListItemProps) => {
     const styles = useThemeAwareObject(createStyles);
 
+    const ArrowIcon = (
+        <IconButton
+            iconName="arrow-ios-forward"
+            iconColor="gray"
+            style={styles.button}
+            onPress={onPress}
+        />
+    );
+
     return (
         <CustomPressable onPress={onPress}>
-            <View style={[styles.container, style]}>
+            <View style={[styles.container, containerStyle]}>
                 {icon}
                 <Text style={[styles.text, { color: textColor }]}>{text}</Text>
                 {!hideArrow && ArrowIcon}

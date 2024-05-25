@@ -1,15 +1,14 @@
 import { useMemo } from "react";
 
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Text } from "react-native";
 import { useSelector } from "react-redux";
 
-import BottomModalWrapper from "../../../../shared/bottomModalWrapper/BottomModalWrapper";
+import BottomModal from "../../../../shared/bottomModal/BottomModal";
+import BottomModalTopRow from "../../../../shared/bottomModalTopRow/BottomModalTopRow";
 import {
     BottomSheetType,
     useBottomSheet,
 } from "../../../../../hooks/context/BottomSheetContext";
-import CloseButton from "../../../../shared/closeButton/CloseButton";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
@@ -20,12 +19,9 @@ import ErrorView from "../../../../shared/errorView/ErrorView";
 import LoadingView from "../../../../shared/loadingView/LoadingView";
 import { RootState } from "../../../../../state/store";
 import { useJamMem } from "../../../../../hooks/react-query/useQueryHooks";
-import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
-import createStyles from "./styles";
 
 const JamMemBottomModal: React.FC = () => {
-    const styles = useThemeAwareObject(createStyles);
-    const { refs: modalRefs, dismiss, snapIndexes } = useModal();
+    const { dismiss } = useModal();
     const { setSnapIndex } = useBottomSheet();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
 
@@ -62,23 +58,26 @@ const JamMemBottomModal: React.FC = () => {
             onTryAgain={refetch}
         />
     ) : selectedJamMem ? (
-        <Text>{selectedJamMem.title}</Text>
+        <>
+            <Text>{selectedJamMem.location}</Text>
+            <Text>{selectedJamMem.start.toDateString()}</Text>
+            <Text>{selectedJamMem.end.toDateString()}</Text>
+        </>
     ) : null;
 
     return (
-        <BottomModalWrapper>
-            <BottomSheetModal
-                ref={modalRefs[ModalType.JamMem]}
-                index={snapIndexes[ModalType.JamMem]}
-                snapPoints={snapPoints}
-                handleComponent={null}
-                backgroundStyle={styles.bottomSheetModal}
-                onChange={handleSheetChanges}
-            >
-                {ModalContent}
-                <CloseButton onPress={handleClose} />
-            </BottomSheetModal>
-        </BottomModalWrapper>
+        <BottomModal
+            modalType={ModalType.JamMem}
+            snapPoints={snapPoints}
+            onChange={handleSheetChanges}
+        >
+            <BottomModalTopRow
+                headerText={selectedJamMem?.title ?? ""}
+                modalType={ModalType.JamMem}
+                onClose={handleClose}
+            />
+            {ModalContent}
+        </BottomModal>
     );
 };
 
