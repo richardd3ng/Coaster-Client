@@ -39,7 +39,7 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
             >
                 <View style={styles.imageContainer}>
                     <Image
-                        source={require("../../../../../assets/icon.png")}
+                        source={require("../../../../assets/icon.png")}
                         style={styles.image}
                     />
                 </View>
