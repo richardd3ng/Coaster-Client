@@ -10,7 +10,7 @@ const FriendsButton: React.FC = () => {
     return (
         <MapIconButton
             name="people"
-            onPress={() => navigate(ScreenName.Friends)}
+            onPress={() => {}}
             filled
             style={styles.button}
         />

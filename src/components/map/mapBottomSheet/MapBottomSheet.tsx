@@ -12,10 +12,10 @@ import {
 import CancelTextPressable from "./search/cancelTextPressable/CancelTextPressable";
 import createStyles from "./styles";
 import { DEFAULT_SNAP_POINTS } from "../../../hooks/context/ModalContext";
-import JamMemsStack from "./jamMems/jamMemsStack/JamMemsStack";
+import JamMemsStack from "../../jamMems/jamMemsStack/JamMemsStack";
 import { mockPlaceData } from "../../../mockData/constants";
 import { Place, fetchPlaces } from "../../../api/placesAPI";
-import ProfileIconButton from "./profile/profileIconButton/ProfileIconButton";
+import ProfileIconButton from "../../profile/profileIconButton/ProfileIconButton";
 import SearchBar from "../../shared/searchBar/SearchBar";
 import SearchResultsList from "./search/searchResultsList/SearchResultsList";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
