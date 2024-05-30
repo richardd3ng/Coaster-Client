@@ -5,6 +5,7 @@ export interface User {
     id: number;
     username: string;
     displayName: string;
+    profileUri: string;
     trackSnapshots: boolean;
     shareSnapshots: boolean;
 }

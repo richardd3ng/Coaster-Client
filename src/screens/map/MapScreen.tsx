@@ -3,6 +3,7 @@ import { BottomSheetProvider } from "../../hooks/context/BottomSheetContext";
 import ButtonPanel from "../../components/map/buttonPanel/ButtonPanel";
 import ClusterBottomModal from "../../components/clusters/clusterBottomModal/ClusterBottomModal";
 import ClusteredMapView from "../../components/map/clusteredMapView/ClusteredMapView";
+import FriendsBottomModal from "../../components/friends/friendsBottomModal/FriendsBottomModal";
 import JamMemBottomModal from "../../components/jamMems/jamMemBottomModal/JamMemBottomModal";
 import MapBottomSheet from "../../components/map/mapBottomSheet/MapBottomSheet";
 import { MapContextProvider } from "../../hooks/context/MapContext";
@@ -18,6 +19,7 @@ const MapScreen: React.FC = () => {
                     <ClusteredMapView />
                     <ButtonPanel />
                     <MapBottomSheet />
+                    <FriendsBottomModal />
                     <JamMemBottomModal />
                     <ClusterBottomModal />
                     <ProfileBottomModal />

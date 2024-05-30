@@ -31,7 +31,7 @@ const JamMemsStack: React.FC = () => {
             Alert.alert(createJamMemError.message);
         }
         reset();
-    }, [createJamMemIsError]);
+    }, [createJamMemIsError, createJamMemError]);
 
     const JamMemsContent = isLoading ? (
         <LoadingView containerStyle={styles.errorLoadingContainer} />

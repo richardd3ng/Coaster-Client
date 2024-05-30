@@ -5,7 +5,7 @@ import { Alert } from "react-native";
 import ConfirmationDialog from "../../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
 import { PreferencesOption } from "../../../../types/navigation";
-import PreferencesListItem from "../preferencesListItem/ToggledListItem";
+import PreferencesListItem from "../preferencesListItem/PreferencesListItem";
 import { useCurrentUser } from "../../../../hooks/react-query/useQueryHooks";
 import { useMutationToUpdateUser } from "../../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";

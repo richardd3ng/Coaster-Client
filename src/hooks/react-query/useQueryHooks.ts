@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { fetchCurrentUser } from "../../api/userAPI";
+import { fetchCurrentUser, fetchFriends } from "../../api/userAPI";
 import { fetchJamMem, fetchJamMemMetadatas } from "../../api/jamMemAPI";
 import { fetchSong } from "../../api/songAPI";
 
@@ -47,6 +47,17 @@ export const useCurrentUser = () => {
     });
 };
 
+export const useFriends = () => {
+    return useQuery({
+        queryKey: getQueryKeyForUseFriends(),
+        queryFn: fetchFriends,
+    });
+};
+
 export const getQueryKeyForUseCurrentUser = () => {
     return ["currentUser"];
+};
+
+export const getQueryKeyForUseFriends = () => {
+    return ["friends"];
 };

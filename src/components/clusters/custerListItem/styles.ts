@@ -25,7 +25,7 @@ const createStyles = (theme: Theme) => {
         },
         image: { width: 50, height: 50 },
         imageContainer: {
-            padding: 8,
+            padding: theme.spacing.base,
         },
         listItemContainer: {
             paddingLeft: 2,

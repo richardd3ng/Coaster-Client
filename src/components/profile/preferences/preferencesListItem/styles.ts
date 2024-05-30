@@ -6,6 +6,8 @@ const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         button: {
             backgroundColor: "white",
+            height: 24,
+            width: 24,
         },
         container: {
             flexDirection: "row",

@@ -12,11 +12,11 @@ interface IconButtonProps extends ButtonProps {
 const IconButton: React.FC<IconButtonProps> = ({
     iconName,
     iconColor,
-    style,
+    style = styles.button,
     ...buttonProps
 }) => (
     <Button
-        style={[styles.button, style]}
+        style={style}
         appearance="ghost"
         accessoryLeft={() => (
             <Icon name={iconName} fill={iconColor} style={styles.icon} />

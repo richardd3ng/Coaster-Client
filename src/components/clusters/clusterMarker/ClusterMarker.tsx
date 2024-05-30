@@ -20,12 +20,14 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
     cluster,
 }: ClusterMarkerProps) => {
     const { width, height } = getImageStyle(cluster.size);
-    const { present, setSnapIndex } = useModal();
+    const { dismiss, present, setSnapIndex } = useModal();
     const { close } = useBottomSheet();
     // decide on styling based on the size of the cluster
 
     const handlePress = useCallback((cluster: SongCluster) => {
         dispatchSetSelectedCluster(cluster);
+        dismiss(ModalType.Friends);
+        dismiss(ModalType.JamMem);
         close(BottomSheetType.Map);
         present(ModalType.Cluster);
         setSnapIndex(ModalType.Cluster, 1);

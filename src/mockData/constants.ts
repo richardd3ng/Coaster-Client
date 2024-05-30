@@ -7,6 +7,8 @@ export const mockUserData: User[] = [
         id: 1,
         username: "shanggang",
         displayName: "Jason Shang",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
         trackSnapshots: true,
         shareSnapshots: true,
     },
@@ -14,6 +16,8 @@ export const mockUserData: User[] = [
         id: 2,
         username: "rdengomng",
         displayName: "Richard Deng",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
         trackSnapshots: true,
         shareSnapshots: true,
     },
@@ -21,6 +25,8 @@ export const mockUserData: User[] = [
         id: 3,
         username: "joshisacow",
         displayName: "Josh Chen",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
         trackSnapshots: true,
         shareSnapshots: true,
     },
@@ -28,6 +34,8 @@ export const mockUserData: User[] = [
         id: 4,
         username: "anikapawlak",
         displayName: "Anika Pawlak",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
         trackSnapshots: true,
         shareSnapshots: true,
     },
@@ -35,6 +43,8 @@ export const mockUserData: User[] = [
         id: 5,
         username: "doingdiane",
         displayName: "Diane Lee",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
         trackSnapshots: true,
         shareSnapshots: true,
     },
