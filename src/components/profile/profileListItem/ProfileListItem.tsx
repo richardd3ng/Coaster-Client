@@ -1,9 +1,8 @@
-import { Divider } from "@ui-kitten/components";
+import { Divider, Icon } from "@ui-kitten/components";
 import { StyleProp, Text, View, ViewStyle } from "react-native";
 
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import IconButton from "../../shared/iconButton/IconButton";
 import { ProfileOption } from "../../../types/navigation";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
@@ -29,12 +28,7 @@ const ProfileListItem: React.FC<ProfileListItemProps> = ({
     const styles = useThemeAwareObject(createStyles);
 
     const ArrowIcon = (
-        <IconButton
-            iconName="arrow-ios-forward"
-            iconColor="gray"
-            style={styles.button}
-            onPress={onPress}
-        />
+        <Icon name="arrow-ios-forward" fill="gray" style={styles.icon} />
     );
 
     return (

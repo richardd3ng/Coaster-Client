@@ -48,6 +48,60 @@ export const mockUserData: User[] = [
         trackSnapshots: true,
         shareSnapshots: true,
     },
+    {
+        id: 6,
+        username: "greatwhite2000",
+        displayName: "Ben Crespo",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
+    },
+    {
+        id: 7,
+        username: "lieutenant_of_singapore",
+        displayName: "Elias Lai",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
+    },
+    {
+        id: 8,
+        username: "nyu123",
+        displayName: "Nathan Yu",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
+    },
+    {
+        id: 9,
+        username: "japanese_raccoon",
+        displayName: "Emily Ford",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
+    },
+    {
+        id: 10,
+        username: "turtle_lover_9000",
+        displayName: "Connie Vi",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
+    },
+    {
+        id: 11,
+        username: "hangukjangerbanger",
+        displayName: "Justin Jang",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
+    },
 ];
 
 export const mockSongData: Song[] = generateSongs();

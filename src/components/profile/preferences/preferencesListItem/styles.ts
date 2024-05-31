@@ -4,10 +4,9 @@ import { Theme } from "../../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        button: {
-            backgroundColor: "white",
-            height: 24,
-            width: 24,
+        icon: {
+            height: 25,
+            width: 25,
         },
         container: {
             flexDirection: "row",

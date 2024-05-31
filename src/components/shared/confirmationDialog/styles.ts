@@ -19,7 +19,7 @@ const createStyles = (theme: Theme) => {
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,
             flex: 1,
-            borderColor: theme.color.background,
+            borderWidth: 0,
         },
         confirmButton: {
             backgroundColor: theme.color.background,
@@ -28,7 +28,7 @@ const createStyles = (theme: Theme) => {
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,
             flex: 1,
-            borderColor: theme.color.background,
+            borderWidth: 0,
         },
         textContainer: {
             paddingHorizontal: theme.spacing.double,

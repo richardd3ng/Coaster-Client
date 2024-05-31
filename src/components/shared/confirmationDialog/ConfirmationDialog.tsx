@@ -47,7 +47,6 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
                     <View style={styles.buttonContainer}>
                         <TextButton
                             onPress={onClose}
-                            activeOpacity={0.5}
                             style={styles.cancelButton}
                             text="Cancel"
                             textStyle={styles.cancelText}
@@ -55,7 +54,6 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
                         <Divider style={styles.verticalDivider} />
                         <TextButton
                             onPress={handleConfirm}
-                            activeOpacity={0.5}
                             style={styles.confirmButton}
                             text={confirmText}
                             textStyle={styles.confirmText}

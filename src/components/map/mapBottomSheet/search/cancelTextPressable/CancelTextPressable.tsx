@@ -14,7 +14,10 @@ const CancelTextPressable: React.FC<CancelTextPressableProps> = ({
     const styles = useThemeAwareObject(createStyles);
 
     return (
-        <CustomPressable onPress={props.onPress} style={styles.cancelButton}>
+        <CustomPressable
+            onPress={props.onPress}
+            style={[styles.cancelButton, props.style]}
+        >
             <Text style={styles.cancelText}>Cancel</Text>
         </CustomPressable>
     );

@@ -10,8 +10,7 @@ import CustomPressable from "../../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
 import { PreferencesOption } from "../../../../types/navigation";
 import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
-import IconButton from "../../../shared/iconButton/IconButton";
-import { Divider } from "@ui-kitten/components";
+import { Divider, Icon } from "@ui-kitten/components";
 
 export interface PreferencesListItemProps {
     text: PreferencesOption;
@@ -35,17 +34,16 @@ const PreferencesListItem: React.FC<PreferencesListItemProps> = ({
     const StatusIndicator = isPending ? (
         <ActivityIndicator style={styles.spinner} />
     ) : (
-        <IconButton
-            iconName="arrow-ios-forward"
-            iconColor={isEnabled ? "black" : "white"}
-            onPress={onPress}
-            style={styles.button}
+        <Icon
+            name="checkmark"
+            style={styles.icon}
+            fill={isEnabled ? "royalblue" : "white"}
         />
     );
 
     return (
         <CustomPressable onPress={onPress}>
-            <View style={style || styles.container}>
+            <View style={[styles.container, style]}>
                 <Text style={styles.text}>{text}</Text>
                 {StatusIndicator}
             </View>
