@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 import { ActivityIndicator, View } from "react-native";
 
@@ -12,12 +12,10 @@ import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 
 interface CancelRequestButtonProps {
     user: User;
-    onSuccess?: () => void;
 }
 
 const CancelRequestButton: React.FC<CancelRequestButtonProps> = ({
     user,
-    onSuccess,
 }: CancelRequestButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
@@ -29,10 +27,6 @@ const CancelRequestButton: React.FC<CancelRequestButtonProps> = ({
         reset,
     } = useMutationToCancelRequest();
     useMutationErrorAlert({ isError, error, reset });
-
-    const handleConfirm = useCallback(() => {
-        cancelRequest(user.id, { onSuccess });
-    }, []);
 
     return (
         <>
@@ -52,7 +46,7 @@ const CancelRequestButton: React.FC<CancelRequestButtonProps> = ({
                 title={`Are you sure you want to delete the friend request sent to ${user.username}?`}
                 description={`${user.username} will not see your friend request anymore and will not be notified.`}
                 onClose={() => setShowConfirmation(false)}
-                onConfirm={handleConfirm}
+                onConfirm={() => cancelRequest(user.id)}
             />
         </>
     );

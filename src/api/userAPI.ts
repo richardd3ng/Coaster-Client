@@ -93,6 +93,6 @@ export const cancelRequest = async (id: number): Promise<void> => {
         mockMoreResultsData.push(mockSentRequestsData[index]);
         mockSentRequestsData.splice(index, 1);
     } catch (error) {
-        throw new Error("Error: unable to send friend request");
+        throw new Error("Error: unable to cancel friend request");
     }
 };

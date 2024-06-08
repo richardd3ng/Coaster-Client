@@ -45,9 +45,6 @@ const FriendsBottomModal: React.FC = () => {
     const [filteredFriends, setFilteredFriends] = useState<User[]>(
         dataFriends ?? []
     );
-    const [filteredSentRequests, setFilteredSentRequests] = useState<User[]>(
-        []
-    );
     const [moreResults, setMoreResults] = useState<User[]>([]);
     const [showCancel, setShowCancel] = useState<boolean>(false);
     const searchBarInputRef = useRef<Input>(null);
@@ -63,7 +60,6 @@ const FriendsBottomModal: React.FC = () => {
         searchBarInputRef.current?.clear();
         setFilteredFriends(dataFriends ?? []);
         setMoreResults([]);
-        setFilteredSentRequests([]);
     }, []);
 
     const handleSearch = async () => {
@@ -72,7 +68,6 @@ const FriendsBottomModal: React.FC = () => {
         }
         setFilteredFriends(filterUsers(dataFriends ?? [], query));
         setMoreResults(await fetchMoreResults(query));
-        setFilteredSentRequests(filterUsers(sentRequests ?? [], query));
     };
 
     const handleCancel = useCallback(() => {
@@ -100,13 +95,12 @@ const FriendsBottomModal: React.FC = () => {
         <ErrorView message={error.message} onTryAgain={refetch} />
     ) : filteredFriends ? (
         <FriendsScrollView
-            friends={filteredFriends}
+            friends={query.trim() !== "" ? filteredFriends : dataFriends}
             moreResults={moreResults}
-            sentRequests={filteredSentRequests}
             refetchQuery={handleSearch}
         />
     ) : null;
-
+ 
     const SearchBarRow = (
         <View style={styles.searchBarRowContainer}>
             <SearchBar

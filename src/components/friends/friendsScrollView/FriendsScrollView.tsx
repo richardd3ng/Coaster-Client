@@ -15,7 +15,6 @@ interface FriendsListProps {
     moreResults?: User[];
     pendingRequests?: User[];
     sentRequests?: User[];
-    hideSentRequestsHeader?: boolean;
     refetchQuery?: () => void;
 }
 
@@ -24,11 +23,9 @@ const FriendsScrollView: React.FC<FriendsListProps> = ({
     moreResults,
     pendingRequests,
     sentRequests,
-    hideSentRequestsHeader,
     refetchQuery,
 }: FriendsListProps) => {
     const styles = useThemeAwareObject(createStyles);
-
     return (
         <BottomSheetScrollView
             showsVerticalScrollIndicator
@@ -68,7 +65,7 @@ const FriendsScrollView: React.FC<FriendsListProps> = ({
                         : "50+"
                 })`}</Text>
             )}
-            {(sentRequests ?? []).length > 0 && !hideSentRequestsHeader && (
+            {(sentRequests ?? []).length > 0 && (
                 <Text key={-3} style={styles.text}>
                     Sent Requests
                 </Text>
@@ -78,12 +75,7 @@ const FriendsScrollView: React.FC<FriendsListProps> = ({
                     <FriendsListItem
                         key={user.id}
                         user={user}
-                        Button={
-                            <CancelRequestButton
-                                user={user}
-                                onSuccess={refetchQuery}
-                            />
-                        }
+                        Button={<CancelRequestButton user={user} />}
                         Icon={<AddedIcon />}
                     />
                 ))}
