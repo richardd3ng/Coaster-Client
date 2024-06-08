@@ -2,7 +2,7 @@ import { generateSongs } from "./scripts";
 import { JamMem, Song, User } from "../types/entities";
 import { Place } from "../api/placesAPI";
 
-export const mockUserData: User[] = [
+export const mockFriendsData: User[] = [
     {
         id: 1,
         username: "shanggang",
@@ -48,6 +48,9 @@ export const mockUserData: User[] = [
         trackSnapshots: true,
         shareSnapshots: true,
     },
+];
+
+export const mockMoreResultsData: User[] = [
     {
         id: 6,
         username: "greatwhite2000",
@@ -104,6 +107,10 @@ export const mockUserData: User[] = [
     },
 ];
 
+export const mockIncomingRequestsData: User[] = [];
+
+export const mockSentRequestsData: User[] = [];
+
 export const mockSongData: Song[] = generateSongs();
 
 export const mockJamMemData: JamMem[] = [
@@ -117,7 +124,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/289/200/300.jpg?hmac=TVh4H_Hra3e1VSDPJz-mhCgep32qIa7T6DGQvbrjMb4",
         snapshots: [],
-        friends: mockUserData,
+        friends: mockFriendsData,
     },
     {
         id: 2,
@@ -129,7 +136,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/392/200/300.jpg?hmac=tcnub3WKREnSOdoCn7rQtfZkHXNWn5fXwNpHrv0o-5k",
         snapshots: [],
-        friends: mockUserData,
+        friends: mockFriendsData,
     },
     {
         id: 3,
@@ -141,7 +148,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/292/200/300.jpg?hmac=zm-TXplXe70N7LGm2HWu9iOPXoBtQvwyhAF2CSj0ccs",
         snapshots: [],
-        friends: mockUserData,
+        friends: mockFriendsData,
     },
     {
         id: 4,
@@ -153,7 +160,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/574/200/300.jpg?hmac=8A2sOGZU1xgRXI46snJ80xNY3Yx-KcLVsBG-wRchwFg",
         snapshots: [],
-        friends: mockUserData,
+        friends: mockFriendsData,
     },
     {
         id: 5,
@@ -165,7 +172,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/397/200/300.jpg?hmac=9VBInLrifj_yyc2JuJSAVIfj9yQdt5Ovm2sHmvva-48",
         snapshots: [],
-        friends: mockUserData,
+        friends: mockFriendsData,
     },
     {
         id: 6,
@@ -177,7 +184,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/316/200/300.jpg?hmac=sq0VBO6H0wGg9Prod7MVUUB_7B91kmD5E1X1TRSo66U",
         snapshots: [],
-        friends: mockUserData,
+        friends: mockFriendsData,
     },
 ];
 

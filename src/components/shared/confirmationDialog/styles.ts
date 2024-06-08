@@ -36,10 +36,12 @@ const createStyles = (theme: Theme) => {
         titleText: {
             fontWeight: "bold",
             fontSize: theme.font.medium,
+            textAlign: "center",
         },
         descriptionText: {
             paddingTop: theme.spacing.base,
             fontSize: theme.font.small,
+            textAlign: "center",
         },
         cancelText: {
             color: "#007AFF",

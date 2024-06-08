@@ -21,10 +21,8 @@ const createStyles = (theme: Theme) => {
             flex: 1,
         },
         spinner: {
-            height: 24,
-            width: 24,
-            paddingRight: 18,
-            paddingVertical: 20,
+            height: 25,
+            width: 25,
         },
     });
 };

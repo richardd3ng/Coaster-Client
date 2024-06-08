@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
-
-import { Alert } from "react-native";
+import { useState } from "react";
 
 import ConfirmationDialog from "../../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
 import { PreferencesOption } from "../../../../types/navigation";
 import PreferencesListItem from "../preferencesListItem/PreferencesListItem";
 import { useCurrentUser } from "../../../../hooks/react-query/useQueryHooks";
+import useMutationErrorAlert from "../../../../hooks/useMutationErrorAlert";
 import { useMutationToUpdateUser } from "../../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
 
@@ -22,13 +21,7 @@ const ShareSnapshots: React.FC = () => {
         error,
         reset,
     } = useMutationToUpdateUser();
-
-    useEffect(() => {
-        if (isError && error) {
-            Alert.alert(error.message);
-        }
-        reset();
-    }, [isError]);
+    useMutationErrorAlert({ isError, error, reset });
 
     const handleToggle = () => {
         if (currentUser?.shareSnapshots || false) {

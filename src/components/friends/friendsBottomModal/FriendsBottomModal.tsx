@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Input } from "@ui-kitten/components";
-import { View } from "react-native";
+import { Button, View } from "react-native";
 
 import BottomModal from "../../shared/bottomModal/BottomModal";
 import BottomModalTopRow from "../../shared/bottomModalTopRow/BottomModalTopRow";
@@ -17,51 +17,68 @@ import {
     useModal,
 } from "../../../hooks/context/ModalContext";
 import ErrorView from "../../shared/errorView/ErrorView";
+import { fetchMoreResults } from "../../../api/userAPI";
 import { filterUsers } from "../../../utils/userUtils";
 import FriendsScrollView from "../friendsScrollView/FriendsScrollView";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import SearchBar from "../../shared/searchBar/SearchBar";
-import { useFriends } from "../../../hooks/react-query/useQueryHooks";
+import {
+    useFriends,
+    useSentRequests,
+} from "../../../hooks/react-query/useQueryHooks";
 import { User } from "../../../types/entities";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { fetchMoreResults } from "../../../api/userAPI";
 
 const FriendsBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const { dismiss } = useModal();
+    const { dismiss, present } = useModal();
     const { setSnapIndex } = useBottomSheet();
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[2]], []);
     const {
         data: dataFriends,
-        isFetching: isFetchingFriends,
-        isError: isErrorFriends,
-        error: errorFriends,
-        refetch: refetchFriends,
+        isFetching,
+        isError,
+        error,
+        refetch,
     } = useFriends();
-    const [friends, setFriends] = useState<User[]>(dataFriends ?? []);
+    const { data: sentRequests } = useSentRequests();
+    const [filteredFriends, setFilteredFriends] = useState<User[]>(
+        dataFriends ?? []
+    );
+    const [filteredSentRequests, setFilteredSentRequests] = useState<User[]>(
+        []
+    );
     const [moreResults, setMoreResults] = useState<User[]>([]);
     const [showCancel, setShowCancel] = useState<boolean>(false);
     const searchBarInputRef = useRef<Input>(null);
+    const [query, setQuery] = useState<string>("");
 
     useEffect(() => {
-        setFriends(dataFriends ?? []);
+        setFilteredFriends(dataFriends ?? []);
     }, [dataFriends]);
 
     const clearSearch = useCallback(() => {
+        setQuery("");
         searchBarInputRef.current?.blur();
         searchBarInputRef.current?.clear();
-        setFriends(dataFriends ?? []);
+        setFilteredFriends(dataFriends ?? []);
         setMoreResults([]);
+        setFilteredSentRequests([]);
     }, []);
 
-    const handleSearch = useCallback(async (query: string) => {
-        setFriends(filterUsers(dataFriends ?? [], query));
+    const handleSearch = async () => {
+        if (query.trim() === "") {
+            return;
+        }
+        setFilteredFriends(filterUsers(dataFriends ?? [], query));
         setMoreResults(await fetchMoreResults(query));
-    }, []);
+        setFilteredSentRequests(filterUsers(sentRequests ?? [], query));
+    };
 
     const handleCancel = useCallback(() => {
         clearSearch();
         setShowCancel(false);
+        setQuery("");
     }, []);
 
     const handleClose = useCallback(() => {
@@ -77,12 +94,17 @@ const FriendsBottomModal: React.FC = () => {
         }
     }, []);
 
-    const FriendsContent = isFetchingFriends ? (
+    const FriendsContent = isFetching ? (
         <LoadingView />
-    ) : isErrorFriends ? (
-        <ErrorView message={errorFriends.message} onTryAgain={refetchFriends} />
-    ) : friends ? (
-        <FriendsScrollView friends={friends} moreResults={moreResults} />
+    ) : isError ? (
+        <ErrorView message={error.message} onTryAgain={refetch} />
+    ) : filteredFriends ? (
+        <FriendsScrollView
+            friends={filteredFriends}
+            moreResults={moreResults}
+            sentRequests={filteredSentRequests}
+            refetchQuery={handleSearch}
+        />
     ) : null;
 
     const SearchBarRow = (
@@ -93,6 +115,7 @@ const FriendsBottomModal: React.FC = () => {
                 onSearch={handleSearch}
                 onClear={() => setMoreResults([])}
                 onFocus={() => setShowCancel(true)}
+                onChangeText={setQuery}
                 style={styles.textInput}
             />
             {showCancel && (
@@ -109,6 +132,7 @@ const FriendsBottomModal: React.FC = () => {
             modalType={ModalType.Friends}
             snapPoints={snapPoints}
             onChange={handleSheetChanges}
+            onDismiss={handleClose}
         >
             <View style={{ flex: 1 }}>
                 <BottomModalTopRow
@@ -117,6 +141,10 @@ const FriendsBottomModal: React.FC = () => {
                     onClose={handleClose}
                 />
                 {SearchBarRow}
+                <Button
+                    title="sent requests"
+                    onPress={() => present(ModalType.SentRequests)}
+                />
                 {FriendsContent}
             </View>
         </BottomModal>

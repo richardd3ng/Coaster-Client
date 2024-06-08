@@ -9,17 +9,12 @@ const createStyles = (theme: Theme) => {
             backgroundColor: "lightgray",
             borderRadius: theme.border.radiusPrimary,
             height: 25,
-            width: 50,
+            width: 60,
             padding: 0,
         },
         container: {
             flex: 1,
-            alignItems: "flex-end",
             paddingRight: theme.spacing.base,
-        },
-        spinner: {
-            height: 25,
-            width: 25,
         },
         text: {
             color: "royalblue",

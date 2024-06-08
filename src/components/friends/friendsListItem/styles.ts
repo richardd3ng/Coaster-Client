@@ -4,6 +4,12 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
+        iconButtonContainer: {
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center", // Centers items vertically
+            justifyContent: "flex-end", // Aligns items to the right horizontally
+        },
         image: { height: 50, width: 50, borderRadius: 25 },
         imageContainer: {
             padding: theme.spacing.base,

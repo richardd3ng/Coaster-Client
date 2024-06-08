@@ -16,6 +16,7 @@ export enum ModalType {
     JamMem,
     Preferences,
     Profile,
+    SentRequests,
 }
 
 export const DEFAULT_SNAP_POINTS = ["12%", "35%", "92%"];
@@ -43,6 +44,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         [ModalType.JamMem]: useRef<BottomSheetModal>(null),
         [ModalType.Preferences]: useRef<BottomSheetModal>(null),
         [ModalType.Profile]: useRef<BottomSheetModal>(null),
+        [ModalType.SentRequests]: useRef<BottomSheetModal>(null),
     };
 
     const [visible, setVisible] = useState<Record<ModalType, boolean>>({
@@ -52,6 +54,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         [ModalType.JamMem]: false,
         [ModalType.Preferences]: false,
         [ModalType.Profile]: false,
+        [ModalType.SentRequests]: false,
     });
 
     const [snapIndexes, setSnapIndexes] = useState<Record<ModalType, number>>({
@@ -61,6 +64,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         [ModalType.JamMem]: 0,
         [ModalType.Preferences]: 0,
         [ModalType.Profile]: 0,
+        [ModalType.SentRequests]: 0,
     });
 
     const present = useCallback((modalType: ModalType) => {

@@ -1,28 +1,49 @@
-import { View } from "react-native";
+import { useCallback } from "react";
+
+import { ActivityIndicator, View } from "react-native";
 
 import createStyles from "./styles";
 import TextButton from "../../shared/textButton/TextButton";
+import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import { useMutationToSendRequest } from "../../../hooks/react-query/useMutationHooks";
 import { User } from "../../../types/entities";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface AddButtonProps {
     user: User;
+    onSuccess: () => void;
 }
 
-const AddButton: React.FC<AddButtonProps> = ({ user }: AddButtonProps) => {
+const AddButton: React.FC<AddButtonProps> = ({
+    user,
+    onSuccess,
+}: AddButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const handlePress = () => {
-        console.log("adding", user.id);
-    };
+    const {
+        mutate: sendRequest,
+        isPending,
+        isError,
+        error,
+        reset,
+    } = useMutationToSendRequest();
+    useMutationErrorAlert({ isError, error, reset });
+
+    const handlePress = useCallback(() => {
+        sendRequest(user.id, { onSuccess });
+    }, []);
 
     return (
         <View style={styles.container}>
-            <TextButton
-                text="ADD"
-                onPress={handlePress}
-                style={styles.button}
-                textStyle={styles.text}
-            />
+            {isPending ? (
+                <ActivityIndicator />
+            ) : (
+                <TextButton
+                    text="ADD"
+                    onPress={handlePress}
+                    style={styles.button}
+                    textStyle={styles.text}
+                />
+            )}
         </View>
     );
 };

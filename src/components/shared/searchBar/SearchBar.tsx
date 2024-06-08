@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useCallback, useState } from "react";
 
 import CustomPressable from "../customPressable/CustomPressable";
 import { Icon, IconElement, Input } from "@ui-kitten/components";
@@ -27,6 +27,11 @@ const SearchBar: React.ForwardRefRenderFunction<Input, SearchBarProps> = (
         onClear();
     };
 
+    const handleChangeText = useCallback((text: string) => {
+        setQuery(text);
+        props.onChangeText && props.onChangeText(text);
+    }, []);
+
     const CloseIcon = (props: any): IconElement => {
         return <Icon {...props} name="close" fill="gray" />;
     };
@@ -43,9 +48,9 @@ const SearchBar: React.ForwardRefRenderFunction<Input, SearchBarProps> = (
             accessoryLeft={<Icon name="search" />}
             accessoryRight={CloseIconButton}
             placeholder={placeholder}
-            onChangeText={setQuery}
             onSubmitEditing={handleSubmit}
             {...props}
+            onChangeText={handleChangeText}
         />
     );
 };

@@ -1,29 +1,33 @@
-import { mockUserData } from "../mockData/constants";
+import {
+    mockSentRequestsData,
+    mockFriendsData,
+    mockMoreResultsData,
+} from "../mockData/constants";
 import { User, UserUpdateArgs } from "../types/entities";
 import { filterUsers } from "../utils/userUtils";
 
 export const fetchCurrentUser = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-    return mockUserData[1];
+    return mockFriendsData[1];
 };
 
 export const updateCurrentUser = async (userUpdateArgs: UserUpdateArgs) => {
     await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
     const updatedUser = {
-        id: mockUserData[1].id,
-        username: mockUserData[1].username,
-        displayName: mockUserData[1].displayName,
-        profileUri: mockUserData[1].profileUri,
+        id: mockFriendsData[1].id,
+        username: mockFriendsData[1].username,
+        displayName: mockFriendsData[1].displayName,
+        profileUri: mockFriendsData[1].profileUri,
         trackSnapshots:
             userUpdateArgs.trackSnapshots !== undefined
                 ? userUpdateArgs.trackSnapshots
-                : mockUserData[1].trackSnapshots,
+                : mockFriendsData[1].trackSnapshots,
         shareSnapshots:
             userUpdateArgs.shareShapshots !== undefined
                 ? userUpdateArgs.shareShapshots
-                : mockUserData[1].shareSnapshots,
+                : mockFriendsData[1].shareSnapshots,
     };
-    mockUserData[1] = updatedUser;
+    mockFriendsData[1] = updatedUser;
     if (updatedUser) {
         return updatedUser;
     }
@@ -31,52 +35,64 @@ export const updateCurrentUser = async (userUpdateArgs: UserUpdateArgs) => {
 };
 
 export const fetchFriends = async (): Promise<User[]> => {
-    console.log("fetching friends");
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    return mockUserData.slice(0, 5);
+    console.log("fetching friends:", mockFriendsData.length);
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+    return mockFriendsData;
     // throw new Error("Error: unable to load friends");
 };
 
 export const fetchMoreResults = async (query: string): Promise<User[]> => {
-    console.log("fetching more results");
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-    const friends = mockUserData.slice(0, 5);
-    const nonFriends = mockUserData.filter((user) => !friends.includes(user));
-    return filterUsers(nonFriends, query);
+    return filterUsers(mockMoreResultsData, query);
 };
 
 export const deleteFriend = async (id: number): Promise<void> => {
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-    const updatedUser = {
-        id: mockUserData.length + 1,
-        username: mockUserData[1].username,
-        displayName: mockUserData[1].displayName,
-        profileUri: mockUserData[1].profileUri,
-        trackSnapshots: true,
-        shareSnapshots: true,
-    };
-    try {
-        mockUserData.push(updatedUser);
-    } catch (error) {
-        throw new Error("Error: unable to delete friend");
+    const idx = mockFriendsData.findIndex((user) => user.id === id);
+    if (idx !== -1) {
+        const deletedFriend = mockFriendsData[idx];
+        mockFriendsData.splice(idx, 1);
+        console.log("remaining friends", mockFriendsData);
+        mockMoreResultsData.push(deletedFriend);
+    } else {
+        throw new Error(`Error: user with ID ${id} not found`);
     }
 };
 
-export const fetchFriendRequests = async (): Promise<void> => {};
-
-export const sendFriendRequest = async (id: number): Promise<void> => {
+export const fetchPendingRequests = async (): Promise<User[]> => {
     await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    const updatedUser = {
-        id: mockUserData.length + 1,
-        username: mockUserData[1].username,
-        displayName: mockUserData[1].displayName,
-        profileUri: mockUserData[1].profileUri,
-        trackSnapshots: true,
-        shareSnapshots: true,
-    };
+    return mockSentRequestsData;
+};
+
+export const fetchSentRequests = async (): Promise<User[]> => {
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
+    return mockSentRequestsData;
+};
+
+export const sendRequest = async (id: number): Promise<void> => {
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
     try {
-        mockUserData.push(updatedUser);
+        const index = mockMoreResultsData.findIndex((user) => user.id === id);
+        if (index === -1) {
+            throw new Error("Error: user not found");
+        }
+        mockSentRequestsData.push(mockMoreResultsData[index]);
+        mockMoreResultsData.splice(index, 1);
     } catch (error) {
-        throw new Error("Error: unable to delete friend");
+        throw new Error("Error: unable to send friend request");
+    }
+};
+
+export const cancelRequest = async (id: number): Promise<void> => {
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+    try {
+        const index = mockSentRequestsData.findIndex((user) => user.id === id);
+        if (index === -1) {
+            throw new Error("Error: user not found");
+        }
+        mockMoreResultsData.push(mockSentRequestsData[index]);
+        mockSentRequestsData.splice(index, 1);
+    } catch (error) {
+        throw new Error("Error: unable to send friend request");
     }
 };
