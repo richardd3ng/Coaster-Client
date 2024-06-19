@@ -1,7 +1,6 @@
-import { useMemo } from "react";
-
 import { useQuery } from "@tanstack/react-query";
 
+import { ClusterFilter } from "../../types/filters";
 import {
     fetchCurrentUser,
     fetchFriends,
@@ -10,7 +9,6 @@ import {
 import { fetchJamMem, fetchJamMemMetadatas } from "../../api/jamMemAPI";
 import { fetchSong } from "../../api/songAPI";
 import { fetchAndLoadSongPoints } from "../../api/clusterAPI";
-import { ClusterFilter } from "../../types/filters";
 
 /* Jam Mems */
 export const useJamMem = (id: number) => {
@@ -40,7 +38,7 @@ export const useSongPoints = (filter: ClusterFilter) => {
     return useQuery({
         queryKey: getQueryKeyForUseSongPoints(filter),
         queryFn: () => fetchAndLoadSongPoints(filter),
-        staleTime: 60 * 60 * 1000, // Cache data for 1 hour
+        staleTime: filter.type === "social" ? 60 * 60 * 1000 : Infinity, // Cache dynamic data for 1 hour
     });
 };
 

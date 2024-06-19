@@ -13,6 +13,7 @@ import createStyles from "./styles";
 import { JamMemMetadata } from "../../../types/entities";
 import { ModalType, useModal } from "../../../hooks/context/ModalContext";
 import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
+import { useMapContext } from "../../../hooks/context/MapContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface CarouselImageItemProps {
@@ -30,6 +31,7 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
     }).current;
     const { close } = useBottomSheet();
     const { present, setSnapIndex } = useModal();
+    const { setClusterFilter } = useMapContext();
 
     const JamSessionImageItemText = () => {
         return (
@@ -47,6 +49,10 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
 
     const onPress = () => {
         dispatchSetSelectedJamMemId(jamMem.id);
+        setClusterFilter({
+            type: "jamMem",
+            value: jamMem.id,
+        });
         close(BottomSheetType.Map);
         present(ModalType.JamMem);
         setSnapIndex(ModalType.JamMem, 1);

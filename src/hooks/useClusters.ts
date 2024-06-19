@@ -10,8 +10,7 @@ const useClusters = (region: Region | null, filter: ClusterFilter) => {
     const { data: songPoints, isLoading } = useSongPoints(filter);
 
     useEffect(() => {
-        if (region) {
-            console.log("getting clusters");
+        if (region && songPoints) {
             const bBox = calculateBBox(region);
             const zoom = getMapZoom(region, bBox, MAP_CONFIG.minZoom);
             const newClusters = superclusterManager.getClusters(

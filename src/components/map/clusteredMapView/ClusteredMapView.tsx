@@ -1,14 +1,12 @@
 import { useEffect, useRef } from "react";
 
 import MapView from "react-native-maps";
-import { ActivityIndicator, View } from "react-native";
 
-import { calculateBBox, getMapZoom, MAP_CONFIG } from "../../../utils/mapUtils";
 import ClusterMarker from "../../clusters/clusterMarker/ClusterMarker";
 import { dispatchSetCurrentRegion } from "../../../state/storeUtils";
+import MapLoadingView from "../mapLoadingView/MapLoadingView";
 import { SongCluster } from "../../../utils/superclusterManager";
 import styles from "./styles";
-import superclusterManager from "../../../utils/superclusterManager";
 import {
     useCurrentLocation,
     useCurrentRegion,
@@ -24,10 +22,7 @@ const ClusteredMapView = () => {
     const isInitialized = useRef(false);
     const location = useCurrentLocation();
     const region = useCurrentRegion();
-    const { clusters, setClusters, isLoading } = useClusters(
-        region,
-        clusterFilter
-    );
+    const { clusters, isLoading } = useClusters(region, clusterFilter);
 
     useEffect(() => {
         setTracking(true);
@@ -46,15 +41,12 @@ const ClusteredMapView = () => {
     }, [location, dispatchSetCurrentRegion]);
 
     useEffect(() => {
-        if (region) {
-            const bBox = calculateBBox(region);
-            const zoom = getMapZoom(region, bBox, MAP_CONFIG.minZoom);
-            console.log("setting clusters");
-            setClusters(
-                superclusterManager.getClusters(bBox, zoom, clusterFilter)
-            );
+        if (isLoading) {
+            console.log("started loading");
+        } else {
+            console.log("ended loading");
         }
-    }, [region, clusterFilter]);
+    }, [isLoading]);
 
     return location && region && !isLoading ? (
         <MapView
@@ -69,14 +61,15 @@ const ClusteredMapView = () => {
             loadingEnabled
             showsMyLocationButton={false}
         >
+            {/* {(isLoading && <MapLoadingView text="Loading clusters..." />) ||
+                null} */}
+
             {clusters.map((cluster: SongCluster, index: number) => (
                 <ClusterMarker key={index} cluster={cluster} />
             ))}
         </MapView>
     ) : (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#0000ff" />
-        </View>
+        <MapLoadingView text="Finding your location..." />
     );
 };
 

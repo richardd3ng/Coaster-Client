@@ -20,10 +20,12 @@ import { INVALID_JAM_MEM_ID } from "../../../state/jamMem/jamMemSlice";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import { RootState } from "../../../state/store";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
+import { useMapContext } from "../../../hooks/context/MapContext";
 
 const JamMemBottomModal: React.FC = () => {
     const { dismiss } = useModal();
     const { setSnapIndex } = useBottomSheet();
+    const { setClusterFilter, socialFilter } = useMapContext();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
 
     const selectedJamMemId = useSelector((state: RootState) => {
@@ -40,6 +42,10 @@ const JamMemBottomModal: React.FC = () => {
 
     const handleClose = () => {
         dispatchSetSelectedJamMemId(INVALID_JAM_MEM_ID);
+        setClusterFilter({
+            type: "social",
+            value: socialFilter,
+        });
         dismiss(ModalType.JamMem);
         setSnapIndex(BottomSheetType.Map, 1);
     };

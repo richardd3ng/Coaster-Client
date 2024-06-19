@@ -22,6 +22,7 @@ const Logout: React.FC = () => {
     );
 
     const handleLogout = () => {
+        // todo: invalidate queries but don't refetch
         setTracking(false);
         navigate(ScreenName.Login);
     };

@@ -9,6 +9,7 @@ export const fetchAndLoadSongPoints = async (
     filter: ClusterFilter
 ): Promise<PointFeature<SongPointProps>[]> => {
     console.log("fetching song points:", filter);
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
     let points: PointFeature<SongPointProps>[] = [];
 
     if (filter.type === "social") {
