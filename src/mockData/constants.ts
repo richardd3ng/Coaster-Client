@@ -1,4 +1,4 @@
-import { generateSongs } from "./scripts";
+import { generateRandomSongPoints, generateSongs } from "./scripts";
 import { JamMem, Song, User } from "../types/entities";
 import { Place } from "../api/placesAPI";
 
@@ -123,7 +123,7 @@ export const mockJamMemData: JamMem[] = [
         end: new Date(1630497600000),
         coverUri:
             "https://fastly.picsum.photos/id/289/200/300.jpg?hmac=TVh4H_Hra3e1VSDPJz-mhCgep32qIa7T6DGQvbrjMb4",
-        snapshots: [],
+        snapshots: generateRandomSongPoints(50),
         friends: mockFriendsData,
     },
     {

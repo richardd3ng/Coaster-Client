@@ -35,7 +35,6 @@ export const updateCurrentUser = async (userUpdateArgs: UserUpdateArgs) => {
 };
 
 export const fetchFriends = async (): Promise<User[]> => {
-    console.log("fetching friends:", mockFriendsData.length);
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
     return mockFriendsData;
     // throw new Error("Error: unable to load friends");
@@ -52,7 +51,6 @@ export const deleteFriend = async (id: number): Promise<void> => {
     if (idx !== -1) {
         const deletedFriend = mockFriendsData[idx];
         mockFriendsData.splice(idx, 1);
-        console.log("remaining friends", mockFriendsData);
         mockMoreResultsData.push(deletedFriend);
     } else {
         throw new Error(`Error: user with ID ${id} not found`);

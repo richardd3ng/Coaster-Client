@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import MapView from "react-native-maps";
-import { Text } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 
 import { calculateBBox, getMapZoom, MAP_CONFIG } from "../../../utils/mapUtils";
 import ClusterMarker from "../../clusters/clusterMarker/ClusterMarker";
@@ -15,15 +15,19 @@ import {
 } from "../../../hooks/redux/useSelectorHooks";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import useTracking from "../../../hooks/useTracking";
+import useClusters from "../../../hooks/useClusters";
 
 const ClusteredMapView = () => {
     const [_tracking, setTracking] = useTracking();
-    const { followsUserLocation, setFollowsUserLocation, socialFilter } =
+    const { followsUserLocation, setFollowsUserLocation, clusterFilter } =
         useMapContext();
     const isInitialized = useRef(false);
-    const [clusters, setClusters] = useState<SongCluster[]>([]);
     const location = useCurrentLocation();
     const region = useCurrentRegion();
+    const { clusters, setClusters, isLoading } = useClusters(
+        region,
+        clusterFilter
+    );
 
     useEffect(() => {
         setTracking(true);
@@ -45,13 +49,14 @@ const ClusteredMapView = () => {
         if (region) {
             const bBox = calculateBBox(region);
             const zoom = getMapZoom(region, bBox, MAP_CONFIG.minZoom);
+            console.log("setting clusters");
             setClusters(
-                superclusterManager.getClusters(socialFilter, bBox, zoom)
+                superclusterManager.getClusters(bBox, zoom, clusterFilter)
             );
         }
-    }, [region, socialFilter]);
+    }, [region, clusterFilter]);
 
-    return location && region ? (
+    return location && region && !isLoading ? (
         <MapView
             style={styles.map}
             region={region}
@@ -69,8 +74,9 @@ const ClusteredMapView = () => {
             ))}
         </MapView>
     ) : (
-        <Text>Loading...</Text>
-        // TODO: Loading Spinner
+        <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#0000ff" />
+        </View>
     );
 };
 

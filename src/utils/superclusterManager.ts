@@ -1,6 +1,5 @@
 import Supercluster, { ClusterFeature, PointFeature } from "supercluster";
-import { SocialFilter } from "../types/filters";
-import { fetchSongPoints } from "../api/clusterAPI";
+import { ClusterFilter, SocialFilter } from "../types/filters";
 import { LatLng } from "react-native-maps";
 import { BoundingBox } from "@mapbox/geo-viewport";
 import { MAP_CONFIG } from "./mapUtils";
@@ -22,13 +21,16 @@ export interface SongPointProps {
 export interface SongClusterProps {
     songs: Map<number, number>; // [id, frequency]
 }
-
 class SuperclusterManager {
     private static instance: SuperclusterManager;
 
     private meSupercluster: Supercluster<SongPointProps, SongClusterProps>;
     private friendsSupercluster: Supercluster<SongPointProps, SongClusterProps>;
     private globalSupercluster: Supercluster<SongPointProps, SongClusterProps>;
+    private jamMemSuperclusters: Map<
+        number,
+        Supercluster<SongPointProps, SongClusterProps>
+    >;
 
     options = {
         map: (props: SongPointProps): SongClusterProps => ({
@@ -52,6 +54,7 @@ class SuperclusterManager {
         this.meSupercluster = new Supercluster(this.options);
         this.friendsSupercluster = new Supercluster(this.options);
         this.globalSupercluster = new Supercluster(this.options);
+        this.jamMemSuperclusters = new Map();
     }
 
     public static getInstance = (): SuperclusterManager => {
@@ -61,37 +64,40 @@ class SuperclusterManager {
         return SuperclusterManager.instance;
     };
 
-    public loadData = async () => {
-        console.log("Loading data...");
+    public loadData = async (
+        filter: ClusterFilter,
+        points: PointFeature<SongPointProps>[]
+    ) => {
         const start = Date.now();
-        const [mePoints, friendsPoints, globalPoints] = await Promise.all([
-            fetchSongPoints(SocialFilter.Me),
-            fetchSongPoints(SocialFilter.Friends),
-            fetchSongPoints(SocialFilter.Global),
-        ]);
-        this.meSupercluster.load(mePoints);
-        this.friendsSupercluster.load(friendsPoints);
-        this.globalSupercluster.load(globalPoints);
+        console.log("Loading points for filter:", filter.value);
+        if (filter.type === "social") {
+            switch (filter.value) {
+                case SocialFilter.Global:
+                    this.globalSupercluster.load(points);
+                    break;
+                case SocialFilter.Me:
+                    this.meSupercluster.load(points);
+                    break;
+                case SocialFilter.Friends:
+                    this.friendsSupercluster.load(points);
+                    break;
+            }
+        } else if (filter.type === "jamMem") {
+            if (!this.jamMemSuperclusters.has(filter.value)) {
+                this.jamMemSuperclusters.set(
+                    filter.value,
+                    new Supercluster(this.options)
+                );
+            }
+            this.jamMemSuperclusters.get(filter.value)!.load(points);
+        }
         console.log("Loaded data in", Date.now() - start, "ms");
     };
 
-    private getSuperclusterInstance = (filter: SocialFilter): Supercluster => {
-        switch (filter) {
-            case SocialFilter.Me:
-                return this.meSupercluster;
-            case SocialFilter.Friends:
-                return this.friendsSupercluster;
-            case SocialFilter.Global:
-                return this.globalSupercluster;
-            default:
-                throw new Error("Unknown filter type");
-        }
-    };
-
     public getClusters = (
-        filter: SocialFilter,
         bBox: BoundingBox,
-        zoom: number
+        zoom: number,
+        filter: ClusterFilter
     ): SongCluster[] => {
         const index = this.getSuperclusterInstance(filter);
         const clusters = index.getClusters(bBox, zoom).map((item) => {
@@ -122,6 +128,25 @@ class SuperclusterManager {
             }
         });
         return clusters;
+    };
+
+    private getSuperclusterInstance = (filter: ClusterFilter): Supercluster => {
+        if (filter.type === "social") {
+            switch (filter.value) {
+                case SocialFilter.Me:
+                    return this.meSupercluster;
+                case SocialFilter.Friends:
+                    return this.friendsSupercluster;
+                case SocialFilter.Global:
+                    return this.globalSupercluster;
+            }
+        } else if (filter.type === "jamMem") {
+            return (
+                this.jamMemSuperclusters.get(filter.value) ||
+                new Supercluster(this.options)
+            );
+        }
+        throw new Error("Invalid filter type");
     };
 }
 

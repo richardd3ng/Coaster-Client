@@ -7,13 +7,11 @@ export enum FriendsTabName {
 
 export enum ScreenName {
     Login = "Login",
-    Loading = "Loading",
     Map = "Map",
 }
 
 export type RootStackParamList = {
     [ScreenName.Login]: undefined;
-    [ScreenName.Loading]: undefined;
     [ScreenName.Map]: undefined;
 };
 

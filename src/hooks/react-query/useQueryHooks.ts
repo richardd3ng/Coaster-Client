@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import { useQuery } from "@tanstack/react-query";
 
 import {
@@ -7,6 +9,8 @@ import {
 } from "../../api/userAPI";
 import { fetchJamMem, fetchJamMemMetadatas } from "../../api/jamMemAPI";
 import { fetchSong } from "../../api/songAPI";
+import { fetchAndLoadSongPoints } from "../../api/clusterAPI";
+import { ClusterFilter } from "../../types/filters";
 
 /* Jam Mems */
 export const useJamMem = (id: number) => {
@@ -29,6 +33,19 @@ export const getQueryKeyForUseJamMem = (id: number) => {
 
 export const getQueryKeyForUseJamMemMetadatas = () => {
     return ["jamMemMetadatas"];
+};
+
+/* Clusters */
+export const useSongPoints = (filter: ClusterFilter) => {
+    return useQuery({
+        queryKey: getQueryKeyForUseSongPoints(filter),
+        queryFn: () => fetchAndLoadSongPoints(filter),
+        staleTime: 60 * 60 * 1000, // Cache data for 1 hour
+    });
+};
+
+export const getQueryKeyForUseSongPoints = (filter: ClusterFilter) => {
+    return ["songPoints", filter.value as string];
 };
 
 /* Songs */

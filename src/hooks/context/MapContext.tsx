@@ -1,16 +1,16 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-import { DateFilter, SocialFilter } from "../../types/filters";
+import { DateFilter, ClusterFilter, SocialFilter } from "../../types/filters";
 import {
     DEFAULT_DATE_FILTER,
-    DEFAULT_SOCIAL_FILTER,
+    DEFAULT_CLUSTER_FILTER,
 } from "../../constants/defaults";
 
 interface MapContextType {
     dateFilter: DateFilter;
     setDateFilter: (filter: DateFilter) => void;
-    socialFilter: SocialFilter;
-    setSocialFilter: (filter: SocialFilter) => void;
+    clusterFilter: ClusterFilter;
+    setClusterFilter: (filter: ClusterFilter) => void;
     followsUserLocation: boolean;
     setFollowsUserLocation: (follows: boolean) => void;
 }
@@ -18,8 +18,8 @@ interface MapContextType {
 const MapContext = createContext<MapContextType>({
     dateFilter: DEFAULT_DATE_FILTER,
     setDateFilter: () => {},
-    socialFilter: DEFAULT_SOCIAL_FILTER,
-    setSocialFilter: () => {},
+    clusterFilter: { type: "social", value: SocialFilter.Global },
+    setClusterFilter: () => {},
     followsUserLocation: true,
     setFollowsUserLocation: () => {},
 });
@@ -29,8 +29,8 @@ export const MapContextProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
     const [dateFilter, setDateFilter] =
         useState<DateFilter>(DEFAULT_DATE_FILTER);
-    const [socialFilter, setSocialFilter] = useState<SocialFilter>(
-        DEFAULT_SOCIAL_FILTER
+    const [clusterFilter, setClusterFilter] = useState<ClusterFilter>(
+        DEFAULT_CLUSTER_FILTER
     );
     const [followsUserLocation, setFollowsUserLocation] =
         useState<boolean>(true);
@@ -40,8 +40,8 @@ export const MapContextProvider: React.FC<{ children: ReactNode }> = ({
             value={{
                 dateFilter,
                 setDateFilter,
-                socialFilter,
-                setSocialFilter,
+                clusterFilter,
+                setClusterFilter,
                 followsUserLocation,
                 setFollowsUserLocation,
             }}

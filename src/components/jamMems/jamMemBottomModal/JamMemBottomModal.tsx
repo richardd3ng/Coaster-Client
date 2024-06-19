@@ -16,6 +16,7 @@ import {
 } from "../../../hooks/context/ModalContext";
 import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
 import ErrorView from "../../shared/errorView/ErrorView";
+import { INVALID_JAM_MEM_ID } from "../../../state/jamMem/jamMemSlice";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import { RootState } from "../../../state/store";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
@@ -38,7 +39,7 @@ const JamMemBottomModal: React.FC = () => {
     } = useJamMem(selectedJamMemId);
 
     const handleClose = () => {
-        dispatchSetSelectedJamMemId(null);
+        dispatchSetSelectedJamMemId(INVALID_JAM_MEM_ID);
         dismiss(ModalType.JamMem);
         setSnapIndex(BottomSheetType.Map, 1);
     };

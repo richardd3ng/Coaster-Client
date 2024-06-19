@@ -106,7 +106,7 @@ const continentBounds = [
 export const generateRandomSongPoints = (
     count: number
 ): PointFeature<SongPointProps>[] => {
-    const snapshots: PointFeature<SongPointProps>[] = [];
+    const songPoints: PointFeature<SongPointProps>[] = [];
 
     for (let i = 0; i < count; i++) {
         const randomValue = Math.random();
@@ -116,7 +116,7 @@ export const generateRandomSongPoints = (
             cumulativeWeight += populationWeights[continent.name];
             if (randomValue < cumulativeWeight) {
                 const coords = getRandomCoordinate(continent.bounds);
-                snapshots.push({
+                songPoints.push({
                     type: "Feature",
                     properties: {
                         songId: Math.floor(Math.random() * 50),
@@ -131,5 +131,5 @@ export const generateRandomSongPoints = (
         }
     }
 
-    return snapshots;
+    return songPoints;
 };

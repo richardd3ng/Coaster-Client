@@ -60,7 +60,7 @@ const LoginButton = () => {
                     const accessToken = tokenResponse.accessToken;
                     console.log("Access token:", accessToken);
                     // Save access token and navigate to the Map screen
-                    navigate(ScreenName.Loading);
+                    navigate(ScreenName.Map);
                 } catch (error) {
                     console.error("Error fetching access token:", error);
                 }
@@ -74,7 +74,7 @@ const LoginButton = () => {
             style={styles.button}
             onPress={() => {
                 // promptAsync();
-                navigate(ScreenName.Loading);
+                navigate(ScreenName.Map);
             }}
             activeOpacity={0.8}
         >
