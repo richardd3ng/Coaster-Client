@@ -8,7 +8,6 @@
 5. In the project root, create a `.env` file with the format shown below (missing details will be provided by someone who knows them)
 ```
 EXPO_DEV_MODE=false
-ATLAS_URI="<database connection string>"
 GOOGLE_MAPS_API_KEY=<secret>
 ```
 - Note: when adding new environment variables, also modify `src/types/env.d.ts`
@@ -19,11 +18,11 @@ xcodes select 15.3 (15E204a)
 ```
 
 ### iOS Simulator (Mac only)
+Note: deep-linking capabilities aren't enabled on the simulator (i.e. opening other apps)
 1. In `.env`, set `EXPO_DEV_MODE=false`
 2. Install [XCode](https://developer.apple.com/xcode/) (takes a few hours)
 3. Install iOS on XCode (takes ~1 hour): XCode > Settings > Platforms > iOS
-4. In the project root, run `pnpm expo start`
-5. Press i to open the iOS simulator
+4. In the project root, run `npx expo run:ios`
    
 ### Expo Go (all platforms)
 Note: background location tracking capabilities aren't enabled on Expo Go
