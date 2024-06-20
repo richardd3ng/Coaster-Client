@@ -16,4 +16,7 @@ export const DEFAULT_LOCATION: LatLng = {
     longitude: -122.4324,
 };
 
+export const DEFAULT_JAM_MEM_COVER_URI = "https://source.unsplash.com/random/200x200";
+
+
 

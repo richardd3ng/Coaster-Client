@@ -1,13 +1,14 @@
-import { ActivityIndicator, Alert, Button, Text, View } from "react-native";
+import { useState } from "react";
+
+import { Button, Text, View } from "react-native";
 
 import createStyles from "./styles";
 import ErrorView from "../../shared/errorView/ErrorView";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import JamMemsCarousel from "../jamMemsCarousel/JamMemsCarousel";
+import JamMemCreationDialog from "../jamMemCreationDialog/JamMemCreationDialog";
 import { useJamMemMetadatas } from "../../../hooks/react-query/useQueryHooks";
-import { useMutationToCreateJamMem } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { useEffect } from "react";
 
 const JamMemsStack: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
@@ -18,20 +19,8 @@ const JamMemsStack: React.FC = () => {
         error,
         refetch,
     } = useJamMemMetadatas();
-    const {
-        mutate: createJamMem,
-        isPending,
-        isError: createJamMemIsError,
-        error: createJamMemError,
-        reset,
-    } = useMutationToCreateJamMem();
-
-    useEffect(() => {
-        if (createJamMemIsError && createJamMemError) {
-            Alert.alert(createJamMemError.message);
-        }
-        reset();
-    }, [createJamMemIsError, createJamMemError]);
+    const [showCreationDialog, setShowCreationDialog] =
+        useState<boolean>(false);
 
     const JamMemsContent = isLoading ? (
         <LoadingView containerStyle={styles.errorLoadingContainer} />
@@ -46,27 +35,20 @@ const JamMemsStack: React.FC = () => {
     ) : null;
 
     return (
-        <View style={styles.jamSessionStack}>
-            <Text style={styles.headerText}>Jam Mems</Text>
-            {!isPending ? (
+        <>
+            <View style={styles.jamSessionStack}>
+                <Text style={styles.headerText}>Jam Mems</Text>
                 <Button
                     title="+ Jam Mem"
-                    onPress={() => {
-                        createJamMem({
-                            title: "Flo Rida 2.0",
-                            location: "Miami, FL",
-                            start: new Date(),
-                            end: new Date(),
-                            coverUri:
-                                "https://source.unsplash.com/random/200x200",
-                        });
-                    }}
+                    onPress={() => setShowCreationDialog(true)}
                 />
-            ) : (
-                <ActivityIndicator />
-            )}
-            {JamMemsContent}
-        </View>
+                {JamMemsContent}
+            </View>
+            <JamMemCreationDialog
+                open={showCreationDialog}
+                onClose={() => setShowCreationDialog(false)}
+            />
+        </>
     );
 };
 

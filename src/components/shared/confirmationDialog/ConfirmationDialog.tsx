@@ -1,6 +1,6 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
-import { Modal, View, Text } from "react-native";
+import { Modal, View, Text, ActivityIndicator } from "react-native";
 import { Divider } from "@ui-kitten/components";
 
 import createStyles from "./styles";
@@ -14,6 +14,10 @@ interface ConfirmationDialogProps {
     onClose: () => void;
     onConfirm: () => void;
     confirmText?: string;
+    preventDefaultConfirm?: boolean;
+    disableConfirm?: boolean;
+    sameButtonTextStyle?: boolean;
+    children?: ReactNode;
 }
 
 const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
@@ -23,13 +27,29 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
     onClose,
     onConfirm,
     confirmText = "Confirm",
+    preventDefaultConfirm = false,
+    disableConfirm = false,
+    sameButtonTextStyle = false,
+    children,
 }: ConfirmationDialogProps) => {
     const styles = useThemeAwareObject(createStyles);
 
     const handleConfirm = () => {
-        onClose();
+        if (!preventDefaultConfirm) {
+            onClose();
+        }
         onConfirm();
     };
+
+    // const CloseIcon = (props: any): IconElement => {
+    //     return <Icon {...props} name="close" fill="gray" />;
+    // };
+
+    // const CloseIconButton = (
+    //     <CustomPressable onPress={handleClear}>
+    //         <CloseIcon />
+    //     </CustomPressable>
+    // );
 
     return (
         <Modal transparent={true} visible={open} onRequestClose={onClose}>
@@ -42,6 +62,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
                                 {description}
                             </Text>
                         )}
+                        {children}
                     </View>
                     <Divider style={styles.horizontalDivider} />
                     <View style={styles.buttonContainer}>
@@ -56,7 +77,12 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
                             onPress={handleConfirm}
                             style={styles.confirmButton}
                             text={confirmText}
-                            textStyle={styles.confirmText}
+                            textStyle={
+                                sameButtonTextStyle
+                                    ? styles.cancelText
+                                    : styles.confirmText
+                            }
+                            disabled={disableConfirm}
                         />
                     </View>
                 </View>

@@ -4,7 +4,7 @@ import MapView from "react-native-maps";
 
 import ClusterMarker from "../../clusters/clusterMarker/ClusterMarker";
 import { dispatchSetCurrentRegion } from "../../../state/storeUtils";
-import MapLoadingView from "../mapLoadingView/MapLoadingView";
+import LoadingModal from "../../shared/loadingModal/LoadingModal";
 import { SongCluster } from "../../../utils/superclusterManager";
 import styles from "./styles";
 import {
@@ -61,15 +61,12 @@ const ClusteredMapView = () => {
             loadingEnabled
             showsMyLocationButton={false}
         >
-            {/* {(isLoading && <MapLoadingView text="Loading clusters..." />) ||
-                null} */}
-
             {clusters.map((cluster: SongCluster, index: number) => (
                 <ClusterMarker key={index} cluster={cluster} />
             ))}
         </MapView>
     ) : (
-        <MapLoadingView text="Finding your location..." />
+        <LoadingModal text="Loading Clusters..." />
     );
 };
 

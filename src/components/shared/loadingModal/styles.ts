@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+
 import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
@@ -7,7 +8,6 @@ const createStyles = (theme: Theme) => {
             ...StyleSheet.absoluteFillObject,
             pointerEvents: "box-none",
             justifyContent: "center",
-            // alignItems: "center",
             alignSelf: "center",
             verticalAlign: "bottom",
         },

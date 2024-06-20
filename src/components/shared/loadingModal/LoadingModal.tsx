@@ -3,13 +3,13 @@ import { ActivityIndicator, Text, View } from "react-native";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import createStyles from "./styles";
 
-interface MapLoadingViewProps {
+interface LoadingModalProps {
     text: string;
 }
 
-const MapLoadingView: React.FC<MapLoadingViewProps> = ({
+const LoadingModal: React.FC<LoadingModalProps> = ({
     text,
-}: MapLoadingViewProps) => {
+}: LoadingModalProps) => {
     const styles = useThemeAwareObject(createStyles);
     return (
         <View style={styles.loadingContainer}>
@@ -19,4 +19,4 @@ const MapLoadingView: React.FC<MapLoadingViewProps> = ({
     );
 };
 
-export default MapLoadingView;
+export default LoadingModal;

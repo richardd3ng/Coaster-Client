@@ -27,7 +27,6 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
     const handlePress = useCallback((cluster: SongCluster) => {
         dispatchSetSelectedCluster(cluster);
         dismiss(ModalType.Friends);
-        dismiss(ModalType.JamMem);
         close(BottomSheetType.Map);
         present(ModalType.Cluster);
         setSnapIndex(ModalType.Cluster, 1);

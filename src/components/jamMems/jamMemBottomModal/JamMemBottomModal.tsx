@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 
-import { Text } from "react-native";
+import { Icon } from "@ui-kitten/components";
+import { Text, View } from "react-native";
 import { useSelector } from "react-redux";
 
 import BottomModal from "../../shared/bottomModal/BottomModal";
@@ -9,6 +10,9 @@ import {
     BottomSheetType,
     useBottomSheet,
 } from "../../../hooks/context/BottomSheetContext";
+import ClusterList from "../../clusters/clusterList/ClusterList";
+import { computeSongIdFrequencies } from "../../../utils/snapshotUtils";
+import createStyles from "./styles";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
@@ -21,8 +25,10 @@ import LoadingView from "../../shared/loadingView/LoadingView";
 import { RootState } from "../../../state/store";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
 import { useMapContext } from "../../../hooks/context/MapContext";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const JamMemBottomModal: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
     const { dismiss } = useModal();
     const { setSnapIndex } = useBottomSheet();
     const { setClusterFilter, socialFilter } = useMapContext();
@@ -30,7 +36,7 @@ const JamMemBottomModal: React.FC = () => {
 
     const selectedJamMemId = useSelector((state: RootState) => {
         return state.jamMem.selectedJamMemId;
-    })!;
+    });
 
     const {
         data: selectedJamMem,
@@ -56,6 +62,20 @@ const JamMemBottomModal: React.FC = () => {
         }
     };
 
+    const JamMemHeaderContent = selectedJamMem && (
+        <>
+            <View style={styles.locationInfoContainer}>
+                <Icon name="pin" fill="green" style={styles.icon} />
+                <Text style={styles.locationText}>
+                    {selectedJamMem.location}
+                </Text>
+            </View>
+            <Text
+                style={styles.dateText}
+            >{`${selectedJamMem.start.toDateString()} - ${selectedJamMem.end.toDateString()}`}</Text>
+        </>
+    );
+
     const ModalContent = isLoading ? (
         <LoadingView />
     ) : isError ? (
@@ -65,12 +85,14 @@ const JamMemBottomModal: React.FC = () => {
             onTryAgain={refetch}
         />
     ) : selectedJamMem ? (
-        <>
-            <Text>{selectedJamMem.location}</Text>
-            <Text>{selectedJamMem.start.toDateString()}</Text>
-            <Text>{selectedJamMem.end.toDateString()}</Text>
-        </>
-    ) : null;
+        <ClusterList
+            songIdFrequencies={computeSongIdFrequencies(
+                selectedJamMem.snapshots
+            )}
+            hideRank
+        />
+    ) : // todo: make it so that when you click on a cluster in a jam mem and exit it takes u back to that jam mem modal
+    null;
 
     return (
         <BottomModal
@@ -82,6 +104,7 @@ const JamMemBottomModal: React.FC = () => {
                 headerText={selectedJamMem?.title ?? ""}
                 modalType={ModalType.JamMem}
                 onClose={handleClose}
+                children={JamMemHeaderContent}
             />
             {ModalContent}
         </BottomModal>

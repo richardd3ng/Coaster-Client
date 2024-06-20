@@ -14,12 +14,14 @@ interface ClusterListItemProps {
     rank: number;
     songIdFrequency: number[]; // [id, frequency]
     registerRefetch: (refetch: () => void) => void;
+    hideRank?: boolean;
 }
 
 const ClusterListItem: React.FC<ClusterListItemProps> = ({
     rank,
     songIdFrequency,
     registerRefetch,
+    hideRank = false,
 }: ClusterListItemProps) => {
     const styles = useThemeAwareObject(createStyles);
     const [id, frequency] = songIdFrequency;
@@ -56,9 +58,11 @@ const ClusterListItem: React.FC<ClusterListItemProps> = ({
     return (
         <CustomPressable onPress={handleSelect}>
             <View style={styles.listItemContainer}>
-                <View style={styles.rankContainer}>
-                    <Text style={styles.rankText}>{rank}</Text>
-                </View>
+                {!hideRank && (
+                    <View style={styles.rankContainer}>
+                        <Text style={styles.rankText}>{rank}</Text>
+                    </View>
+                )}
                 <View style={styles.imageContainer}>
                     <Image
                         source={{

@@ -10,10 +10,12 @@ import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface ClusterListProps {
     songIdFrequencies: SongIdFrequencies;
+    hideRank?: boolean;
 }
 
 const ClusterList: React.FC<ClusterListProps> = ({
     songIdFrequencies,
+    hideRank = false,
 }: ClusterListProps) => {
     const styles = useThemeAwareObject(createStyles);
     const [refetchFunctions, setRefetchFunctions] = useState<(() => void)[]>(
@@ -34,6 +36,7 @@ const ClusterList: React.FC<ClusterListProps> = ({
                 rank={index + 1}
                 songIdFrequency={item}
                 registerRefetch={registerRefetch}
+                hideRank={hideRank}
             />
         ),
         []

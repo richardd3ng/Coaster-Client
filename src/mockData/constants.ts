@@ -135,7 +135,7 @@ export const mockJamMemData: JamMem[] = [
         end: new Date(1630522800000),
         coverUri:
             "https://fastly.picsum.photos/id/392/200/300.jpg?hmac=tcnub3WKREnSOdoCn7rQtfZkHXNWn5fXwNpHrv0o-5k",
-        snapshots: [],
+        snapshots: generateRandomSongPoints(50),
         friends: mockFriendsData,
     },
     {
@@ -147,7 +147,7 @@ export const mockJamMemData: JamMem[] = [
         end: new Date(1630579200000),
         coverUri:
             "https://fastly.picsum.photos/id/292/200/300.jpg?hmac=zm-TXplXe70N7LGm2HWu9iOPXoBtQvwyhAF2CSj0ccs",
-        snapshots: [],
+        snapshots: generateRandomSongPoints(50),
         friends: mockFriendsData,
     },
     {
@@ -159,7 +159,7 @@ export const mockJamMemData: JamMem[] = [
         end: new Date(1630747200000),
         coverUri:
             "https://fastly.picsum.photos/id/574/200/300.jpg?hmac=8A2sOGZU1xgRXI46snJ80xNY3Yx-KcLVsBG-wRchwFg",
-        snapshots: [],
+        snapshots: generateRandomSongPoints(50),
         friends: mockFriendsData,
     },
     {
@@ -171,7 +171,7 @@ export const mockJamMemData: JamMem[] = [
         end: new Date(1633065600000),
         coverUri:
             "https://fastly.picsum.photos/id/397/200/300.jpg?hmac=9VBInLrifj_yyc2JuJSAVIfj9yQdt5Ovm2sHmvva-48",
-        snapshots: [],
+        snapshots: generateRandomSongPoints(50),
         friends: mockFriendsData,
     },
     {
@@ -183,7 +183,7 @@ export const mockJamMemData: JamMem[] = [
         end: new Date(1638148800000),
         coverUri:
             "https://fastly.picsum.photos/id/316/200/300.jpg?hmac=sq0VBO6H0wGg9Prod7MVUUB_7B91kmD5E1X1TRSo66U",
-        snapshots: [],
+        snapshots: generateRandomSongPoints(50),
         friends: mockFriendsData,
     },
 ];
