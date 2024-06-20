@@ -1,10 +1,22 @@
 import { LatLng } from "react-native-maps";
+import { PointFeature } from "supercluster";
+import { SongPointProps } from "../utils/superclusterManager";
 
 /* Users */
 export interface User {
     id: number;
     username: string;
     displayName: string;
+    profileUri: string;
+    trackSnapshots: boolean;
+    shareSnapshots: boolean;
+}
+
+export interface UserUpdateArgs {
+    username?: string;
+    displayName?: string;
+    trackSnapshots?: boolean;
+    shareShapshots?: boolean;
 }
 
 /* Snapshots */
@@ -22,15 +34,20 @@ export interface Snapshot {
 export interface JamMem {
     id: number;
     ownerId: number;
-    place: string;
     title: string;
+    location: string;
     start: Date;
     end: Date;
-    snapshots: Snapshot[];
+    coverUri: string;
+    snapshots: PointFeature<SongPointProps>[];
     friends: User[];
 }
 
-export interface JamMemMetadata extends Omit<JamMem, "snapshots" | "friends"> {}
+export interface JamMemMetadata
+    extends Omit<JamMem, "ownerId" | "snapshots" | "friends"> {}
+
+export interface JamMemCreationArgs
+    extends Omit<JamMem, "id" | "ownerId" | "snapshots" | "friends"> {}
 
 /* Songs */
 export interface Song {
@@ -38,5 +55,5 @@ export interface Song {
     uri: string;
     title: string;
     artist: string;
-    albumURI: string;
+    albumUri: string;
 }

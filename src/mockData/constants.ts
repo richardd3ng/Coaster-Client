@@ -1,34 +1,115 @@
-import { generateSongs } from "./scripts";
+import { generateRandomSongPoints, generateSongs } from "./scripts";
 import { JamMem, Song, User } from "../types/entities";
-import { PlaceData } from "../api/locationAPI";
+import { Place } from "../api/placesAPI";
 
-export const mockUserData: User[] = [
+export const mockFriendsData: User[] = [
     {
         id: 1,
         username: "shanggang",
         displayName: "Jason Shang",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
     },
     {
         id: 2,
         username: "rdengomng",
         displayName: "Richard Deng",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
     },
     {
         id: 3,
         username: "joshisacow",
         displayName: "Josh Chen",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
     },
     {
         id: 4,
         username: "anikapawlak",
         displayName: "Anika Pawlak",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
     },
     {
         id: 5,
         username: "doingdiane",
         displayName: "Diane Lee",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
     },
 ];
+
+export const mockMoreResultsData: User[] = [
+    {
+        id: 6,
+        username: "greatwhite2000",
+        displayName: "Ben Crespo",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
+    },
+    {
+        id: 7,
+        username: "lieutenant_of_singapore",
+        displayName: "Elias Lai",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
+    },
+    {
+        id: 8,
+        username: "nyu123",
+        displayName: "Nathan Yu",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
+    },
+    {
+        id: 9,
+        username: "japanese_raccoon",
+        displayName: "Emily Ford",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
+    },
+    {
+        id: 10,
+        username: "turtle_lover_9000",
+        displayName: "Connie Vi",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
+    },
+    {
+        id: 11,
+        username: "hangukjangerbanger",
+        displayName: "Justin Jang",
+        profileUri:
+            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+        trackSnapshots: true,
+        shareSnapshots: true,
+    },
+];
+
+export const mockIncomingRequestsData: User[] = [];
+
+export const mockSentRequestsData: User[] = [];
 
 export const mockSongData: Song[] = generateSongs();
 
@@ -36,66 +117,78 @@ export const mockJamMemData: JamMem[] = [
     {
         id: 1,
         ownerId: 1,
-        place: "New York",
+        location: "New York",
         title: "Jam Session in Central Park",
         start: new Date(1630454400000),
         end: new Date(1630497600000),
-        snapshots: [],
-        friends: mockUserData,
+        coverUri:
+            "https://fastly.picsum.photos/id/289/200/300.jpg?hmac=TVh4H_Hra3e1VSDPJz-mhCgep32qIa7T6DGQvbrjMb4",
+        snapshots: generateRandomSongPoints(50),
+        friends: mockFriendsData,
     },
     {
         id: 2,
         ownerId: 1,
-        place: "San Francisco",
+        location: "San Francisco",
         title: "Music under the Golden Gate Bridge",
         start: new Date(1630454400000),
         end: new Date(1630522800000),
-        snapshots: [],
-        friends: mockUserData,
+        coverUri:
+            "https://fastly.picsum.photos/id/392/200/300.jpg?hmac=tcnub3WKREnSOdoCn7rQtfZkHXNWn5fXwNpHrv0o-5k",
+        snapshots: generateRandomSongPoints(50),
+        friends: mockFriendsData,
     },
     {
         id: 3,
         ownerId: 1,
-        place: "Ohio",
+        location: "Ohio",
         title: "This is a really long jam session title that may span a ton of lines",
         start: new Date(1630454400000),
         end: new Date(1630579200000),
-        snapshots: [],
-        friends: mockUserData,
+        coverUri:
+            "https://fastly.picsum.photos/id/292/200/300.jpg?hmac=zm-TXplXe70N7LGm2HWu9iOPXoBtQvwyhAF2CSj0ccs",
+        snapshots: generateRandomSongPoints(50),
+        friends: mockFriendsData,
     },
     {
         id: 4,
         ownerId: 1,
-        place: "Lake Tahoe",
+        location: "Lake Tahoe",
         title: "Fishing Jam",
         start: new Date(1630454400000),
         end: new Date(1630747200000),
-        snapshots: [],
-        friends: mockUserData,
+        coverUri:
+            "https://fastly.picsum.photos/id/574/200/300.jpg?hmac=8A2sOGZU1xgRXI46snJ80xNY3Yx-KcLVsBG-wRchwFg",
+        snapshots: generateRandomSongPoints(50),
+        friends: mockFriendsData,
     },
     {
         id: 5,
         ownerId: 1,
-        place: "China",
+        location: "China",
         title: "Jason's House",
         start: new Date(1630454400000),
         end: new Date(1633065600000),
-        snapshots: [],
-        friends: mockUserData,
+        coverUri:
+            "https://fastly.picsum.photos/id/397/200/300.jpg?hmac=9VBInLrifj_yyc2JuJSAVIfj9yQdt5Ovm2sHmvva-48",
+        snapshots: generateRandomSongPoints(50),
+        friends: mockFriendsData,
     },
     {
         id: 6,
         ownerId: 1,
-        place: "Myrtle Beach",
+        location: "Myrtle Beach",
         title: "Spanish Galleon",
         start: new Date(1630454400000),
         end: new Date(1638148800000),
-        snapshots: [],
-        friends: mockUserData,
+        coverUri:
+            "https://fastly.picsum.photos/id/316/200/300.jpg?hmac=sq0VBO6H0wGg9Prod7MVUUB_7B91kmD5E1X1TRSo66U",
+        snapshots: generateRandomSongPoints(50),
+        friends: mockFriendsData,
     },
 ];
 
-export const mockPlaceData: PlaceData[] = [
+export const mockPlaceData: Place[] = [
     {
         address: "1701 US-220, Stokesdale, NC 27357, United States",
         coords: { latitude: 36.2950075, longitude: -79.93951609999999 },

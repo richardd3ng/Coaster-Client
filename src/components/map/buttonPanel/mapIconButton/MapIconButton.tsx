@@ -1,6 +1,7 @@
 import { Button, ButtonProps, Icon } from "@ui-kitten/components";
 
-import styles from "./styles";
+import createStyles from "./styles";
+import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
 
 interface MapIconButtonProps extends ButtonProps {
     name: string;
@@ -12,6 +13,7 @@ const MapIconButton: React.FC<MapIconButtonProps> = ({
     filled,
     ...props
 }: MapIconButtonProps) => {
+    const styles = useThemeAwareObject(createStyles);
     return (
         <Button
             style={styles.button}

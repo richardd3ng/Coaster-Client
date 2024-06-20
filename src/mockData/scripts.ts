@@ -11,7 +11,8 @@ export const generateSongs: () => Song[] = () => {
             uri: "spotify:track:6fTt0CH2t0mdeB2N9XFG5r",
             title: `Song ${i}`,
             artist: `Artist ${i}`,
-            albumURI: "https://picsum.photos/200/300",
+            albumUri:
+                "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
         });
     }
     return songData;
@@ -105,7 +106,7 @@ const continentBounds = [
 export const generateRandomSongPoints = (
     count: number
 ): PointFeature<SongPointProps>[] => {
-    const snapshots: PointFeature<SongPointProps>[] = [];
+    const songPoints: PointFeature<SongPointProps>[] = [];
 
     for (let i = 0; i < count; i++) {
         const randomValue = Math.random();
@@ -115,7 +116,7 @@ export const generateRandomSongPoints = (
             cumulativeWeight += populationWeights[continent.name];
             if (randomValue < cumulativeWeight) {
                 const coords = getRandomCoordinate(continent.bounds);
-                snapshots.push({
+                songPoints.push({
                     type: "Feature",
                     properties: {
                         songId: Math.floor(Math.random() * 50),
@@ -130,5 +131,5 @@ export const generateRandomSongPoints = (
         }
     }
 
-    return snapshots;
+    return songPoints;
 };

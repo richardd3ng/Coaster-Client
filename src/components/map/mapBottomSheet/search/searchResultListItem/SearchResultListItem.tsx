@@ -9,13 +9,13 @@ import {
 import CustomPressable from "../../../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
 import IconButton from "../../../../shared/iconButton/IconButton";
-import { PlaceData } from "../../../../../api/locationAPI";
+import { Place } from "../../../../../api/placesAPI";
 import { dispatchSetCurrentRegion } from "../../../../../state/storeUtils";
 import { useMapContext } from "../../../../../hooks/context/MapContext";
 import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
 
 interface SearchResultListItemProps {
-    item: PlaceData;
+    item: Place;
 }
 
 const LocationIcon = () => {

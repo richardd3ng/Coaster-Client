@@ -1,26 +1,33 @@
 import React from "react";
 
-import { ButtonProps, Icon, IconProps } from "@ui-kitten/components";
+import { ButtonProps, Icon } from "@ui-kitten/components";
 
 import styles from "./styles";
 import CustomPressable from "../customPressable/CustomPressable";
+import { StyleProp, ViewStyle } from "react-native";
 
-const CloseIcon = (props: IconProps) => (
-    <Icon
-        {...props}
-        style={[props.style, styles.icon]}
-        fill="gray"
-        name="close"
-    />
-);
+interface CloseIconProps {
+    iconStyle: StyleProp<ViewStyle>;
+}
 
-const CloseButton: React.FC<ButtonProps> = ({ ...props }: ButtonProps) => {
+const CloseIcon: React.FC<CloseIconProps> = ({
+    iconStyle,
+}: CloseIconProps) => <Icon style={iconStyle} fill="gray" name="close" />;
+
+interface CloseButtonProps extends ButtonProps {
+    iconStyle?: StyleProp<ViewStyle>;
+}
+
+const CloseButton: React.FC<CloseButtonProps> = ({
+    iconStyle = styles.icon,
+    ...props
+}: CloseButtonProps) => {
     return (
         <CustomPressable
             onPress={props.onPress}
-            style={[styles.button, props.style]}
+            style={props.style || styles.button}
         >
-            <CloseIcon />
+            <CloseIcon iconStyle={iconStyle} />
         </CustomPressable>
     );
 };

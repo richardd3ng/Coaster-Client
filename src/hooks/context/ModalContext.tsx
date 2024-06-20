@@ -10,10 +10,13 @@ import {
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 export enum ModalType {
+    Account,
     Cluster,
+    Friends,
     JamMem,
     Preferences,
     Profile,
+    SentRequests,
 }
 
 export const DEFAULT_SNAP_POINTS = ["12%", "35%", "92%"];
@@ -35,24 +38,33 @@ interface ModalProviderProps {
 
 export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     const refs: Record<ModalType, MutableRefObject<BottomSheetModal | null>> = {
+        [ModalType.Account]: useRef<BottomSheetModal>(null),
         [ModalType.Cluster]: useRef<BottomSheetModal>(null),
+        [ModalType.Friends]: useRef<BottomSheetModal>(null),
         [ModalType.JamMem]: useRef<BottomSheetModal>(null),
         [ModalType.Preferences]: useRef<BottomSheetModal>(null),
         [ModalType.Profile]: useRef<BottomSheetModal>(null),
+        [ModalType.SentRequests]: useRef<BottomSheetModal>(null),
     };
 
     const [visible, setVisible] = useState<Record<ModalType, boolean>>({
+        [ModalType.Account]: false,
         [ModalType.Cluster]: false,
+        [ModalType.Friends]: false,
         [ModalType.JamMem]: false,
         [ModalType.Preferences]: false,
         [ModalType.Profile]: false,
+        [ModalType.SentRequests]: false,
     });
 
     const [snapIndexes, setSnapIndexes] = useState<Record<ModalType, number>>({
+        [ModalType.Account]: 0,
         [ModalType.Cluster]: 0,
+        [ModalType.Friends]: 0,
         [ModalType.JamMem]: 0,
         [ModalType.Preferences]: 0,
         [ModalType.Profile]: 0,
+        [ModalType.SentRequests]: 0,
     });
 
     const present = useCallback((modalType: ModalType) => {

@@ -1,8 +1,9 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-import { DateFilter, SocialFilter } from "../../types/filters";
+import { DateFilter, ClusterFilter, SocialFilter } from "../../types/filters";
 import {
     DEFAULT_DATE_FILTER,
+    DEFAULT_CLUSTER_FILTER,
     DEFAULT_SOCIAL_FILTER,
 } from "../../constants/defaults";
 
@@ -11,6 +12,8 @@ interface MapContextType {
     setDateFilter: (filter: DateFilter) => void;
     socialFilter: SocialFilter;
     setSocialFilter: (filter: SocialFilter) => void;
+    clusterFilter: ClusterFilter;
+    setClusterFilter: (filter: ClusterFilter) => void;
     followsUserLocation: boolean;
     setFollowsUserLocation: (follows: boolean) => void;
 }
@@ -20,6 +23,8 @@ const MapContext = createContext<MapContextType>({
     setDateFilter: () => {},
     socialFilter: DEFAULT_SOCIAL_FILTER,
     setSocialFilter: () => {},
+    clusterFilter: DEFAULT_CLUSTER_FILTER,
+    setClusterFilter: () => {},
     followsUserLocation: true,
     setFollowsUserLocation: () => {},
 });
@@ -32,6 +37,9 @@ export const MapContextProvider: React.FC<{ children: ReactNode }> = ({
     const [socialFilter, setSocialFilter] = useState<SocialFilter>(
         DEFAULT_SOCIAL_FILTER
     );
+    const [clusterFilter, setClusterFilter] = useState<ClusterFilter>(
+        DEFAULT_CLUSTER_FILTER
+    );
     const [followsUserLocation, setFollowsUserLocation] =
         useState<boolean>(true);
 
@@ -42,6 +50,8 @@ export const MapContextProvider: React.FC<{ children: ReactNode }> = ({
                 setDateFilter,
                 socialFilter,
                 setSocialFilter,
+                clusterFilter,
+                setClusterFilter,
                 followsUserLocation,
                 setFollowsUserLocation,
             }}

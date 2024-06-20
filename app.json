@@ -18,9 +18,10 @@
             "infoPlist": {
                 "LSApplicationQueriesSchemes": ["spotify"],
                 "UIBackgroundModes": ["location", "fetch"],
-                "NSLocationWhenInUseUsageDescription": "Coaster needs access to your location while you are using it to track the songs you play at each location.",
-                "NSLocationAlwaysAndWhenInUseUsageDescription": "Coaster needs access to your location at all times to continuously track the songs you play, even when the app is in the background.",
-                "NSLocationAlwaysUsageDescription": "Coaster needs access to your location at all times to track the songs you play at each location, ensuring accurate logging even when the app is not in the foreground."
+                "NSPhotoLibraryUsageDescription": "$(PRODUCT_NAME) needs access to your photo library to select photos.",
+                "NSLocationWhenInUseUsageDescription": "$(PRODUCT_NAME) needs access to your location while you are using it to track the songs you play at each location.",
+                "NSLocationAlwaysAndWhenInUseUsageDescription": "$(PRODUCT_NAME) needs access to your location at all times to continuously track the songs you play, even when the app is in the background.",
+                "NSLocationAlwaysUsageDescription": "$(PRODUCT_NAME) needs access to your location at all times to track the songs you play at each location, ensuring accurate logging even when the app is not in the foreground."
             }
         },
         "android": {

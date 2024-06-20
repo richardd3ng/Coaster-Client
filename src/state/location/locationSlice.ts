@@ -16,7 +16,7 @@ const initialState: LocationState = {
     currentRegion: null,
 };
 
-const UPDATE_INTERVAL_MILLISECONDS = 300_000; // 5 minutes
+const UPDATE_INTERVAL_MILLISECONDS = 5 * 60 * 1000;
 
 const locationSlice = createSlice({
     name: "location",
@@ -35,7 +35,7 @@ const locationSlice = createSlice({
             ) {
                 newHistory.push(action.payload);
                 console.log(
-                    "coords:",
+                    "recorded coords:",
                     coords,
                     "timestamp:",
                     timestamp,
@@ -50,6 +50,7 @@ const locationSlice = createSlice({
             };
         },
         clearHistory: (state) => {
+            console.log("clearing history");
             return {
                 history: [],
                 currentLocation: state.currentLocation,

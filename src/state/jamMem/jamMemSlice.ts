@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+export const INVALID_JAM_MEM_ID = -1;
+
 export type JamMemState = {
-    selectedJamMemId: number | null;
+    selectedJamMemId: number;
 };
 
 const initialState: JamMemState = {
-    selectedJamMemId: null,
+    selectedJamMemId: INVALID_JAM_MEM_ID,
 };
 
 const jamMemSlice = createSlice({

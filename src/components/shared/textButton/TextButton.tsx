@@ -1,5 +1,9 @@
-import { Button, ButtonProps } from "@ui-kitten/components";
+import { ButtonProps } from "@ui-kitten/components";
 import { Text, TextStyle } from "react-native";
+
+import CustomPressable from "../customPressable/CustomPressable";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import createStyles from "./styles";
 
 interface TextButtonProps extends ButtonProps {
     text: string;
@@ -11,10 +15,12 @@ const TextButton: React.FC<TextButtonProps> = ({
     textStyle,
     ...props
 }) => {
+    const styles = useThemeAwareObject(createStyles);
+
     return (
-        <Button {...props}>
+        <CustomPressable {...props} style={[styles.button, props.style]}>
             {() => <Text style={textStyle}>{text}</Text>}
-        </Button>
+        </CustomPressable>
     );
 };
 
