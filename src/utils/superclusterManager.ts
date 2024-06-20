@@ -69,7 +69,6 @@ class SuperclusterManager {
         points: PointFeature<SongPointProps>[]
     ) => {
         const start = Date.now();
-        console.log("Loading points for filter:", filter.value);
         if (filter.type === "social") {
             switch (filter.value) {
                 case SocialFilter.Global:

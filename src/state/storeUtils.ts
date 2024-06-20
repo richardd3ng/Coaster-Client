@@ -1,6 +1,5 @@
 import { LatLng, Region } from "react-native-maps";
 
-import store from "./store";
 import {
     clearHistoryAction,
     recordLocationTimestampAction,
@@ -10,6 +9,7 @@ import {
 } from "./actions";
 import { LocationTimestamp } from "../types/entities";
 import { SongCluster } from "../utils/superclusterManager";
+import store from "./store";
 
 /* dispatchers */
 export const dispatchRecordLocationTimestamp = (

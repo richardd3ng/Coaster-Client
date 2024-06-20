@@ -12,16 +12,20 @@ import {
     useCurrentRegion,
 } from "../../../hooks/redux/useSelectorHooks";
 import { useMapContext } from "../../../hooks/context/MapContext";
-import useTracking from "../../../hooks/useTracking";
+import { useTrackingContext } from "../../../hooks/context/TrackingContext";
 import useClusters from "../../../hooks/useClusters";
+import useSnapshotBackground from "../../../hooks/useLocationPostingBackground";
+import useLocationPostingForeground from "../../../hooks/useLocationPostingForeground";
 
 const ClusteredMapView = () => {
-    const [_tracking, setTracking] = useTracking();
+    const { setTracking } = useTrackingContext();
     const { followsUserLocation, setFollowsUserLocation, clusterFilter } =
         useMapContext();
     const isInitialized = useRef(false);
     const location = useCurrentLocation();
     const region = useCurrentRegion();
+    useLocationPostingForeground();
+    useSnapshotBackground();
     const { clusters, isLoading } = useClusters(region, clusterFilter);
 
     useEffect(() => {
@@ -39,14 +43,6 @@ const ClusteredMapView = () => {
             isInitialized.current = true;
         }
     }, [location, dispatchSetCurrentRegion]);
-
-    useEffect(() => {
-        if (isLoading) {
-            console.log("started loading");
-        } else {
-            console.log("ended loading");
-        }
-    }, [isLoading]);
 
     return location && region && !isLoading ? (
         <MapView

@@ -3,7 +3,6 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { View } from "react-native";
 
-import { dispatchClearHistory } from "../../../../state/storeUtils";
 import { INVALID_JAM_MEM_ID } from "../../../../state/jamMem/jamMemSlice";
 import MapIconButton from "../mapIconButton/MapIconButton";
 import { RootState } from "../../../../state/store";
@@ -39,7 +38,6 @@ const SocialFilterStack: React.FC = () => {
                                 type: "social",
                                 value: SocialFilter.Friends,
                             });
-                            dispatchClearHistory();
                         }}
                         filled={clusterFilter.value === SocialFilter.Friends}
                     />
