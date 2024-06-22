@@ -43,6 +43,7 @@ const getUserPreferencesQueryDocument = graphql(`
     }
 `);
 export const fetchUserPreferences = async (id: string) => {
+    console.log("fetching preferences");
     try {
         const result = await request(
             GRAPHQL_URL,
