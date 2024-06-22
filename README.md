@@ -34,6 +34,10 @@ Note: background location tracking capabilities aren't enabled on Expo Go
 ### Prebuilding
 1. See [Expo Prebuild](https://docs.expo.dev/workflow/prebuild/) if you need to generate native code for the project (Note: not a common workflow, ask beforehand if necessary)
 
+### GraphQL 
+1. Open a seperate terminal. In the project root, run `pnpm graphql-codegen -w`
+2. Changes involving graphql should be reflected in `src/gql/gql.ts` automatically
+
 ### Code Conventions
 - Code Conventions generally follow [this guide](https://medium.com/@mahesh.nagpure.mailbox/react-native-coding-standard-structure-ab5c5f9e6784) and [this guide](https://gilshaan.medium.com/react-native-coding-standards-and-best-practices-5b4b5c9f4076)
 - Follow existing directory structure (capitalization patterns, styling files, etc.)
