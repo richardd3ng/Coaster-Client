@@ -4,15 +4,14 @@ import {
     cancelRequest,
     deleteFriend,
     sendRequest,
-    updateCurrentUser,
+    updateUserPreferences,
 } from "../../api/userAPI";
 import { createJamMem } from "../../api/jamMemAPI";
 import {
-    getQueryKeyForUseCurrentUser,
     getQueryKeyForUseFriends,
     getQueryKeyForUseJamMemMetadatas,
-    getQueryKeyForUseMoreResults,
     getQueryKeyForUseSentRequests,
+    getQueryKeyForUseUserPreferences,
 } from "./useQueryHooks";
 
 /* Jam Mems */
@@ -29,14 +28,14 @@ export const useMutationToCreateJamMem = () => {
 };
 
 /* Users */
-export const useMutationToUpdateUser = () => {
+export const useMutationToUpdateUserPreferences = (id: string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: updateCurrentUser,
+        mutationFn: updateUserPreferences,
         onSuccess: () =>
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseCurrentUser(),
+                queryKey: getQueryKeyForUseUserPreferences(id),
             }),
     });
 };

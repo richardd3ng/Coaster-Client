@@ -18,5 +18,7 @@ export const DEFAULT_LOCATION: LatLng = {
 
 export const DEFAULT_JAM_MEM_COVER_URI = "https://source.unsplash.com/random/200x200";
 
+export const CURRENT_USER_ID = "66450664ca3434bb0f6d3a36";
+
 
 
