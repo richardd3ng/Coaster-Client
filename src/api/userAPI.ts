@@ -1,18 +1,18 @@
-import client from "./apolloClient";
-import {
-    mockSentRequestsData,
-    mockFriendsData,
-    mockMoreResultsData,
-} from "../mockData/constants";
-import { UserUpdateArgs } from "../types/entities";
+import { request } from "graphql-request";
+
 import { filterUsers } from "../utils/userUtils";
 import { formatError } from "./errorUtils";
-import { graphql } from "../gql";
+import { GRAPHQL_URL } from "@env";
 import {
-    GetUserInfoQuery,
-    GetUserInfoQueryVariables,
-    User,
-} from "../gql/graphql";
+    mockFriendsData,
+    mockMoreResultsData,
+    mockSentRequestsData,
+} from "../mockData/constants";
+import { GetUserInfoQuery, GetUserInfoQueryVariables } from "../gql/graphql";
+import { graphql } from "../gql";
+import { UserUpdateArgs } from "../types/entities";
+
+const userId = "66450664ca3434bb0f6d3a36";
 
 const getUserInfoQueryDocument = graphql(`
     query GetUserInfo($id: MongoID!) {
@@ -27,16 +27,11 @@ const getUserInfoQueryDocument = graphql(`
 
 export const fetchCurrentUser = async () => {
     try {
-        const userId = "66450664ca3434bb0f6d3a36";
-        const result = await client.query<
+        const result = await request<
             GetUserInfoQuery,
             GetUserInfoQueryVariables
-        >({
-            query: getUserInfoQueryDocument,
-            variables: { id: userId },
-        });
-
-        const user = result.data.userById;
+        >(GRAPHQL_URL, getUserInfoQueryDocument, { id: userId });
+        const user = result.userById;
         console.log(user);
         return user;
     } catch (error) {

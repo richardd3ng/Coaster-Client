@@ -11,7 +11,6 @@
         "preinstall": "npx only-allow pnpm"
     },
     "dependencies": {
-        "@apollo/client": "^3.10.6",
         "@eva-design/eva": "^2.2.0",
         "@gorhom/bottom-sheet": "^4.6.3",
         "@mapbox/geo-viewport": "^0.5.0",
@@ -34,6 +33,7 @@
         "expo-status-bar": "~1.12.1",
         "expo-task-manager": "^11.8.1",
         "graphql": "^16.9.0",
+        "graphql-request": "5.1.0",
         "react": "18.2.0",
         "react-native": "0.74.1",
         "react-native-app-link": "^1.0.1",
