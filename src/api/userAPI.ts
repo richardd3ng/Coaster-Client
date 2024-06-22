@@ -1,14 +1,48 @@
+import client from "./apolloClient";
 import {
     mockSentRequestsData,
     mockFriendsData,
     mockMoreResultsData,
 } from "../mockData/constants";
-import { User, UserUpdateArgs } from "../types/entities";
+import { UserUpdateArgs } from "../types/entities";
 import { filterUsers } from "../utils/userUtils";
+import { formatError } from "./errorUtils";
+import { graphql } from "../gql";
+import {
+    GetUserInfoQuery,
+    GetUserInfoQueryVariables,
+    User,
+} from "../gql/graphql";
+
+const getUserInfoQueryDocument = graphql(`
+    query GetUserInfo($id: MongoID!) {
+        userById(_id: $id) {
+            _id
+            username
+            displayName
+            profilePic
+        }
+    }
+`);
 
 export const fetchCurrentUser = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-    return mockFriendsData[1];
+    try {
+        const userId = "66450664ca3434bb0f6d3a36";
+        const result = await client.query<
+            GetUserInfoQuery,
+            GetUserInfoQueryVariables
+        >({
+            query: getUserInfoQueryDocument,
+            variables: { id: userId },
+        });
+
+        const user = result.data.userById;
+        console.log(user);
+        return user;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to load current user");
+    }
 };
 
 export const updateCurrentUser = async (userUpdateArgs: UserUpdateArgs) => {
@@ -34,13 +68,13 @@ export const updateCurrentUser = async (userUpdateArgs: UserUpdateArgs) => {
     throw new Error("Error: unable to update User");
 };
 
-export const fetchFriends = async (): Promise<User[]> => {
+export const fetchFriends = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
     return mockFriendsData;
     // throw new Error("Error: unable to load friends");
 };
 
-export const fetchMoreResults = async (query: string): Promise<User[]> => {
+export const fetchMoreResults = async (query: string) => {
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
     return filterUsers(mockMoreResultsData, query);
 };
@@ -57,17 +91,17 @@ export const deleteFriend = async (id: number): Promise<void> => {
     }
 };
 
-export const fetchPendingRequests = async (): Promise<User[]> => {
+export const fetchPendingRequests = async () => {
     await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
     return mockSentRequestsData;
 };
 
-export const fetchSentRequests = async (): Promise<User[]> => {
+export const fetchSentRequests = async () => {
     await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
     return mockSentRequestsData;
 };
 
-export const sendRequest = async (id: number): Promise<void> => {
+export const sendRequest = async (id: number) => {
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
     try {
         const index = mockMoreResultsData.findIndex((user) => user.id === id);
