@@ -2,41 +2,104 @@ import { request } from "graphql-request";
 
 import { filterUsers } from "../utils/userUtils";
 import { formatError } from "./errorUtils";
+import { graphql } from "../gql";
 import { GRAPHQL_URL } from "@env";
 import {
     mockFriendsData,
     mockMoreResultsData,
+    mockPendingRequestsData,
     mockSentRequestsData,
 } from "../mockData/constants";
-import { GetUserInfoQuery, GetUserInfoQueryVariables } from "../gql/graphql";
-import { graphql } from "../gql";
 import { UserUpdateArgs } from "../types/entities";
 
-const userId = "66450664ca3434bb0f6d3a36";
-
-const getUserInfoQueryDocument = graphql(`
-    query GetUserInfo($id: MongoID!) {
+const fetchUserInfoQueryDocument = graphql(`
+    query FetchUserInfo($id: MongoID!) {
         userById(_id: $id) {
             _id
             username
             displayName
-            profilePic
+            profileUri
         }
     }
 `);
-
-export const fetchCurrentUser = async () => {
+export const fetchUserInfo = async (id: string) => {
     try {
-        const result = await request<
-            GetUserInfoQuery,
-            GetUserInfoQueryVariables
-        >(GRAPHQL_URL, getUserInfoQueryDocument, { id: userId });
-        const user = result.userById;
-        console.log(user);
-        return user;
+        const result = await request(GRAPHQL_URL, fetchUserInfoQueryDocument, {
+            id,
+        });
+        return result.userById;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to load current user");
+    }
+};
+
+const getUserPreferencesQueryDocument = graphql(`
+    query GetUserPreferences($id: MongoID!) {
+        userById(_id: $id) {
+            trackSnapshots
+            shareSnapshots
+        }
+    }
+`);
+export const fetchUserPreferences = async (id: string) => {
+    try {
+        const result = await request(
+            GRAPHQL_URL,
+            getUserPreferencesQueryDocument,
+            { id }
+        );
+        return result.userById;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to load preferences");
+    }
+};
+
+const updateUserPreferencesMutationDocument = graphql(`
+    mutation UpdateUserPreferences(
+        $id: MongoID!
+        $shareSnapshots: Boolean
+        $trackSnapshots: Boolean
+    ) {
+        userUpdateById(
+            _id: $id
+            record: {
+                shareSnapshots: $shareSnapshots
+                trackSnapshots: $trackSnapshots
+            }
+        ) {
+            record {
+                trackSnapshots
+                shareSnapshots
+            }
+        }
+    }
+`);
+interface UpdateUserPreferencesArgs {
+    id: string;
+    shareSnapshots?: boolean;
+    trackSnapshots?: boolean;
+}
+export const updateUserPreferences = async ({
+    id,
+    shareSnapshots,
+    trackSnapshots,
+}: UpdateUserPreferencesArgs) => {
+    try {
+        const result = await request(
+            GRAPHQL_URL,
+            updateUserPreferencesMutationDocument,
+            {
+                id,
+                shareSnapshots,
+                trackSnapshots,
+            }
+        );
+        return result.userUpdateById?.record;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to update preferences");
     }
 };
 
@@ -88,7 +151,7 @@ export const deleteFriend = async (id: number): Promise<void> => {
 
 export const fetchPendingRequests = async () => {
     await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    return mockSentRequestsData;
+    return mockPendingRequestsData;
 };
 
 export const fetchSentRequests = async () => {

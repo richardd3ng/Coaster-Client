@@ -2,9 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 
 import { ClusterFilter } from "../../types/filters";
 import {
-    fetchCurrentUser,
+    fetchUserInfo,
     fetchFriends,
-    fetchPendingRequests as fetchSentRequests,
+    fetchSentRequests,
+    fetchUserPreferences,
 } from "../../api/userAPI";
 import { fetchJamMem, fetchJamMemMetadatas } from "../../api/jamMemAPI";
 import { fetchSong } from "../../api/songAPI";
@@ -59,10 +60,17 @@ export const getQueryKeyForUseSong = (id: number) => {
 };
 
 /* Users */
-export const useCurrentUser = () => {
+export const useUserInfo = (id: string) => {
     return useQuery({
-        queryKey: getQueryKeyForUseCurrentUser(),
-        queryFn: fetchCurrentUser,
+        queryKey: getQueryKeyForUseUserInfo(id),
+        queryFn: () => fetchUserInfo(id),
+    });
+};
+
+export const useUserPreferences = (id: string) => {
+    return useQuery({
+        queryKey: getQueryKeyForUseUserPreferences(id),
+        queryFn: () => fetchUserPreferences(id),
     });
 };
 
@@ -80,8 +88,12 @@ export const useSentRequests = () => {
     });
 };
 
-export const getQueryKeyForUseCurrentUser = () => {
-    return ["currentUser"];
+export const getQueryKeyForUseUserInfo = (id: string) => {
+    return ["userInfo", id];
+};
+
+export const getQueryKeyForUseUserPreferences = (id: string) => {
+    return ["userPreferences", id];
 };
 
 export const getQueryKeyForUseFriends = () => {

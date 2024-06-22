@@ -107,7 +107,7 @@ export const mockMoreResultsData: User[] = [
     },
 ];
 
-export const mockIncomingRequestsData: User[] = [];
+export const mockPendingRequestsData: User[] = [];
 
 export const mockSentRequestsData: User[] = [];
 

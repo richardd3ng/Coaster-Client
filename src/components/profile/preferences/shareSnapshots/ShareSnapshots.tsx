@@ -2,40 +2,44 @@ import { useState } from "react";
 
 import ConfirmationDialog from "../../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
+import { CURRENT_USER_ID } from "../../../../constants/defaults";
 import { PreferencesOption } from "../../../../types/navigation";
 import PreferencesListItem from "../preferencesListItem/PreferencesListItem";
-import { useCurrentUser } from "../../../../hooks/react-query/useQueryHooks";
 import useMutationErrorAlert from "../../../../hooks/useMutationErrorAlert";
-import { useMutationToUpdateUser } from "../../../../hooks/react-query/useMutationHooks";
+import { useMutationToUpdateUserPreferences } from "../../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
+import { useUserPreferences } from "../../../../hooks/react-query/useQueryHooks";
 
 const ShareSnapshots: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfiramtionDialog, setShowConfirmationDialog] =
         useState<boolean>(false);
-    const { data: currentUser, isLoading } = useCurrentUser();
+    const { data: preferences, isLoading } =
+        useUserPreferences(CURRENT_USER_ID);
     const {
-        mutate: updateCurrentUser,
+        mutate: updatePreferences,
         isPending,
         isError,
         error,
         reset,
-    } = useMutationToUpdateUser();
+    } = useMutationToUpdateUserPreferences(CURRENT_USER_ID);
     useMutationErrorAlert({ isError, error, reset });
 
     const handleToggle = () => {
-        if (currentUser?.shareSnapshots || false) {
+        if (preferences?.shareSnapshots || false) {
             setShowConfirmationDialog(true);
         } else {
-            updateCurrentUser({
-                shareShapshots: true,
+            updatePreferences({
+                id: CURRENT_USER_ID,
+                shareSnapshots: true,
             });
         }
     };
 
     const handleConfirm = () => {
-        updateCurrentUser({
-            shareShapshots: false,
+        updatePreferences({
+            id: CURRENT_USER_ID,
+            shareSnapshots: false,
         });
     };
 
@@ -44,7 +48,7 @@ const ShareSnapshots: React.FC = () => {
             <PreferencesListItem
                 text={PreferencesOption.ShareSnapshots}
                 onPress={handleToggle}
-                isEnabled={currentUser?.shareSnapshots ?? false}
+                isEnabled={preferences?.shareSnapshots ?? false}
                 isPending={isPending || isLoading}
                 style={styles.toggledListItem}
                 hideDivider

@@ -30,10 +30,11 @@ export type CreateManyUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   outFriendRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profilePic?: InputMaybe<Scalars['String']['input']>;
-  shareLocationToAll?: InputMaybe<Scalars['Boolean']['input']>;
+  profileUri?: InputMaybe<Scalars['String']['input']>;
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   spotifyId: Scalars['String']['input'];
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   username: Scalars['String']['input'];
 };
 
@@ -59,10 +60,11 @@ export type CreateOneUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   outFriendRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profilePic?: InputMaybe<Scalars['String']['input']>;
-  shareLocationToAll?: InputMaybe<Scalars['Boolean']['input']>;
+  profileUri?: InputMaybe<Scalars['String']['input']>;
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   spotifyId: Scalars['String']['input'];
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   username: Scalars['String']['input'];
 };
 
@@ -77,10 +79,9 @@ export type CreateOneUserPayload = {
 };
 
 export enum EnumUserDataPersistence {
-  Forever = 'Forever',
-  A_1Year = 'a_1_Year',
-  A_5Years = 'a_5_Years',
-  A_10Years = 'a_10_Years'
+  A_1Month = 'a_1_Month',
+  A_1Week = 'a_1_Week',
+  A_1Year = 'a_1_Year'
 }
 
 export type ErrorInterface = {
@@ -103,10 +104,11 @@ export type FilterCountUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   outFriendRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profilePic?: InputMaybe<Scalars['String']['input']>;
-  shareLocationToAll?: InputMaybe<Scalars['Boolean']['input']>;
+  profileUri?: InputMaybe<Scalars['String']['input']>;
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   spotifyId?: InputMaybe<Scalars['String']['input']>;
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -141,10 +143,11 @@ export type FilterFindManyUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   outFriendRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profilePic?: InputMaybe<Scalars['String']['input']>;
-  shareLocationToAll?: InputMaybe<Scalars['Boolean']['input']>;
+  profileUri?: InputMaybe<Scalars['String']['input']>;
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   spotifyId?: InputMaybe<Scalars['String']['input']>;
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -179,10 +182,11 @@ export type FilterFindOneUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   outFriendRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profilePic?: InputMaybe<Scalars['String']['input']>;
-  shareLocationToAll?: InputMaybe<Scalars['Boolean']['input']>;
+  profileUri?: InputMaybe<Scalars['String']['input']>;
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   spotifyId?: InputMaybe<Scalars['String']['input']>;
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -217,10 +221,11 @@ export type FilterRemoveManyUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   outFriendRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profilePic?: InputMaybe<Scalars['String']['input']>;
-  shareLocationToAll?: InputMaybe<Scalars['Boolean']['input']>;
+  profileUri?: InputMaybe<Scalars['String']['input']>;
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   spotifyId?: InputMaybe<Scalars['String']['input']>;
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -255,10 +260,11 @@ export type FilterRemoveOneUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   outFriendRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profilePic?: InputMaybe<Scalars['String']['input']>;
-  shareLocationToAll?: InputMaybe<Scalars['Boolean']['input']>;
+  profileUri?: InputMaybe<Scalars['String']['input']>;
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   spotifyId?: InputMaybe<Scalars['String']['input']>;
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -293,10 +299,11 @@ export type FilterUpdateManyUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   outFriendRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profilePic?: InputMaybe<Scalars['String']['input']>;
-  shareLocationToAll?: InputMaybe<Scalars['Boolean']['input']>;
+  profileUri?: InputMaybe<Scalars['String']['input']>;
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   spotifyId?: InputMaybe<Scalars['String']['input']>;
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -331,10 +338,11 @@ export type FilterUpdateOneUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   outFriendRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profilePic?: InputMaybe<Scalars['String']['input']>;
-  shareLocationToAll?: InputMaybe<Scalars['Boolean']['input']>;
+  profileUri?: InputMaybe<Scalars['String']['input']>;
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   spotifyId?: InputMaybe<Scalars['String']['input']>;
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -595,10 +603,11 @@ export type UpdateByIdUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   outFriendRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profilePic?: InputMaybe<Scalars['String']['input']>;
-  shareLocationToAll?: InputMaybe<Scalars['Boolean']['input']>;
+  profileUri?: InputMaybe<Scalars['String']['input']>;
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   spotifyId?: InputMaybe<Scalars['String']['input']>;
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -622,10 +631,11 @@ export type UpdateManyUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   outFriendRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profilePic?: InputMaybe<Scalars['String']['input']>;
-  shareLocationToAll?: InputMaybe<Scalars['Boolean']['input']>;
+  profileUri?: InputMaybe<Scalars['String']['input']>;
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   spotifyId?: InputMaybe<Scalars['String']['input']>;
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -647,10 +657,11 @@ export type UpdateOneUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   outFriendRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profilePic?: InputMaybe<Scalars['String']['input']>;
-  shareLocationToAll?: InputMaybe<Scalars['Boolean']['input']>;
+  profileUri?: InputMaybe<Scalars['String']['input']>;
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   spotifyId?: InputMaybe<Scalars['String']['input']>;
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -676,10 +687,11 @@ export type User = {
   jamSessions?: Maybe<Array<Maybe<Scalars['MongoID']['output']>>>;
   locationAccuracy?: Maybe<Scalars['Float']['output']>;
   outFriendRequests?: Maybe<Array<Maybe<Scalars['MongoID']['output']>>>;
-  profilePic?: Maybe<Scalars['String']['output']>;
-  shareLocationToAll?: Maybe<Scalars['Boolean']['output']>;
+  profileUri?: Maybe<Scalars['String']['output']>;
+  shareSnapshots?: Maybe<Scalars['Boolean']['output']>;
   snapshots?: Maybe<Array<Maybe<Scalars['MongoID']['output']>>>;
   spotifyId: Scalars['String']['output'];
+  trackSnapshots?: Maybe<Scalars['Boolean']['output']>;
   username: Scalars['String']['output'];
 };
 
@@ -734,12 +746,30 @@ export type ValidatorError = {
   value?: Maybe<Scalars['JSON']['output']>;
 };
 
-export type GetUserInfoQueryVariables = Exact<{
+export type FetchUserInfoQueryVariables = Exact<{
   id: Scalars['MongoID']['input'];
 }>;
 
 
-export type GetUserInfoQuery = { __typename?: 'Query', userById?: { __typename?: 'User', _id: any, username: string, displayName: string, profilePic?: string | null } | null };
+export type FetchUserInfoQuery = { __typename?: 'Query', userById?: { __typename?: 'User', _id: any, username: string, displayName: string, profileUri?: string | null } | null };
+
+export type GetUserPreferencesQueryVariables = Exact<{
+  id: Scalars['MongoID']['input'];
+}>;
 
 
-export const GetUserInfoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserInfo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profilePic"}}]}}]}}]} as unknown as DocumentNode<GetUserInfoQuery, GetUserInfoQueryVariables>;
+export type GetUserPreferencesQuery = { __typename?: 'Query', userById?: { __typename?: 'User', trackSnapshots?: boolean | null, shareSnapshots?: boolean | null } | null };
+
+export type UpdateUserPreferencesMutationVariables = Exact<{
+  id: Scalars['MongoID']['input'];
+  shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
+  trackSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type UpdateUserPreferencesMutation = { __typename?: 'Mutation', userUpdateById?: { __typename?: 'UpdateByIdUserPayload', record?: { __typename?: 'User', trackSnapshots?: boolean | null, shareSnapshots?: boolean | null } | null } | null };
+
+
+export const FetchUserInfoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserInfo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]}}]} as unknown as DocumentNode<FetchUserInfoQuery, FetchUserInfoQueryVariables>;
+export const GetUserPreferencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserPreferences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trackSnapshots"}},{"kind":"Field","name":{"kind":"Name","value":"shareSnapshots"}}]}}]}}]} as unknown as DocumentNode<GetUserPreferencesQuery, GetUserPreferencesQueryVariables>;
+export const UpdateUserPreferencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUserPreferences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"shareSnapshots"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"trackSnapshots"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userUpdateById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"record"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"shareSnapshots"},"value":{"kind":"Variable","name":{"kind":"Name","value":"shareSnapshots"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"trackSnapshots"},"value":{"kind":"Variable","name":{"kind":"Name","value":"trackSnapshots"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"record"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trackSnapshots"}},{"kind":"Field","name":{"kind":"Name","value":"shareSnapshots"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateUserPreferencesMutation, UpdateUserPreferencesMutationVariables>;
