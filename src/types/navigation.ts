@@ -1,8 +1,14 @@
 import { NavigationProp } from "@react-navigation/native";
+import { JamMem } from "./entities";
 
 export enum FriendsTabName {
     Connections = "Connections",
     Requests = "Requests",
+}
+
+export enum JamMemTabName {
+    Clusters = "Clusters",
+    JamFriends = "Jam Friends",
 }
 
 export enum ScreenName {
@@ -13,6 +19,11 @@ export enum ScreenName {
 export type RootStackParamList = {
     [ScreenName.Login]: undefined;
     [ScreenName.Map]: undefined;
+};
+
+export type JamMemTabParamList = {
+    [JamMemTabName.Clusters]: undefined;
+    [JamMemTabName.JamFriends]: undefined;
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;

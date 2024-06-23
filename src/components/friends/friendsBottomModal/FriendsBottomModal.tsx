@@ -92,7 +92,7 @@ const FriendsBottomModal: React.FC = () => {
     const FriendsContent = isFetching ? (
         <LoadingView />
     ) : isError ? (
-        <ErrorView message={error.message} onTryAgain={refetch} />
+        <ErrorView message={error.message} onRetry={refetch} />
     ) : filteredFriends ? (
         <FriendsScrollView
             friends={query.trim() !== "" ? filteredFriends : dataFriends}
@@ -100,7 +100,7 @@ const FriendsBottomModal: React.FC = () => {
             refetchQuery={handleSearch}
         />
     ) : null;
- 
+
     const SearchBarRow = (
         <View style={styles.searchBarRowContainer}>
             <SearchBar

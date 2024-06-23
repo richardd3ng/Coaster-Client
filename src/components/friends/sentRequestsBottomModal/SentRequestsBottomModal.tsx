@@ -27,7 +27,7 @@ const SentRequestsBottomModal: React.FC = () => {
     const SentRequestsContent = isFetching ? (
         <LoadingView />
     ) : isError ? (
-        <ErrorView message={error.message} onTryAgain={refetch} />
+        <ErrorView message={error.message} onRetry={refetch} />
     ) : sentRequests ? (
         <FriendsScrollView sentRequests={sentRequests} moreResults={[]} />
     ) : null;

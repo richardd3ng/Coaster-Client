@@ -27,7 +27,7 @@ const JamMemsStack: React.FC = () => {
     ) : isError ? (
         <ErrorView
             message={error.message}
-            onTryAgain={refetch}
+            onRetry={refetch}
             containerStyle={styles.errorLoadingContainer}
         />
     ) : jamMemMetadatas ? (

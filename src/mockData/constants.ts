@@ -4,7 +4,7 @@ import { Place } from "../api/placesAPI";
 
 export const mockFriendsData: User[] = [
     {
-        id: 1,
+        id: "1",
         username: "shanggang",
         displayName: "Jason Shang",
         profileUri:
@@ -13,7 +13,7 @@ export const mockFriendsData: User[] = [
         shareSnapshots: true,
     },
     {
-        id: 2,
+        id: "2",
         username: "rdengomng",
         displayName: "Richard Deng",
         profileUri:
@@ -22,7 +22,7 @@ export const mockFriendsData: User[] = [
         shareSnapshots: true,
     },
     {
-        id: 3,
+        id: "3",
         username: "joshisacow",
         displayName: "Josh Chen",
         profileUri:
@@ -31,7 +31,7 @@ export const mockFriendsData: User[] = [
         shareSnapshots: true,
     },
     {
-        id: 4,
+        id: "4",
         username: "anikapawlak",
         displayName: "Anika Pawlak",
         profileUri:
@@ -40,7 +40,7 @@ export const mockFriendsData: User[] = [
         shareSnapshots: true,
     },
     {
-        id: 5,
+        id: "5",
         username: "doingdiane",
         displayName: "Diane Lee",
         profileUri:
@@ -52,7 +52,7 @@ export const mockFriendsData: User[] = [
 
 export const mockMoreResultsData: User[] = [
     {
-        id: 6,
+        id: "6",
         username: "greatwhite2000",
         displayName: "Ben Crespo",
         profileUri:
@@ -61,7 +61,7 @@ export const mockMoreResultsData: User[] = [
         shareSnapshots: true,
     },
     {
-        id: 7,
+        id: "7",
         username: "lieutenant_of_singapore",
         displayName: "Elias Lai",
         profileUri:
@@ -70,7 +70,7 @@ export const mockMoreResultsData: User[] = [
         shareSnapshots: true,
     },
     {
-        id: 8,
+        id: "8",
         username: "nyu123",
         displayName: "Nathan Yu",
         profileUri:
@@ -79,7 +79,7 @@ export const mockMoreResultsData: User[] = [
         shareSnapshots: true,
     },
     {
-        id: 9,
+        id: "9",
         username: "japanese_raccoon",
         displayName: "Emily Ford",
         profileUri:
@@ -88,7 +88,7 @@ export const mockMoreResultsData: User[] = [
         shareSnapshots: true,
     },
     {
-        id: 10,
+        id: "10",
         username: "turtle_lover_9000",
         displayName: "Connie Vi",
         profileUri:
@@ -97,7 +97,7 @@ export const mockMoreResultsData: User[] = [
         shareSnapshots: true,
     },
     {
-        id: 11,
+        id: "11",
         username: "hangukjangerbanger",
         displayName: "Justin Jang",
         profileUri:
@@ -124,7 +124,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/289/200/300.jpg?hmac=TVh4H_Hra3e1VSDPJz-mhCgep32qIa7T6DGQvbrjMb4",
         snapshots: generateRandomSongPoints(50),
-        friends: mockFriendsData,
+        friends: mockFriendsData.slice(1),
     },
     {
         id: 2,
@@ -136,7 +136,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/392/200/300.jpg?hmac=tcnub3WKREnSOdoCn7rQtfZkHXNWn5fXwNpHrv0o-5k",
         snapshots: generateRandomSongPoints(50),
-        friends: mockFriendsData,
+        friends: mockFriendsData.slice(2),
     },
     {
         id: 3,
@@ -148,7 +148,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/292/200/300.jpg?hmac=zm-TXplXe70N7LGm2HWu9iOPXoBtQvwyhAF2CSj0ccs",
         snapshots: generateRandomSongPoints(50),
-        friends: mockFriendsData,
+        friends: mockFriendsData.slice(3),
     },
     {
         id: 4,
@@ -160,7 +160,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/574/200/300.jpg?hmac=8A2sOGZU1xgRXI46snJ80xNY3Yx-KcLVsBG-wRchwFg",
         snapshots: generateRandomSongPoints(50),
-        friends: mockFriendsData,
+        friends: mockFriendsData.slice(1),
     },
     {
         id: 5,
@@ -172,7 +172,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/397/200/300.jpg?hmac=9VBInLrifj_yyc2JuJSAVIfj9yQdt5Ovm2sHmvva-48",
         snapshots: generateRandomSongPoints(50),
-        friends: mockFriendsData,
+        friends: mockFriendsData.slice(1),
     },
     {
         id: 6,
@@ -184,7 +184,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/316/200/300.jpg?hmac=sq0VBO6H0wGg9Prod7MVUUB_7B91kmD5E1X1TRSo66U",
         snapshots: generateRandomSongPoints(50),
-        friends: mockFriendsData,
+        friends: mockFriendsData.slice(1),
     },
 ];
 

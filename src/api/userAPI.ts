@@ -138,7 +138,7 @@ export const fetchMoreResults = async (query: string) => {
     return filterUsers(mockMoreResultsData, query);
 };
 
-export const deleteFriend = async (id: number): Promise<void> => {
+export const deleteFriend = async (id: string): Promise<void> => {
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
     const idx = mockFriendsData.findIndex((user) => user.id === id);
     if (idx !== -1) {
@@ -160,7 +160,7 @@ export const fetchSentRequests = async () => {
     return mockSentRequestsData;
 };
 
-export const sendRequest = async (id: number) => {
+export const sendRequest = async (id: string) => {
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
     try {
         const index = mockMoreResultsData.findIndex((user) => user.id === id);
@@ -174,7 +174,7 @@ export const sendRequest = async (id: number) => {
     }
 };
 
-export const cancelRequest = async (id: number): Promise<void> => {
+export const cancelRequest = async (id: string): Promise<void> => {
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
     try {
         const index = mockSentRequestsData.findIndex((user) => user.id === id);

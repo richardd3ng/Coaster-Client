@@ -4,7 +4,7 @@ import { SongPointProps } from "../utils/superclusterManager";
 
 /* Users */
 export interface User {
-    id: number;
+    id: string;
     username: string;
     displayName: string;
     profileUri: string;
