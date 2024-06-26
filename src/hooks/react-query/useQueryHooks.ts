@@ -16,6 +16,7 @@ export const useJamMem = (id: number) => {
     return useQuery({
         queryKey: getQueryKeyForUseJamMem(id),
         queryFn: () => fetchJamMem(id),
+        staleTime: 12 * 60 * 60 * 1000,
     });
 };
 
@@ -23,6 +24,7 @@ export const useJamMemMetadatas = () => {
     return useQuery({
         queryKey: getQueryKeyForUseJamMemMetadatas(),
         queryFn: fetchJamMemMetadatas,
+        staleTime: Infinity,
     });
 };
 
@@ -39,7 +41,7 @@ export const useSongPoints = (filter: ClusterFilter) => {
     return useQuery({
         queryKey: getQueryKeyForUseSongPoints(filter),
         queryFn: () => fetchAndLoadSongPoints(filter),
-        staleTime: filter.type === "social" ? 60 * 60 * 1000 : Infinity, // Cache dynamic data for 1 hour
+        staleTime: filter.type === "social" ? 60 * 60 * 1000 : Infinity,
     });
 };
 
@@ -52,6 +54,7 @@ export const useSong = (id: number) => {
     return useQuery({
         queryKey: getQueryKeyForUseSong(id),
         queryFn: () => fetchSong(id),
+        staleTime: Infinity,
     });
 };
 
@@ -64,6 +67,7 @@ export const useUserInfo = (id: string) => {
     return useQuery({
         queryKey: getQueryKeyForUseUserInfo(id),
         queryFn: () => fetchUserInfo(id),
+        staleTime: Infinity,
     });
 };
 
@@ -71,6 +75,7 @@ export const useUserPreferences = (id: string) => {
     return useQuery({
         queryKey: getQueryKeyForUseUserPreferences(id),
         queryFn: () => fetchUserPreferences(id),
+        staleTime: Infinity,
     });
 };
 
@@ -78,6 +83,7 @@ export const useFriends = () => {
     return useQuery({
         queryKey: getQueryKeyForUseFriends(),
         queryFn: fetchFriends,
+        staleTime: Infinity,
     });
 };
 
@@ -85,6 +91,7 @@ export const useSentRequests = () => {
     return useQuery({
         queryKey: getQueryKeyForUseSentRequests(),
         queryFn: fetchSentRequests,
+        staleTime: Infinity,
     });
 };
 

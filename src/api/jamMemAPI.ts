@@ -40,3 +40,25 @@ export const createJamMem = async (
     }
     throw new Error("Error: unable to create Jam Mem");
 };
+
+interface DeleteFriendFromJamMemArgs {
+    jamMemId: number;
+    userId: string;
+}
+export const deleteFriendFromJamMem = async ({
+    jamMemId,
+    userId,
+}: DeleteFriendFromJamMemArgs): Promise<void> => {
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
+    const jamMem = mockJamMemData.find((jamMem) => jamMem.id === jamMemId);
+    if (!jamMem) {
+        throw new Error("Error: Jam Mem not found");
+    }
+    const friendIndex = jamMem.friends.findIndex(
+        (friend) => friend.id === userId
+    );
+    if (friendIndex === -1) {
+        throw new Error("Error: friend not found in Jam Mem");
+    }
+    jamMem.friends.splice(friendIndex, 1);
+};

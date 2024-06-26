@@ -4,10 +4,11 @@ import {
     clearHistoryAction,
     recordLocationTimestampAction,
     setCurrentRegionAction,
+    setCurrentUserAction,
     setSelectedClusterAction,
     setSelectedJamMemIdAction,
 } from "./actions";
-import { LocationTimestamp } from "../types/entities";
+import { LocationTimestamp, UserInfo } from "../types/entities";
 import { SongCluster } from "../utils/superclusterManager";
 import store from "./store";
 
@@ -34,6 +35,10 @@ export const dispatchSetSelectedJamMemId = (id: number) => {
     store.dispatch(setSelectedJamMemIdAction(id));
 };
 
+export const dispatchSetCurrentUser = (user: UserInfo | null) => {
+    store.dispatch(setCurrentUserAction(user));
+};
+
 /* accessors */
 export const getHistoryState = (): LocationTimestamp[] => {
     return store.getState().location.history;
@@ -45,4 +50,8 @@ export const getCurrentLocationState = (): LatLng | null => {
 
 export const getCurrentRegionState = (): Region | null => {
     return store.getState().location.currentRegion;
+};
+
+export const getCurrentUser = (): UserInfo | null => {
+    return store.getState().user.currentUser;
 };

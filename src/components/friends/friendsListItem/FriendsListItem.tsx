@@ -1,11 +1,11 @@
 import { ReactElement } from "react";
 import { Image, Text, View } from "react-native";
 import createStyles from "./styles";
-import { User } from "../../../types/entities";
+import { UserInfo } from "../../../types/entities";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface FriendsListItemProps {
-    user: User;
+    user: UserInfo;
     Button: ReactElement;
     Icon?: ReactElement;
 }

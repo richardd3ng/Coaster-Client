@@ -1,33 +1,22 @@
 import { useState } from "react";
+
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
 import IconButton from "../../shared/iconButton/IconButton";
 import ProfileListItem from "../profileListItem/ProfileListItem";
 import { ProfileOption } from "../../../types/navigation";
-import { ScreenName, StackNavigation } from "../../../types/navigation";
-import { useNavigation } from "@react-navigation/native";
-import useLocationPostingForeground from "../../../hooks/useLocationPostingForeground";
+import useLogout from "../../../hooks/useLogout";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { useTrackingContext } from "../../../hooks/context/TrackingContext";
 
 const Logout: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const { navigate } = useNavigation<StackNavigation>();
-    const { setTracking } = useTrackingContext();
-    const { stopInterval } = useLocationPostingForeground();
     const [showConfirmationDialog, setShowConfirmationDialog] =
         useState<boolean>(false);
+    const { handleLogout } = useLogout();
 
     const LogoutIcon = (
         <IconButton iconName="log-out" iconColor="black" style={styles.icon} />
     );
-
-    const handleLogout = () => {
-        // todo: invalidate queries but don't refetch
-        setTracking(false);
-        stopInterval();
-        navigate(ScreenName.Login);
-    };
 
     return (
         <>

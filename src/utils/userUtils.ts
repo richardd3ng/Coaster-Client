@@ -1,6 +1,6 @@
-import { User } from "../types/entities";
+import { UserInfo } from "../types/entities";
 
-export const filterUsers = (users: User[], query: string): User[] => {
+export const filterUsers = (users: UserInfo[], query: string): UserInfo[] => {
     const trimmedQuery = query.trim().toLowerCase();
 
     return users

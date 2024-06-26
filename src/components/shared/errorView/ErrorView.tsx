@@ -7,7 +7,7 @@ import TextButton from "../textButton/TextButton";
 interface ErrorViewProps {
     message: string;
     suggestion?: string;
-    onTryAgain?: () => void;
+    onRetry?: () => void;
     messageStyle?: StyleProp<TextStyle>;
     containerStyle?: StyleProp<ViewStyle>;
     hideSuggestion?: boolean;
@@ -16,7 +16,7 @@ interface ErrorViewProps {
 const ErrorView: React.FC<ErrorViewProps> = ({
     message,
     suggestion = "Check your internet connection",
-    onTryAgain,
+    onRetry,
     messageStyle = styles.messageText,
     containerStyle = styles.errorContainer,
     hideSuggestion = false,
@@ -27,9 +27,9 @@ const ErrorView: React.FC<ErrorViewProps> = ({
             {!hideSuggestion && (
                 <Text style={styles.suggestionText}>{suggestion}</Text>
             )}
-            {onTryAgain && (
+            {onRetry && (
                 <TextButton
-                    onPress={onTryAgain}
+                    onPress={onRetry}
                     accessoryLeft={<Icon name="refresh" fill="royalblue" />}
                     size="small"
                     text="Try Again"

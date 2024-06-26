@@ -3,20 +3,12 @@ import { PointFeature } from "supercluster";
 import { SongPointProps } from "../utils/superclusterManager";
 
 /* Users */
-export interface User {
-    id: number;
+export interface UserInfo {
+    id: string;
+    spotifyId: string;
     username: string;
     displayName: string;
     profileUri: string;
-    trackSnapshots: boolean;
-    shareSnapshots: boolean;
-}
-
-export interface UserUpdateArgs {
-    username?: string;
-    displayName?: string;
-    trackSnapshots?: boolean;
-    shareShapshots?: boolean;
 }
 
 /* Snapshots */
@@ -40,7 +32,7 @@ export interface JamMem {
     end: Date;
     coverUri: string;
     snapshots: PointFeature<SongPointProps>[];
-    friends: User[];
+    friends: UserInfo[];
 }
 
 export interface JamMemMetadata

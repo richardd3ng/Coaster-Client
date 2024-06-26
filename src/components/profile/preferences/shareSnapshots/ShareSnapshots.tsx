@@ -2,27 +2,27 @@ import { useState } from "react";
 
 import ConfirmationDialog from "../../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
-import { CURRENT_USER_ID } from "../../../../constants/defaults";
 import { PreferencesOption } from "../../../../types/navigation";
 import PreferencesListItem from "../preferencesListItem/PreferencesListItem";
 import useMutationErrorAlert from "../../../../hooks/useMutationErrorAlert";
 import { useMutationToUpdateUserPreferences } from "../../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
 import { useUserPreferences } from "../../../../hooks/react-query/useQueryHooks";
+import useCurrentUser from "../../../../hooks/useCurrentUser";
 
 const ShareSnapshots: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfiramtionDialog, setShowConfirmationDialog] =
         useState<boolean>(false);
-    const { data: preferences, isLoading } =
-        useUserPreferences(CURRENT_USER_ID);
+    const currentUserId = useCurrentUser().id;
+    const { data: preferences, isLoading } = useUserPreferences(currentUserId);
     const {
         mutate: updatePreferences,
         isPending,
         isError,
         error,
         reset,
-    } = useMutationToUpdateUserPreferences(CURRENT_USER_ID);
+    } = useMutationToUpdateUserPreferences(currentUserId);
     useMutationErrorAlert({ isError, error, reset });
 
     const handleToggle = () => {
@@ -30,7 +30,7 @@ const ShareSnapshots: React.FC = () => {
             setShowConfirmationDialog(true);
         } else {
             updatePreferences({
-                id: CURRENT_USER_ID,
+                id: currentUserId,
                 shareSnapshots: true,
             });
         }
@@ -38,7 +38,7 @@ const ShareSnapshots: React.FC = () => {
 
     const handleConfirm = () => {
         updatePreferences({
-            id: CURRENT_USER_ID,
+            id: currentUserId,
             shareSnapshots: false,
         });
     };

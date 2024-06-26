@@ -1,115 +1,104 @@
 import { generateRandomSongPoints, generateSongs } from "./scripts";
-import { JamMem, Song, User } from "../types/entities";
+import { JamMem, Song, UserInfo } from "../types/entities";
 import { Place } from "../api/placesAPI";
 
-export const mockFriendsData: User[] = [
+export const mockFriendsData: UserInfo[] = [
     {
-        id: 1,
+        id: "1",
+        spotifyId: "shanggang",
         username: "shanggang",
         displayName: "Jason Shang",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
-        id: 2,
+        id: "2",
+        spotifyId: "rdengomng",
         username: "rdengomng",
         displayName: "Richard Deng",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
-        id: 3,
+        id: "3",
+        spotifyId: "joshisacow",
         username: "joshisacow",
         displayName: "Josh Chen",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
-        id: 4,
+        id: "4",
+        spotifyId: "anikapawlak",
         username: "anikapawlak",
         displayName: "Anika Pawlak",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
-        id: 5,
+        id: "5",
+        spotifyId: "doingdiane",
         username: "doingdiane",
         displayName: "Diane Lee",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
 ];
 
-export const mockMoreResultsData: User[] = [
+export const mockMoreResultsData: UserInfo[] = [
     {
-        id: 6,
+        id: "6",
+        spotifyId: "greatwhite2000",
         username: "greatwhite2000",
         displayName: "Ben Crespo",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
-        id: 7,
+        id: "7",
+        spotifyId: "lieutenant_of_singapore",
         username: "lieutenant_of_singapore",
         displayName: "Elias Lai",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
-        id: 8,
+        id: "8",
+        spotifyId: "nyu123",
         username: "nyu123",
         displayName: "Nathan Yu",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
-        id: 9,
+        id: "9",
+        spotifyId: "japanese_raccoon",
         username: "japanese_raccoon",
         displayName: "Emily Ford",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
-        id: 10,
+        id: "10",
+        spotifyId: "turtle_lover_9000",
         username: "turtle_lover_9000",
         displayName: "Connie Vi",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
-        id: 11,
+        id: "11",
+        spotifyId: "hangukjangerbanger",
         username: "hangukjangerbanger",
         displayName: "Justin Jang",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
 ];
 
-export const mockPendingRequestsData: User[] = [];
+export const mockPendingRequestsData: UserInfo[] = [];
 
-export const mockSentRequestsData: User[] = [];
+export const mockSentRequestsData: UserInfo[] = [];
 
 export const mockSongData: Song[] = generateSongs();
 
@@ -124,7 +113,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/289/200/300.jpg?hmac=TVh4H_Hra3e1VSDPJz-mhCgep32qIa7T6DGQvbrjMb4",
         snapshots: generateRandomSongPoints(50),
-        friends: mockFriendsData,
+        friends: mockFriendsData.slice(1),
     },
     {
         id: 2,
@@ -136,7 +125,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/392/200/300.jpg?hmac=tcnub3WKREnSOdoCn7rQtfZkHXNWn5fXwNpHrv0o-5k",
         snapshots: generateRandomSongPoints(50),
-        friends: mockFriendsData,
+        friends: mockFriendsData.slice(2),
     },
     {
         id: 3,
@@ -148,7 +137,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/292/200/300.jpg?hmac=zm-TXplXe70N7LGm2HWu9iOPXoBtQvwyhAF2CSj0ccs",
         snapshots: generateRandomSongPoints(50),
-        friends: mockFriendsData,
+        friends: mockFriendsData.slice(3),
     },
     {
         id: 4,
@@ -160,7 +149,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/574/200/300.jpg?hmac=8A2sOGZU1xgRXI46snJ80xNY3Yx-KcLVsBG-wRchwFg",
         snapshots: generateRandomSongPoints(50),
-        friends: mockFriendsData,
+        friends: mockFriendsData.slice(1),
     },
     {
         id: 5,
@@ -172,7 +161,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/397/200/300.jpg?hmac=9VBInLrifj_yyc2JuJSAVIfj9yQdt5Ovm2sHmvva-48",
         snapshots: generateRandomSongPoints(50),
-        friends: mockFriendsData,
+        friends: mockFriendsData.slice(1),
     },
     {
         id: 6,
@@ -184,7 +173,7 @@ export const mockJamMemData: JamMem[] = [
         coverUri:
             "https://fastly.picsum.photos/id/316/200/300.jpg?hmac=sq0VBO6H0wGg9Prod7MVUUB_7B91kmD5E1X1TRSo66U",
         snapshots: generateRandomSongPoints(50),
-        friends: mockFriendsData,
+        friends: mockFriendsData.slice(1),
     },
 ];
 

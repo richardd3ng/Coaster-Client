@@ -5,27 +5,29 @@ import { ActivityIndicator, View } from "react-native";
 import CloseButton from "../../shared/closeButton/CloseButton";
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
-import { useMutationToCancelRequest } from "../../../hooks/react-query/useMutationHooks";
+import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import { useMutationToDeleteFriendFromJamMem } from "../../../hooks/react-query/useMutationHooks";
 import { UserInfo } from "../../../types/entities";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 
-interface CancelRequestButtonProps {
+interface DeleteButtonProps {
+    jamMemId: number;
     user: UserInfo;
 }
 
-const CancelRequestButton: React.FC<CancelRequestButtonProps> = ({
+const DeleteButton: React.FC<DeleteButtonProps> = ({
+    jamMemId,
     user,
-}: CancelRequestButtonProps) => {
+}: DeleteButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const {
-        mutate: cancelRequest,
+        mutate: deleteFriendFromJamMem,
         isPending,
         isError,
         error,
         reset,
-    } = useMutationToCancelRequest();
+    } = useMutationToDeleteFriendFromJamMem(jamMemId);
     useMutationErrorAlert({ isError, error, reset });
 
     return (
@@ -43,13 +45,15 @@ const CancelRequestButton: React.FC<CancelRequestButtonProps> = ({
             </View>
             <ConfirmationDialog
                 open={showConfirmation}
-                title={`Are you sure you want to delete the friend request sent to ${user.username}?`}
-                description={`${user.username} will not see your friend request anymore and will not be notified.`}
+                title={`Are you sure you want to remove ${user.displayName} from this Jam Mem?`}
+                description="This will remove all of their snapshots from this Jam Mem."
                 onClose={() => setShowConfirmation(false)}
-                onConfirm={() => cancelRequest(user.id)}
+                onConfirm={() =>
+                    deleteFriendFromJamMem({ jamMemId, userId: user.id })
+                }
             />
         </>
     );
 };
 
-export default CancelRequestButton;
+export default DeleteButton;

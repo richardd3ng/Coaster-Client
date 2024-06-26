@@ -18,16 +18,6 @@ interface SearchResultListItemProps {
     item: Place;
 }
 
-const LocationIcon = () => {
-    return (
-        <IconButton
-            iconName="pin"
-            iconColor="green"
-            style={{ backgroundColor: "white" }}
-        />
-    );
-};
-
 const SearchResultListItem: React.FC<SearchResultListItemProps> = ({
     item,
 }: SearchResultListItemProps) => {
@@ -45,6 +35,16 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = ({
         };
         dispatchSetCurrentRegion(region);
         setSnapIndex(BottomSheetType.Map, 0);
+    };
+
+    const LocationIcon = () => {
+        return (
+            <IconButton
+                iconName="pin"
+                iconColor="green"
+                style={styles.iconButton}
+            />
+        );
     };
 
     return (

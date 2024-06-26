@@ -20,6 +20,7 @@ const createStyles = (theme: Theme) => {
         },
         profileBottomModalTopRow: {
             flexDirection: "row",
+            alignItems: "center",
             padding: theme.spacing.double,
             backgroundColor: theme.color.background,
             borderTopLeftRadius: theme.border.radiusPrimary,
@@ -32,6 +33,7 @@ const createStyles = (theme: Theme) => {
             borderRadius: 25,
         },
         textContainer: {
+            flex: 1,
             paddingLeft: theme.spacing.double,
             justifyContent: "center",
             paddingRight: 32,

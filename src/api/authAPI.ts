@@ -1,14 +1,34 @@
 import axios from "axios";
-import { SPOTIFY_REDIRECT_URI } from "@env";
 
-export const getSpotifyCredentials = async () => {
+import { BASE_URL } from "@env";
+import { formatError } from "./errorUtils";
+import { UserInfo } from "../types/entities";
+
+export const fetchAuthLogin = async (authLoginParams: {
+    code: string;
+    state: string;
+}): Promise<{
+    tokens: {
+        accessToken: string;
+        refreshToken: string;
+        expiresIn: number;
+    };
+    userInfo: UserInfo;
+}> => {
     try {
-        const res = await axios.post("http://localhost:3000/spotify/login");
-        const spotifyCredentials = res.data;
-        console.log("Spotify credentials:", spotifyCredentials);
-        return spotifyCredentials;
+        const params = new URLSearchParams({
+            code: authLoginParams.code,
+            state: authLoginParams.state,
+        });
+        const response = await axios.get(
+            `${BASE_URL}/spotify/login?${params.toString()}`
+        );
+        return {
+            tokens: response.data.tokens,
+            userInfo: response.data.userInfo,
+        };
     } catch (error) {
-        console.error("Error fetching Spotify credentials:", error);
-        throw new Error("Failed to fetch Spotify credentials");
+        console.error(formatError(error));
+        throw error;
     }
 };

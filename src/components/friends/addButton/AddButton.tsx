@@ -6,11 +6,11 @@ import createStyles from "./styles";
 import TextButton from "../../shared/textButton/TextButton";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToSendRequest } from "../../../hooks/react-query/useMutationHooks";
-import { User } from "../../../types/entities";
+import { UserInfo } from "../../../types/entities";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface AddButtonProps {
-    user: User;
+    user: UserInfo;
     onSuccess: () => void;
 }
 

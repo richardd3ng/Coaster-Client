@@ -11,14 +11,17 @@ import {
     ModalType,
     useModal,
 } from "../../../hooks/context/ModalContext";
-import IconButton from "../../shared/iconButton/IconButton";
 import ProfileList from "../profileList/ProfileList";
+import useCurrentUser from "../../../hooks/useCurrentUser";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { useUserInfo } from "../../../hooks/react-query/useQueryHooks";
+import ProfileIconButton from "../profileIconButton/ProfileIconButton";
 
 const ProfileBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const { refs: modalRefs, dismiss, isVisible } = useModal();
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[1]], []);
+    const user = useCurrentUser();
 
     const handleSheetChanges = useCallback((index: number) => {
         if (index === -1) {
@@ -29,14 +32,17 @@ const ProfileBottomModal: React.FC = () => {
     const TopRow: React.FC = () => {
         return (
             <View style={styles.profileBottomModalTopRow}>
-                <IconButton
+                <ProfileIconButton
                     style={styles.profileIconButton}
-                    iconName="person"
-                    iconColor="royalblue"
+                    imageStyle={styles.profileIconButton}
                 />
                 <View style={styles.textContainer}>
-                    <Text style={styles.displayNameText}>Richard Deng</Text>
-                    <Text style={styles.usernameText}>rld39</Text>
+                    <Text style={styles.displayNameText}>
+                        {user?.displayName ?? "Guest"}
+                    </Text>
+                    <Text style={styles.usernameText}>
+                        {user?.username ?? "Guest"}
+                    </Text>
                 </View>
                 <CloseButton onPress={() => dismiss(ModalType.Profile)} />
             </View>
