@@ -3,8 +3,9 @@ import React, { memo, useMemo } from "react";
 import { ButtonProps } from "@ui-kitten/components";
 import { ImageStyle, StyleProp, ViewStyle } from "react-native";
 
-import { ModalType, useModal } from "../../../hooks/context/ModalContext";
+import IconButton from "../../shared/iconButton/IconButton";
 import ImageButton from "../../shared/imageButton/ImageButton";
+import { ModalType, useModal } from "../../../hooks/context/ModalContext";
 import styles from "./styles";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 
@@ -23,12 +24,19 @@ const ProfileIconButton: React.FC<ProfileIconButtonProps> = ({
     const onPress = props.onPress || (() => present(ModalType.Profile));
 
     const buttonContent = useMemo(() => {
-        return (
+        return user.profileUri ? (
             <ImageButton
                 onPress={onPress}
                 style={style}
                 uri={user.profileUri}
                 imageStyle={imageStyle}
+            />
+        ) : (
+            <IconButton
+                onPress={() => present(ModalType.Profile)}
+                style={style}
+                iconName="person"
+                iconColor="royalblue"
             />
         );
     }, [user]);
