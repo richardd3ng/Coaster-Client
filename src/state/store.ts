@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import {
     persistStore,
     persistReducer,
@@ -17,21 +17,34 @@ import locationReducer from "./location/locationSlice";
 import snapshotReducer from "./snapshot/snapshotSlice";
 import userReducer from "./user/userSlice";
 
-const persistConfig = {
-    key: "root",
+const userPersistConfig = {
+    key: "user",
     storage: AsyncStorage,
 };
 
-const persistedLocationReducer = persistReducer(persistConfig, locationReducer);
+const locationPersistConfig = {
+    key: "location",
+    storage: AsyncStorage,
+};
+
+const rootReducer = combineReducers({
+    cluster: clusterReducer,
+    jamMem: jamMemReducer,
+    location: persistReducer(locationPersistConfig, locationReducer),
+    snapshot: snapshotReducer,
+    user: persistReducer(userPersistConfig, userReducer),
+});
+
+const persistConfig = {
+    key: "root",
+    storage: AsyncStorage,
+    blacklist: ["location", "user"],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-    reducer: {
-        cluster: clusterReducer,
-        jamMem: jamMemReducer,
-        location: persistedLocationReducer,
-        snapshot: snapshotReducer,
-        user: userReducer,
-    },
+    reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: {

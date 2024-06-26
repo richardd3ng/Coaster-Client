@@ -35,7 +35,6 @@ interface JamMemTabBarProps {
 }
 
 const JamMemTabNavigator: React.FC = () => {
-    console.log("rendered tab navigator")
     const styles = useThemeAwareObject(createStyles);
     const selectedJamMemId = useSelector((state: RootState) => {
         return state.jamMem.selectedJamMemId;

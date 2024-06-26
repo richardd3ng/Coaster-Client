@@ -14,7 +14,6 @@ const useCurrentUser = (): UserInfo => {
     );
 
     useEffect(() => {
-        // console.log("hook current user:", currentUser);
         if (!currentUser) {
             handleLogout();
         }
