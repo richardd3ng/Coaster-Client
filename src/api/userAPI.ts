@@ -1,16 +1,14 @@
-import { request } from "graphql-request";
-
 import { filterUsers } from "../utils/userUtils";
 import { formatError } from "./errorUtils";
 import { graphql } from "../gql";
-import { GRAPHQL_URL } from "@env";
 import {
     mockFriendsData,
     mockMoreResultsData,
     mockPendingRequestsData,
     mockSentRequestsData,
 } from "../mockData/constants";
-import { UserUpdateArgs } from "../types/entities";
+
+import { graphqlRequest } from "./client.graphql";
 
 const fetchUserInfoQueryDocument = graphql(`
     query FetchUserInfo($id: MongoID!) {
@@ -23,10 +21,16 @@ const fetchUserInfoQueryDocument = graphql(`
     }
 `);
 export const fetchUserInfo = async (id: string) => {
+    console.log("fetch user info:", id);
     try {
-        const result = await request(GRAPHQL_URL, fetchUserInfoQueryDocument, {
-            id,
-        });
+        const result = await graphqlRequest<{
+            userById: {
+                _id: string;
+                username: string;
+                displayName: string;
+                profileUri: string;
+            };
+        }>(fetchUserInfoQueryDocument, { id });
         return result.userById;
     } catch (error) {
         console.error(formatError(error));
@@ -43,13 +47,14 @@ const getUserPreferencesQueryDocument = graphql(`
     }
 `);
 export const fetchUserPreferences = async (id: string) => {
-    console.log("fetching preferences");
+    console.log("fetching preferences:", id);
     try {
-        const result = await request(
-            GRAPHQL_URL,
-            getUserPreferencesQueryDocument,
-            { id }
-        );
+        const result = await graphqlRequest<{
+            userById: {
+                trackSnapshots: boolean;
+                shareSnapshots: boolean;
+            };
+        }>(getUserPreferencesQueryDocument, { id });
         return result.userById;
     } catch (error) {
         console.error(formatError(error));
@@ -88,43 +93,21 @@ export const updateUserPreferences = async ({
     trackSnapshots,
 }: UpdateUserPreferencesArgs) => {
     try {
-        const result = await request(
-            GRAPHQL_URL,
-            updateUserPreferencesMutationDocument,
-            {
-                id,
-                shareSnapshots,
-                trackSnapshots,
-            }
-        );
-        return result.userUpdateById?.record;
+        const result = await graphqlRequest<{
+            record: {
+                trackSnapshots: boolean;
+                shareSnapshots: boolean;
+            };
+        }>(updateUserPreferencesMutationDocument, {
+            id,
+            shareSnapshots,
+            trackSnapshots,
+        });
+        return result.record;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to update preferences");
     }
-};
-
-export const updateCurrentUser = async (userUpdateArgs: UserUpdateArgs) => {
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    const updatedUser = {
-        id: mockFriendsData[1].id,
-        username: mockFriendsData[1].username,
-        displayName: mockFriendsData[1].displayName,
-        profileUri: mockFriendsData[1].profileUri,
-        trackSnapshots:
-            userUpdateArgs.trackSnapshots !== undefined
-                ? userUpdateArgs.trackSnapshots
-                : mockFriendsData[1].trackSnapshots,
-        shareSnapshots:
-            userUpdateArgs.shareShapshots !== undefined
-                ? userUpdateArgs.shareShapshots
-                : mockFriendsData[1].shareSnapshots,
-    };
-    mockFriendsData[1] = updatedUser;
-    if (updatedUser) {
-        return updatedUser;
-    }
-    throw new Error("Error: unable to update User");
 };
 
 export const fetchFriends = async () => {

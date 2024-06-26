@@ -26,7 +26,7 @@ import {
     useFriends,
     useSentRequests,
 } from "../../../hooks/react-query/useQueryHooks";
-import { User } from "../../../types/entities";
+import { UserInfo } from "../../../types/entities";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const FriendsBottomModal: React.FC = () => {
@@ -42,10 +42,10 @@ const FriendsBottomModal: React.FC = () => {
         refetch,
     } = useFriends();
     const { data: sentRequests } = useSentRequests();
-    const [filteredFriends, setFilteredFriends] = useState<User[]>(
+    const [filteredFriends, setFilteredFriends] = useState<UserInfo[]>(
         dataFriends ?? []
     );
-    const [moreResults, setMoreResults] = useState<User[]>([]);
+    const [moreResults, setMoreResults] = useState<UserInfo[]>([]);
     const [showCancel, setShowCancel] = useState<boolean>(false);
     const searchBarInputRef = useRef<Input>(null);
     const [query, setQuery] = useState<string>("");

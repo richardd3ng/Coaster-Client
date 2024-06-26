@@ -1,24 +1,20 @@
 import { useEffect } from "react";
-import {
-    makeRedirectUri,
-    useAuthRequest,
-    exchangeCodeAsync,
-} from "expo-auth-session";
-import { Text } from "react-native";
+
+import { useAuthRequest, DiscoveryDocument } from "expo-auth-session";
+import { Alert, Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI } from "@env";
 
 import createStyles from "./styles";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import SpotifyIcon from "../spotifyIcon/SpotifyIcon";
 import { ScreenName, StackNavigation } from "../../../types/navigation";
-import { useNavigation } from "@react-navigation/native";
-import {
-    SPOTIFY_CLIENT_ID,
-    SPOTIFY_CLIENT_SECRET,
-    SPOTIFY_REDIRECT_URI,
-} from "@env";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { fetchAuthLogin } from "../../../api/authAPI";
+import { storeTokens } from "../../../utils/secureStoreUtils";
+import { dispatchSetCurrentUser } from "../../../state/storeUtils";
 
-const discovery = {
+const discovery: DiscoveryDocument = {
     authorizationEndpoint: "https://accounts.spotify.com/authorize",
     tokenEndpoint: "https://accounts.spotify.com/api/token",
 };
@@ -35,47 +31,41 @@ const LoginButton = () => {
                 "user-read-recently-played",
                 "user-read-private",
             ],
+            redirectUri: SPOTIFY_REDIRECT_URI,
             usePKCE: false,
-            redirectUri: makeRedirectUri({ scheme: SPOTIFY_REDIRECT_URI }),
         },
         discovery
     );
 
     useEffect(() => {
         if (response?.type === "success") {
-            const { code } = response.params;
-            const fetchAccessToken = async () => {
+            const { code, state } = response.params;
+            const login = async () => {
                 try {
-                    const tokenResponse = await exchangeCodeAsync(
-                        {
-                            clientId: SPOTIFY_CLIENT_ID,
-                            clientSecret: SPOTIFY_CLIENT_SECRET,
-                            code: code,
-                            redirectUri: makeRedirectUri({
-                                scheme: SPOTIFY_REDIRECT_URI,
-                            }),
-                        },
-                        discovery
+                    const { tokens, userInfo } = await fetchAuthLogin({
+                        code,
+                        state,
+                    });
+                    await storeTokens(
+                        tokens.accessToken,
+                        tokens.refreshToken,
+                        tokens.expiresIn
                     );
-                    const accessToken = tokenResponse.accessToken;
-                    console.log("Access token:", accessToken);
-                    // Save access token and navigate to the Map screen
+                    dispatchSetCurrentUser(userInfo);
                     navigate(ScreenName.Map);
                 } catch (error) {
-                    console.error("Error fetching access token:", error);
+                    console.error(error);
+                    Alert.alert("Error fetching access token");
                 }
             };
-            fetchAccessToken();
+            login();
         }
     }, [response]);
 
     return (
         <CustomPressable
             style={styles.button}
-            onPress={() => {
-                // promptAsync();
-                navigate(ScreenName.Map);
-            }}
+            onPress={() => promptAsync()}
             activeOpacity={0.8}
         >
             <SpotifyIcon width={24} height={24} />

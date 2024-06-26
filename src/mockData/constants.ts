@@ -1,115 +1,104 @@
 import { generateRandomSongPoints, generateSongs } from "./scripts";
-import { JamMem, Song, User } from "../types/entities";
+import { JamMem, Song, UserInfo } from "../types/entities";
 import { Place } from "../api/placesAPI";
 
-export const mockFriendsData: User[] = [
+export const mockFriendsData: UserInfo[] = [
     {
         id: "1",
+        spotifyId: "shanggang",
         username: "shanggang",
         displayName: "Jason Shang",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
         id: "2",
+        spotifyId: "rdengomng",
         username: "rdengomng",
         displayName: "Richard Deng",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
         id: "3",
+        spotifyId: "joshisacow",
         username: "joshisacow",
         displayName: "Josh Chen",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
         id: "4",
+        spotifyId: "anikapawlak",
         username: "anikapawlak",
         displayName: "Anika Pawlak",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
         id: "5",
+        spotifyId: "doingdiane",
         username: "doingdiane",
         displayName: "Diane Lee",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
 ];
 
-export const mockMoreResultsData: User[] = [
+export const mockMoreResultsData: UserInfo[] = [
     {
         id: "6",
+        spotifyId: "greatwhite2000",
         username: "greatwhite2000",
         displayName: "Ben Crespo",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
         id: "7",
+        spotifyId: "lieutenant_of_singapore",
         username: "lieutenant_of_singapore",
         displayName: "Elias Lai",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
         id: "8",
+        spotifyId: "nyu123",
         username: "nyu123",
         displayName: "Nathan Yu",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
         id: "9",
+        spotifyId: "japanese_raccoon",
         username: "japanese_raccoon",
         displayName: "Emily Ford",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
         id: "10",
+        spotifyId: "turtle_lover_9000",
         username: "turtle_lover_9000",
         displayName: "Connie Vi",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
     {
         id: "11",
+        spotifyId: "hangukjangerbanger",
         username: "hangukjangerbanger",
         displayName: "Justin Jang",
         profileUri:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        trackSnapshots: true,
-        shareSnapshots: true,
     },
 ];
 
-export const mockPendingRequestsData: User[] = [];
+export const mockPendingRequestsData: UserInfo[] = [];
 
-export const mockSentRequestsData: User[] = [];
+export const mockSentRequestsData: UserInfo[] = [];
 
 export const mockSongData: Song[] = generateSongs();
 

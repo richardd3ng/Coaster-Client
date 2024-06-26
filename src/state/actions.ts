@@ -6,10 +6,11 @@ import {
     recordLocationTimestamp,
     clearHistory,
 } from "./location/locationSlice";
-import { LocationTimestamp } from "../types/entities";
+import { LocationTimestamp, UserInfo } from "../types/entities";
 import { setCurrentRegion } from "./location/locationSlice";
 import { setSelectedJamMemId } from "./jamMem/jamMemSlice";
 import { setSelectedCluster } from "./cluster/clusterSlice";
+import { setCurrentUser } from "./user/userSlice";
 import { SongCluster } from "../utils/superclusterManager";
 
 export const recordLocationTimestampAction = (
@@ -45,5 +46,12 @@ export const setSelectedJamMemIdAction = (id: number) => {
     return {
         type: setSelectedJamMemId.type,
         payload: id,
+    };
+};
+
+export const setCurrentUserAction = (user: UserInfo | null) => {
+    return {
+        type: setCurrentUser.type,
+        payload: user,
     };
 };

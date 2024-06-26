@@ -6,13 +6,13 @@ import { Text, View } from "react-native";
 import BottomModalWrapper from "../../shared/bottomModalWrapper/BottomModalWrapper";
 import CloseButton from "../../shared/closeButton/CloseButton";
 import createStyles from "./styles";
-import { CURRENT_USER_ID } from "../../../constants/defaults";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
     useModal,
 } from "../../../hooks/context/ModalContext";
 import ProfileList from "../profileList/ProfileList";
+import useCurrentUser from "../../../hooks/useCurrentUser";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { useUserInfo } from "../../../hooks/react-query/useQueryHooks";
 import ProfileIconButton from "../profileIconButton/ProfileIconButton";
@@ -21,7 +21,7 @@ const ProfileBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const { refs: modalRefs, dismiss, isVisible } = useModal();
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[1]], []);
-    const { data: user } = useUserInfo(CURRENT_USER_ID);
+    const user = useCurrentUser();
 
     const handleSheetChanges = useCallback((index: number) => {
         if (index === -1) {

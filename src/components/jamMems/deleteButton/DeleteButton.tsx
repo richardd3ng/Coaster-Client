@@ -7,12 +7,12 @@ import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDial
 import createStyles from "./styles";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToDeleteFriendFromJamMem } from "../../../hooks/react-query/useMutationHooks";
-import { User } from "../../../types/entities";
+import { UserInfo } from "../../../types/entities";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface DeleteButtonProps {
     jamMemId: number;
-    user: User;
+    user: UserInfo;
 }
 
 const DeleteButton: React.FC<DeleteButtonProps> = ({

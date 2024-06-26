@@ -6,12 +6,12 @@ import CloseButton from "../../shared/closeButton/CloseButton";
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
 import { useMutationToCancelRequest } from "../../../hooks/react-query/useMutationHooks";
-import { User } from "../../../types/entities";
+import { UserInfo } from "../../../types/entities";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 
 interface CancelRequestButtonProps {
-    user: User;
+    user: UserInfo;
 }
 
 const CancelRequestButton: React.FC<CancelRequestButtonProps> = ({

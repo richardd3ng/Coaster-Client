@@ -13,9 +13,6 @@ const snapshotSlice = createSlice({
     initialState,
     reducers: {
         takeSnapshot: (state, action: PayloadAction<number>) => {
-            console.log(
-                `prev snapshot: ${state.lastSnapshotTimestamp}, curr snapshot: ${action.payload}`
-            );
             state.lastSnapshotTimestamp = action.payload;
         },
     },

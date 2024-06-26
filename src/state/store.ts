@@ -15,6 +15,7 @@ import clusterReducer from "./cluster/clusterSlice";
 import jamMemReducer from "./jamMem/jamMemSlice";
 import locationReducer from "./location/locationSlice";
 import snapshotReducer from "./snapshot/snapshotSlice";
+import userReducer from "./user/userSlice";
 
 const persistConfig = {
     key: "root",
@@ -29,6 +30,7 @@ const store = configureStore({
         jamMem: jamMemReducer,
         location: persistedLocationReducer,
         snapshot: snapshotReducer,
+        user: userReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

@@ -7,14 +7,14 @@ import createStyles from "./styles";
 import DeleteButton from "../deleteButton/DeleteButton";
 import FriendsListItem from "../friendsListItem/FriendsListItem";
 import { Text, View } from "react-native";
-import { User } from "../../../types/entities";
+import { UserInfo } from "../../../types/entities";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface FriendsListProps {
-    friends?: User[];
-    moreResults?: User[];
-    pendingRequests?: User[];
-    sentRequests?: User[];
+    friends?: UserInfo[];
+    moreResults?: UserInfo[];
+    pendingRequests?: UserInfo[];
+    sentRequests?: UserInfo[];
     refetchQuery?: () => void;
 }
 
