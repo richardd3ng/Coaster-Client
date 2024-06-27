@@ -1,14 +1,17 @@
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
+import AcceptRequestButton from "../acceptRequestButton/AcceptRequestButton";
 import AddButton from "../addButton/AddButton";
 import AddedIcon from "../addedIcon/AddedIcon";
 import CancelRequestButton from "../cancelRequestButton/CancelRequestButton";
 import createStyles from "./styles";
 import DeleteButton from "../deleteButton/DeleteButton";
 import FriendsListItem from "../friendsListItem/FriendsListItem";
+import IgnoreRequestButton from "../ignoreRequestButton/IgnoreRequestButton";
 import { Text, View } from "react-native";
 import { UserInfo } from "../../../types/entities";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import SentRequestsTextButton from "../sentRequestsTextButton/SentRequestsTextButton";
 
 interface FriendsListProps {
     friends?: UserInfo[];
@@ -40,7 +43,7 @@ const FriendsScrollView: React.FC<FriendsListProps> = ({
                 <FriendsListItem
                     key={friend.id}
                     user={friend}
-                    Button={<DeleteButton user={friend} />}
+                    leftComponent={<DeleteButton user={friend} />}
                 />
             ))}
             {(moreResults ?? []).length > 0 && (
@@ -53,30 +56,37 @@ const FriendsScrollView: React.FC<FriendsListProps> = ({
                     <FriendsListItem
                         key={user.id}
                         user={user}
-                        Button={
+                        leftComponent={
                             <AddButton user={user} onSuccess={refetchQuery} />
                         }
                     />
                 ))}
             {pendingRequests && (
-                <Text key={-2} style={styles.text}>{`Friend Requests (${
-                    pendingRequests!.length < 50
-                        ? pendingRequests!.length
-                        : "50+"
-                })`}</Text>
+                <View style={styles.requestsHeaderContainer}>
+                    <Text key={-2} style={styles.text}>{`Friend Requests (${
+                        pendingRequests!.length < 50
+                            ? pendingRequests!.length
+                            : "50+"
+                    })`}</Text>
+                    <SentRequestsTextButton />
+                </View>
             )}
-            {(sentRequests ?? []).length > 0 && (
-                <Text key={-3} style={styles.text}>
-                    Sent Requests
-                </Text>
-            )}
+            {pendingRequests &&
+                pendingRequests.map((user) => (
+                    <FriendsListItem
+                        key={user.id}
+                        user={user}
+                        leftComponent={<AcceptRequestButton user={user} />}
+                        rightComponent={<IgnoreRequestButton user={user} />}
+                    />
+                ))}
             {sentRequests &&
                 sentRequests.map((user) => (
                     <FriendsListItem
                         key={user.id}
                         user={user}
-                        Button={<CancelRequestButton user={user} />}
-                        Icon={<AddedIcon />}
+                        leftComponent={<AddedIcon />}
+                        rightComponent={<CancelRequestButton user={user} />}
                     />
                 ))}
             <View style={styles.bottomPadding} />

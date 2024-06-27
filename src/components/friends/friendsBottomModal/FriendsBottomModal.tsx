@@ -1,7 +1,13 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 
+import { View } from "react-native";
 import { Input } from "@ui-kitten/components";
-import { Button, View } from "react-native";
 
 import BottomModal from "../../shared/bottomModal/BottomModal";
 import BottomModalTopRow from "../../shared/bottomModalTopRow/BottomModalTopRow";
@@ -28,6 +34,7 @@ import {
 } from "../../../hooks/react-query/useQueryHooks";
 import { UserInfo } from "../../../types/entities";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import FriendsTabNavigator from "../friendsTabNavigator/FriendsTabNavigator";
 
 const FriendsBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
@@ -42,9 +49,7 @@ const FriendsBottomModal: React.FC = () => {
         refetch,
     } = useFriends();
     const { data: sentRequests } = useSentRequests();
-    const [filteredFriends, setFilteredFriends] = useState<UserInfo[]>(
-        dataFriends ?? []
-    );
+    const [filteredFriends, setFilteredFriends] = useState<UserInfo[]>([]);
     const [moreResults, setMoreResults] = useState<UserInfo[]>([]);
     const [showCancel, setShowCancel] = useState<boolean>(false);
     const searchBarInputRef = useRef<Input>(null);
@@ -60,46 +65,65 @@ const FriendsBottomModal: React.FC = () => {
         searchBarInputRef.current?.clear();
         setFilteredFriends(dataFriends ?? []);
         setMoreResults([]);
-    }, []);
+    }, [dataFriends]);
 
-    const handleSearch = async () => {
-        if (query.trim() === "") {
-            return;
+    const handleSearch = async (searchQuery: string) => {
+        setQuery(searchQuery);
+        if (searchQuery.trim() === "") {
+            setFilteredFriends(dataFriends ?? []);
+            setMoreResults([]);
+        } else {
+            setFilteredFriends(filterUsers(dataFriends ?? [], searchQuery));
+            setMoreResults(await fetchMoreResults(searchQuery));
         }
-        setFilteredFriends(filterUsers(dataFriends ?? [], query));
-        setMoreResults(await fetchMoreResults(query));
     };
 
     const handleCancel = useCallback(() => {
         clearSearch();
         setShowCancel(false);
-        setQuery("");
-    }, []);
+    }, [clearSearch]);
 
     const handleClose = useCallback(() => {
         setShowCancel(false);
         clearSearch();
         dismiss(ModalType.Friends);
         setSnapIndex(BottomSheetType.Map, 0);
-    }, []);
+    }, [clearSearch, dismiss, setSnapIndex]);
 
-    const handleSheetChanges = useCallback((index: number) => {
-        if (index === -1) {
-            handleClose();
+    const handleSheetChanges = useCallback(
+        (index: number) => {
+            if (index === -1) {
+                handleClose();
+            }
+        },
+        [handleClose]
+    );
+
+    const FriendsContent = useMemo(() => {
+        if (isFetching) {
+            return <LoadingView />;
+        } else if (isError) {
+            return <ErrorView message={error.message} onRetry={refetch} />;
+        } else if (query.trim() !== "") {
+            return (
+                <FriendsScrollView
+                    friends={filteredFriends}
+                    moreResults={moreResults}
+                    refetchQuery={() => handleSearch(query)}
+                />
+            );
+        } else {
+            return <FriendsTabNavigator />;
         }
-    }, []);
-
-    const FriendsContent = isFetching ? (
-        <LoadingView />
-    ) : isError ? (
-        <ErrorView message={error.message} onRetry={refetch} />
-    ) : filteredFriends ? (
-        <FriendsScrollView
-            friends={query.trim() !== "" ? filteredFriends : dataFriends}
-            moreResults={moreResults}
-            refetchQuery={handleSearch}
-        />
-    ) : null;
+    }, [
+        isFetching,
+        isError,
+        error,
+        query,
+        filteredFriends,
+        moreResults,
+        handleSearch,
+    ]);
 
     const SearchBarRow = (
         <View style={styles.searchBarRowContainer}>
@@ -107,7 +131,10 @@ const FriendsBottomModal: React.FC = () => {
                 ref={searchBarInputRef}
                 placeholder="Add or search friends"
                 onSearch={handleSearch}
-                onClear={() => setMoreResults([])}
+                onClear={() => {
+                    setQuery("");
+                    setMoreResults([]);
+                }}
                 onFocus={() => setShowCancel(true)}
                 onChangeText={setQuery}
                 style={styles.textInput}
@@ -135,10 +162,6 @@ const FriendsBottomModal: React.FC = () => {
                     onClose={handleClose}
                 />
                 {SearchBarRow}
-                <Button
-                    title="sent requests"
-                    onPress={() => present(ModalType.SentRequests)}
-                />
                 {FriendsContent}
             </View>
         </BottomModal>

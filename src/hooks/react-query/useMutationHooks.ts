@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
+    acceptRequest,
     cancelRequest,
     deleteFriend,
+    ignoreRequest,
     sendRequest,
     updateUserPreferences,
 } from "../../api/userAPI";
@@ -11,6 +13,7 @@ import {
     getQueryKeyForUseFriends,
     getQueryKeyForUseJamMem,
     getQueryKeyForUseJamMemMetadatas,
+    getQueryKeyForUsePendingRequests,
     getQueryKeyForUseSentRequests,
     getQueryKeyForUseUserPreferences,
 } from "./useQueryHooks";
@@ -80,6 +83,36 @@ export const useMutationToSendRequest = () => {
     });
 };
 
+export const useMutationToAcceptRequest = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: acceptRequest,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUsePendingRequests(),
+            });
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUseFriends(),
+            });
+        },
+    });
+};
+
+export const useMutationToIgnoreRequest = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ignoreRequest,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUsePendingRequests(),
+            });
+        },
+    });
+
+}
+
 export const useMutationToCancelRequest = () => {
     const queryClient = useQueryClient();
 
@@ -89,9 +122,6 @@ export const useMutationToCancelRequest = () => {
             queryClient.invalidateQueries({
                 queryKey: getQueryKeyForUseSentRequests(),
             });
-            // queryClient.invalidateQueries({
-            //     queryKey: getQueryKeyForUse
-            // })
         },
     });
 };

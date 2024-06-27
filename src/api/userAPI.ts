@@ -157,6 +157,22 @@ export const sendRequest = async (id: string) => {
     }
 };
 
+export const acceptRequest = async (id: string): Promise<void> => {
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+    try {
+        const index = mockPendingRequestsData.findIndex(
+            (user) => user.id === id
+        );
+        if (index === -1) {
+            throw new Error("Error: user not found");
+        }
+        mockFriendsData.push(mockPendingRequestsData[index]);
+        mockPendingRequestsData.splice(index, 1);
+    } catch (error) {
+        throw new Error("Error: unable to accept friend request");
+    }
+};
+
 export const cancelRequest = async (id: string): Promise<void> => {
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
     try {
@@ -168,5 +184,20 @@ export const cancelRequest = async (id: string): Promise<void> => {
         mockSentRequestsData.splice(index, 1);
     } catch (error) {
         throw new Error("Error: unable to cancel friend request");
+    }
+};
+
+export const ignoreRequest = async (id: string): Promise<void> => {
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+    try {
+        const index = mockPendingRequestsData.findIndex(
+            (user) => user.id === id
+        );
+        if (index === -1) {
+            throw new Error("Error: user not found");
+        }
+        mockPendingRequestsData.splice(index, 1);
+    } catch (error) {
+        throw new Error("Error: unable to ignore friend request");
     }
 };

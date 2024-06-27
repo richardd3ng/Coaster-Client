@@ -6,14 +6,14 @@ import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface FriendsListItemProps {
     user: UserInfo;
-    Button: ReactElement;
-    Icon?: ReactElement;
+    leftComponent: ReactElement;
+    rightComponent?: ReactElement;
 }
 
 const FriendsListItem: React.FC<FriendsListItemProps> = ({
     user,
-    Button,
-    Icon,
+    leftComponent,
+    rightComponent,
 }: FriendsListItemProps) => {
     const styles = useThemeAwareObject(createStyles);
 
@@ -32,8 +32,8 @@ const FriendsListItem: React.FC<FriendsListItemProps> = ({
                 <Text style={styles.usernameText}>{user.username}</Text>
             </View>
             <View style={styles.iconButtonContainer}>
-                {Icon}
-                {Button}
+                {leftComponent}
+                {rightComponent}
             </View>
         </View>
     );

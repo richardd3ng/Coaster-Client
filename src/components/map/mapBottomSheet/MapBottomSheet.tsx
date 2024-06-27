@@ -1,8 +1,9 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 
+import { Alert, View } from "react-native";
+import { AxiosError } from "axios";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Alert, View } from "react-native";
 import { Input } from "@ui-kitten/components";
 
 import {
@@ -13,13 +14,11 @@ import CancelTextPressable from "./search/cancelTextPressable/CancelTextPressabl
 import createStyles from "./styles";
 import { DEFAULT_SNAP_POINTS } from "../../../hooks/context/ModalContext";
 import JamMemsStack from "../../jamMems/jamMemsStack/JamMemsStack";
-import { mockPlaceData } from "../../../mockData/constants";
 import { Place, fetchPlaces } from "../../../api/placesAPI";
 import ProfileIconButton from "../../profile/profileIconButton/ProfileIconButton";
 import SearchBar from "../../shared/searchBar/SearchBar";
 import SearchResultsList from "./search/searchResultsList/SearchResultsList";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { AxiosError } from "axios";
 
 const MapBottomSheet: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
@@ -38,7 +37,11 @@ const MapBottomSheet: React.FC = () => {
         searchBarInputRef.current?.clear();
     }, []);
 
-    const handleSearch = useCallback(async (query: string) => {
+    const handleSearch = async (query: string) => {
+        if (!searchBarInputRef.current?.isFocused()) {
+            // attempt to fix the search bar debounce issue, not perfect
+            return;
+        }
         try {
             const results = await fetchPlaces(query);
             setSearchResults(results);
@@ -46,7 +49,7 @@ const MapBottomSheet: React.FC = () => {
         } catch (error) {
             Alert.alert((error as AxiosError).message);
         }
-    }, []);
+    };
 
     const handleSheetChanges = useCallback((index: number) => {
         searchBarInputRef.current?.clear();

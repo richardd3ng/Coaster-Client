@@ -96,7 +96,8 @@ export const mockMoreResultsData: UserInfo[] = [
     },
 ];
 
-export const mockPendingRequestsData: UserInfo[] = [];
+export const mockPendingRequestsData: UserInfo[] =
+    mockMoreResultsData.slice(-3);
 
 export const mockSentRequestsData: UserInfo[] = [];
 

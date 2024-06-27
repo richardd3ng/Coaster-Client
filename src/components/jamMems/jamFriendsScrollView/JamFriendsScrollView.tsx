@@ -26,7 +26,9 @@ const JamFriendsScrollView: React.FC<JamFriendsScrollViewProps> = ({
                 <FriendsListItem
                     key={user.id}
                     user={user}
-                    Button={<DeleteButton jamMemId={jamMemId} user={user} />}
+                    rightComponent={
+                        <DeleteButton jamMemId={jamMemId} user={user} />
+                    }
                 />
             ))}
         </BottomSheetScrollView>

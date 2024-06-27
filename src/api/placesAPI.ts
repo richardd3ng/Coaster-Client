@@ -19,6 +19,9 @@ export const getDescription = async (coords: LatLng): Promise<string> => {
 const BASE_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json";
 
 export const fetchPlaces = async (query: string): Promise<Place[]> => {
+    if (query.trim() === "") {
+        return [];
+    }
     const url = `${BASE_URL}?query=${query}&key=${GOOGLE_MAPS_API_KEY}`;
     const response = await axios.get(url);
     console.log(`found ${response.data.results.length} results:`);

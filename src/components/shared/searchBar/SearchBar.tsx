@@ -1,8 +1,9 @@
-import React, { forwardRef, useCallback, useState } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 
-import CustomPressable from "../customPressable/CustomPressable";
+import debounce from "lodash/debounce";
 import { Icon, IconElement, Input } from "@ui-kitten/components";
 import { TextInputProps } from "react-native";
+import CustomPressable from "../customPressable/CustomPressable";
 
 interface SearchBarProps extends TextInputProps {
     onClear: () => void;
@@ -13,23 +14,30 @@ const SearchBar: React.ForwardRefRenderFunction<Input, SearchBarProps> = (
     { onClear, onSearch, placeholder = "Search", ...props }: SearchBarProps,
     ref: React.ForwardedRef<Input>
 ) => {
-    const [query, setQuery] = useState<string>("");
-
-    const handleSubmit = () => {
-        if (query.trim() !== "") {
+    const debouncedSearchRef = useRef(
+        debounce((query: string) => {
             onSearch(query);
-        }
-    };
+        }, 300)
+    );
 
     const handleClear = () => {
         (ref as React.RefObject<Input>).current?.clear();
-        setQuery("");
+        debouncedSearchRef.current.cancel();
         onClear();
     };
 
-    const handleChangeText = useCallback((text: string) => {
-        setQuery(text);
+    const handleChangeText = (text: string) => {
+        if (!(ref as React.RefObject<Input>).current?.isFocused()) {
+            return;
+        }
+        debouncedSearchRef.current(text);
         props.onChangeText && props.onChangeText(text);
+    };
+
+    useEffect(() => {
+        return () => {
+            debouncedSearchRef.current.cancel();
+        };
     }, []);
 
     const CloseIcon = (props: any): IconElement => {
@@ -48,7 +56,6 @@ const SearchBar: React.ForwardRefRenderFunction<Input, SearchBarProps> = (
             accessoryLeft={<Icon name="search" />}
             accessoryRight={CloseIconButton}
             placeholder={placeholder}
-            onSubmitEditing={handleSubmit}
             {...props}
             onChangeText={handleChangeText}
         />

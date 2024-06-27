@@ -19,6 +19,12 @@ const createStyles = (theme: Theme) => {
             paddingVertical: theme.spacing.double,
             fontSize: theme.font.medium,
         },
+        requestsHeaderContainer: {
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+        },
     });
 };
 
