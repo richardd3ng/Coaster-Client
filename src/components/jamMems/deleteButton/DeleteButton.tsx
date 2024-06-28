@@ -7,12 +7,12 @@ import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDial
 import createStyles from "./styles";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToDeleteFriendFromJamMem } from "../../../hooks/react-query/useMutationHooks";
-import { UserInfo } from "../../../types/entities";
+import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface DeleteButtonProps {
     jamMemId: number;
-    user: UserInfo;
+    user: UserInfoFragment;
 }
 
 const DeleteButton: React.FC<DeleteButtonProps> = ({
@@ -49,7 +49,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
                 description="This will remove all of their snapshots from this Jam Mem."
                 onClose={() => setShowConfirmation(false)}
                 onConfirm={() =>
-                    deleteFriendFromJamMem({ jamMemId, userId: user.id })
+                    deleteFriendFromJamMem({ jamMemId, userId: user._id })
                 }
             />
         </>
