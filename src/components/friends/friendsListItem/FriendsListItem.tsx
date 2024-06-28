@@ -1,19 +1,19 @@
 import { ReactElement } from "react";
 import { Image, Text, View } from "react-native";
 import createStyles from "./styles";
-import { UserInfo } from "../../../types/entities";
+import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface FriendsListItemProps {
-    user: UserInfo;
-    Button: ReactElement;
-    Icon?: ReactElement;
+    user: UserInfoFragment;
+    leftComponent: ReactElement;
+    rightComponent?: ReactElement;
 }
 
 const FriendsListItem: React.FC<FriendsListItemProps> = ({
     user,
-    Button,
-    Icon,
+    leftComponent,
+    rightComponent,
 }: FriendsListItemProps) => {
     const styles = useThemeAwareObject(createStyles);
 
@@ -21,9 +21,11 @@ const FriendsListItem: React.FC<FriendsListItemProps> = ({
         <View style={styles.listItemContainer}>
             <View style={styles.imageContainer}>
                 <Image
-                    source={{
-                        uri: user.profileUri,
-                    }}
+                    source={
+                        user.profileUri
+                            ? { uri: user.profileUri }
+                            : require("../../../../assets/default-profile.png")
+                    }
                     style={styles.image}
                 />
             </View>
@@ -32,8 +34,8 @@ const FriendsListItem: React.FC<FriendsListItemProps> = ({
                 <Text style={styles.usernameText}>{user.username}</Text>
             </View>
             <View style={styles.iconButtonContainer}>
-                {Icon}
-                {Button}
+                {leftComponent}
+                {rightComponent}
             </View>
         </View>
     );

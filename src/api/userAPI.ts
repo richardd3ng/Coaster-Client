@@ -1,65 +1,39 @@
-import { filterUsers } from "../utils/userUtils";
 import { formatError } from "./errorUtils";
+import { FriendArgs } from "../types/entities";
 import { graphql } from "../gql";
-import {
-    mockFriendsData,
-    mockMoreResultsData,
-    mockPendingRequestsData,
-    mockSentRequestsData,
-} from "../mockData/constants";
-
 import { graphqlRequest } from "./client.graphql";
+import { UserInfoFragment } from "../gql/graphql";
 
 const fetchUserInfoQueryDocument = graphql(`
     query FetchUserInfo($id: MongoID!) {
         userById(_id: $id) {
-            _id
-            username
-            displayName
-            profileUri
+            ...UserInfo
         }
     }
 `);
-export const fetchUserInfo = async (id: string) => {
-    console.log("fetch user info:", id);
-    try {
-        const result = await graphqlRequest<{
-            userById: {
-                _id: string;
-                username: string;
-                displayName: string;
-                profileUri: string;
-            };
-        }>(fetchUserInfoQueryDocument, { id });
-        return result.userById;
-    } catch (error) {
-        console.error(formatError(error));
-        throw new Error("Error: unable to load current user");
-    }
+export const fetchUserInfo = async (id: string): Promise<UserInfoFragment> => {
+    const response = await graphqlRequest<{
+        userById: UserInfoFragment;
+    }>(fetchUserInfoQueryDocument, { id });
+    return response.userById;
 };
 
-const getUserPreferencesQueryDocument = graphql(`
-    query GetUserPreferences($id: MongoID!) {
+const fetchUserPreferencesQueryDocument = graphql(`
+    query FetchUserPreferences($id: MongoID!) {
         userById(_id: $id) {
             trackSnapshots
             shareSnapshots
         }
     }
 `);
-export const fetchUserPreferences = async (id: string) => {
-    console.log("fetching preferences:", id);
-    try {
-        const result = await graphqlRequest<{
-            userById: {
-                trackSnapshots: boolean;
-                shareSnapshots: boolean;
-            };
-        }>(getUserPreferencesQueryDocument, { id });
-        return result.userById;
-    } catch (error) {
-        console.error(formatError(error));
-        throw new Error("Error: unable to load preferences");
-    }
+export const fetchPreferences = async (id: string) => {
+    const response = await graphqlRequest<{
+        userById: {
+            trackSnapshots: boolean;
+            shareSnapshots: boolean;
+        };
+    }>(fetchUserPreferencesQueryDocument, { id });
+    return response.userById;
 };
 
 const updateUserPreferencesMutationDocument = graphql(`
@@ -82,91 +56,202 @@ const updateUserPreferencesMutationDocument = graphql(`
         }
     }
 `);
-interface UpdateUserPreferencesArgs {
+interface UpdatePreferencesArgs {
     id: string;
     shareSnapshots?: boolean;
     trackSnapshots?: boolean;
 }
-export const updateUserPreferences = async ({
+export const updatePreferences = async ({
     id,
     shareSnapshots,
     trackSnapshots,
-}: UpdateUserPreferencesArgs) => {
+}: UpdatePreferencesArgs) => {
+    const response = await graphqlRequest<{
+        record: {
+            trackSnapshots: boolean;
+            shareSnapshots: boolean;
+        };
+    }>(updateUserPreferencesMutationDocument, {
+        id,
+        shareSnapshots,
+        trackSnapshots,
+    });
+    return response.record;
+};
+
+const fetchUserFriendsQueryDocument = graphql(`
+    query FetchUserFriends($id: MongoID!) {
+        userFriends(_id: $id) {
+            ...UserInfo
+        }
+    }
+`);
+export const fetchFriends = async (id: string) => {
+    const response = await graphqlRequest<{
+        userFriends: UserInfoFragment[];
+    }>(fetchUserFriendsQueryDocument, {
+        id,
+    });
+    return response.userFriends;
+};
+
+const fetchUserMoreResultsQueryDocument = graphql(`
+    query FetchUserMoreResults($id: MongoID!, $query: String!) {
+        userMoreResults(_id: $id, query: $query) {
+            ...UserInfo
+        }
+    }
+`);
+export const fetchMoreResults = async (
+    id: string,
+    query: string
+): Promise<UserInfoFragment[]> => {
+    const response = await graphqlRequest<{
+        userMoreResults: UserInfoFragment[];
+    }>(fetchUserMoreResultsQueryDocument, {
+        id,
+        query,
+    });
+    return response.userMoreResults;
+};
+
+const userDeleteFriendMutationDocument = graphql(`
+    mutation UserDeleteFriend($id: MongoID!, $friendId: MongoID!) {
+        userDeleteFriend(_id: $id, friendId: $friendId) {
+            ...UserInfo
+        }
+    }
+`);
+export const deleteFriend = async ({
+    id,
+    friendId,
+}: FriendArgs): Promise<UserInfoFragment> => {
+    const response = await graphqlRequest<{
+        userDeleteFriend: UserInfoFragment;
+    }>(userDeleteFriendMutationDocument, {
+        id,
+        friendId,
+    });
+    return response.userDeleteFriend;
+};
+
+const fetchUserPendingRequestsQueryDocument = graphql(`
+    query FetchUserPendingRequests($id: MongoID!) {
+        userPendingRequests(_id: $id) {
+            ...UserInfo
+        }
+    }
+`);
+export const fetchPendingRequests = async (
+    id: string
+): Promise<UserInfoFragment[]> => {
     try {
         const result = await graphqlRequest<{
-            record: {
-                trackSnapshots: boolean;
-                shareSnapshots: boolean;
-            };
-        }>(updateUserPreferencesMutationDocument, {
+            userPendingRequests: UserInfoFragment[];
+        }>(fetchUserPendingRequestsQueryDocument, {
             id,
-            shareSnapshots,
-            trackSnapshots,
         });
-        return result.record;
+        return result.userPendingRequests;
     } catch (error) {
         console.error(formatError(error));
-        throw new Error("Error: unable to update preferences");
+        throw new Error("Error: unable to fetch pending requests");
     }
 };
 
-export const fetchFriends = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-    return mockFriendsData;
-    // throw new Error("Error: unable to load friends");
-};
-
-export const fetchMoreResults = async (query: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-    return filterUsers(mockMoreResultsData, query);
-};
-
-export const deleteFriend = async (id: string): Promise<void> => {
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-    const idx = mockFriendsData.findIndex((user) => user.id === id);
-    if (idx !== -1) {
-        const deletedFriend = mockFriendsData[idx];
-        mockFriendsData.splice(idx, 1);
-        mockMoreResultsData.push(deletedFriend);
-    } else {
-        throw new Error(`Error: user with ID ${id} not found`);
-    }
-};
-
-export const fetchPendingRequests = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    return mockPendingRequestsData;
-};
-
-export const fetchSentRequests = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    return mockSentRequestsData;
-};
-
-export const sendRequest = async (id: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-    try {
-        const index = mockMoreResultsData.findIndex((user) => user.id === id);
-        if (index === -1) {
-            throw new Error("Error: user not found");
+const fetchUserSentRequestsQueryDocument = graphql(`
+    query FetchUserSentRequests($id: MongoID!) {
+        userSentRequests(_id: $id) {
+            ...UserInfo
         }
-        mockSentRequestsData.push(mockMoreResultsData[index]);
-        mockMoreResultsData.splice(index, 1);
-    } catch (error) {
-        throw new Error("Error: unable to send friend request");
     }
+`);
+export const fetchSentRequests = async (
+    id: string
+): Promise<UserInfoFragment[]> => {
+    const result = await graphqlRequest<{
+        userSentRequests: UserInfoFragment[];
+    }>(fetchUserSentRequestsQueryDocument, {
+        id,
+    });
+    return result.userSentRequests;
 };
 
-export const cancelRequest = async (id: string): Promise<void> => {
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-    try {
-        const index = mockSentRequestsData.findIndex((user) => user.id === id);
-        if (index === -1) {
-            throw new Error("Error: user not found");
+const userSendRequestMutationDocument = graphql(`
+    mutation UserSendRequest($id: MongoID!, $friendId: MongoID!) {
+        userSendRequest(_id: $id, friendId: $friendId) {
+            ...UserInfo
         }
-        mockMoreResultsData.push(mockSentRequestsData[index]);
-        mockSentRequestsData.splice(index, 1);
-    } catch (error) {
-        throw new Error("Error: unable to cancel friend request");
     }
+`);
+export const sendRequest = async ({
+    id,
+    friendId,
+}: FriendArgs): Promise<UserInfoFragment> => {
+    const result = await graphqlRequest<{
+        userSendRequest: UserInfoFragment;
+    }>(userSendRequestMutationDocument, {
+        id,
+        friendId,
+    });
+    return result.userSendRequest;
+};
+
+const userAcceptRequestMutationDocument = graphql(`
+    mutation UserAcceptRequest($id: MongoID!, $friendId: MongoID!) {
+        userAcceptRequest(_id: $id, friendId: $friendId) {
+            ...UserInfo
+        }
+    }
+`);
+export const acceptRequest = async ({
+    id,
+    friendId,
+}: FriendArgs): Promise<UserInfoFragment> => {
+    const result = await graphqlRequest<{
+        userAcceptRequest: UserInfoFragment;
+    }>(userAcceptRequestMutationDocument, {
+        id,
+        friendId,
+    });
+    return result.userAcceptRequest;
+};
+
+const userCancelRequestMutationDocument = graphql(`
+    mutation UserCancelRequest($id: MongoID!, $friendId: MongoID!) {
+        userCancelRequest(_id: $id, friendId: $friendId) {
+            ...UserInfo
+        }
+    }
+`);
+export const cancelRequest = async ({
+    id,
+    friendId,
+}: FriendArgs): Promise<UserInfoFragment> => {
+    const result = await graphqlRequest<{
+        userCancelRequest: UserInfoFragment;
+    }>(userCancelRequestMutationDocument, {
+        id,
+        friendId,
+    });
+    return result.userCancelRequest;
+};
+
+const userIgnoreRequestMutationDocument = graphql(`
+    mutation UserIgnoreRequest($id: MongoID!, $friendId: MongoID!) {
+        userIgnoreRequest(_id: $id, friendId: $friendId) {
+            ...UserInfo
+        }
+    }
+`);
+export const ignoreRequest = async ({
+    id,
+    friendId,
+}: FriendArgs): Promise<UserInfoFragment> => {
+    const result = await graphqlRequest<{
+        userIgnoreRequest: UserInfoFragment;
+    }>(userIgnoreRequestMutationDocument, {
+        id,
+        friendId,
+    });
+    return result.userIgnoreRequest;
 };

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Text, View } from "react-native";
@@ -11,11 +11,10 @@ import {
     ModalType,
     useModal,
 } from "../../../hooks/context/ModalContext";
+import ProfileIconButton from "../profileIconButton/ProfileIconButton";
 import ProfileList from "../profileList/ProfileList";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { useUserInfo } from "../../../hooks/react-query/useQueryHooks";
-import ProfileIconButton from "../profileIconButton/ProfileIconButton";
 
 const ProfileBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
@@ -23,14 +22,17 @@ const ProfileBottomModal: React.FC = () => {
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[1]], []);
     const user = useCurrentUser();
 
-    const handleSheetChanges = useCallback((index: number) => {
-        if (index === -1) {
-            dismiss(ModalType.Profile);
-        }
-    }, []);
+    const handleSheetChanges = useCallback(
+        (index: number) => {
+            if (index === -1) {
+                dismiss(ModalType.Profile);
+            }
+        },
+        [dismiss]
+    );
 
-    const TopRow: React.FC = () => {
-        return (
+    const TopRow = useMemo(
+        () => (
             <View style={styles.profileBottomModalTopRow}>
                 <ProfileIconButton
                     style={styles.profileIconButton}
@@ -46,8 +48,9 @@ const ProfileBottomModal: React.FC = () => {
                 </View>
                 <CloseButton onPress={() => dismiss(ModalType.Profile)} />
             </View>
-        );
-    };
+        ),
+        [styles, user, dismiss]
+    );
 
     return (
         <BottomModalWrapper>
@@ -70,7 +73,7 @@ const ProfileBottomModal: React.FC = () => {
                     handleComponent={null}
                     backgroundStyle={styles.bottomSheetModal}
                 >
-                    <TopRow />
+                    {TopRow}
                     <ProfileList />
                 </BottomSheetModal>
             </View>

@@ -55,7 +55,7 @@ export const deleteFriendFromJamMem = async ({
         throw new Error("Error: Jam Mem not found");
     }
     const friendIndex = jamMem.friends.findIndex(
-        (friend) => friend.id === userId
+        (friend) => friend._id === userId
     );
     if (friendIndex === -1) {
         throw new Error("Error: friend not found in Jam Mem");

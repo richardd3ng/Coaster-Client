@@ -5,13 +5,14 @@ import { ActivityIndicator, View } from "react-native";
 import CloseButton from "../../shared/closeButton/CloseButton";
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
+import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useMutationToCancelRequest } from "../../../hooks/react-query/useMutationHooks";
-import { UserInfo } from "../../../types/entities";
+import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 
 interface CancelRequestButtonProps {
-    user: UserInfo;
+    user: UserInfoFragment;
 }
 
 const CancelRequestButton: React.FC<CancelRequestButtonProps> = ({
@@ -19,6 +20,7 @@ const CancelRequestButton: React.FC<CancelRequestButtonProps> = ({
 }: CancelRequestButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+    const currentUserId = useCurrentUser().id;
     const {
         mutate: cancelRequest,
         isPending,
@@ -46,7 +48,12 @@ const CancelRequestButton: React.FC<CancelRequestButtonProps> = ({
                 title={`Are you sure you want to delete the friend request sent to ${user.username}?`}
                 description={`${user.username} will not see your friend request anymore and will not be notified.`}
                 onClose={() => setShowConfirmation(false)}
-                onConfirm={() => cancelRequest(user.id)}
+                onConfirm={() =>
+                    cancelRequest({
+                        id: currentUserId,
+                        friendId: user._id,
+                    })
+                }
             />
         </>
     );

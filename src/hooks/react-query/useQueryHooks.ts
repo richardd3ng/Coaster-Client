@@ -2,21 +2,24 @@ import { useQuery } from "@tanstack/react-query";
 
 import { ClusterFilter } from "../../types/filters";
 import {
-    fetchUserInfo,
     fetchFriends,
+    fetchPendingRequests,
+    fetchPreferences,
     fetchSentRequests,
-    fetchUserPreferences,
+    fetchUserInfo,
 } from "../../api/userAPI";
+import { fetchAndLoadSongPoints } from "../../api/clusterAPI";
 import { fetchJamMem, fetchJamMemMetadatas } from "../../api/jamMemAPI";
 import { fetchSong } from "../../api/songAPI";
-import { fetchAndLoadSongPoints } from "../../api/clusterAPI";
+
+const HOUR = 60 * 60 * 1000; // milliseconds
 
 /* Jam Mems */
 export const useJamMem = (id: number) => {
     return useQuery({
         queryKey: getQueryKeyForUseJamMem(id),
         queryFn: () => fetchJamMem(id),
-        staleTime: 12 * 60 * 60 * 1000,
+        staleTime: 12 * HOUR,
     });
 };
 
@@ -41,7 +44,7 @@ export const useSongPoints = (filter: ClusterFilter) => {
     return useQuery({
         queryKey: getQueryKeyForUseSongPoints(filter),
         queryFn: () => fetchAndLoadSongPoints(filter),
-        staleTime: filter.type === "social" ? 60 * 60 * 1000 : Infinity,
+        staleTime: filter.type === "social" ? HOUR : Infinity,
     });
 };
 
@@ -65,7 +68,7 @@ export const getQueryKeyForUseSong = (id: number) => {
 /* Users */
 export const useUserInfo = (id: string) => {
     return useQuery({
-        queryKey: getQueryKeyForUseUserInfo(id),
+        queryKey: getQueryKeyForUseUserInfo(),
         queryFn: () => fetchUserInfo(id),
         staleTime: Infinity,
     });
@@ -73,38 +76,50 @@ export const useUserInfo = (id: string) => {
 
 export const useUserPreferences = (id: string) => {
     return useQuery({
-        queryKey: getQueryKeyForUseUserPreferences(id),
-        queryFn: () => fetchUserPreferences(id),
+        queryKey: getQueryKeyForUseUserPreferences(),
+        queryFn: () => fetchPreferences(id),
         staleTime: Infinity,
     });
 };
 
-export const useFriends = () => {
+export const useFriends = (id: string) => {
     return useQuery({
         queryKey: getQueryKeyForUseFriends(),
-        queryFn: fetchFriends,
+        queryFn: () => fetchFriends(id),
         staleTime: Infinity,
     });
 };
 
-export const useSentRequests = () => {
+export const usePendingRequests = (id: string) => {
+    return useQuery({
+        queryKey: getQueryKeyForUsePendingRequests(),
+        queryFn: () => fetchPendingRequests(id),
+        staleTime: HOUR,
+    });
+};
+
+export const useSentRequests = (id: string) => {
     return useQuery({
         queryKey: getQueryKeyForUseSentRequests(),
-        queryFn: fetchSentRequests,
+        queryFn: () => fetchSentRequests(id),
         staleTime: Infinity,
     });
 };
 
-export const getQueryKeyForUseUserInfo = (id: string) => {
-    return ["userInfo", id];
+export const getQueryKeyForUseUserInfo = () => {
+    return ["userInfo"];
 };
 
-export const getQueryKeyForUseUserPreferences = (id: string) => {
-    return ["userPreferences", id];
+export const getQueryKeyForUseUserPreferences = () => {
+    return ["userPreferences"];
 };
 
 export const getQueryKeyForUseFriends = () => {
     return ["friends"];
+};
+
+export const getQueryKeyForUsePendingRequests = () => {
+    return ["pendingRequests"];
 };
 
 export const getQueryKeyForUseSentRequests = () => {

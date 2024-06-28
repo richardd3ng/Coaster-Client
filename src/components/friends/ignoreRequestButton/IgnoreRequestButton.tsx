@@ -5,29 +5,29 @@ import { ActivityIndicator, View } from "react-native";
 import CloseButton from "../../shared/closeButton/CloseButton";
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
-import { useMutationToDeleteFriend } from "../../../hooks/react-query/useMutationHooks";
+import useCurrentUser from "../../../hooks/useCurrentUser";
+import { useMutationToIgnoreRequest } from "../../../hooks/react-query/useMutationHooks";
+import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 
-interface DeleteButtonProps {
+interface IgnoreRequestButtonProps {
     user: UserInfoFragment;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({
+const IgnoreRequestButton: React.FC<IgnoreRequestButtonProps> = ({
     user,
-}: DeleteButtonProps) => {
+}: IgnoreRequestButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const currentUserId = useCurrentUser().id;
     const {
-        mutate: deleteFriend,
+        mutate: ignoreRequest,
         isPending,
         isError,
         error,
         reset,
-    } = useMutationToDeleteFriend();
+    } = useMutationToIgnoreRequest();
     useMutationErrorAlert({ isError, error, reset });
 
     return (
@@ -45,11 +45,11 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
             </View>
             <ConfirmationDialog
                 open={showConfirmation}
-                title={`Are you sure you want to remove ${user.displayName} from your friends?`}
-                description={`You will no longer be able to add each other to Jam Mems. If you added ${user.displayName} to a Jam Mem you created, they will be removed, and vice versa.`}
+                title={`Are you sure you want to ignore ${user.username}'s friend request?`}
+                description={`${user.username} will not see their friend request anymore and will not be notified.`}
                 onClose={() => setShowConfirmation(false)}
                 onConfirm={() =>
-                    deleteFriend({
+                    ignoreRequest({
                         id: currentUserId,
                         friendId: user._id,
                     })
@@ -59,4 +59,4 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
     );
 };
 
-export default DeleteButton;
+export default IgnoreRequestButton;

@@ -1,44 +1,30 @@
-import { useCallback } from "react";
-
 import { ActivityIndicator, View } from "react-native";
 
 import createStyles from "./styles";
 import TextButton from "../../shared/textButton/TextButton";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
-import { useMutationToSendRequest } from "../../../hooks/react-query/useMutationHooks";
+import { useMutationToAcceptRequest } from "../../../hooks/react-query/useMutationHooks";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
-interface AddButtonProps {
+interface AcceptRequestButtonProps {
     user: UserInfoFragment;
-    onSuccess: () => void;
 }
 
-const AddButton: React.FC<AddButtonProps> = ({
+const AcceptRequestButton: React.FC<AcceptRequestButtonProps> = ({
     user,
-    onSuccess,
-}: AddButtonProps) => {
+}: AcceptRequestButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const currentUser = useCurrentUser().id;
+    const currentUserId = useCurrentUser().id;
     const {
-        mutate: sendRequest,
+        mutate: acceptRequest,
         isPending,
         isError,
         error,
         reset,
-    } = useMutationToSendRequest();
+    } = useMutationToAcceptRequest();
     useMutationErrorAlert({ isError, error, reset });
-
-    const handlePress = useCallback(() => {
-        sendRequest(
-            {
-                id: currentUser,
-                friendId: user._id,
-            },
-            { onSuccess }
-        );
-    }, []);
 
     return (
         <View style={styles.container}>
@@ -46,8 +32,13 @@ const AddButton: React.FC<AddButtonProps> = ({
                 <ActivityIndicator />
             ) : (
                 <TextButton
-                    text="ADD"
-                    onPress={handlePress}
+                    text="ACCEPT"
+                    onPress={() =>
+                        acceptRequest({
+                            id: currentUserId,
+                            friendId: user._id,
+                        })
+                    }
                     style={styles.button}
                     textStyle={styles.text}
                 />
@@ -56,4 +47,4 @@ const AddButton: React.FC<AddButtonProps> = ({
     );
 };
 
-export default AddButton;
+export default AcceptRequestButton;

@@ -1,6 +1,7 @@
 import { LatLng } from "react-native-maps";
 import { PointFeature } from "supercluster";
 import { SongPointProps } from "../utils/superclusterManager";
+import { UserInfoFragment } from "../gql/graphql";
 
 /* Users */
 export interface UserInfo {
@@ -9,6 +10,11 @@ export interface UserInfo {
     username: string;
     displayName: string;
     profileUri: string;
+}
+
+export interface FriendArgs {
+    id: string;
+    friendId: string;
 }
 
 /* Snapshots */
@@ -32,7 +38,7 @@ export interface JamMem {
     end: Date;
     coverUri: string;
     snapshots: PointFeature<SongPointProps>[];
-    friends: UserInfo[];
+    friends: UserInfoFragment[];
 }
 
 export interface JamMemMetadata

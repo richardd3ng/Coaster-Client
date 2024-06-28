@@ -83,6 +83,9 @@ importers:
       graphql-request:
         specifier: 5.1.0
         version: 5.1.0(encoding@0.1.13)(graphql@16.9.0)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -141,6 +144,9 @@ importers:
       '@parcel/watcher':
         specifier: ^2.4.1
         version: 2.4.1
+      '@types/lodash':
+        specifier: ^4.17.5
+        version: 4.17.5
       '@types/mapbox__geo-viewport':
         specifier: ^0.5.3
         version: 0.5.3
@@ -1641,6 +1647,9 @@ packages:
 
   '@types/js-yaml@4.0.9':
     resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
+
+  '@types/lodash@4.17.5':
+    resolution: {integrity: sha512-MBIOHVZqVqgfro1euRDWX7OO0fBVUUMrN6Pwm8LQsz8cWhEpihlvR70ENj3f40j58TNxZaWv2ndSkInykNBBJw==}
 
   '@types/mapbox__geo-viewport@0.5.3':
     resolution: {integrity: sha512-ePOETPaFQGKjotA542lozN+uruPFyRCq/wCFN+SQA+tCjJzzgcj5EpZ8BGK3K1JLyD6U67Yqo6pZ0o6+DR1qwg==}
@@ -7414,6 +7423,8 @@ snapshots:
       '@types/istanbul-lib-report': 3.0.3
 
   '@types/js-yaml@4.0.9': {}
+
+  '@types/lodash@4.17.5': {}
 
   '@types/mapbox__geo-viewport@0.5.3': {}
 

@@ -1,16 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
+    acceptRequest,
     cancelRequest,
     deleteFriend,
+    ignoreRequest,
     sendRequest,
-    updateUserPreferences,
+    updatePreferences,
 } from "../../api/userAPI";
 import { createJamMem, deleteFriendFromJamMem } from "../../api/jamMemAPI";
 import {
     getQueryKeyForUseFriends,
     getQueryKeyForUseJamMem,
     getQueryKeyForUseJamMemMetadatas,
+    getQueryKeyForUsePendingRequests,
     getQueryKeyForUseSentRequests,
     getQueryKeyForUseUserPreferences,
 } from "./useQueryHooks";
@@ -42,14 +45,14 @@ export const useMutationToDeleteFriendFromJamMem = (jamMemId: number) => {
 };
 
 /* Users */
-export const useMutationToUpdateUserPreferences = (id: string) => {
+export const useMutationToUpdateUserPreferences = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: updateUserPreferences,
+        mutationFn: updatePreferences,
         onSuccess: () =>
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseUserPreferences(id),
+                queryKey: getQueryKeyForUseUserPreferences(),
             }),
     });
 };
@@ -80,6 +83,35 @@ export const useMutationToSendRequest = () => {
     });
 };
 
+export const useMutationToAcceptRequest = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: acceptRequest,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUsePendingRequests(),
+            });
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUseFriends(),
+            });
+        },
+    });
+};
+
+export const useMutationToIgnoreRequest = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ignoreRequest,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUsePendingRequests(),
+            });
+        },
+    });
+};
+
 export const useMutationToCancelRequest = () => {
     const queryClient = useQueryClient();
 
@@ -89,9 +121,6 @@ export const useMutationToCancelRequest = () => {
             queryClient.invalidateQueries({
                 queryKey: getQueryKeyForUseSentRequests(),
             });
-            // queryClient.invalidateQueries({
-            //     queryKey: getQueryKeyForUse
-            // })
         },
     });
 };

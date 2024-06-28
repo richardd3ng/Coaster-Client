@@ -13,13 +13,14 @@ export const getNewAccessToken = async (
 ): Promise<string> => {
     try {
         const response = await axios.post(
-            `${BASE_URL}/refresh_tokens/${spotifyId}`,
-            {
-                refreshToken,
-            }
+            `${BASE_URL}/spotify/refresh_tokens/${spotifyId}`
         );
         const { newAccessToken, newRefreshToken, newExpiresIn } = response.data;
-        await storeTokens(newAccessToken, newRefreshToken, newExpiresIn);
+        await storeTokens(
+            newAccessToken,
+            newRefreshToken || refreshToken,
+            newExpiresIn
+        );
         return newAccessToken;
     } catch (error) {
         console.error("Error refreshing token:", error);
