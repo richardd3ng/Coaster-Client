@@ -6,7 +6,7 @@ import {
     deleteFriend,
     ignoreRequest,
     sendRequest,
-    updateUserPreferences,
+    updatePreferences,
 } from "../../api/userAPI";
 import { createJamMem, deleteFriendFromJamMem } from "../../api/jamMemAPI";
 import {
@@ -45,14 +45,14 @@ export const useMutationToDeleteFriendFromJamMem = (jamMemId: number) => {
 };
 
 /* Users */
-export const useMutationToUpdateUserPreferences = (id: string) => {
+export const useMutationToUpdateUserPreferences = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: updateUserPreferences,
+        mutationFn: updatePreferences,
         onSuccess: () =>
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseUserPreferences(id),
+                queryKey: getQueryKeyForUseUserPreferences(),
             }),
     });
 };
@@ -110,8 +110,7 @@ export const useMutationToIgnoreRequest = () => {
             });
         },
     });
-
-}
+};
 
 export const useMutationToCancelRequest = () => {
     const queryClient = useQueryClient();

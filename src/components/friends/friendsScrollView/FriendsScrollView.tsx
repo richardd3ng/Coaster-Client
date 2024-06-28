@@ -1,4 +1,5 @@
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { Text, View } from "react-native";
 
 import AcceptRequestButton from "../acceptRequestButton/AcceptRequestButton";
 import AddButton from "../addButton/AddButton";
@@ -8,16 +9,15 @@ import createStyles from "./styles";
 import DeleteButton from "../deleteButton/DeleteButton";
 import FriendsListItem from "../friendsListItem/FriendsListItem";
 import IgnoreRequestButton from "../ignoreRequestButton/IgnoreRequestButton";
-import { Text, View } from "react-native";
-import { UserInfo } from "../../../types/entities";
+import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import SentRequestsTextButton from "../sentRequestsTextButton/SentRequestsTextButton";
 
 interface FriendsListProps {
-    friends?: UserInfo[];
-    moreResults?: UserInfo[];
-    pendingRequests?: UserInfo[];
-    sentRequests?: UserInfo[];
+    friends?: UserInfoFragment[];
+    moreResults?: UserInfoFragment[];
+    pendingRequests?: UserInfoFragment[];
+    sentRequests?: UserInfoFragment[];
     refetchQuery?: () => void;
 }
 
@@ -41,7 +41,7 @@ const FriendsScrollView: React.FC<FriendsListProps> = ({
             )}
             {(friends ?? []).map((friend) => (
                 <FriendsListItem
-                    key={friend.id}
+                    key={friend._id}
                     user={friend}
                     leftComponent={<DeleteButton user={friend} />}
                 />
@@ -54,7 +54,7 @@ const FriendsScrollView: React.FC<FriendsListProps> = ({
             {refetchQuery &&
                 (moreResults ?? []).map((user) => (
                     <FriendsListItem
-                        key={user.id}
+                        key={user._id}
                         user={user}
                         leftComponent={
                             <AddButton user={user} onSuccess={refetchQuery} />
@@ -74,7 +74,7 @@ const FriendsScrollView: React.FC<FriendsListProps> = ({
             {pendingRequests &&
                 pendingRequests.map((user) => (
                     <FriendsListItem
-                        key={user.id}
+                        key={user._id}
                         user={user}
                         leftComponent={<AcceptRequestButton user={user} />}
                         rightComponent={<IgnoreRequestButton user={user} />}
@@ -83,7 +83,7 @@ const FriendsScrollView: React.FC<FriendsListProps> = ({
             {sentRequests &&
                 sentRequests.map((user) => (
                     <FriendsListItem
-                        key={user.id}
+                        key={user._id}
                         user={user}
                         leftComponent={<AddedIcon />}
                         rightComponent={<CancelRequestButton user={user} />}

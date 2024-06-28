@@ -4,9 +4,9 @@ import { ClusterFilter } from "../../types/filters";
 import {
     fetchFriends,
     fetchPendingRequests,
+    fetchPreferences,
     fetchSentRequests,
     fetchUserInfo,
-    fetchUserPreferences,
 } from "../../api/userAPI";
 import { fetchAndLoadSongPoints } from "../../api/clusterAPI";
 import { fetchJamMem, fetchJamMemMetadatas } from "../../api/jamMemAPI";
@@ -68,7 +68,7 @@ export const getQueryKeyForUseSong = (id: number) => {
 /* Users */
 export const useUserInfo = (id: string) => {
     return useQuery({
-        queryKey: getQueryKeyForUseUserInfo(id),
+        queryKey: getQueryKeyForUseUserInfo(),
         queryFn: () => fetchUserInfo(id),
         staleTime: Infinity,
     });
@@ -76,42 +76,42 @@ export const useUserInfo = (id: string) => {
 
 export const useUserPreferences = (id: string) => {
     return useQuery({
-        queryKey: getQueryKeyForUseUserPreferences(id),
-        queryFn: () => fetchUserPreferences(id),
+        queryKey: getQueryKeyForUseUserPreferences(),
+        queryFn: () => fetchPreferences(id),
         staleTime: Infinity,
     });
 };
 
-export const useFriends = () => {
+export const useFriends = (id: string) => {
     return useQuery({
         queryKey: getQueryKeyForUseFriends(),
-        queryFn: fetchFriends,
+        queryFn: () => fetchFriends(id),
         staleTime: Infinity,
     });
 };
 
-export const usePendingRequests = () => {
+export const usePendingRequests = (id: string) => {
     return useQuery({
         queryKey: getQueryKeyForUsePendingRequests(),
-        queryFn: fetchPendingRequests,
+        queryFn: () => fetchPendingRequests(id),
         staleTime: HOUR,
     });
 };
 
-export const useSentRequests = () => {
+export const useSentRequests = (id: string) => {
     return useQuery({
         queryKey: getQueryKeyForUseSentRequests(),
-        queryFn: fetchSentRequests,
+        queryFn: () => fetchSentRequests(id),
         staleTime: Infinity,
     });
 };
 
-export const getQueryKeyForUseUserInfo = (id: string) => {
-    return ["userInfo", id];
+export const getQueryKeyForUseUserInfo = () => {
+    return ["userInfo"];
 };
 
-export const getQueryKeyForUseUserPreferences = (id: string) => {
-    return ["userPreferences", id];
+export const getQueryKeyForUseUserPreferences = () => {
+    return ["userPreferences"];
 };
 
 export const getQueryKeyForUseFriends = () => {

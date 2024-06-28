@@ -13,9 +13,17 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n    query FetchUserInfo($id: MongoID!) {\n        userById(_id: $id) {\n            _id\n            username\n            displayName\n            profileUri\n        }\n    }\n": types.FetchUserInfoDocument,
-    "\n    query GetUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            trackSnapshots\n            shareSnapshots\n        }\n    }\n": types.GetUserPreferencesDocument,
+    "\n    fragment UserInfo on User {\n        _id\n        username\n        displayName\n        profileUri\n    }\n": types.UserInfoFragmentDoc,
+    "\n    query FetchUserInfo($id: MongoID!) {\n        userById(_id: $id) {\n            ...UserInfo\n        }\n    }\n": types.FetchUserInfoDocument,
+    "\n    query FetchUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            trackSnapshots\n            shareSnapshots\n        }\n    }\n": types.FetchUserPreferencesDocument,
     "\n    mutation UpdateUserPreferences(\n        $id: MongoID!\n        $shareSnapshots: Boolean\n        $trackSnapshots: Boolean\n    ) {\n        userUpdateById(\n            _id: $id\n            record: {\n                shareSnapshots: $shareSnapshots\n                trackSnapshots: $trackSnapshots\n            }\n        ) {\n            record {\n                trackSnapshots\n                shareSnapshots\n            }\n        }\n    }\n": types.UpdateUserPreferencesDocument,
+    "\n    query FetchUserFriends($id: MongoID!) {\n        userFriends(_id: $id) {\n            ...UserInfo\n        }\n    }\n": types.FetchUserFriendsDocument,
+    "\n    query FetchUserMoreResults($id: MongoID!, $query: String!) {\n        userMoreResults(_id: $id, query: $query) {\n            ...UserInfo\n        }\n    }\n": types.FetchUserMoreResultsDocument,
+    "\n    mutation UserDeleteFriend($id: MongoID!, $friendId: MongoID!) {\n        userDeleteFriend(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n": types.UserDeleteFriendDocument,
+    "\n    query FetchUserPendingRequests($id: MongoID!) {\n        userPendingRequests(_id: $id) {\n            ...UserInfo\n        }\n    }\n": types.FetchUserPendingRequestsDocument,
+    "\n    query FetchUserSentRequests($id: MongoID!) {\n        userSentRequests(_id: $id) {\n            ...UserInfo\n        }\n    }\n": types.FetchUserSentRequestsDocument,
+    "\n    mutation UserAcceptPendingRequest($id: MongoID!, $friendId: MongoID!) {\n        userAcceptPendingRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n": types.UserAcceptPendingRequestDocument,
+    "\n    mutation UserIgnorePendingRequest($id: MongoID!, $friendId: MongoID!) {\n        userIgnorePendingRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n": types.UserIgnorePendingRequestDocument,
 };
 
 /**
@@ -35,15 +43,47 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query FetchUserInfo($id: MongoID!) {\n        userById(_id: $id) {\n            _id\n            username\n            displayName\n            profileUri\n        }\n    }\n"): (typeof documents)["\n    query FetchUserInfo($id: MongoID!) {\n        userById(_id: $id) {\n            _id\n            username\n            displayName\n            profileUri\n        }\n    }\n"];
+export function graphql(source: "\n    fragment UserInfo on User {\n        _id\n        username\n        displayName\n        profileUri\n    }\n"): (typeof documents)["\n    fragment UserInfo on User {\n        _id\n        username\n        displayName\n        profileUri\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query GetUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            trackSnapshots\n            shareSnapshots\n        }\n    }\n"): (typeof documents)["\n    query GetUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            trackSnapshots\n            shareSnapshots\n        }\n    }\n"];
+export function graphql(source: "\n    query FetchUserInfo($id: MongoID!) {\n        userById(_id: $id) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    query FetchUserInfo($id: MongoID!) {\n        userById(_id: $id) {\n            ...UserInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query FetchUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            trackSnapshots\n            shareSnapshots\n        }\n    }\n"): (typeof documents)["\n    query FetchUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            trackSnapshots\n            shareSnapshots\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    mutation UpdateUserPreferences(\n        $id: MongoID!\n        $shareSnapshots: Boolean\n        $trackSnapshots: Boolean\n    ) {\n        userUpdateById(\n            _id: $id\n            record: {\n                shareSnapshots: $shareSnapshots\n                trackSnapshots: $trackSnapshots\n            }\n        ) {\n            record {\n                trackSnapshots\n                shareSnapshots\n            }\n        }\n    }\n"): (typeof documents)["\n    mutation UpdateUserPreferences(\n        $id: MongoID!\n        $shareSnapshots: Boolean\n        $trackSnapshots: Boolean\n    ) {\n        userUpdateById(\n            _id: $id\n            record: {\n                shareSnapshots: $shareSnapshots\n                trackSnapshots: $trackSnapshots\n            }\n        ) {\n            record {\n                trackSnapshots\n                shareSnapshots\n            }\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query FetchUserFriends($id: MongoID!) {\n        userFriends(_id: $id) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    query FetchUserFriends($id: MongoID!) {\n        userFriends(_id: $id) {\n            ...UserInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query FetchUserMoreResults($id: MongoID!, $query: String!) {\n        userMoreResults(_id: $id, query: $query) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    query FetchUserMoreResults($id: MongoID!, $query: String!) {\n        userMoreResults(_id: $id, query: $query) {\n            ...UserInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation UserDeleteFriend($id: MongoID!, $friendId: MongoID!) {\n        userDeleteFriend(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    mutation UserDeleteFriend($id: MongoID!, $friendId: MongoID!) {\n        userDeleteFriend(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query FetchUserPendingRequests($id: MongoID!) {\n        userPendingRequests(_id: $id) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    query FetchUserPendingRequests($id: MongoID!) {\n        userPendingRequests(_id: $id) {\n            ...UserInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query FetchUserSentRequests($id: MongoID!) {\n        userSentRequests(_id: $id) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    query FetchUserSentRequests($id: MongoID!) {\n        userSentRequests(_id: $id) {\n            ...UserInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation UserAcceptPendingRequest($id: MongoID!, $friendId: MongoID!) {\n        userAcceptPendingRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    mutation UserAcceptPendingRequest($id: MongoID!, $friendId: MongoID!) {\n        userAcceptPendingRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation UserIgnorePendingRequest($id: MongoID!, $friendId: MongoID!) {\n        userIgnorePendingRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    mutation UserIgnorePendingRequest($id: MongoID!, $friendId: MongoID!) {\n        userIgnorePendingRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

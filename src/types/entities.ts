@@ -11,6 +11,11 @@ export interface UserInfo {
     profileUri: string;
 }
 
+export interface FriendArgs {
+    id: string;
+    friendId: string;
+}
+
 /* Snapshots */
 export interface LocationTimestamp {
     coords: LatLng;

@@ -1,11 +1,11 @@
 import { ReactElement } from "react";
 import { Image, Text, View } from "react-native";
 import createStyles from "./styles";
-import { UserInfo } from "../../../types/entities";
+import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface FriendsListItemProps {
-    user: UserInfo;
+    user: UserInfoFragment;
     leftComponent: ReactElement;
     rightComponent?: ReactElement;
 }
@@ -21,9 +21,11 @@ const FriendsListItem: React.FC<FriendsListItemProps> = ({
         <View style={styles.listItemContainer}>
             <View style={styles.imageContainer}>
                 <Image
-                    source={{
-                        uri: user.profileUri,
-                    }}
+                    source={
+                        user.profileUri
+                            ? { uri: user.profileUri }
+                            : require("../../../../assets/default-profile.png")
+                    }
                     style={styles.image}
                 />
             </View>

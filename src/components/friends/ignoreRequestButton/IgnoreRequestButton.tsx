@@ -5,13 +5,14 @@ import { ActivityIndicator, View } from "react-native";
 import CloseButton from "../../shared/closeButton/CloseButton";
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
+import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useMutationToIgnoreRequest } from "../../../hooks/react-query/useMutationHooks";
-import { UserInfo } from "../../../types/entities";
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import { UserInfoFragment } from "../../../gql/graphql";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface IgnoreRequestButtonProps {
-    user: UserInfo;
+    user: UserInfoFragment;
 }
 
 const IgnoreRequestButton: React.FC<IgnoreRequestButtonProps> = ({
@@ -19,6 +20,7 @@ const IgnoreRequestButton: React.FC<IgnoreRequestButtonProps> = ({
 }: IgnoreRequestButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+    const currentUserId = useCurrentUser().id;
     const {
         mutate: ignoreRequest,
         isPending,
@@ -46,7 +48,12 @@ const IgnoreRequestButton: React.FC<IgnoreRequestButtonProps> = ({
                 title={`Are you sure you want to ignore ${user.username}'s friend request?`}
                 description={`${user.username} will not see their friend request anymore and will not be notified.`}
                 onClose={() => setShowConfirmation(false)}
-                onConfirm={() => ignoreRequest(user.id)}
+                onConfirm={() =>
+                    ignoreRequest({
+                        id: currentUserId,
+                        friendId: user._id,
+                    })
+                }
             />
         </>
     );

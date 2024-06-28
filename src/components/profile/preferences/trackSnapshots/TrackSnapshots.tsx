@@ -22,7 +22,7 @@ const TrackSnapshots: React.FC = () => {
         isError,
         error,
         reset,
-    } = useMutationToUpdateUserPreferences(currentUserId);
+    } = useMutationToUpdateUserPreferences();
     useMutationErrorAlert({ isError, error, reset });
 
     const handleToggle = () => {

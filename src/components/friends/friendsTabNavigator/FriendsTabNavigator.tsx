@@ -16,6 +16,7 @@ import FriendsScrollView from "../friendsScrollView/FriendsScrollView";
 import { FriendsTabName, FriendsTabParamList } from "../../../types/navigation";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import ErrorView from "../../shared/errorView/ErrorView";
+import useCurrentUser from "../../../hooks/useCurrentUser";
 import {
     useFriends,
     usePendingRequests,
@@ -35,20 +36,21 @@ interface FriendsTabBarProps {
 
 const FriendsTabNavigator: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
+    const currentUserId = useCurrentUser().id;
     const {
         data: friends,
         isFetching: isFetchingFriends,
         isError: isErrorFriends,
         error: errorFriends,
         refetch: refetchFriends,
-    } = useFriends();
+    } = useFriends(currentUserId);
     const {
         data: pendingRequests,
         isFetching: isFetchingPendingRequests,
         isError: isErrorPendingRequests,
         error: errorPendingRequests,
         refetch: refetchPendingRequests,
-    } = usePendingRequests();
+    } = usePendingRequests(currentUserId);
 
     const ConnectionsTab = () => {
         return (

@@ -6,11 +6,11 @@ import createStyles from "./styles";
 import TextButton from "../../shared/textButton/TextButton";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToSendRequest } from "../../../hooks/react-query/useMutationHooks";
-import { UserInfo } from "../../../types/entities";
+import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface AddButtonProps {
-    user: UserInfo;
+    user: UserInfoFragment;
     onSuccess: () => void;
 }
 
@@ -29,7 +29,7 @@ const AddButton: React.FC<AddButtonProps> = ({
     useMutationErrorAlert({ isError, error, reset });
 
     const handlePress = useCallback(() => {
-        sendRequest(user.id, { onSuccess });
+        sendRequest(user._id, { onSuccess });
     }, []);
 
     return (

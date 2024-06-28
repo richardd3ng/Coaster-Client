@@ -26,55 +26,45 @@ import ErrorView from "../../shared/errorView/ErrorView";
 import { fetchMoreResults } from "../../../api/userAPI";
 import { filterUsers } from "../../../utils/userUtils";
 import FriendsScrollView from "../friendsScrollView/FriendsScrollView";
+import FriendsTabNavigator from "../friendsTabNavigator/FriendsTabNavigator";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import SearchBar from "../../shared/searchBar/SearchBar";
-import {
-    useFriends,
-    useSentRequests,
-} from "../../../hooks/react-query/useQueryHooks";
-import { UserInfo } from "../../../types/entities";
+import { useFriends } from "../../../hooks/react-query/useQueryHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import FriendsTabNavigator from "../friendsTabNavigator/FriendsTabNavigator";
+import useCurrentUser from "../../../hooks/useCurrentUser";
+import { UserInfoFragment } from "../../../gql/graphql";
 
 const FriendsBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const { dismiss, present } = useModal();
+    const { dismiss } = useModal();
     const { setSnapIndex } = useBottomSheet();
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[2]], []);
+    const currentUserId = useCurrentUser().id;
     const {
         data: dataFriends,
         isFetching,
         isError,
         error,
         refetch,
-    } = useFriends();
-    const { data: sentRequests } = useSentRequests();
-    const [filteredFriends, setFilteredFriends] = useState<UserInfo[]>([]);
-    const [moreResults, setMoreResults] = useState<UserInfo[]>([]);
+    } = useFriends(currentUserId);
+    const [moreResults, setMoreResults] = useState<UserInfoFragment[]>([]);
     const [showCancel, setShowCancel] = useState<boolean>(false);
     const searchBarInputRef = useRef<Input>(null);
     const [query, setQuery] = useState<string>("");
-
-    useEffect(() => {
-        setFilteredFriends(dataFriends ?? []);
-    }, [dataFriends]);
 
     const clearSearch = useCallback(() => {
         setQuery("");
         searchBarInputRef.current?.blur();
         searchBarInputRef.current?.clear();
-        setFilteredFriends(dataFriends ?? []);
         setMoreResults([]);
     }, [dataFriends]);
 
     const handleSearch = async (searchQuery: string) => {
         setQuery(searchQuery);
         if (searchQuery.trim() === "") {
-            setFilteredFriends(dataFriends ?? []);
             setMoreResults([]);
         } else {
-            setFilteredFriends(filterUsers(dataFriends ?? [], searchQuery));
-            setMoreResults(await fetchMoreResults(searchQuery));
+            setMoreResults(await fetchMoreResults(currentUserId, searchQuery));
         }
     };
 
@@ -107,7 +97,7 @@ const FriendsBottomModal: React.FC = () => {
         } else if (query.trim() !== "") {
             return (
                 <FriendsScrollView
-                    friends={filteredFriends}
+                    friends={filterUsers(dataFriends ?? [], query)}
                     moreResults={moreResults}
                     refetchQuery={() => handleSearch(query)}
                 />
@@ -115,15 +105,7 @@ const FriendsBottomModal: React.FC = () => {
         } else {
             return <FriendsTabNavigator />;
         }
-    }, [
-        isFetching,
-        isError,
-        error,
-        query,
-        filteredFriends,
-        moreResults,
-        handleSearch,
-    ]);
+    }, [isFetching, isError, error, query, moreResults, handleSearch]);
 
     const SearchBarRow = (
         <View style={styles.searchBarRowContainer}>

@@ -1,7 +1,16 @@
-import { UserInfo } from "../types/entities";
+import { UserInfoFragment } from "../gql/graphql";
 
-export const filterUsers = (users: UserInfo[], query: string): UserInfo[] => {
+export const filterUsers = (
+    users: UserInfoFragment[],
+    query: string
+): UserInfoFragment[] => {
     const trimmedQuery = query.trim().toLowerCase();
+
+    const score = (str: string, query: string) => {
+        if (str.startsWith(query)) return 4; // Highest priority to start of displayName
+        if (str.includes(query)) return 2; // Secondary priority to include anywhere in displayName
+        return 0; // No match
+    };
 
     return users
         .filter((user) => {
@@ -18,14 +27,25 @@ export const filterUsers = (users: UserInfo[], query: string): UserInfo[] => {
             const displayNameB = b.displayName.toLowerCase();
             const usernameB = b.username.toLowerCase();
 
-            const score = (str: string) => {
-                if (str.startsWith(trimmedQuery)) return 2; // Priority to start of the string
-                if (str.includes(trimmedQuery)) return 1; // Secondary priority to include anywhere
-                return 0; // No match
-            };
+            const scoreA = Math.max(
+                score(displayNameA, trimmedQuery) +
+                    (usernameA.startsWith(trimmedQuery)
+                        ? 3
+                        : usernameA.includes(trimmedQuery)
+                        ? 1
+                        : 0),
+                score(usernameA, trimmedQuery)
+            );
 
-            const scoreA = Math.max(score(displayNameA), score(usernameA));
-            const scoreB = Math.max(score(displayNameB), score(usernameB));
+            const scoreB = Math.max(
+                score(displayNameB, trimmedQuery) +
+                    (usernameB.startsWith(trimmedQuery)
+                        ? 3
+                        : usernameB.includes(trimmedQuery)
+                        ? 1
+                        : 0),
+                score(usernameB, trimmedQuery)
+            );
 
             return scoreB - scoreA;
         });
