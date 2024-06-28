@@ -1,10 +1,6 @@
 import { formatError } from "./errorUtils";
 import { FriendArgs } from "../types/entities";
 import { graphql } from "../gql";
-import {
-    mockMoreResultsData,
-    mockSentRequestsData,
-} from "../mockData/constants";
 import { graphqlRequest } from "./client.graphql";
 import { UserInfoFragment } from "../gql/graphql";
 
@@ -180,23 +176,29 @@ export const fetchSentRequests = async (
     return result.userSentRequests;
 };
 
-export const sendRequest = async (id: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-    try {
-        const index = mockMoreResultsData.findIndex((user) => user.id === id);
-        if (index === -1) {
-            throw new Error("Error: user not found");
+const userSendRequestMutationDocument = graphql(`
+    mutation UserSendRequest($id: MongoID!, $friendId: MongoID!) {
+        userSendRequest(_id: $id, friendId: $friendId) {
+            ...UserInfo
         }
-        mockSentRequestsData.push(mockMoreResultsData[index]);
-        mockMoreResultsData.splice(index, 1);
-    } catch (error) {
-        throw new Error("Error: unable to send friend request");
     }
+`);
+export const sendRequest = async ({
+    id,
+    friendId,
+}: FriendArgs): Promise<UserInfoFragment> => {
+    const result = await graphqlRequest<{
+        userSendRequest: UserInfoFragment;
+    }>(userSendRequestMutationDocument, {
+        id,
+        friendId,
+    });
+    return result.userSendRequest;
 };
 
-const userAcceptPendingRequestMutationDocument = graphql(`
-    mutation UserAcceptPendingRequest($id: MongoID!, $friendId: MongoID!) {
-        userAcceptPendingRequest(_id: $id, friendId: $friendId) {
+const userAcceptRequestMutationDocument = graphql(`
+    mutation UserAcceptRequest($id: MongoID!, $friendId: MongoID!) {
+        userAcceptRequest(_id: $id, friendId: $friendId) {
             ...UserInfo
         }
     }
@@ -206,31 +208,37 @@ export const acceptRequest = async ({
     friendId,
 }: FriendArgs): Promise<UserInfoFragment> => {
     const result = await graphqlRequest<{
-        userAcceptPendingRequest: UserInfoFragment;
-    }>(userAcceptPendingRequestMutationDocument, {
+        userAcceptRequest: UserInfoFragment;
+    }>(userAcceptRequestMutationDocument, {
         id,
         friendId,
     });
-    return result.userAcceptPendingRequest;
+    return result.userAcceptRequest;
 };
 
-export const cancelRequest = async (id: string): Promise<void> => {
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-    try {
-        const index = mockSentRequestsData.findIndex((user) => user.id === id);
-        if (index === -1) {
-            throw new Error("Error: user not found");
+const userCancelRequestMutationDocument = graphql(`
+    mutation UserCancelRequest($id: MongoID!, $friendId: MongoID!) {
+        userCancelRequest(_id: $id, friendId: $friendId) {
+            ...UserInfo
         }
-        mockMoreResultsData.push(mockSentRequestsData[index]);
-        mockSentRequestsData.splice(index, 1);
-    } catch (error) {
-        throw new Error("Error: unable to cancel friend request");
     }
+`);
+export const cancelRequest = async ({
+    id,
+    friendId,
+}: FriendArgs): Promise<UserInfoFragment> => {
+    const result = await graphqlRequest<{
+        userCancelRequest: UserInfoFragment;
+    }>(userCancelRequestMutationDocument, {
+        id,
+        friendId,
+    });
+    return result.userCancelRequest;
 };
 
-const userIgnorePendingRequestMutationDocument = graphql(`
-    mutation UserIgnorePendingRequest($id: MongoID!, $friendId: MongoID!) {
-        userIgnorePendingRequest(_id: $id, friendId: $friendId) {
+const userIgnoreRequestMutationDocument = graphql(`
+    mutation UserIgnoreRequest($id: MongoID!, $friendId: MongoID!) {
+        userIgnoreRequest(_id: $id, friendId: $friendId) {
             ...UserInfo
         }
     }
@@ -240,10 +248,10 @@ export const ignoreRequest = async ({
     friendId,
 }: FriendArgs): Promise<UserInfoFragment> => {
     const result = await graphqlRequest<{
-        userIgnorePendingRequest: UserInfoFragment;
-    }>(userIgnorePendingRequestMutationDocument, {
+        userIgnoreRequest: UserInfoFragment;
+    }>(userIgnoreRequestMutationDocument, {
         id,
         friendId,
     });
-    return result.userIgnorePendingRequest;
+    return result.userIgnoreRequest;
 };

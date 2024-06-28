@@ -22,8 +22,10 @@ const documents = {
     "\n    mutation UserDeleteFriend($id: MongoID!, $friendId: MongoID!) {\n        userDeleteFriend(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n": types.UserDeleteFriendDocument,
     "\n    query FetchUserPendingRequests($id: MongoID!) {\n        userPendingRequests(_id: $id) {\n            ...UserInfo\n        }\n    }\n": types.FetchUserPendingRequestsDocument,
     "\n    query FetchUserSentRequests($id: MongoID!) {\n        userSentRequests(_id: $id) {\n            ...UserInfo\n        }\n    }\n": types.FetchUserSentRequestsDocument,
-    "\n    mutation UserAcceptPendingRequest($id: MongoID!, $friendId: MongoID!) {\n        userAcceptPendingRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n": types.UserAcceptPendingRequestDocument,
-    "\n    mutation UserIgnorePendingRequest($id: MongoID!, $friendId: MongoID!) {\n        userIgnorePendingRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n": types.UserIgnorePendingRequestDocument,
+    "\n    mutation UserSendRequest($id: MongoID!, $friendId: MongoID!) {\n        userSendRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n": types.UserSendRequestDocument,
+    "\n    mutation UserAcceptRequest($id: MongoID!, $friendId: MongoID!) {\n        userAcceptRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n": types.UserAcceptRequestDocument,
+    "\n    mutation UserCancelRequest($id: MongoID!, $friendId: MongoID!) {\n        userCancelRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n": types.UserCancelRequestDocument,
+    "\n    mutation UserIgnoreRequest($id: MongoID!, $friendId: MongoID!) {\n        userIgnoreRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n": types.UserIgnoreRequestDocument,
 };
 
 /**
@@ -79,11 +81,19 @@ export function graphql(source: "\n    query FetchUserSentRequests($id: MongoID!
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    mutation UserAcceptPendingRequest($id: MongoID!, $friendId: MongoID!) {\n        userAcceptPendingRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    mutation UserAcceptPendingRequest($id: MongoID!, $friendId: MongoID!) {\n        userAcceptPendingRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"];
+export function graphql(source: "\n    mutation UserSendRequest($id: MongoID!, $friendId: MongoID!) {\n        userSendRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    mutation UserSendRequest($id: MongoID!, $friendId: MongoID!) {\n        userSendRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    mutation UserIgnorePendingRequest($id: MongoID!, $friendId: MongoID!) {\n        userIgnorePendingRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    mutation UserIgnorePendingRequest($id: MongoID!, $friendId: MongoID!) {\n        userIgnorePendingRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"];
+export function graphql(source: "\n    mutation UserAcceptRequest($id: MongoID!, $friendId: MongoID!) {\n        userAcceptRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    mutation UserAcceptRequest($id: MongoID!, $friendId: MongoID!) {\n        userAcceptRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation UserCancelRequest($id: MongoID!, $friendId: MongoID!) {\n        userCancelRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    mutation UserCancelRequest($id: MongoID!, $friendId: MongoID!) {\n        userCancelRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation UserIgnoreRequest($id: MongoID!, $friendId: MongoID!) {\n        userIgnoreRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"): (typeof documents)["\n    mutation UserIgnoreRequest($id: MongoID!, $friendId: MongoID!) {\n        userIgnoreRequest(_id: $id, friendId: $friendId) {\n            ...UserInfo\n        }\n    }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

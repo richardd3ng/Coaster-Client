@@ -45,62 +45,6 @@ export const mockFriendsData: UserInfo[] = [
     },
 ];
 
-export const mockMoreResultsData: UserInfo[] = [
-    {
-        id: "6",
-        spotifyId: "greatwhite2000",
-        username: "greatwhite2000",
-        displayName: "Ben Crespo",
-        profileUri:
-            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-    },
-    {
-        id: "7",
-        spotifyId: "lieutenant_of_singapore",
-        username: "lieutenant_of_singapore",
-        displayName: "Elias Lai",
-        profileUri:
-            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-    },
-    {
-        id: "8",
-        spotifyId: "nyu123",
-        username: "nyu123",
-        displayName: "Nathan Yu",
-        profileUri:
-            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-    },
-    {
-        id: "9",
-        spotifyId: "japanese_raccoon",
-        username: "japanese_raccoon",
-        displayName: "Emily Ford",
-        profileUri:
-            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-    },
-    {
-        id: "10",
-        spotifyId: "turtle_lover_9000",
-        username: "turtle_lover_9000",
-        displayName: "Connie Vi",
-        profileUri:
-            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-    },
-    {
-        id: "11",
-        spotifyId: "hangukjangerbanger",
-        username: "hangukjangerbanger",
-        displayName: "Justin Jang",
-        profileUri:
-            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-    },
-];
-
-export const mockPendingRequestsData: UserInfo[] =
-    mockMoreResultsData.slice(-3);
-
-export const mockSentRequestsData: UserInfo[] = [];
-
 export const mockSongData: Song[] = generateSongs();
 
 export const mockJamMemData: JamMem[] = [
