@@ -24,7 +24,7 @@ const stopForegroundInterval = () => {
         console.log("Stopped foreground location posting scheduler");
         clearInterval(intervalId);
         intervalId = null;
-        referenceCount = 0; // reset reference count
+        referenceCount = 0;
     }
 };
 

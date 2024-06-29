@@ -20,6 +20,25 @@ export type Scalars = {
   MongoID: { input: any; output: any; }
 };
 
+export type CreateManyLocationInput = {
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
+  timestamp: Scalars['Float']['input'];
+  userId: Scalars['MongoID']['input'];
+};
+
+export type CreateManyLocationPayload = {
+  __typename?: 'CreateManyLocationPayload';
+  /** Number of created documents */
+  createdCount: Scalars['Int']['output'];
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Documents IDs */
+  recordIds: Array<Scalars['MongoID']['output']>;
+  /** Created documents */
+  records?: Maybe<Array<Location>>;
+};
+
 export type CreateManyUserInput = {
   dataPersistence?: InputMaybe<EnumUserDataPersistence>;
   displayName: Scalars['String']['input'];
@@ -48,6 +67,23 @@ export type CreateManyUserPayload = {
   recordIds: Array<Scalars['MongoID']['output']>;
   /** Created documents */
   records?: Maybe<Array<User>>;
+};
+
+export type CreateOneLocationInput = {
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
+  timestamp: Scalars['Float']['input'];
+  userId: Scalars['MongoID']['input'];
+};
+
+export type CreateOneLocationPayload = {
+  __typename?: 'CreateOneLocationPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Created document */
+  record?: Maybe<Location>;
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']['output']>;
 };
 
 export type CreateOneUserInput = {
@@ -89,6 +125,34 @@ export type ErrorInterface = {
   message?: Maybe<Scalars['String']['output']>;
 };
 
+export type FilterCountLocationInput = {
+  AND?: InputMaybe<Array<FilterCountLocationInput>>;
+  OR?: InputMaybe<Array<FilterCountLocationInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterCountLocationOperatorsInput>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  timestamp?: InputMaybe<Scalars['Float']['input']>;
+  userId?: InputMaybe<Scalars['MongoID']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterCountLocationOperatorsInput = {
+  _id?: InputMaybe<FilterCountLocation_IdOperatorsInput>;
+};
+
+export type FilterCountLocation_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
 export type FilterCountUserInput = {
   AND?: InputMaybe<Array<FilterCountUserInput>>;
   OR?: InputMaybe<Array<FilterCountUserInput>>;
@@ -118,6 +182,34 @@ export type FilterCountUserOperatorsInput = {
 };
 
 export type FilterCountUser_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
+export type FilterFindManyLocationInput = {
+  AND?: InputMaybe<Array<FilterFindManyLocationInput>>;
+  OR?: InputMaybe<Array<FilterFindManyLocationInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterFindManyLocationOperatorsInput>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  timestamp?: InputMaybe<Scalars['Float']['input']>;
+  userId?: InputMaybe<Scalars['MongoID']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterFindManyLocationOperatorsInput = {
+  _id?: InputMaybe<FilterFindManyLocation_IdOperatorsInput>;
+};
+
+export type FilterFindManyLocation_IdOperatorsInput = {
   exists?: InputMaybe<Scalars['Boolean']['input']>;
   gt?: InputMaybe<Scalars['MongoID']['input']>;
   gte?: InputMaybe<Scalars['MongoID']['input']>;
@@ -167,6 +259,34 @@ export type FilterFindManyUser_IdOperatorsInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
 };
 
+export type FilterFindOneLocationInput = {
+  AND?: InputMaybe<Array<FilterFindOneLocationInput>>;
+  OR?: InputMaybe<Array<FilterFindOneLocationInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterFindOneLocationOperatorsInput>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  timestamp?: InputMaybe<Scalars['Float']['input']>;
+  userId?: InputMaybe<Scalars['MongoID']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterFindOneLocationOperatorsInput = {
+  _id?: InputMaybe<FilterFindOneLocation_IdOperatorsInput>;
+};
+
+export type FilterFindOneLocation_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
 export type FilterFindOneUserInput = {
   AND?: InputMaybe<Array<FilterFindOneUserInput>>;
   OR?: InputMaybe<Array<FilterFindOneUserInput>>;
@@ -196,6 +316,34 @@ export type FilterFindOneUserOperatorsInput = {
 };
 
 export type FilterFindOneUser_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
+export type FilterRemoveManyLocationInput = {
+  AND?: InputMaybe<Array<FilterRemoveManyLocationInput>>;
+  OR?: InputMaybe<Array<FilterRemoveManyLocationInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterRemoveManyLocationOperatorsInput>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  timestamp?: InputMaybe<Scalars['Float']['input']>;
+  userId?: InputMaybe<Scalars['MongoID']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterRemoveManyLocationOperatorsInput = {
+  _id?: InputMaybe<FilterRemoveManyLocation_IdOperatorsInput>;
+};
+
+export type FilterRemoveManyLocation_IdOperatorsInput = {
   exists?: InputMaybe<Scalars['Boolean']['input']>;
   gt?: InputMaybe<Scalars['MongoID']['input']>;
   gte?: InputMaybe<Scalars['MongoID']['input']>;
@@ -245,6 +393,34 @@ export type FilterRemoveManyUser_IdOperatorsInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
 };
 
+export type FilterRemoveOneLocationInput = {
+  AND?: InputMaybe<Array<FilterRemoveOneLocationInput>>;
+  OR?: InputMaybe<Array<FilterRemoveOneLocationInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterRemoveOneLocationOperatorsInput>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  timestamp?: InputMaybe<Scalars['Float']['input']>;
+  userId?: InputMaybe<Scalars['MongoID']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterRemoveOneLocationOperatorsInput = {
+  _id?: InputMaybe<FilterRemoveOneLocation_IdOperatorsInput>;
+};
+
+export type FilterRemoveOneLocation_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
 export type FilterRemoveOneUserInput = {
   AND?: InputMaybe<Array<FilterRemoveOneUserInput>>;
   OR?: InputMaybe<Array<FilterRemoveOneUserInput>>;
@@ -274,6 +450,34 @@ export type FilterRemoveOneUserOperatorsInput = {
 };
 
 export type FilterRemoveOneUser_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
+export type FilterUpdateManyLocationInput = {
+  AND?: InputMaybe<Array<FilterUpdateManyLocationInput>>;
+  OR?: InputMaybe<Array<FilterUpdateManyLocationInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterUpdateManyLocationOperatorsInput>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  timestamp?: InputMaybe<Scalars['Float']['input']>;
+  userId?: InputMaybe<Scalars['MongoID']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterUpdateManyLocationOperatorsInput = {
+  _id?: InputMaybe<FilterUpdateManyLocation_IdOperatorsInput>;
+};
+
+export type FilterUpdateManyLocation_IdOperatorsInput = {
   exists?: InputMaybe<Scalars['Boolean']['input']>;
   gt?: InputMaybe<Scalars['MongoID']['input']>;
   gte?: InputMaybe<Scalars['MongoID']['input']>;
@@ -323,6 +527,34 @@ export type FilterUpdateManyUser_IdOperatorsInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
 };
 
+export type FilterUpdateOneLocationInput = {
+  AND?: InputMaybe<Array<FilterUpdateOneLocationInput>>;
+  OR?: InputMaybe<Array<FilterUpdateOneLocationInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterUpdateOneLocationOperatorsInput>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  timestamp?: InputMaybe<Scalars['Float']['input']>;
+  userId?: InputMaybe<Scalars['MongoID']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterUpdateOneLocationOperatorsInput = {
+  _id?: InputMaybe<FilterUpdateOneLocation_IdOperatorsInput>;
+};
+
+export type FilterUpdateOneLocation_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
 export type FilterUpdateOneUserInput = {
   AND?: InputMaybe<Array<FilterUpdateOneUserInput>>;
   OR?: InputMaybe<Array<FilterUpdateOneUserInput>>;
@@ -362,6 +594,15 @@ export type FilterUpdateOneUser_IdOperatorsInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
 };
 
+export type Location = {
+  __typename?: 'Location';
+  _id: Scalars['MongoID']['output'];
+  latitude: Scalars['Float']['output'];
+  longitude: Scalars['Float']['output'];
+  timestamp: Scalars['Float']['output'];
+  userId: Scalars['MongoID']['output'];
+};
+
 export type MongoError = ErrorInterface & {
   __typename?: 'MongoError';
   /** MongoDB error code */
@@ -372,6 +613,22 @@ export type MongoError = ErrorInterface & {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Creates Many documents with mongoose defaults, setters, hooks and validation */
+  locationCreateMany?: Maybe<CreateManyLocationPayload>;
+  /** Create one document with mongoose defaults, setters, hooks and validation */
+  locationCreateOne?: Maybe<CreateOneLocationPayload>;
+  /** Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document. */
+  locationRemoveById?: Maybe<RemoveByIdLocationPayload>;
+  /** Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation.  */
+  locationRemoveMany?: Maybe<RemoveManyLocationPayload>;
+  /** Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document. */
+  locationRemoveOne?: Maybe<RemoveOneLocationPayload>;
+  /** Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it. */
+  locationUpdateById?: Maybe<UpdateByIdLocationPayload>;
+  /** Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation.  */
+  locationUpdateMany?: Maybe<UpdateManyLocationPayload>;
+  /** Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it. */
+  locationUpdateOne?: Maybe<UpdateOneLocationPayload>;
   userAcceptRequest?: Maybe<User>;
   userCancelRequest?: Maybe<User>;
   /** Creates Many documents with mongoose defaults, setters, hooks and validation */
@@ -393,6 +650,56 @@ export type Mutation = {
   userUpdateMany?: Maybe<UpdateManyUserPayload>;
   /** Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it. */
   userUpdateOne?: Maybe<UpdateOneUserPayload>;
+};
+
+
+export type MutationLocationCreateManyArgs = {
+  records: Array<CreateManyLocationInput>;
+};
+
+
+export type MutationLocationCreateOneArgs = {
+  record: CreateOneLocationInput;
+};
+
+
+export type MutationLocationRemoveByIdArgs = {
+  _id: Scalars['MongoID']['input'];
+};
+
+
+export type MutationLocationRemoveManyArgs = {
+  filter: FilterRemoveManyLocationInput;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type MutationLocationRemoveOneArgs = {
+  filter?: InputMaybe<FilterRemoveOneLocationInput>;
+  sort?: InputMaybe<SortRemoveOneLocationInput>;
+};
+
+
+export type MutationLocationUpdateByIdArgs = {
+  _id: Scalars['MongoID']['input'];
+  record: UpdateByIdLocationInput;
+};
+
+
+export type MutationLocationUpdateManyArgs = {
+  filter?: InputMaybe<FilterUpdateManyLocationInput>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  record: UpdateManyLocationInput;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<SortUpdateManyLocationInput>;
+};
+
+
+export type MutationLocationUpdateOneArgs = {
+  filter?: InputMaybe<FilterUpdateOneLocationInput>;
+  record: UpdateOneLocationInput;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<SortUpdateOneLocationInput>;
 };
 
 
@@ -475,42 +782,54 @@ export type MutationUserUpdateOneArgs = {
   sort?: InputMaybe<SortUpdateOneUserInput>;
 };
 
-/** Information about pagination in a connection. */
-export type PageInfo = {
-  __typename?: 'PageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor?: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor?: Maybe<Scalars['String']['output']>;
-};
-
-export type PaginationInfo = {
-  __typename?: 'PaginationInfo';
-  currentPage: Scalars['Int']['output'];
-  hasNextPage?: Maybe<Scalars['Boolean']['output']>;
-  hasPreviousPage?: Maybe<Scalars['Boolean']['output']>;
-  itemCount?: Maybe<Scalars['Int']['output']>;
-  pageCount?: Maybe<Scalars['Int']['output']>;
-  perPage: Scalars['Int']['output'];
-};
-
 export type Query = {
   __typename?: 'Query';
+  locationById?: Maybe<Location>;
+  locationByIds: Array<Location>;
+  locationCount?: Maybe<Scalars['Int']['output']>;
+  locationMany: Array<Location>;
+  locationOne?: Maybe<Location>;
   userById?: Maybe<User>;
   userByIds: Array<User>;
-  userConnection?: Maybe<UserConnection>;
   userCount?: Maybe<Scalars['Int']['output']>;
   userFriends?: Maybe<Array<Maybe<User>>>;
   userMany: Array<User>;
   userMoreResults?: Maybe<Array<Maybe<User>>>;
   userOne?: Maybe<User>;
-  userPagination?: Maybe<UserPagination>;
   userPendingRequests?: Maybe<Array<Maybe<User>>>;
   userSentRequests?: Maybe<Array<Maybe<User>>>;
+};
+
+
+export type QueryLocationByIdArgs = {
+  _id: Scalars['MongoID']['input'];
+};
+
+
+export type QueryLocationByIdsArgs = {
+  _ids: Array<Scalars['MongoID']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<SortFindByIdsLocationInput>;
+};
+
+
+export type QueryLocationCountArgs = {
+  filter?: InputMaybe<FilterCountLocationInput>;
+};
+
+
+export type QueryLocationManyArgs = {
+  filter?: InputMaybe<FilterFindManyLocationInput>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<SortFindManyLocationInput>;
+};
+
+
+export type QueryLocationOneArgs = {
+  filter?: InputMaybe<FilterFindOneLocationInput>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<SortFindOneLocationInput>;
 };
 
 
@@ -523,16 +842,6 @@ export type QueryUserByIdsArgs = {
   _ids: Array<Scalars['MongoID']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   sort?: InputMaybe<SortFindByIdsUserInput>;
-};
-
-
-export type QueryUserConnectionArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<FilterFindManyUserInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  sort?: InputMaybe<SortConnectionUserEnum>;
 };
 
 
@@ -567,14 +876,6 @@ export type QueryUserOneArgs = {
 };
 
 
-export type QueryUserPaginationArgs = {
-  filter?: InputMaybe<FilterFindManyUserInput>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-  sort?: InputMaybe<SortFindManyUserInput>;
-};
-
-
 export type QueryUserPendingRequestsArgs = {
   _id: Scalars['MongoID']['input'];
 };
@@ -582,6 +883,16 @@ export type QueryUserPendingRequestsArgs = {
 
 export type QueryUserSentRequestsArgs = {
   _id: Scalars['MongoID']['input'];
+};
+
+export type RemoveByIdLocationPayload = {
+  __typename?: 'RemoveByIdLocationPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Removed document */
+  record?: Maybe<Location>;
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']['output']>;
 };
 
 export type RemoveByIdUserPayload = {
@@ -594,12 +905,30 @@ export type RemoveByIdUserPayload = {
   recordId?: Maybe<Scalars['MongoID']['output']>;
 };
 
+export type RemoveManyLocationPayload = {
+  __typename?: 'RemoveManyLocationPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Affected documents number */
+  numAffected?: Maybe<Scalars['Int']['output']>;
+};
+
 export type RemoveManyUserPayload = {
   __typename?: 'RemoveManyUserPayload';
   /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
   error?: Maybe<ErrorInterface>;
   /** Affected documents number */
   numAffected?: Maybe<Scalars['Int']['output']>;
+};
+
+export type RemoveOneLocationPayload = {
+  __typename?: 'RemoveOneLocationPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Removed document */
+  record?: Maybe<Location>;
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']['output']>;
 };
 
 export type RemoveOneUserPayload = {
@@ -618,7 +947,7 @@ export type RuntimeError = ErrorInterface & {
   message?: Maybe<Scalars['String']['output']>;
 };
 
-export enum SortConnectionUserEnum {
+export enum SortFindByIdsLocationInput {
   IdAsc = '_ID_ASC',
   IdDesc = '_ID_DESC'
 }
@@ -628,7 +957,17 @@ export enum SortFindByIdsUserInput {
   IdDesc = '_ID_DESC'
 }
 
+export enum SortFindManyLocationInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
 export enum SortFindManyUserInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
+export enum SortFindOneLocationInput {
   IdAsc = '_ID_ASC',
   IdDesc = '_ID_DESC'
 }
@@ -638,7 +977,17 @@ export enum SortFindOneUserInput {
   IdDesc = '_ID_DESC'
 }
 
+export enum SortRemoveOneLocationInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
 export enum SortRemoveOneUserInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
+export enum SortUpdateManyLocationInput {
   IdAsc = '_ID_ASC',
   IdDesc = '_ID_DESC'
 }
@@ -648,10 +997,32 @@ export enum SortUpdateManyUserInput {
   IdDesc = '_ID_DESC'
 }
 
+export enum SortUpdateOneLocationInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
 export enum SortUpdateOneUserInput {
   IdAsc = '_ID_ASC',
   IdDesc = '_ID_DESC'
 }
+
+export type UpdateByIdLocationInput = {
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  timestamp?: InputMaybe<Scalars['Float']['input']>;
+  userId?: InputMaybe<Scalars['MongoID']['input']>;
+};
+
+export type UpdateByIdLocationPayload = {
+  __typename?: 'UpdateByIdLocationPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Updated document */
+  record?: Maybe<Location>;
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']['output']>;
+};
 
 export type UpdateByIdUserInput = {
   dataPersistence?: InputMaybe<EnumUserDataPersistence>;
@@ -681,6 +1052,21 @@ export type UpdateByIdUserPayload = {
   recordId?: Maybe<Scalars['MongoID']['output']>;
 };
 
+export type UpdateManyLocationInput = {
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  timestamp?: InputMaybe<Scalars['Float']['input']>;
+  userId?: InputMaybe<Scalars['MongoID']['input']>;
+};
+
+export type UpdateManyLocationPayload = {
+  __typename?: 'UpdateManyLocationPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Affected documents number */
+  numAffected?: Maybe<Scalars['Int']['output']>;
+};
+
 export type UpdateManyUserInput = {
   dataPersistence?: InputMaybe<EnumUserDataPersistence>;
   displayName?: InputMaybe<Scalars['String']['input']>;
@@ -705,6 +1091,23 @@ export type UpdateManyUserPayload = {
   error?: Maybe<ErrorInterface>;
   /** Affected documents number */
   numAffected?: Maybe<Scalars['Int']['output']>;
+};
+
+export type UpdateOneLocationInput = {
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  timestamp?: InputMaybe<Scalars['Float']['input']>;
+  userId?: InputMaybe<Scalars['MongoID']['input']>;
+};
+
+export type UpdateOneLocationPayload = {
+  __typename?: 'UpdateOneLocationPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Updated document */
+  record?: Maybe<Location>;
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']['output']>;
 };
 
 export type UpdateOneUserInput = {
@@ -755,37 +1158,6 @@ export type User = {
   username: Scalars['String']['output'];
 };
 
-/** A connection to a list of items. */
-export type UserConnection = {
-  __typename?: 'UserConnection';
-  /** Total object count. */
-  count: Scalars['Int']['output'];
-  /** Information to aid in pagination. */
-  edges: Array<UserEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type UserEdge = {
-  __typename?: 'UserEdge';
-  /** A cursor for use in pagination */
-  cursor: Scalars['String']['output'];
-  /** The item at the end of the edge */
-  node: User;
-};
-
-/** List of items with pagination. */
-export type UserPagination = {
-  __typename?: 'UserPagination';
-  /** Total object count. */
-  count?: Maybe<Scalars['Int']['output']>;
-  /** Array of objects. */
-  items?: Maybe<Array<User>>;
-  /** Information to aid in pagination. */
-  pageInfo: PaginationInfo;
-};
-
 export type ValidationError = ErrorInterface & {
   __typename?: 'ValidationError';
   /** List of validator errors */
@@ -807,6 +1179,13 @@ export type ValidatorError = {
 };
 
 export type UserInfoFragment = { __typename?: 'User', _id: any, username: string, displayName: string, profileUri?: string | null } & { ' $fragmentName'?: 'UserInfoFragment' };
+
+export type LocationCreateManyMutationVariables = Exact<{
+  locations: Array<CreateManyLocationInput> | CreateManyLocationInput;
+}>;
+
+
+export type LocationCreateManyMutation = { __typename?: 'Mutation', locationCreateMany?: { __typename?: 'CreateManyLocationPayload', records?: Array<{ __typename?: 'Location', userId: any, latitude: number, longitude: number, timestamp: number }> | null } | null };
 
 export type FetchUserInfoQueryVariables = Exact<{
   id: Scalars['MongoID']['input'];
@@ -931,6 +1310,7 @@ export type UserIgnoreRequestMutation = { __typename?: 'Mutation', userIgnoreReq
   ) | null };
 
 export const UserInfoFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<UserInfoFragment, unknown>;
+export const LocationCreateManyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LocationCreateMany"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locations"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateManyLocationInput"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locationCreateMany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"records"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locations"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"records"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]}}]} as unknown as DocumentNode<LocationCreateManyMutation, LocationCreateManyMutationVariables>;
 export const FetchUserInfoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserInfo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<FetchUserInfoQuery, FetchUserInfoQueryVariables>;
 export const FetchUserPreferencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserPreferences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trackSnapshots"}},{"kind":"Field","name":{"kind":"Name","value":"shareSnapshots"}}]}}]}}]} as unknown as DocumentNode<FetchUserPreferencesQuery, FetchUserPreferencesQueryVariables>;
 export const UpdateUserPreferencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUserPreferences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"shareSnapshots"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"trackSnapshots"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userUpdateById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"record"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"shareSnapshots"},"value":{"kind":"Variable","name":{"kind":"Name","value":"shareSnapshots"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"trackSnapshots"},"value":{"kind":"Variable","name":{"kind":"Name","value":"trackSnapshots"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"record"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trackSnapshots"}},{"kind":"Field","name":{"kind":"Name","value":"shareSnapshots"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateUserPreferencesMutation, UpdateUserPreferencesMutationVariables>;

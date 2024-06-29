@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n    fragment UserInfo on User {\n        _id\n        username\n        displayName\n        profileUri\n    }\n": types.UserInfoFragmentDoc,
+    "\n    mutation LocationCreateMany($locations: [CreateManyLocationInput!]!) {\n        locationCreateMany(records: $locations) {\n            records {\n                userId\n                latitude\n                longitude\n                timestamp\n            }\n        }\n    }\n": types.LocationCreateManyDocument,
     "\n    query FetchUserInfo($id: MongoID!) {\n        userById(_id: $id) {\n            ...UserInfo\n        }\n    }\n": types.FetchUserInfoDocument,
     "\n    query FetchUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            trackSnapshots\n            shareSnapshots\n        }\n    }\n": types.FetchUserPreferencesDocument,
     "\n    mutation UpdateUserPreferences(\n        $id: MongoID!\n        $shareSnapshots: Boolean\n        $trackSnapshots: Boolean\n    ) {\n        userUpdateById(\n            _id: $id\n            record: {\n                shareSnapshots: $shareSnapshots\n                trackSnapshots: $trackSnapshots\n            }\n        ) {\n            record {\n                trackSnapshots\n                shareSnapshots\n            }\n        }\n    }\n": types.UpdateUserPreferencesDocument,
@@ -46,6 +47,10 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    fragment UserInfo on User {\n        _id\n        username\n        displayName\n        profileUri\n    }\n"): (typeof documents)["\n    fragment UserInfo on User {\n        _id\n        username\n        displayName\n        profileUri\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation LocationCreateMany($locations: [CreateManyLocationInput!]!) {\n        locationCreateMany(records: $locations) {\n            records {\n                userId\n                latitude\n                longitude\n                timestamp\n            }\n        }\n    }\n"): (typeof documents)["\n    mutation LocationCreateMany($locations: [CreateManyLocationInput!]!) {\n        locationCreateMany(records: $locations) {\n            records {\n                userId\n                latitude\n                longitude\n                timestamp\n            }\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

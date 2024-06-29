@@ -1,13 +1,46 @@
-import { dispatchClearHistory, getHistoryState } from "../state/storeUtils";
+import {
+    dispatchClearHistory,
+    getCurrentUser,
+    getHistoryState,
+} from "../state/storeUtils";
+import { graphql } from "../gql";
+import { graphqlRequest } from "./client.graphql";
 
-export const postLocations = () => {
-    try {
-        console.log(
-            "posting to database history length:",
-            getHistoryState().length
-        );
-        dispatchClearHistory();
-    } catch (error) {
-        console.error(error);
+const locationCreateManyMutationDocument = graphql(`
+    mutation LocationCreateMany($locations: [CreateManyLocationInput!]!) {
+        locationCreateMany(records: $locations) {
+            records {
+                userId
+                latitude
+                longitude
+                timestamp
+            }
+        }
     }
+`);
+// note: this function reads directly from the redux store
+export const postLocations = async () => {
+    const userId = getCurrentUser()?.id;
+    if (!userId) {
+        throw new Error("No user logged in");
+    }
+    const response = await graphqlRequest<{
+        locationCreateMany: {
+            records: {
+                userId: string;
+                latitude: number;
+                longitude: number;
+                timestamp: number;
+            }[];
+        };
+    }>(locationCreateManyMutationDocument, {
+        locations: getHistoryState().map((location) => ({
+            userId,
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            timestamp: location.timestamp,
+        })),
+    });
+    dispatchClearHistory();
+    return response.locationCreateMany.records;
 };

@@ -146,12 +146,12 @@ export const fetchPendingRequests = async (
     id: string
 ): Promise<UserInfoFragment[]> => {
     try {
-        const result = await graphqlRequest<{
+        const response = await graphqlRequest<{
             userPendingRequests: UserInfoFragment[];
         }>(fetchUserPendingRequestsQueryDocument, {
             id,
         });
-        return result.userPendingRequests;
+        return response.userPendingRequests;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to fetch pending requests");
@@ -168,12 +168,12 @@ const fetchUserSentRequestsQueryDocument = graphql(`
 export const fetchSentRequests = async (
     id: string
 ): Promise<UserInfoFragment[]> => {
-    const result = await graphqlRequest<{
+    const response = await graphqlRequest<{
         userSentRequests: UserInfoFragment[];
     }>(fetchUserSentRequestsQueryDocument, {
         id,
     });
-    return result.userSentRequests;
+    return response.userSentRequests;
 };
 
 const userSendRequestMutationDocument = graphql(`
@@ -187,13 +187,13 @@ export const sendRequest = async ({
     id,
     friendId,
 }: FriendArgs): Promise<UserInfoFragment> => {
-    const result = await graphqlRequest<{
+    const response = await graphqlRequest<{
         userSendRequest: UserInfoFragment;
     }>(userSendRequestMutationDocument, {
         id,
         friendId,
     });
-    return result.userSendRequest;
+    return response.userSendRequest;
 };
 
 const userAcceptRequestMutationDocument = graphql(`
@@ -207,13 +207,13 @@ export const acceptRequest = async ({
     id,
     friendId,
 }: FriendArgs): Promise<UserInfoFragment> => {
-    const result = await graphqlRequest<{
+    const response = await graphqlRequest<{
         userAcceptRequest: UserInfoFragment;
     }>(userAcceptRequestMutationDocument, {
         id,
         friendId,
     });
-    return result.userAcceptRequest;
+    return response.userAcceptRequest;
 };
 
 const userCancelRequestMutationDocument = graphql(`
@@ -227,13 +227,13 @@ export const cancelRequest = async ({
     id,
     friendId,
 }: FriendArgs): Promise<UserInfoFragment> => {
-    const result = await graphqlRequest<{
+    const response = await graphqlRequest<{
         userCancelRequest: UserInfoFragment;
     }>(userCancelRequestMutationDocument, {
         id,
         friendId,
     });
-    return result.userCancelRequest;
+    return response.userCancelRequest;
 };
 
 const userIgnoreRequestMutationDocument = graphql(`
@@ -247,11 +247,11 @@ export const ignoreRequest = async ({
     id,
     friendId,
 }: FriendArgs): Promise<UserInfoFragment> => {
-    const result = await graphqlRequest<{
+    const response = await graphqlRequest<{
         userIgnoreRequest: UserInfoFragment;
     }>(userIgnoreRequestMutationDocument, {
         id,
         friendId,
     });
-    return result.userIgnoreRequest;
+    return response.userIgnoreRequest;
 };

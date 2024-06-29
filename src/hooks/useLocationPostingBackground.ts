@@ -1,7 +1,9 @@
 import { useEffect } from "react";
+
 import * as BackgroundFetch from "expo-background-fetch";
 import * as TaskManager from "expo-task-manager";
 import { Alert } from "react-native";
+
 import { postLocations } from "../api/locationsAPI";
 
 const LOCATION_POSTING_BACKGROUND_TASK_NAME = "snapshot-background";
@@ -44,7 +46,7 @@ const unregisterBackgroundFetchAsync = async () => {
     }
 };
 
-const useSnapshotBackground = () => {
+const useLocationPostingBackground = () => {
     useEffect(() => {
         registerBackgroundFetchAsync();
 
@@ -54,4 +56,4 @@ const useSnapshotBackground = () => {
     }, []);
 };
 
-export default useSnapshotBackground;
+export default useLocationPostingBackground;
