@@ -5,6 +5,6 @@ export const UserInfo = graphql(`
         _id
         username
         displayName
-        profileUri
+        profileUrl
     }
 `);

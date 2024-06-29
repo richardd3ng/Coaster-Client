@@ -8,7 +8,7 @@ export const mockFriendsData: UserInfo[] = [
         spotifyId: "shanggang",
         username: "shanggang",
         displayName: "Jason Shang",
-        profileUri:
+        profileUrl:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
     },
     {
@@ -16,7 +16,7 @@ export const mockFriendsData: UserInfo[] = [
         spotifyId: "rdengomng",
         username: "rdengomng",
         displayName: "Richard Deng",
-        profileUri:
+        profileUrl:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
     },
     {
@@ -24,7 +24,7 @@ export const mockFriendsData: UserInfo[] = [
         spotifyId: "joshisacow",
         username: "joshisacow",
         displayName: "Josh Chen",
-        profileUri:
+        profileUrl:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
     },
     {
@@ -32,7 +32,7 @@ export const mockFriendsData: UserInfo[] = [
         spotifyId: "anikapawlak",
         username: "anikapawlak",
         displayName: "Anika Pawlak",
-        profileUri:
+        profileUrl:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
     },
     {
@@ -40,7 +40,7 @@ export const mockFriendsData: UserInfo[] = [
         spotifyId: "doingdiane",
         username: "doingdiane",
         displayName: "Diane Lee",
-        profileUri:
+        profileUrl:
             "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
     },
 ];

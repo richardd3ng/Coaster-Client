@@ -24,6 +24,11 @@ export const postLocations = async () => {
     if (!userId) {
         throw new Error("No user logged in");
     }
+    const locations = getHistoryState();
+    if (locations.length === 0) {
+        return;
+    }
+    console.log("Posting", locations, "locations");
     const response = await graphqlRequest<{
         locationCreateMany: {
             records: {
@@ -34,7 +39,7 @@ export const postLocations = async () => {
             }[];
         };
     }>(locationCreateManyMutationDocument, {
-        locations: getHistoryState().map((location) => ({
+        locations: locations.map((location) => ({
             userId,
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,

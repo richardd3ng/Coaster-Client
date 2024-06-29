@@ -18,6 +18,8 @@ export type Scalars = {
   JSON: { input: any; output: any; }
   /** The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field. */
   MongoID: { input: any; output: any; }
+  /** The string representation of JavaScript regexp. You may provide it with flags "/^abc.*\/i" or without flags like "^abc.*". More info about RegExp characters and flags: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions */
+  RegExpAsString: { input: any; output: any; }
 };
 
 export type CreateManyLocationInput = {
@@ -39,6 +41,26 @@ export type CreateManyLocationPayload = {
   records?: Maybe<Array<Location>>;
 };
 
+export type CreateManySongInput = {
+  albumUrl: Scalars['String']['input'];
+  artists: Array<InputMaybe<Scalars['String']['input']>>;
+  name: Scalars['String']['input'];
+  spotifyId: Scalars['String']['input'];
+  uri: Scalars['String']['input'];
+};
+
+export type CreateManySongPayload = {
+  __typename?: 'CreateManySongPayload';
+  /** Number of created documents */
+  createdCount: Scalars['Int']['output'];
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Documents IDs */
+  recordIds: Array<Scalars['MongoID']['output']>;
+  /** Created documents */
+  records?: Maybe<Array<Song>>;
+};
+
 export type CreateManyUserInput = {
   dataPersistence?: InputMaybe<EnumUserDataPersistence>;
   displayName: Scalars['String']['input'];
@@ -48,7 +70,7 @@ export type CreateManyUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   pendingRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profileUri?: InputMaybe<Scalars['String']['input']>;
+  profileUrl?: InputMaybe<Scalars['String']['input']>;
   sentRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
@@ -86,6 +108,24 @@ export type CreateOneLocationPayload = {
   recordId?: Maybe<Scalars['MongoID']['output']>;
 };
 
+export type CreateOneSongInput = {
+  albumUrl: Scalars['String']['input'];
+  artists: Array<InputMaybe<Scalars['String']['input']>>;
+  name: Scalars['String']['input'];
+  spotifyId: Scalars['String']['input'];
+  uri: Scalars['String']['input'];
+};
+
+export type CreateOneSongPayload = {
+  __typename?: 'CreateOneSongPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Created document */
+  record?: Maybe<Song>;
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']['output']>;
+};
+
 export type CreateOneUserInput = {
   dataPersistence?: InputMaybe<EnumUserDataPersistence>;
   displayName: Scalars['String']['input'];
@@ -95,7 +135,7 @@ export type CreateOneUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   pendingRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profileUri?: InputMaybe<Scalars['String']['input']>;
+  profileUrl?: InputMaybe<Scalars['String']['input']>;
   sentRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
@@ -153,6 +193,48 @@ export type FilterCountLocation_IdOperatorsInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
 };
 
+export type FilterCountSongInput = {
+  AND?: InputMaybe<Array<FilterCountSongInput>>;
+  OR?: InputMaybe<Array<FilterCountSongInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterCountSongOperatorsInput>;
+  albumUrl?: InputMaybe<Scalars['String']['input']>;
+  artists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  spotifyId?: InputMaybe<Scalars['String']['input']>;
+  uri?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterCountSongOperatorsInput = {
+  _id?: InputMaybe<FilterCountSong_IdOperatorsInput>;
+  spotifyId?: InputMaybe<FilterCountSongSpotifyIdOperatorsInput>;
+};
+
+export type FilterCountSongSpotifyIdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
+  ne?: InputMaybe<Scalars['String']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  regex?: InputMaybe<Scalars['RegExpAsString']['input']>;
+};
+
+export type FilterCountSong_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
 export type FilterCountUserInput = {
   AND?: InputMaybe<Array<FilterCountUserInput>>;
   OR?: InputMaybe<Array<FilterCountUserInput>>;
@@ -167,7 +249,7 @@ export type FilterCountUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   pendingRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profileUri?: InputMaybe<Scalars['String']['input']>;
+  profileUrl?: InputMaybe<Scalars['String']['input']>;
   sentRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
@@ -220,6 +302,48 @@ export type FilterFindManyLocation_IdOperatorsInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
 };
 
+export type FilterFindManySongInput = {
+  AND?: InputMaybe<Array<FilterFindManySongInput>>;
+  OR?: InputMaybe<Array<FilterFindManySongInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterFindManySongOperatorsInput>;
+  albumUrl?: InputMaybe<Scalars['String']['input']>;
+  artists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  spotifyId?: InputMaybe<Scalars['String']['input']>;
+  uri?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterFindManySongOperatorsInput = {
+  _id?: InputMaybe<FilterFindManySong_IdOperatorsInput>;
+  spotifyId?: InputMaybe<FilterFindManySongSpotifyIdOperatorsInput>;
+};
+
+export type FilterFindManySongSpotifyIdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
+  ne?: InputMaybe<Scalars['String']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  regex?: InputMaybe<Scalars['RegExpAsString']['input']>;
+};
+
+export type FilterFindManySong_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
 export type FilterFindManyUserInput = {
   AND?: InputMaybe<Array<FilterFindManyUserInput>>;
   OR?: InputMaybe<Array<FilterFindManyUserInput>>;
@@ -234,7 +358,7 @@ export type FilterFindManyUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   pendingRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profileUri?: InputMaybe<Scalars['String']['input']>;
+  profileUrl?: InputMaybe<Scalars['String']['input']>;
   sentRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
@@ -287,6 +411,48 @@ export type FilterFindOneLocation_IdOperatorsInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
 };
 
+export type FilterFindOneSongInput = {
+  AND?: InputMaybe<Array<FilterFindOneSongInput>>;
+  OR?: InputMaybe<Array<FilterFindOneSongInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterFindOneSongOperatorsInput>;
+  albumUrl?: InputMaybe<Scalars['String']['input']>;
+  artists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  spotifyId?: InputMaybe<Scalars['String']['input']>;
+  uri?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterFindOneSongOperatorsInput = {
+  _id?: InputMaybe<FilterFindOneSong_IdOperatorsInput>;
+  spotifyId?: InputMaybe<FilterFindOneSongSpotifyIdOperatorsInput>;
+};
+
+export type FilterFindOneSongSpotifyIdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
+  ne?: InputMaybe<Scalars['String']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  regex?: InputMaybe<Scalars['RegExpAsString']['input']>;
+};
+
+export type FilterFindOneSong_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
 export type FilterFindOneUserInput = {
   AND?: InputMaybe<Array<FilterFindOneUserInput>>;
   OR?: InputMaybe<Array<FilterFindOneUserInput>>;
@@ -301,7 +467,7 @@ export type FilterFindOneUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   pendingRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profileUri?: InputMaybe<Scalars['String']['input']>;
+  profileUrl?: InputMaybe<Scalars['String']['input']>;
   sentRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
@@ -354,6 +520,48 @@ export type FilterRemoveManyLocation_IdOperatorsInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
 };
 
+export type FilterRemoveManySongInput = {
+  AND?: InputMaybe<Array<FilterRemoveManySongInput>>;
+  OR?: InputMaybe<Array<FilterRemoveManySongInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterRemoveManySongOperatorsInput>;
+  albumUrl?: InputMaybe<Scalars['String']['input']>;
+  artists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  spotifyId?: InputMaybe<Scalars['String']['input']>;
+  uri?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterRemoveManySongOperatorsInput = {
+  _id?: InputMaybe<FilterRemoveManySong_IdOperatorsInput>;
+  spotifyId?: InputMaybe<FilterRemoveManySongSpotifyIdOperatorsInput>;
+};
+
+export type FilterRemoveManySongSpotifyIdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
+  ne?: InputMaybe<Scalars['String']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  regex?: InputMaybe<Scalars['RegExpAsString']['input']>;
+};
+
+export type FilterRemoveManySong_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
 export type FilterRemoveManyUserInput = {
   AND?: InputMaybe<Array<FilterRemoveManyUserInput>>;
   OR?: InputMaybe<Array<FilterRemoveManyUserInput>>;
@@ -368,7 +576,7 @@ export type FilterRemoveManyUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   pendingRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profileUri?: InputMaybe<Scalars['String']['input']>;
+  profileUrl?: InputMaybe<Scalars['String']['input']>;
   sentRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
@@ -421,6 +629,48 @@ export type FilterRemoveOneLocation_IdOperatorsInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
 };
 
+export type FilterRemoveOneSongInput = {
+  AND?: InputMaybe<Array<FilterRemoveOneSongInput>>;
+  OR?: InputMaybe<Array<FilterRemoveOneSongInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterRemoveOneSongOperatorsInput>;
+  albumUrl?: InputMaybe<Scalars['String']['input']>;
+  artists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  spotifyId?: InputMaybe<Scalars['String']['input']>;
+  uri?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterRemoveOneSongOperatorsInput = {
+  _id?: InputMaybe<FilterRemoveOneSong_IdOperatorsInput>;
+  spotifyId?: InputMaybe<FilterRemoveOneSongSpotifyIdOperatorsInput>;
+};
+
+export type FilterRemoveOneSongSpotifyIdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
+  ne?: InputMaybe<Scalars['String']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  regex?: InputMaybe<Scalars['RegExpAsString']['input']>;
+};
+
+export type FilterRemoveOneSong_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
 export type FilterRemoveOneUserInput = {
   AND?: InputMaybe<Array<FilterRemoveOneUserInput>>;
   OR?: InputMaybe<Array<FilterRemoveOneUserInput>>;
@@ -435,7 +685,7 @@ export type FilterRemoveOneUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   pendingRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profileUri?: InputMaybe<Scalars['String']['input']>;
+  profileUrl?: InputMaybe<Scalars['String']['input']>;
   sentRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
@@ -488,6 +738,48 @@ export type FilterUpdateManyLocation_IdOperatorsInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
 };
 
+export type FilterUpdateManySongInput = {
+  AND?: InputMaybe<Array<FilterUpdateManySongInput>>;
+  OR?: InputMaybe<Array<FilterUpdateManySongInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterUpdateManySongOperatorsInput>;
+  albumUrl?: InputMaybe<Scalars['String']['input']>;
+  artists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  spotifyId?: InputMaybe<Scalars['String']['input']>;
+  uri?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterUpdateManySongOperatorsInput = {
+  _id?: InputMaybe<FilterUpdateManySong_IdOperatorsInput>;
+  spotifyId?: InputMaybe<FilterUpdateManySongSpotifyIdOperatorsInput>;
+};
+
+export type FilterUpdateManySongSpotifyIdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
+  ne?: InputMaybe<Scalars['String']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  regex?: InputMaybe<Scalars['RegExpAsString']['input']>;
+};
+
+export type FilterUpdateManySong_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
 export type FilterUpdateManyUserInput = {
   AND?: InputMaybe<Array<FilterUpdateManyUserInput>>;
   OR?: InputMaybe<Array<FilterUpdateManyUserInput>>;
@@ -502,7 +794,7 @@ export type FilterUpdateManyUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   pendingRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profileUri?: InputMaybe<Scalars['String']['input']>;
+  profileUrl?: InputMaybe<Scalars['String']['input']>;
   sentRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
@@ -555,6 +847,48 @@ export type FilterUpdateOneLocation_IdOperatorsInput = {
   nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
 };
 
+export type FilterUpdateOneSongInput = {
+  AND?: InputMaybe<Array<FilterUpdateOneSongInput>>;
+  OR?: InputMaybe<Array<FilterUpdateOneSongInput>>;
+  _id?: InputMaybe<Scalars['MongoID']['input']>;
+  /** List of *indexed* fields that can be filtered via operators. */
+  _operators?: InputMaybe<FilterUpdateOneSongOperatorsInput>;
+  albumUrl?: InputMaybe<Scalars['String']['input']>;
+  artists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  spotifyId?: InputMaybe<Scalars['String']['input']>;
+  uri?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** For performance reason this type contains only *indexed* fields. */
+export type FilterUpdateOneSongOperatorsInput = {
+  _id?: InputMaybe<FilterUpdateOneSong_IdOperatorsInput>;
+  spotifyId?: InputMaybe<FilterUpdateOneSongSpotifyIdOperatorsInput>;
+};
+
+export type FilterUpdateOneSongSpotifyIdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
+  ne?: InputMaybe<Scalars['String']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  regex?: InputMaybe<Scalars['RegExpAsString']['input']>;
+};
+
+export type FilterUpdateOneSong_IdOperatorsInput = {
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  gt?: InputMaybe<Scalars['MongoID']['input']>;
+  gte?: InputMaybe<Scalars['MongoID']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+  lt?: InputMaybe<Scalars['MongoID']['input']>;
+  lte?: InputMaybe<Scalars['MongoID']['input']>;
+  ne?: InputMaybe<Scalars['MongoID']['input']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
+};
+
 export type FilterUpdateOneUserInput = {
   AND?: InputMaybe<Array<FilterUpdateOneUserInput>>;
   OR?: InputMaybe<Array<FilterUpdateOneUserInput>>;
@@ -569,7 +903,7 @@ export type FilterUpdateOneUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   pendingRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profileUri?: InputMaybe<Scalars['String']['input']>;
+  profileUrl?: InputMaybe<Scalars['String']['input']>;
   sentRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
@@ -629,6 +963,22 @@ export type Mutation = {
   locationUpdateMany?: Maybe<UpdateManyLocationPayload>;
   /** Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it. */
   locationUpdateOne?: Maybe<UpdateOneLocationPayload>;
+  /** Creates Many documents with mongoose defaults, setters, hooks and validation */
+  songCreateMany?: Maybe<CreateManySongPayload>;
+  /** Create one document with mongoose defaults, setters, hooks and validation */
+  songCreateOne?: Maybe<CreateOneSongPayload>;
+  /** Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document. */
+  songRemoveById?: Maybe<RemoveByIdSongPayload>;
+  /** Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation.  */
+  songRemoveMany?: Maybe<RemoveManySongPayload>;
+  /** Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document. */
+  songRemoveOne?: Maybe<RemoveOneSongPayload>;
+  /** Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it. */
+  songUpdateById?: Maybe<UpdateByIdSongPayload>;
+  /** Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation.  */
+  songUpdateMany?: Maybe<UpdateManySongPayload>;
+  /** Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it. */
+  songUpdateOne?: Maybe<UpdateOneSongPayload>;
   userAcceptRequest?: Maybe<User>;
   userCancelRequest?: Maybe<User>;
   /** Creates Many documents with mongoose defaults, setters, hooks and validation */
@@ -700,6 +1050,56 @@ export type MutationLocationUpdateOneArgs = {
   record: UpdateOneLocationInput;
   skip?: InputMaybe<Scalars['Int']['input']>;
   sort?: InputMaybe<SortUpdateOneLocationInput>;
+};
+
+
+export type MutationSongCreateManyArgs = {
+  records: Array<CreateManySongInput>;
+};
+
+
+export type MutationSongCreateOneArgs = {
+  record: CreateOneSongInput;
+};
+
+
+export type MutationSongRemoveByIdArgs = {
+  _id: Scalars['MongoID']['input'];
+};
+
+
+export type MutationSongRemoveManyArgs = {
+  filter: FilterRemoveManySongInput;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type MutationSongRemoveOneArgs = {
+  filter?: InputMaybe<FilterRemoveOneSongInput>;
+  sort?: InputMaybe<SortRemoveOneSongInput>;
+};
+
+
+export type MutationSongUpdateByIdArgs = {
+  _id: Scalars['MongoID']['input'];
+  record: UpdateByIdSongInput;
+};
+
+
+export type MutationSongUpdateManyArgs = {
+  filter?: InputMaybe<FilterUpdateManySongInput>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  record: UpdateManySongInput;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<SortUpdateManySongInput>;
+};
+
+
+export type MutationSongUpdateOneArgs = {
+  filter?: InputMaybe<FilterUpdateOneSongInput>;
+  record: UpdateOneSongInput;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<SortUpdateOneSongInput>;
 };
 
 
@@ -789,6 +1189,11 @@ export type Query = {
   locationCount?: Maybe<Scalars['Int']['output']>;
   locationMany: Array<Location>;
   locationOne?: Maybe<Location>;
+  songById?: Maybe<Song>;
+  songByIds: Array<Song>;
+  songCount?: Maybe<Scalars['Int']['output']>;
+  songMany: Array<Song>;
+  songOne?: Maybe<Song>;
   userById?: Maybe<User>;
   userByIds: Array<User>;
   userCount?: Maybe<Scalars['Int']['output']>;
@@ -830,6 +1235,38 @@ export type QueryLocationOneArgs = {
   filter?: InputMaybe<FilterFindOneLocationInput>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   sort?: InputMaybe<SortFindOneLocationInput>;
+};
+
+
+export type QuerySongByIdArgs = {
+  _id: Scalars['MongoID']['input'];
+};
+
+
+export type QuerySongByIdsArgs = {
+  _ids: Array<Scalars['MongoID']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<SortFindByIdsSongInput>;
+};
+
+
+export type QuerySongCountArgs = {
+  filter?: InputMaybe<FilterCountSongInput>;
+};
+
+
+export type QuerySongManyArgs = {
+  filter?: InputMaybe<FilterFindManySongInput>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<SortFindManySongInput>;
+};
+
+
+export type QuerySongOneArgs = {
+  filter?: InputMaybe<FilterFindOneSongInput>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<SortFindOneSongInput>;
 };
 
 
@@ -895,6 +1332,16 @@ export type RemoveByIdLocationPayload = {
   recordId?: Maybe<Scalars['MongoID']['output']>;
 };
 
+export type RemoveByIdSongPayload = {
+  __typename?: 'RemoveByIdSongPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Removed document */
+  record?: Maybe<Song>;
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']['output']>;
+};
+
 export type RemoveByIdUserPayload = {
   __typename?: 'RemoveByIdUserPayload';
   /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
@@ -907,6 +1354,14 @@ export type RemoveByIdUserPayload = {
 
 export type RemoveManyLocationPayload = {
   __typename?: 'RemoveManyLocationPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Affected documents number */
+  numAffected?: Maybe<Scalars['Int']['output']>;
+};
+
+export type RemoveManySongPayload = {
+  __typename?: 'RemoveManySongPayload';
   /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
   error?: Maybe<ErrorInterface>;
   /** Affected documents number */
@@ -931,6 +1386,16 @@ export type RemoveOneLocationPayload = {
   recordId?: Maybe<Scalars['MongoID']['output']>;
 };
 
+export type RemoveOneSongPayload = {
+  __typename?: 'RemoveOneSongPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Removed document */
+  record?: Maybe<Song>;
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']['output']>;
+};
+
 export type RemoveOneUserPayload = {
   __typename?: 'RemoveOneUserPayload';
   /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
@@ -947,7 +1412,24 @@ export type RuntimeError = ErrorInterface & {
   message?: Maybe<Scalars['String']['output']>;
 };
 
+export type Song = {
+  __typename?: 'Song';
+  _id: Scalars['MongoID']['output'];
+  albumUrl: Scalars['String']['output'];
+  artists: Array<Maybe<Scalars['String']['output']>>;
+  name: Scalars['String']['output'];
+  spotifyId: Scalars['String']['output'];
+  uri: Scalars['String']['output'];
+};
+
 export enum SortFindByIdsLocationInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
+export enum SortFindByIdsSongInput {
+  SpotifyidAsc = 'SPOTIFYID_ASC',
+  SpotifyidDesc = 'SPOTIFYID_DESC',
   IdAsc = '_ID_ASC',
   IdDesc = '_ID_DESC'
 }
@@ -962,12 +1444,26 @@ export enum SortFindManyLocationInput {
   IdDesc = '_ID_DESC'
 }
 
+export enum SortFindManySongInput {
+  SpotifyidAsc = 'SPOTIFYID_ASC',
+  SpotifyidDesc = 'SPOTIFYID_DESC',
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
 export enum SortFindManyUserInput {
   IdAsc = '_ID_ASC',
   IdDesc = '_ID_DESC'
 }
 
 export enum SortFindOneLocationInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
+export enum SortFindOneSongInput {
+  SpotifyidAsc = 'SPOTIFYID_ASC',
+  SpotifyidDesc = 'SPOTIFYID_DESC',
   IdAsc = '_ID_ASC',
   IdDesc = '_ID_DESC'
 }
@@ -982,6 +1478,13 @@ export enum SortRemoveOneLocationInput {
   IdDesc = '_ID_DESC'
 }
 
+export enum SortRemoveOneSongInput {
+  SpotifyidAsc = 'SPOTIFYID_ASC',
+  SpotifyidDesc = 'SPOTIFYID_DESC',
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
 export enum SortRemoveOneUserInput {
   IdAsc = '_ID_ASC',
   IdDesc = '_ID_DESC'
@@ -992,12 +1495,26 @@ export enum SortUpdateManyLocationInput {
   IdDesc = '_ID_DESC'
 }
 
+export enum SortUpdateManySongInput {
+  SpotifyidAsc = 'SPOTIFYID_ASC',
+  SpotifyidDesc = 'SPOTIFYID_DESC',
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
 export enum SortUpdateManyUserInput {
   IdAsc = '_ID_ASC',
   IdDesc = '_ID_DESC'
 }
 
 export enum SortUpdateOneLocationInput {
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
+
+export enum SortUpdateOneSongInput {
+  SpotifyidAsc = 'SPOTIFYID_ASC',
+  SpotifyidDesc = 'SPOTIFYID_DESC',
   IdAsc = '_ID_ASC',
   IdDesc = '_ID_DESC'
 }
@@ -1024,6 +1541,24 @@ export type UpdateByIdLocationPayload = {
   recordId?: Maybe<Scalars['MongoID']['output']>;
 };
 
+export type UpdateByIdSongInput = {
+  albumUrl?: InputMaybe<Scalars['String']['input']>;
+  artists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  spotifyId?: InputMaybe<Scalars['String']['input']>;
+  uri?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateByIdSongPayload = {
+  __typename?: 'UpdateByIdSongPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Updated document */
+  record?: Maybe<Song>;
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']['output']>;
+};
+
 export type UpdateByIdUserInput = {
   dataPersistence?: InputMaybe<EnumUserDataPersistence>;
   displayName?: InputMaybe<Scalars['String']['input']>;
@@ -1033,7 +1568,7 @@ export type UpdateByIdUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   pendingRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profileUri?: InputMaybe<Scalars['String']['input']>;
+  profileUrl?: InputMaybe<Scalars['String']['input']>;
   sentRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
@@ -1067,6 +1602,22 @@ export type UpdateManyLocationPayload = {
   numAffected?: Maybe<Scalars['Int']['output']>;
 };
 
+export type UpdateManySongInput = {
+  albumUrl?: InputMaybe<Scalars['String']['input']>;
+  artists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  spotifyId?: InputMaybe<Scalars['String']['input']>;
+  uri?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateManySongPayload = {
+  __typename?: 'UpdateManySongPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Affected documents number */
+  numAffected?: Maybe<Scalars['Int']['output']>;
+};
+
 export type UpdateManyUserInput = {
   dataPersistence?: InputMaybe<EnumUserDataPersistence>;
   displayName?: InputMaybe<Scalars['String']['input']>;
@@ -1076,7 +1627,7 @@ export type UpdateManyUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   pendingRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profileUri?: InputMaybe<Scalars['String']['input']>;
+  profileUrl?: InputMaybe<Scalars['String']['input']>;
   sentRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
@@ -1110,6 +1661,24 @@ export type UpdateOneLocationPayload = {
   recordId?: Maybe<Scalars['MongoID']['output']>;
 };
 
+export type UpdateOneSongInput = {
+  albumUrl?: InputMaybe<Scalars['String']['input']>;
+  artists?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  spotifyId?: InputMaybe<Scalars['String']['input']>;
+  uri?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateOneSongPayload = {
+  __typename?: 'UpdateOneSongPayload';
+  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
+  error?: Maybe<ErrorInterface>;
+  /** Updated document */
+  record?: Maybe<Song>;
+  /** Document ID */
+  recordId?: Maybe<Scalars['MongoID']['output']>;
+};
+
 export type UpdateOneUserInput = {
   dataPersistence?: InputMaybe<EnumUserDataPersistence>;
   displayName?: InputMaybe<Scalars['String']['input']>;
@@ -1119,7 +1688,7 @@ export type UpdateOneUserInput = {
   jamSessions?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   locationAccuracy?: InputMaybe<Scalars['Float']['input']>;
   pendingRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  profileUri?: InputMaybe<Scalars['String']['input']>;
+  profileUrl?: InputMaybe<Scalars['String']['input']>;
   sentRequests?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
   shareSnapshots?: InputMaybe<Scalars['Boolean']['input']>;
   snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
@@ -1149,7 +1718,7 @@ export type User = {
   jamSessions?: Maybe<Array<Maybe<Scalars['MongoID']['output']>>>;
   locationAccuracy?: Maybe<Scalars['Float']['output']>;
   pendingRequests?: Maybe<Array<Maybe<Scalars['MongoID']['output']>>>;
-  profileUri?: Maybe<Scalars['String']['output']>;
+  profileUrl?: Maybe<Scalars['String']['output']>;
   sentRequests?: Maybe<Array<Maybe<Scalars['MongoID']['output']>>>;
   shareSnapshots?: Maybe<Scalars['Boolean']['output']>;
   snapshots?: Maybe<Array<Maybe<Scalars['MongoID']['output']>>>;
@@ -1178,7 +1747,7 @@ export type ValidatorError = {
   value?: Maybe<Scalars['JSON']['output']>;
 };
 
-export type UserInfoFragment = { __typename?: 'User', _id: any, username: string, displayName: string, profileUri?: string | null } & { ' $fragmentName'?: 'UserInfoFragment' };
+export type UserInfoFragment = { __typename?: 'User', _id: any, username: string, displayName: string, profileUrl?: string | null } & { ' $fragmentName'?: 'UserInfoFragment' };
 
 export type LocationCreateManyMutationVariables = Exact<{
   locations: Array<CreateManyLocationInput> | CreateManyLocationInput;
@@ -1309,17 +1878,17 @@ export type UserIgnoreRequestMutation = { __typename?: 'Mutation', userIgnoreReq
     & { ' $fragmentRefs'?: { 'UserInfoFragment': UserInfoFragment } }
   ) | null };
 
-export const UserInfoFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<UserInfoFragment, unknown>;
+export const UserInfoFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUrl"}}]}}]} as unknown as DocumentNode<UserInfoFragment, unknown>;
 export const LocationCreateManyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LocationCreateMany"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locations"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateManyLocationInput"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locationCreateMany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"records"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locations"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"records"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]}}]} as unknown as DocumentNode<LocationCreateManyMutation, LocationCreateManyMutationVariables>;
-export const FetchUserInfoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserInfo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<FetchUserInfoQuery, FetchUserInfoQueryVariables>;
+export const FetchUserInfoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserInfo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUrl"}}]}}]} as unknown as DocumentNode<FetchUserInfoQuery, FetchUserInfoQueryVariables>;
 export const FetchUserPreferencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserPreferences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trackSnapshots"}},{"kind":"Field","name":{"kind":"Name","value":"shareSnapshots"}}]}}]}}]} as unknown as DocumentNode<FetchUserPreferencesQuery, FetchUserPreferencesQueryVariables>;
 export const UpdateUserPreferencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUserPreferences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"shareSnapshots"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"trackSnapshots"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userUpdateById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"record"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"shareSnapshots"},"value":{"kind":"Variable","name":{"kind":"Name","value":"shareSnapshots"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"trackSnapshots"},"value":{"kind":"Variable","name":{"kind":"Name","value":"trackSnapshots"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"record"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trackSnapshots"}},{"kind":"Field","name":{"kind":"Name","value":"shareSnapshots"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateUserPreferencesMutation, UpdateUserPreferencesMutationVariables>;
-export const FetchUserFriendsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserFriends"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userFriends"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<FetchUserFriendsQuery, FetchUserFriendsQueryVariables>;
-export const FetchUserMoreResultsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserMoreResults"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"query"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userMoreResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"query"},"value":{"kind":"Variable","name":{"kind":"Name","value":"query"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<FetchUserMoreResultsQuery, FetchUserMoreResultsQueryVariables>;
-export const UserDeleteFriendDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserDeleteFriend"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userDeleteFriend"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"friendId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<UserDeleteFriendMutation, UserDeleteFriendMutationVariables>;
-export const FetchUserPendingRequestsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserPendingRequests"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userPendingRequests"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<FetchUserPendingRequestsQuery, FetchUserPendingRequestsQueryVariables>;
-export const FetchUserSentRequestsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserSentRequests"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userSentRequests"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<FetchUserSentRequestsQuery, FetchUserSentRequestsQueryVariables>;
-export const UserSendRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserSendRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userSendRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"friendId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<UserSendRequestMutation, UserSendRequestMutationVariables>;
-export const UserAcceptRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserAcceptRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userAcceptRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"friendId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<UserAcceptRequestMutation, UserAcceptRequestMutationVariables>;
-export const UserCancelRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserCancelRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userCancelRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"friendId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<UserCancelRequestMutation, UserCancelRequestMutationVariables>;
-export const UserIgnoreRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserIgnoreRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userIgnoreRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"friendId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUri"}}]}}]} as unknown as DocumentNode<UserIgnoreRequestMutation, UserIgnoreRequestMutationVariables>;
+export const FetchUserFriendsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserFriends"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userFriends"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUrl"}}]}}]} as unknown as DocumentNode<FetchUserFriendsQuery, FetchUserFriendsQueryVariables>;
+export const FetchUserMoreResultsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserMoreResults"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"query"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userMoreResults"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"query"},"value":{"kind":"Variable","name":{"kind":"Name","value":"query"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUrl"}}]}}]} as unknown as DocumentNode<FetchUserMoreResultsQuery, FetchUserMoreResultsQueryVariables>;
+export const UserDeleteFriendDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserDeleteFriend"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userDeleteFriend"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"friendId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUrl"}}]}}]} as unknown as DocumentNode<UserDeleteFriendMutation, UserDeleteFriendMutationVariables>;
+export const FetchUserPendingRequestsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserPendingRequests"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userPendingRequests"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUrl"}}]}}]} as unknown as DocumentNode<FetchUserPendingRequestsQuery, FetchUserPendingRequestsQueryVariables>;
+export const FetchUserSentRequestsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserSentRequests"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userSentRequests"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUrl"}}]}}]} as unknown as DocumentNode<FetchUserSentRequestsQuery, FetchUserSentRequestsQueryVariables>;
+export const UserSendRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserSendRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userSendRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"friendId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUrl"}}]}}]} as unknown as DocumentNode<UserSendRequestMutation, UserSendRequestMutationVariables>;
+export const UserAcceptRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserAcceptRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userAcceptRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"friendId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUrl"}}]}}]} as unknown as DocumentNode<UserAcceptRequestMutation, UserAcceptRequestMutationVariables>;
+export const UserCancelRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserCancelRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userCancelRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"friendId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUrl"}}]}}]} as unknown as DocumentNode<UserCancelRequestMutation, UserCancelRequestMutationVariables>;
+export const UserIgnoreRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserIgnoreRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userIgnoreRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"friendId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"friendId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUrl"}}]}}]} as unknown as DocumentNode<UserIgnoreRequestMutation, UserIgnoreRequestMutationVariables>;

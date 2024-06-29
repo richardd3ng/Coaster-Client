@@ -24,11 +24,11 @@ const ProfileIconButton: React.FC<ProfileIconButtonProps> = ({
     const onPress = props.onPress || (() => present(ModalType.Profile));
 
     const buttonContent = useMemo(() => {
-        return user.profileUri ? (
+        return user.profileUrl ? (
             <ImageButton
                 onPress={onPress}
                 style={style}
-                uri={user.profileUri}
+                uri={user.profileUrl}
                 imageStyle={imageStyle}
             />
         ) : (

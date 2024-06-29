@@ -22,8 +22,8 @@ const FriendsListItem: React.FC<FriendsListItemProps> = ({
             <View style={styles.imageContainer}>
                 <Image
                     source={
-                        user.profileUri
-                            ? { uri: user.profileUri }
+                        user.profileUrl
+                            ? { uri: user.profileUrl }
                             : require("../../../../assets/default-profile.png")
                     }
                     style={styles.image}

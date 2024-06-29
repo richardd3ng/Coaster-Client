@@ -10,6 +10,7 @@ let referenceCount = 0;
 const startForegroundInterval = () => {
     if (intervalId === null) {
         console.log("Started foreground location posting scheduler");
+        postLocations();
         intervalId = setInterval(
             postLocations,
             FOREGROUND_SNAPSHOT_INTERVAL_MILLISECONDS

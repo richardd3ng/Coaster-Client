@@ -9,7 +9,7 @@ export interface UserInfo {
     spotifyId: string;
     username: string;
     displayName: string;
-    profileUri: string;
+    profileUrl: string;
 }
 
 export interface FriendArgs {
