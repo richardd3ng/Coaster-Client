@@ -1,5 +1,11 @@
 import { UserInfoFragment } from "../gql/graphql";
 
+/**
+ * Filter users by displayName or username
+ * @param users The users to filter
+ * @param query The query to filter by
+ * @returns The filtered users
+ */
 export const filterUsers = (
     users: UserInfoFragment[],
     query: string

@@ -9,6 +9,11 @@ export const MAP_CONFIG = {
     maxZoom: 16,
 };
 
+/**
+ * Calculate the bounding box of a region
+ * @param region The region to calculate the bounding box for
+ * @returns The bounding box of the region
+ */
 export const calculateBBox = (region: Region): BoundingBox => {
     const longitudeDelta =
         region.longitudeDelta < 0
@@ -23,6 +28,13 @@ export const calculateBBox = (region: Region): BoundingBox => {
     ];
 };
 
+/**
+ * Calculate the zoom level of a region
+ * @param region The region to calculate the zoom level for
+ * @param bBox The bounding box of the region
+ * @param minZoom The minimum zoom level
+ * @returns The zoom level of the region
+ */
 export const getMapZoom = (
     region: Region,
     bBox: BoundingBox,

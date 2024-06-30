@@ -2,11 +2,22 @@ import { BASE_URL } from "@env";
 import { getTokens, storeTokens } from "../utils/secureStoreUtils";
 import axios from "axios";
 
+/**
+ * Checks if the token has expired
+ * @param tokenExpirationTime The time the token expires in milliseconds
+ * @returns True if the token has expired, false otherwise
+ */
 const isTokenExpired = (tokenExpirationTime: number): boolean => {
     const currentTime = Date.now();
     return currentTime > tokenExpirationTime;
 };
 
+/**
+ * Gets a new access token using the refresh token
+ * @param refreshToken The refresh token
+ * @param spotifyId The Spotify user ID
+ * @returns The new access token
+ */
 export const getNewAccessToken = async (
     refreshToken: string,
     spotifyId: string
@@ -28,6 +39,12 @@ export const getNewAccessToken = async (
     }
 };
 
+/**
+ * Gets a valid access token for the given Spotify user
+ * @param spotifyId The Spotify user ID
+ * @returns The valid access token
+ * @throws An error if no tokens are found
+ */
 export const getValidAccessToken = async (
     spotifyId: string
 ): Promise<string> => {

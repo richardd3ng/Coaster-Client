@@ -6,7 +6,7 @@ import { MAP_CONFIG } from "./mapUtils";
 
 const TOP_SONGS_COUNT = 10;
 
-export type SongIdFrequencies = number[][]; // [id, frequency]
+export type SongIdFrequencies = [string, number][]; // [id, frequency]
 
 export interface SongCluster {
     coords: LatLng;
@@ -15,12 +15,13 @@ export interface SongCluster {
 }
 
 export interface SongPointProps {
-    songId: number;
+    songId: string;
 }
 
 export interface SongClusterProps {
-    songs: Map<number, number>; // [id, frequency]
+    songs: Map<string, number>; // [id, frequency]
 }
+
 class SuperclusterManager {
     private static instance: SuperclusterManager;
 
@@ -101,9 +102,7 @@ class SuperclusterManager {
         const index = this.getSuperclusterInstance(filter);
         const clusters = index.getClusters(bBox, zoom).map((item) => {
             if (item.properties.point_count > 1) {
-                const cluster = item as ClusterFeature<{
-                    songs: Map<number, number>;
-                }>;
+                const cluster = item as ClusterFeature<SongClusterProps>;
                 return {
                     coords: {
                         latitude: cluster.geometry.coordinates[1],
@@ -111,7 +110,7 @@ class SuperclusterManager {
                     },
                     topSongs: Array.from(cluster.properties.songs.entries())
                         .sort((a, b) => b[1] - a[1])
-                        .slice(0, TOP_SONGS_COUNT),
+                        .slice(0, TOP_SONGS_COUNT) as SongIdFrequencies,
                     size: cluster.properties.point_count,
                 };
             } else {
@@ -121,7 +120,9 @@ class SuperclusterManager {
                         latitude: point.geometry.coordinates[1],
                         longitude: point.geometry.coordinates[0],
                     },
-                    topSongs: [[point.properties.songId, 1]],
+                    topSongs: [
+                        [point.properties.songId, 1],
+                    ] as SongIdFrequencies,
                     size: 1,
                 };
             }

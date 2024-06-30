@@ -13,8 +13,13 @@ import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 
 import { EXPO_DEV_MODE } from "@env";
-import { dispatchRecordLocationTimestamp } from "../../state/storeUtils";
+import {
+    dispatchRecordLocationTimestamp,
+    getHistoryState,
+} from "../../state/storeUtils";
 import { LocationTimestamp } from "../../types/entities";
+import { postSnapshots } from "../../api/snapshotAPI";
+import { POST_SNAPSHOTS_INTERVAL } from "../../utils/timeConstants";
 
 const LOCATION_TASK_NAME = "location";
 
@@ -40,6 +45,13 @@ TaskManager.defineTask(
             timestamp: locations[0].timestamp,
         };
         dispatchRecordLocationTimestamp(locationTimestamp);
+        const history = getHistoryState();
+        if (
+            history[history.length - 1].timestamp - history[0].timestamp >=
+            POST_SNAPSHOTS_INTERVAL
+        ) {
+            postSnapshots();
+        }
     }
 );
 
