@@ -34,10 +34,10 @@ export const fetchAndLoadSongPoints = async (
                 points = await fetchMeSongPoints(userId);
                 break;
             case SocialFilter.Friends:
-                points = generateRandomSongPoints(1000);
+                points = await fetchFriendsSongPoints(userId);
                 break;
             case SocialFilter.Global:
-                points = generateRandomSongPoints(25000);
+                points = await fetchGlobalSongPoints(userId);
                 break;
             default:
                 throw new Error("Unknown social filter value");
@@ -65,7 +65,7 @@ const snapshotByUserIdQueryDocument = graphql(`
  * @returns The song points for the given user id
  * @throws An error if the request fails
  */
-export const fetchMeSongPoints = async (
+const fetchMeSongPoints = async (
     userId: string
 ): Promise<PointFeature<SongPointProps>[]> => {
     try {
@@ -76,6 +76,59 @@ export const fetchMeSongPoints = async (
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to fetch song points for me");
+    }
+};
+
+const snapshotByUserFriendsQueryDocument = graphql(`
+    query SnapshotByUserFriends($userId: MongoID!) {
+        snapshotByUserFriends(userId: $userId) {
+            ...SnapshotInfo
+        }
+    }
+`);
+/**
+ * Fetches the song points for given user id and their friends
+ * @param userId - The user id to fetch song points for
+ * @returns The song points for the given user id and their friends
+ * @throws An error if the request fails
+ */
+const fetchFriendsSongPoints = async (
+    userId: string
+): Promise<PointFeature<SongPointProps>[]> => {
+    try {
+        const response = await graphqlRequest<{
+            snapshotByUserFriends: SnapshotInfoFragment[];
+        }>(snapshotByUserFriendsQueryDocument, { userId });
+        return convertSnapshotsToSongPoints(response.snapshotByUserFriends);
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to fetch song points for friends");
+    }
+};
+
+const snapshotByUserGlobalQueryDocument = graphql(`
+    query SnapshotByUserGlobal($userId: MongoID!) {
+        snapshotByUserGlobal(userId: $userId) {
+            ...SnapshotInfo
+        }
+    }
+`);
+/**
+ * Fetches the song points for all users who are willing to share their data
+ * @returns The song points for all users who are willing to share their data
+ * @throws An error if the request fails
+ */
+const fetchGlobalSongPoints = async (
+    userId: string
+): Promise<PointFeature<SongPointProps>[]> => {
+    try {
+        const response = await graphqlRequest<{
+            snapshotByUserGlobal: SnapshotInfoFragment[];
+        }>(snapshotByUserGlobalQueryDocument, { userId });
+        return convertSnapshotsToSongPoints(response.snapshotByUserGlobal);
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to fetch song points for global");
     }
 };
 
@@ -106,11 +159,11 @@ const createManySnapshots = async (
 ): Promise<number> => {
     try {
         const response = await graphqlRequest<{
-            createdCount: number;
+            snapshotCreateMany: { createdCount: number };
         }>(snapshotCreateManyMutationDocument, {
             snapshots,
         });
-        return response.createdCount;
+        return response.snapshotCreateMany.createdCount;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to create snapshots");
@@ -118,22 +171,23 @@ const createManySnapshots = async (
 };
 
 /**
- * Posts snapshots to the database based on the current history state from redux and the user's recently-played songs from Spotify
+ * Posts snapshots to the database based on the current history state from redux and the user's recently-played songs from Spotify. Note: need to use a semaphore to prevent multiple calls to this function from running concurrently
  * @returns The number of succesfully posted snapshots
  * @throws An error if the request fails
  */
 export const postSnapshots = async (): Promise<number> => {
-    const currentUser = getCurrentUser();
-    if (!currentUser) {
-        throw new Error("No user logged in");
-    }
-    const locations = getHistoryState();
-    if (locations.length === 0) {
-        return 0;
-    }
-    const userId = currentUser.id;
-    const spotifyId = currentUser.spotifyId;
     try {
+        const currentUser = getCurrentUser();
+        if (!currentUser) {
+            throw new Error("No user logged in");
+        }
+        const locations = getHistoryState();
+        if (locations.length === 0) {
+            return 0;
+        }
+        const userId = currentUser.id;
+        const spotifyId = currentUser.spotifyId;
+
         const accessToken = await getValidAccessToken(spotifyId);
         const recentlyPlayedSongsResponse = await fetchRecentlyPlayedSongs(
             accessToken,
@@ -167,7 +221,6 @@ export const postSnapshots = async (): Promise<number> => {
                 artists,
                 albumUrl,
             });
-            console.log("Created or updated song with id:", songId);
             snapshots.push({
                 userId,
                 songId,
@@ -176,13 +229,14 @@ export const postSnapshots = async (): Promise<number> => {
                 timestamp,
             });
         }
-        if (snapshots.length === 0) {
+        let createdCount = 0;
+        if (snapshots.length > 0) {
+            createdCount = await createManySnapshots(snapshots);
+            console.log("Successfully posted", createdCount, "snapshots");
+        } else {
             console.log("No snapshots to post");
-            return 0;
         }
-        const createdCount = await createManySnapshots(snapshots);
         dispatchClearHistory();
-        console.log("sucessfully posted", createdCount, "snapshots");
         return createdCount;
     } catch (error) {
         console.error(formatError(error));

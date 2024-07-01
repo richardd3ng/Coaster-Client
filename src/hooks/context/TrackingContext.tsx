@@ -15,11 +15,16 @@ import * as TaskManager from "expo-task-manager";
 import { EXPO_DEV_MODE } from "@env";
 import {
     dispatchRecordLocationTimestamp,
+    dispatchSetLastSnapshotTimestamp,
     getHistoryState,
+    getLastSnapshotTimestampState,
 } from "../../state/storeUtils";
 import { LocationTimestamp } from "../../types/entities";
 import { postSnapshots } from "../../api/snapshotAPI";
-import { POST_SNAPSHOTS_INTERVAL } from "../../utils/timeConstants";
+import {
+    POST_SNAPSHOTS_COOLDOWN,
+    POST_SNAPSHOTS_INTERVAL,
+} from "../../utils/timeConstants";
 
 const LOCATION_TASK_NAME = "location";
 
@@ -30,7 +35,7 @@ interface LocationTaskData {
 
 TaskManager.defineTask(
     LOCATION_TASK_NAME,
-    ({ data }: { data: LocationTaskData }) => {
+    async ({ data }: { data: LocationTaskData }) => {
         const { locations, error } = data;
         if (error) {
             Alert.alert("Error receiving location updates");
@@ -50,7 +55,14 @@ TaskManager.defineTask(
             history[history.length - 1].timestamp - history[0].timestamp >=
             POST_SNAPSHOTS_INTERVAL
         ) {
-            postSnapshots();
+            const lastSnapshotTimestamp = getLastSnapshotTimestampState();
+            if (
+                lastSnapshotTimestamp === null ||
+                Date.now() - lastSnapshotTimestamp > POST_SNAPSHOTS_COOLDOWN
+            ) {
+                dispatchSetLastSnapshotTimestamp(Date.now());
+                await postSnapshots();
+            }
         }
     }
 );

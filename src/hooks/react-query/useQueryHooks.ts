@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { ClusterFilter, SocialFilter } from "../../types/filters";
+import { ClusterFilter } from "../../types/filters";
 import {
     fetchFriends,
     fetchPendingRequests,
@@ -11,7 +11,11 @@ import {
 import { fetchAndLoadSongPoints } from "../../api/snapshotAPI";
 import { fetchJamMem, fetchJamMemMetadatas } from "../../api/jamMemAPI";
 import { fetchSong } from "../../api/songAPI";
-import { GLOBAL_CLUSTERS_QUERY_STALE_TIME, JAM_MEM_QUERY_STALE_TIME, PENDING_REQUESTS_QUERY_STALE_TIME } from "../../utils/timeConstants";
+import {
+    CLUSTERS_QUERY_STALE_TIME,
+    JAM_MEM_QUERY_STALE_TIME,
+    PENDING_REQUESTS_QUERY_STALE_TIME,
+} from "../../utils/timeConstants";
 import useCurrentUser from "../useCurrentUser";
 
 /* Jam Mems */
@@ -46,9 +50,7 @@ export const useSongPoints = (filter: ClusterFilter) => {
         queryKey: getQueryKeyForUseSongPoints(filter),
         queryFn: () => fetchAndLoadSongPoints(currentUserId, filter),
         staleTime:
-            filter.value === SocialFilter.Global
-                ? GLOBAL_CLUSTERS_QUERY_STALE_TIME
-                : Infinity,
+            filter.type === "social" ? CLUSTERS_QUERY_STALE_TIME : Infinity,
     });
 };
 

@@ -17,6 +17,8 @@ const documents = {
     "\n    fragment SongInfo on Song {\n        _id\n        spotifyId\n        uri\n        name\n        artists\n        albumUrl\n    }\n": types.SongInfoFragmentDoc,
     "\n    fragment SnapshotInfo on Snapshot {\n        songId\n        latitude\n        longitude\n    }\n": types.SnapshotInfoFragmentDoc,
     "\n    query SnapshotByUserId($userId: MongoID!) {\n        snapshotByUserId(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserIdDocument,
+    "\n    query SnapshotByUserFriends($userId: MongoID!) {\n        snapshotByUserFriends(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserFriendsDocument,
+    "\n    query SnapshotByUserGlobal($userId: MongoID!) {\n        snapshotByUserGlobal(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserGlobalDocument,
     "\n        mutation SnapshotCreateMany($snapshots: [CreateManySnapshotInput!]!) {\n            snapshotCreateMany(records: $snapshots) {\n                createdCount\n            }\n        }\n    ": types.SnapshotCreateManyDocument,
     "\n    query SongById($id: MongoID!) {\n        songById(_id: $id) {\n            ...SongInfo\n        }\n    }\n": types.SongByIdDocument,
     "\n    mutation SongCreateOrUpdate(\n        $spotifyId: String!\n        $uri: String!\n        $name: String!\n        $artists: [String!]!\n        $albumUrl: String!\n    ) {\n        songCreateOrUpdate(\n            spotifyId: $spotifyId\n            uri: $uri\n            name: $name\n            artists: $artists\n            albumUrl: $albumUrl\n        ) {\n            _id\n        }\n    }\n": types.SongCreateOrUpdateDocument,
@@ -64,6 +66,14 @@ export function graphql(source: "\n    fragment SnapshotInfo on Snapshot {\n    
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    query SnapshotByUserId($userId: MongoID!) {\n        snapshotByUserId(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"): (typeof documents)["\n    query SnapshotByUserId($userId: MongoID!) {\n        snapshotByUserId(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query SnapshotByUserFriends($userId: MongoID!) {\n        snapshotByUserFriends(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"): (typeof documents)["\n    query SnapshotByUserFriends($userId: MongoID!) {\n        snapshotByUserFriends(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query SnapshotByUserGlobal($userId: MongoID!) {\n        snapshotByUserGlobal(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"): (typeof documents)["\n    query SnapshotByUserGlobal($userId: MongoID!) {\n        snapshotByUserGlobal(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

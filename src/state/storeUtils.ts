@@ -5,6 +5,7 @@ import {
     recordLocationTimestampAction,
     setCurrentRegionAction,
     setCurrentUserAction,
+    setLastSnapshotTimestampAction,
     setSelectedClusterAction,
     setSelectedJamMemIdAction,
 } from "./actions";
@@ -22,6 +23,10 @@ export const dispatchRecordLocationTimestamp = (
 export const dispatchClearHistory = () => {
     store.dispatch(clearHistoryAction());
 };
+
+export const dispatchSetLastSnapshotTimestamp = (timestamp: number) => {
+    store.dispatch(setLastSnapshotTimestampAction(timestamp));
+}
 
 export const dispatchSetCurrentRegion = (region: Region) => {
     store.dispatch(setCurrentRegionAction(region));
@@ -43,6 +48,10 @@ export const dispatchSetCurrentUser = (user: UserInfo | null) => {
 export const getHistoryState = (): LocationTimestamp[] => {
     return store.getState().location.history;
 };
+
+export const getLastSnapshotTimestampState = (): number | null => {
+    return store.getState().snapshot.lastSnapshotTimestamp;
+}
 
 export const getCurrentLocationState = (): LatLng | null => {
     return store.getState().location.currentLocation;

@@ -38,15 +38,17 @@ class SuperclusterManager {
             songs: new Map([[props.songId, 1]]),
         }),
         reduce: (accumulated: SongClusterProps, props: SongClusterProps) => {
-            const songs = accumulated.songs || new Map();
-            props.songs.forEach((count, songId) => {
-                if (songs.has(songId)) {
-                    songs.set(songId, songs.get(songId)! + count);
-                } else {
-                    songs.set(songId, count);
-                }
-            });
-            accumulated.songs = songs;
+            const combinedFreqs = new Map();
+            for (const [songId, frequency] of props.songs) {
+                combinedFreqs.set(songId, frequency);
+            }
+            for (const [songId, frequency] of accumulated.songs) {
+                combinedFreqs.set(
+                    songId,
+                    (combinedFreqs.get(songId) || 0) + frequency
+                );
+            }
+            accumulated.songs = combinedFreqs;
         },
         maxZoom: MAP_CONFIG.maxZoom,
     };
