@@ -1,10 +1,4 @@
-import React, {
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 
 import { View } from "react-native";
 import { Input } from "@ui-kitten/components";

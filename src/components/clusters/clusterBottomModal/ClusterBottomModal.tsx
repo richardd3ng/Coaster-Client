@@ -16,6 +16,7 @@ import {
 import { RootState } from "../../../state/store";
 import { SongIdFrequencies } from "../../../utils/superclusterManager";
 import BottomModal from "../../shared/bottomModal/BottomModal";
+import { dispatchSetSelectedCluster } from "../../../state/storeUtils";
 
 const ClusterBottomModal: React.FC = () => {
     const { dismiss } = useModal();
@@ -39,6 +40,7 @@ const ClusterBottomModal: React.FC = () => {
     }, [selectedCluster]);
 
     const handleClose = () => {
+        dispatchSetSelectedCluster(null);
         dismiss(ModalType.Cluster);
         setSnapIndex(BottomSheetType.Map, 0);
     };

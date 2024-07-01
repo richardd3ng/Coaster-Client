@@ -36,7 +36,7 @@ export const setCurrentRegionAction = (region: Region) => {
     };
 };
 
-export const setSelectedClusterAction = (cluster: SongCluster) => {
+export const setSelectedClusterAction = (cluster: SongCluster | null) => {
     return {
         type: setSelectedCluster.type,
         payload: cluster,
@@ -62,4 +62,4 @@ export const setLastSnapshotTimestampAction = (timestamp: number) => {
         type: setLastSnapshotTimestamp.type,
         payload: timestamp,
     };
-}
+};

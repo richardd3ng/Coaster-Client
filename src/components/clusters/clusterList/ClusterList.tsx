@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { Divider } from "@ui-kitten/components";
 
 import ClusterListItem from "../custerListItem/ClusterListItem";
@@ -9,6 +9,7 @@ import createStyles from "./styles";
 import { getValidAccessToken } from "../../../api/tokenUtils";
 import SaveToSpotifyPlaylistButton from "../saveToSpotifyPlaylistButton/SaveToSpotifyPlaylistButton";
 import { SongIdFrequencies } from "../../../utils/superclusterManager";
+import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToCreatePlaylistFromSongIds } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import useCurrentUser from "../../../hooks/useCurrentUser";
@@ -24,8 +25,13 @@ const ClusterList: React.FC<ClusterListProps> = ({
 }: ClusterListProps) => {
     const styles = useThemeAwareObject(createStyles);
     const currentUserSpotifyId = useCurrentUser().spotifyId;
-    const { mutate: createSpotifyPlaylist } =
-        useMutationToCreatePlaylistFromSongIds();
+    const {
+        mutate: createSpotifyPlaylist,
+        isError,
+        error,
+        reset,
+    } = useMutationToCreatePlaylistFromSongIds();
+    useMutationErrorAlert({ isError, error, reset });
     const [refetchFunctions, setRefetchFunctions] = useState<(() => void)[]>(
         []
     );

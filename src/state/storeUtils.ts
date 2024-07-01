@@ -32,7 +32,7 @@ export const dispatchSetCurrentRegion = (region: Region) => {
     store.dispatch(setCurrentRegionAction(region));
 };
 
-export const dispatchSetSelectedCluster = (cluster: SongCluster) => {
+export const dispatchSetSelectedCluster = (cluster: SongCluster | null) => {
     store.dispatch(setSelectedClusterAction(cluster));
 };
 
