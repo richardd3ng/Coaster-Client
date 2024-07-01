@@ -11,22 +11,18 @@ import {
     useCurrentLocation,
     useCurrentRegion,
 } from "../../../hooks/redux/useSelectorHooks";
-import { useMapContext } from "../../../hooks/context/MapContext";
 import useClusters from "../../../hooks/useClusters";
-import { useTrackingContext } from "../../../hooks/context/TrackingContext";
+import { useMapContext } from "../../../hooks/context/MapContext";
+import useTracking from "../../../hooks/useTracking";
 
 const ClusteredMapView = () => {
-    const { setTracking } = useTrackingContext();
+    useTracking();
     const { followsUserLocation, setFollowsUserLocation, clusterFilter } =
         useMapContext();
     const isInitialized = useRef(false);
     const location = useCurrentLocation();
     const region = useCurrentRegion();
     const { clusters, isLoading } = useClusters(region, clusterFilter);
-
-    useEffect(() => {
-        setTracking(true);
-    }, []);
 
     useEffect(() => {
         if (location && !isInitialized.current) {

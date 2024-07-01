@@ -31,16 +31,13 @@ export const fetchAndLoadSongPoints = async (
     if (filter.type === "social") {
         switch (filter.value) {
             case SocialFilter.Me:
-                // points = await fetchMeSongPoints(userId);
-                points = generateRandomSongPoints(5000);
+                points = await fetchMeSongPoints(userId);
                 break;
             case SocialFilter.Friends:
-                // points = await fetchFriendsSongPoints(userId);
-                points = generateRandomSongPoints(10_000);
+                points = await fetchFriendsSongPoints(userId);
                 break;
             case SocialFilter.Global:
-                // points = await fetchGlobalSongPoints(userId);
-                points = generateRandomSongPoints(50_000);
+                points = await fetchGlobalSongPoints(userId);
                 break;
             default:
                 throw new Error("Unknown social filter value");

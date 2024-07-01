@@ -32,7 +32,6 @@ export const fetchUserInfo = async (id: string): Promise<UserInfoFragment> => {
 const fetchUserPreferencesQueryDocument = graphql(`
     query FetchUserPreferences($id: MongoID!) {
         userById(_id: $id) {
-            trackSnapshots
             shareSnapshots
         }
     }
@@ -47,7 +46,6 @@ export const fetchPreferences = async (id: string) => {
     try {
         const response = await graphqlRequest<{
             userById: {
-                trackSnapshots: boolean;
                 shareSnapshots: boolean;
             };
         }>(fetchUserPreferencesQueryDocument, { id });
@@ -59,20 +57,9 @@ export const fetchPreferences = async (id: string) => {
 };
 
 const updateUserPreferencesMutationDocument = graphql(`
-    mutation UpdateUserPreferences(
-        $id: MongoID!
-        $shareSnapshots: Boolean
-        $trackSnapshots: Boolean
-    ) {
-        userUpdateById(
-            _id: $id
-            record: {
-                shareSnapshots: $shareSnapshots
-                trackSnapshots: $trackSnapshots
-            }
-        ) {
+    mutation UpdateUserPreferences($id: MongoID!, $shareSnapshots: Boolean) {
+        userUpdateById(_id: $id, record: { shareSnapshots: $shareSnapshots }) {
             record {
-                trackSnapshots
                 shareSnapshots
             }
         }
@@ -81,31 +68,26 @@ const updateUserPreferencesMutationDocument = graphql(`
 interface UpdatePreferencesArgs {
     id: string;
     shareSnapshots?: boolean;
-    trackSnapshots?: boolean;
 }
 /**
  * Updates a user's preferences
  * @param id - The id of the user
  * @param shareSnapshots - Whether to share snapshots
- * @param trackSnapshots - Whether to track snapshots
  * @returns - The updated user preferences
  * @throws - An error if the request fails
  * */
 export const updatePreferences = async ({
     id,
     shareSnapshots,
-    trackSnapshots,
 }: UpdatePreferencesArgs) => {
     try {
         const response = await graphqlRequest<{
             record: {
-                trackSnapshots: boolean;
                 shareSnapshots: boolean;
             };
         }>(updateUserPreferencesMutationDocument, {
             id,
             shareSnapshots,
-            trackSnapshots,
         });
         return response.record;
     } catch (error) {

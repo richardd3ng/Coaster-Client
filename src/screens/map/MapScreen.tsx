@@ -11,28 +11,25 @@ import { ModalProvider } from "../../hooks/context/ModalContext";
 import PreferencesBottomModal from "../../components/profile/preferences/preferencesBottomModal/PreferencesBottomModal";
 import ProfileBottomModal from "../../components/profile/profileBottomModal/ProfileBottomModal";
 import SentRequestsBottomModal from "../../components/friends/sentRequestsBottomModal/SentRequestsBottomModal";
-import { TrackingProvider } from "../../hooks/context/TrackingContext";
 
 const MapScreen: React.FC = () => {
     return (
-        <TrackingProvider>
-            <MapContextProvider>
-                <ModalProvider>
-                    <BottomSheetProvider>
-                        <ClusteredMapView />
-                        <ButtonPanel />
-                        <MapBottomSheet />
-                        <FriendsBottomModal />
-                        <SentRequestsBottomModal />
-                        <JamMemBottomModal />
-                        <ClusterBottomModal />
-                        <ProfileBottomModal />
-                        <AccountBottomModal />
-                        <PreferencesBottomModal />
-                    </BottomSheetProvider>
-                </ModalProvider>
-            </MapContextProvider>
-        </TrackingProvider>
+        <MapContextProvider>
+            <ModalProvider>
+                <BottomSheetProvider>
+                    <ClusteredMapView />
+                    <ButtonPanel />
+                    <MapBottomSheet />
+                    <FriendsBottomModal />
+                    <SentRequestsBottomModal />
+                    <JamMemBottomModal />
+                    <ClusterBottomModal />
+                    <ProfileBottomModal />
+                    <AccountBottomModal />
+                    <PreferencesBottomModal />
+                </BottomSheetProvider>
+            </ModalProvider>
+        </MapContextProvider>
     );
 };
 

@@ -2,45 +2,35 @@ import { useState } from "react";
 
 import ConfirmationDialog from "../../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
+import { dispatchSetCurrentUser } from "../../../../state/storeUtils";
 import { PreferencesOption } from "../../../../types/navigation";
 import PreferencesListItem from "../preferencesListItem/PreferencesListItem";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
-import useMutationErrorAlert from "../../../../hooks/useMutationErrorAlert";
-import { useMutationToUpdateUserPreferences } from "../../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
-import { useUserPreferences } from "../../../../hooks/react-query/useQueryHooks";
 
 const TrackSnapshots: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfiramtionDialog, setShowConfirmationDialog] =
         useState<boolean>(false);
-    const currentUserId = useCurrentUser().id;
-    const { data: preferences, isLoading } = useUserPreferences(currentUserId);
-    const {
-        mutate: updatePreferences,
-        isPending,
-        isError,
-        error,
-        reset,
-    } = useMutationToUpdateUserPreferences();
-    useMutationErrorAlert({ isError, error, reset });
+    const currentUser = useCurrentUser();
+    const trackSnapshots = currentUser.preferences.trackSnapshots;
 
-    const handleToggle = () => {
-        if (preferences?.trackSnapshots || false) {
-            setShowConfirmationDialog(true);
-        } else {
-            updatePreferences({
-                id: currentUserId,
-                trackSnapshots: true,
-            });
-        }
+    const setTrackSnapshots = (trackSnapshots: boolean) => {
+        dispatchSetCurrentUser({
+            ...currentUser,
+            preferences: {
+                ...currentUser.preferences,
+                trackSnapshots,
+            },
+        });
     };
 
-    const handleConfirm = () => {
-        updatePreferences({
-            id: currentUserId,
-            trackSnapshots: false,
-        });
+    const handleToggle = () => {
+        if (trackSnapshots) {
+            setShowConfirmationDialog(true);
+        } else {
+            setTrackSnapshots(true);
+        }
     };
 
     return (
@@ -48,16 +38,16 @@ const TrackSnapshots: React.FC = () => {
             <PreferencesListItem
                 text={PreferencesOption.TrackSnapshots}
                 onPress={handleToggle}
-                isPending={isLoading || isPending}
+                isPending={false}
                 style={styles.toggledListItem}
-                isEnabled={preferences?.trackSnapshots ?? false}
+                isEnabled={trackSnapshots}
             />
             <ConfirmationDialog
                 title={"Are you sure you want to disable Snapshot tracking?"}
-                description="This will disable tracking of your location and recently-played songs."
+                description="This will disable tracking of your location and recently-played songs. Note that the map will still follow your location, but nothing will be recorded."
                 open={showConfiramtionDialog}
                 onClose={() => setShowConfirmationDialog(false)}
-                onConfirm={handleConfirm}
+                onConfirm={() => setTrackSnapshots(false)}
             />
         </>
     );

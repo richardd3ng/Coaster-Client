@@ -57,7 +57,12 @@ const useLogin = () => {
                         tokens.refreshToken,
                         tokens.expiresIn
                     );
-                    dispatchSetCurrentUser(userInfo);
+                    dispatchSetCurrentUser({
+                        ...userInfo,
+                        preferences: {
+                            trackSnapshots: true,
+                        },
+                    });
                     navigate(ScreenName.Map);
                 } catch (error) {
                     console.error(error);

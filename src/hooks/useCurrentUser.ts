@@ -4,12 +4,12 @@ import { useSelector } from "react-redux";
 
 import { RootState } from "../state/store";
 import useLogout from "./useLogout";
-import { UserInfo } from "../types/entities";
+import { UserReduxState } from "../types/entities";
 import { Alert } from "react-native";
 
-const useCurrentUser = (): UserInfo => {
+const useCurrentUser = (): UserReduxState => {
     const { handleLogout } = useLogout();
-    const currentUser: UserInfo | null = useSelector(
+    const currentUser: UserReduxState | null = useSelector(
         (state: RootState) => state.user.currentUser
     );
 
