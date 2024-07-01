@@ -22,6 +22,9 @@
                 "NSLocationWhenInUseUsageDescription": "$(PRODUCT_NAME) needs access to your location while you are using it to track the songs you play at each location.",
                 "NSLocationAlwaysAndWhenInUseUsageDescription": "$(PRODUCT_NAME) needs access to your location at all times to continuously track the songs you play, even when the app is in the background.",
                 "NSLocationAlwaysUsageDescription": "$(PRODUCT_NAME) needs access to your location at all times to track the songs you play at each location, ensuring accurate logging even when the app is not in the foreground."
+            },
+            "config": {
+                "usesNonExemptEncryption": false
             }
         },
         "android": {
