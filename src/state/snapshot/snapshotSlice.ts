@@ -1,23 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type SnapshotState = {
-    lastSnapshotTimestamp: number;
+    lastSnapshotTimestamp: number | null;
 };
 
 const initialState: SnapshotState = {
-    lastSnapshotTimestamp: Date.now(),
+    lastSnapshotTimestamp: null,
 };
 
 const snapshotSlice = createSlice({
     name: "snapshot",
     initialState,
     reducers: {
-        takeSnapshot: (state, action: PayloadAction<number>) => {
+        setLastSnapshotTimestamp: (state, action: PayloadAction<number>) => {
             state.lastSnapshotTimestamp = action.payload;
         },
     },
 });
 
-export const { takeSnapshot } = snapshotSlice.actions;
+export const { setLastSnapshotTimestamp } = snapshotSlice.actions;
 
 export default snapshotSlice.reducer;

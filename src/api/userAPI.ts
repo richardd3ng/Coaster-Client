@@ -11,11 +11,22 @@ const fetchUserInfoQueryDocument = graphql(`
         }
     }
 `);
+/**
+ * Fetches a user's info by id
+ * @param id - The id of the user
+ * @returns - The fetched user info
+ * @throws - An error if the request fails
+ * */
 export const fetchUserInfo = async (id: string): Promise<UserInfoFragment> => {
-    const response = await graphqlRequest<{
-        userById: UserInfoFragment;
-    }>(fetchUserInfoQueryDocument, { id });
-    return response.userById;
+    try {
+        const response = await graphqlRequest<{
+            userById: UserInfoFragment;
+        }>(fetchUserInfoQueryDocument, { id });
+        return response.userById;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to fetch user info");
+    }
 };
 
 const fetchUserPreferencesQueryDocument = graphql(`
@@ -26,14 +37,25 @@ const fetchUserPreferencesQueryDocument = graphql(`
         }
     }
 `);
+/**
+ * Fetches a user's preferences by id
+ * @param id - The id of the user
+ * @returns - The fetched user preferences
+ * @throws - An error if the request fails
+ * */
 export const fetchPreferences = async (id: string) => {
-    const response = await graphqlRequest<{
-        userById: {
-            trackSnapshots: boolean;
-            shareSnapshots: boolean;
-        };
-    }>(fetchUserPreferencesQueryDocument, { id });
-    return response.userById;
+    try {
+        const response = await graphqlRequest<{
+            userById: {
+                trackSnapshots: boolean;
+                shareSnapshots: boolean;
+            };
+        }>(fetchUserPreferencesQueryDocument, { id });
+        return response.userById;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to fetch user preferences");
+    }
 };
 
 const updateUserPreferencesMutationDocument = graphql(`
@@ -61,22 +83,35 @@ interface UpdatePreferencesArgs {
     shareSnapshots?: boolean;
     trackSnapshots?: boolean;
 }
+/**
+ * Updates a user's preferences
+ * @param id - The id of the user
+ * @param shareSnapshots - Whether to share snapshots
+ * @param trackSnapshots - Whether to track snapshots
+ * @returns - The updated user preferences
+ * @throws - An error if the request fails
+ * */
 export const updatePreferences = async ({
     id,
     shareSnapshots,
     trackSnapshots,
 }: UpdatePreferencesArgs) => {
-    const response = await graphqlRequest<{
-        record: {
-            trackSnapshots: boolean;
-            shareSnapshots: boolean;
-        };
-    }>(updateUserPreferencesMutationDocument, {
-        id,
-        shareSnapshots,
-        trackSnapshots,
-    });
-    return response.record;
+    try {
+        const response = await graphqlRequest<{
+            record: {
+                trackSnapshots: boolean;
+                shareSnapshots: boolean;
+            };
+        }>(updateUserPreferencesMutationDocument, {
+            id,
+            shareSnapshots,
+            trackSnapshots,
+        });
+        return response.record;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to update user preferences");
+    }
 };
 
 const fetchUserFriendsQueryDocument = graphql(`
@@ -86,13 +121,24 @@ const fetchUserFriendsQueryDocument = graphql(`
         }
     }
 `);
-export const fetchFriends = async (id: string) => {
-    const response = await graphqlRequest<{
-        userFriends: UserInfoFragment[];
-    }>(fetchUserFriendsQueryDocument, {
-        id,
-    });
-    return response.userFriends;
+/**
+ * Fetches a user's friends by id
+ * @param id - The id of the user
+ * @returns - The fetched friends
+ * @throws - An error if the request fails
+ * */
+export const fetchFriends = async (id: string): Promise<UserInfoFragment[]> => {
+    try {
+        const response = await graphqlRequest<{
+            userFriends: UserInfoFragment[];
+        }>(fetchUserFriendsQueryDocument, {
+            id,
+        });
+        return response.userFriends;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to fetch friends");
+    }
 };
 
 const fetchUserMoreResultsQueryDocument = graphql(`
@@ -102,17 +148,29 @@ const fetchUserMoreResultsQueryDocument = graphql(`
         }
     }
 `);
+/**
+ * Fetches more search results for a user
+ * @param id - The id of the user
+ * @param query - The search query
+ * @returns - The fetched search results
+ * @throws - An error if the request fails
+ * */
 export const fetchMoreResults = async (
     id: string,
     query: string
 ): Promise<UserInfoFragment[]> => {
-    const response = await graphqlRequest<{
-        userMoreResults: UserInfoFragment[];
-    }>(fetchUserMoreResultsQueryDocument, {
-        id,
-        query,
-    });
-    return response.userMoreResults;
+    try {
+        const response = await graphqlRequest<{
+            userMoreResults: UserInfoFragment[];
+        }>(fetchUserMoreResultsQueryDocument, {
+            id,
+            query,
+        });
+        return response.userMoreResults;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to fetch more results");
+    }
 };
 
 const userDeleteFriendMutationDocument = graphql(`
@@ -126,13 +184,18 @@ export const deleteFriend = async ({
     id,
     friendId,
 }: FriendArgs): Promise<UserInfoFragment> => {
-    const response = await graphqlRequest<{
-        userDeleteFriend: UserInfoFragment;
-    }>(userDeleteFriendMutationDocument, {
-        id,
-        friendId,
-    });
-    return response.userDeleteFriend;
+    try {
+        const response = await graphqlRequest<{
+            userDeleteFriend: UserInfoFragment;
+        }>(userDeleteFriendMutationDocument, {
+            id,
+            friendId,
+        });
+        return response.userDeleteFriend;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to delete friend");
+    }
 };
 
 const fetchUserPendingRequestsQueryDocument = graphql(`
@@ -142,16 +205,22 @@ const fetchUserPendingRequestsQueryDocument = graphql(`
         }
     }
 `);
+/**
+ * Fetches a user's pending requests by id
+ * @param id - The id of the user
+ * @returns - The fetched pending requests
+ * @throws - An error if the request fails
+ * */
 export const fetchPendingRequests = async (
     id: string
 ): Promise<UserInfoFragment[]> => {
     try {
-        const result = await graphqlRequest<{
+        const response = await graphqlRequest<{
             userPendingRequests: UserInfoFragment[];
         }>(fetchUserPendingRequestsQueryDocument, {
             id,
         });
-        return result.userPendingRequests;
+        return response.userPendingRequests;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to fetch pending requests");
@@ -165,15 +234,26 @@ const fetchUserSentRequestsQueryDocument = graphql(`
         }
     }
 `);
+/**
+ * Fetches a user's sent requests by id
+ * @param id - The id of the user
+ * @returns - The fetched sent requests
+ * @throws - An error if the request fails
+ * */
 export const fetchSentRequests = async (
     id: string
 ): Promise<UserInfoFragment[]> => {
-    const result = await graphqlRequest<{
-        userSentRequests: UserInfoFragment[];
-    }>(fetchUserSentRequestsQueryDocument, {
-        id,
-    });
-    return result.userSentRequests;
+    try {
+        const response = await graphqlRequest<{
+            userSentRequests: UserInfoFragment[];
+        }>(fetchUserSentRequestsQueryDocument, {
+            id,
+        });
+        return response.userSentRequests;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to fetch sent requests");
+    }
 };
 
 const userSendRequestMutationDocument = graphql(`
@@ -187,13 +267,18 @@ export const sendRequest = async ({
     id,
     friendId,
 }: FriendArgs): Promise<UserInfoFragment> => {
-    const result = await graphqlRequest<{
-        userSendRequest: UserInfoFragment;
-    }>(userSendRequestMutationDocument, {
-        id,
-        friendId,
-    });
-    return result.userSendRequest;
+    try {
+        const response = await graphqlRequest<{
+            userSendRequest: UserInfoFragment;
+        }>(userSendRequestMutationDocument, {
+            id,
+            friendId,
+        });
+        return response.userSendRequest;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to send request");
+    }
 };
 
 const userAcceptRequestMutationDocument = graphql(`
@@ -203,17 +288,29 @@ const userAcceptRequestMutationDocument = graphql(`
         }
     }
 `);
+/**
+ * Accepts a friend request
+ * @param id - The id of the user
+ * @param friendId - The id of the friend
+ * @returns - The updated user info
+ * @throws - An error if the request fails
+ * */
 export const acceptRequest = async ({
     id,
     friendId,
 }: FriendArgs): Promise<UserInfoFragment> => {
-    const result = await graphqlRequest<{
-        userAcceptRequest: UserInfoFragment;
-    }>(userAcceptRequestMutationDocument, {
-        id,
-        friendId,
-    });
-    return result.userAcceptRequest;
+    try {
+        const response = await graphqlRequest<{
+            userAcceptRequest: UserInfoFragment;
+        }>(userAcceptRequestMutationDocument, {
+            id,
+            friendId,
+        });
+        return response.userAcceptRequest;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to accept request");
+    }
 };
 
 const userCancelRequestMutationDocument = graphql(`
@@ -223,17 +320,29 @@ const userCancelRequestMutationDocument = graphql(`
         }
     }
 `);
+/**
+ * Cancels a friend request
+ * @param id - The id of the user
+ * @param friendId - The id of the friend
+ * @returns - The updated user info
+ * @throws - An error if the request fails
+ * */
 export const cancelRequest = async ({
     id,
     friendId,
 }: FriendArgs): Promise<UserInfoFragment> => {
-    const result = await graphqlRequest<{
-        userCancelRequest: UserInfoFragment;
-    }>(userCancelRequestMutationDocument, {
-        id,
-        friendId,
-    });
-    return result.userCancelRequest;
+    try {
+        const response = await graphqlRequest<{
+            userCancelRequest: UserInfoFragment;
+        }>(userCancelRequestMutationDocument, {
+            id,
+            friendId,
+        });
+        return response.userCancelRequest;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to cancel request");
+    }
 };
 
 const userIgnoreRequestMutationDocument = graphql(`
@@ -243,15 +352,27 @@ const userIgnoreRequestMutationDocument = graphql(`
         }
     }
 `);
+/**
+ * Ignores a friend request
+ * @param id - The id of the user
+ * @param friendId - The id of the friend
+ * @returns - The updated user info
+ * @throws - An error if the request fails
+ * */
 export const ignoreRequest = async ({
     id,
     friendId,
 }: FriendArgs): Promise<UserInfoFragment> => {
-    const result = await graphqlRequest<{
-        userIgnoreRequest: UserInfoFragment;
-    }>(userIgnoreRequestMutationDocument, {
-        id,
-        friendId,
-    });
-    return result.userIgnoreRequest;
+    try {
+        const response = await graphqlRequest<{
+            userIgnoreRequest: UserInfoFragment;
+        }>(userIgnoreRequestMutationDocument, {
+            id,
+            friendId,
+        });
+        return response.userIgnoreRequest;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to ignore request");
+    }
 };

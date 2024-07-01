@@ -17,6 +17,12 @@ const createGraphQLClient = async (): Promise<GraphQLClient> => {
     });
 };
 
+/**
+ * Makes a GraphQL request with the given query and variables
+ * @param query The query to send
+ * @param variables The variables to send with the query
+ * @returns The response data
+ */
 export const graphqlRequest = async <T>(
     query: RequestDocument,
     variables?: Record<string, any>

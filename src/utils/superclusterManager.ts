@@ -6,7 +6,7 @@ import { MAP_CONFIG } from "./mapUtils";
 
 const TOP_SONGS_COUNT = 10;
 
-export type SongIdFrequencies = number[][]; // [id, frequency]
+export type SongIdFrequencies = [string, number][]; // [id, frequency]
 
 export interface SongCluster {
     coords: LatLng;
@@ -15,12 +15,13 @@ export interface SongCluster {
 }
 
 export interface SongPointProps {
-    songId: number;
+    songId: string;
 }
 
 export interface SongClusterProps {
-    songs: Map<number, number>; // [id, frequency]
+    songs: Map<string, number>; // [id, frequency]
 }
+
 class SuperclusterManager {
     private static instance: SuperclusterManager;
 
@@ -37,15 +38,17 @@ class SuperclusterManager {
             songs: new Map([[props.songId, 1]]),
         }),
         reduce: (accumulated: SongClusterProps, props: SongClusterProps) => {
-            const songs = accumulated.songs || new Map();
-            props.songs.forEach((count, songId) => {
-                if (songs.has(songId)) {
-                    songs.set(songId, songs.get(songId)! + count);
-                } else {
-                    songs.set(songId, count);
-                }
-            });
-            accumulated.songs = songs;
+            const combinedFreqs = new Map();
+            for (const [songId, frequency] of props.songs) {
+                combinedFreqs.set(songId, frequency);
+            }
+            for (const [songId, frequency] of accumulated.songs) {
+                combinedFreqs.set(
+                    songId,
+                    (combinedFreqs.get(songId) || 0) + frequency
+                );
+            }
+            accumulated.songs = combinedFreqs;
         },
         maxZoom: MAP_CONFIG.maxZoom,
     };
@@ -101,9 +104,7 @@ class SuperclusterManager {
         const index = this.getSuperclusterInstance(filter);
         const clusters = index.getClusters(bBox, zoom).map((item) => {
             if (item.properties.point_count > 1) {
-                const cluster = item as ClusterFeature<{
-                    songs: Map<number, number>;
-                }>;
+                const cluster = item as ClusterFeature<SongClusterProps>;
                 return {
                     coords: {
                         latitude: cluster.geometry.coordinates[1],
@@ -111,7 +112,7 @@ class SuperclusterManager {
                     },
                     topSongs: Array.from(cluster.properties.songs.entries())
                         .sort((a, b) => b[1] - a[1])
-                        .slice(0, TOP_SONGS_COUNT),
+                        .slice(0, TOP_SONGS_COUNT) as SongIdFrequencies,
                     size: cluster.properties.point_count,
                 };
             } else {
@@ -121,7 +122,9 @@ class SuperclusterManager {
                         latitude: point.geometry.coordinates[1],
                         longitude: point.geometry.coordinates[0],
                     },
-                    topSongs: [[point.properties.songId, 1]],
+                    topSongs: [
+                        [point.properties.songId, 1],
+                    ] as SongIdFrequencies,
                     size: 1,
                 };
             }

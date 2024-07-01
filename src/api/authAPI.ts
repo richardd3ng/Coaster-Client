@@ -4,6 +4,12 @@ import { BASE_URL } from "@env";
 import { formatError } from "./errorUtils";
 import { UserInfo } from "../types/entities";
 
+/**
+ * Fetches the access token, refresh token, and expiration time of the access token from Spotify, as well as the info of the registered user in our database
+ * @param authLoginParams The code and state from the Spotify OAuth2 redirect
+ * @returns The access token, refresh token, and expiration time of the access token
+ * @throws An error if the request fails
+ */
 export const fetchAuthLogin = async (authLoginParams: {
     code: string;
     state: string;

@@ -12,10 +12,8 @@ import {
     useCurrentRegion,
 } from "../../../hooks/redux/useSelectorHooks";
 import { useMapContext } from "../../../hooks/context/MapContext";
-import { useTrackingContext } from "../../../hooks/context/TrackingContext";
 import useClusters from "../../../hooks/useClusters";
-import useSnapshotBackground from "../../../hooks/useLocationPostingBackground";
-import useLocationPostingForeground from "../../../hooks/useLocationPostingForeground";
+import { useTrackingContext } from "../../../hooks/context/TrackingContext";
 
 const ClusteredMapView = () => {
     const { setTracking } = useTrackingContext();
@@ -24,8 +22,6 @@ const ClusteredMapView = () => {
     const isInitialized = useRef(false);
     const location = useCurrentLocation();
     const region = useCurrentRegion();
-    useLocationPostingForeground();
-    useSnapshotBackground();
     const { clusters, isLoading } = useClusters(region, clusterFilter);
 
     useEffect(() => {

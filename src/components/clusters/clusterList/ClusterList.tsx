@@ -31,7 +31,7 @@ const ClusterList: React.FC<ClusterListProps> = ({
     }, [refetchFunctions]);
 
     const renderItem = useCallback(
-        ({ item, index }: { item: number[]; index: number }) => (
+        ({ item, index }: { item: [string, number]; index: number }) => (
             <ClusterListItem
                 rank={index + 1}
                 songIdFrequency={item}

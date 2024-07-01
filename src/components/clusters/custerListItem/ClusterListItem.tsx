@@ -12,7 +12,7 @@ import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface ClusterListItemProps {
     rank: number;
-    songIdFrequency: number[]; // [id, frequency]
+    songIdFrequency: [string, number]; // [id, frequency]
     registerRefetch: (refetch: () => void) => void;
     hideRank?: boolean;
 }
@@ -50,8 +50,8 @@ const ClusterListItem: React.FC<ClusterListItemProps> = ({
         />
     ) : song ? (
         <View style={styles.textContainer}>
-            <Text style={styles.titleText}>{song.title}</Text>
-            <Text style={styles.artistText}>{song.artist}</Text>
+            <Text style={styles.titleText}>{song.name}</Text>
+            <Text style={styles.artistText}>{song.artists.join(", ")}</Text>
         </View>
     ) : null;
 
@@ -67,7 +67,7 @@ const ClusterListItem: React.FC<ClusterListItemProps> = ({
                     <Image
                         source={{
                             uri:
-                                song?.albumUri ??
+                                song?.albumUrl ??
                                 "https://picsum.photos/200/300",
                         }}
                         style={styles.image}

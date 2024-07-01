@@ -5,6 +5,25 @@ export const UserInfo = graphql(`
         _id
         username
         displayName
-        profileUri
+        profileUrl
+    }
+`);
+
+export const SongInfo = graphql(`
+    fragment SongInfo on Song {
+        _id
+        spotifyId
+        uri
+        name
+        artists
+        albumUrl
+    }
+`);
+
+export const SnapshotInfo = graphql(`
+    fragment SnapshotInfo on Snapshot {
+        songId
+        latitude
+        longitude
     }
 `);

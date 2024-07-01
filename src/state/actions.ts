@@ -8,6 +8,7 @@ import {
 } from "./location/locationSlice";
 import { LocationTimestamp, UserInfo } from "../types/entities";
 import { setCurrentRegion } from "./location/locationSlice";
+import { setLastSnapshotTimestamp } from "./snapshot/snapshotSlice";
 import { setSelectedJamMemId } from "./jamMem/jamMemSlice";
 import { setSelectedCluster } from "./cluster/clusterSlice";
 import { setCurrentUser } from "./user/userSlice";
@@ -55,3 +56,10 @@ export const setCurrentUserAction = (user: UserInfo | null) => {
         payload: user,
     };
 };
+
+export const setLastSnapshotTimestampAction = (timestamp: number) => {
+    return {
+        type: setLastSnapshotTimestamp.type,
+        payload: timestamp,
+    };
+}

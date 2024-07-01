@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { LatLng } from "react-native-maps";
 
 import { GOOGLE_MAPS_API_KEY } from "@env";
@@ -18,6 +18,12 @@ export const getDescription = async (coords: LatLng): Promise<string> => {
 
 const BASE_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json";
 
+/**
+ * Fetches places from the Google Places API
+ * @param query The query to search for
+ * @returns The places found
+ * @throws An error if the request fails
+ */
 export const fetchPlaces = async (query: string): Promise<Place[]> => {
     if (query.trim() === "") {
         return [];

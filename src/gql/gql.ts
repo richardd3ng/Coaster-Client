@@ -13,7 +13,15 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n    fragment UserInfo on User {\n        _id\n        username\n        displayName\n        profileUri\n    }\n": types.UserInfoFragmentDoc,
+    "\n    fragment UserInfo on User {\n        _id\n        username\n        displayName\n        profileUrl\n    }\n": types.UserInfoFragmentDoc,
+    "\n    fragment SongInfo on Song {\n        _id\n        spotifyId\n        uri\n        name\n        artists\n        albumUrl\n    }\n": types.SongInfoFragmentDoc,
+    "\n    fragment SnapshotInfo on Snapshot {\n        songId\n        latitude\n        longitude\n    }\n": types.SnapshotInfoFragmentDoc,
+    "\n    query SnapshotByUserId($userId: MongoID!) {\n        snapshotByUserId(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserIdDocument,
+    "\n    query SnapshotByUserFriends($userId: MongoID!) {\n        snapshotByUserFriends(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserFriendsDocument,
+    "\n    query SnapshotByUserGlobal($userId: MongoID!) {\n        snapshotByUserGlobal(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserGlobalDocument,
+    "\n        mutation SnapshotCreateMany($snapshots: [CreateManySnapshotInput!]!) {\n            snapshotCreateMany(records: $snapshots) {\n                createdCount\n            }\n        }\n    ": types.SnapshotCreateManyDocument,
+    "\n    query SongById($id: MongoID!) {\n        songById(_id: $id) {\n            ...SongInfo\n        }\n    }\n": types.SongByIdDocument,
+    "\n    mutation SongCreateOrUpdate(\n        $spotifyId: String!\n        $uri: String!\n        $name: String!\n        $artists: [String!]!\n        $albumUrl: String!\n    ) {\n        songCreateOrUpdate(\n            spotifyId: $spotifyId\n            uri: $uri\n            name: $name\n            artists: $artists\n            albumUrl: $albumUrl\n        ) {\n            _id\n        }\n    }\n": types.SongCreateOrUpdateDocument,
     "\n    query FetchUserInfo($id: MongoID!) {\n        userById(_id: $id) {\n            ...UserInfo\n        }\n    }\n": types.FetchUserInfoDocument,
     "\n    query FetchUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            trackSnapshots\n            shareSnapshots\n        }\n    }\n": types.FetchUserPreferencesDocument,
     "\n    mutation UpdateUserPreferences(\n        $id: MongoID!\n        $shareSnapshots: Boolean\n        $trackSnapshots: Boolean\n    ) {\n        userUpdateById(\n            _id: $id\n            record: {\n                shareSnapshots: $shareSnapshots\n                trackSnapshots: $trackSnapshots\n            }\n        ) {\n            record {\n                trackSnapshots\n                shareSnapshots\n            }\n        }\n    }\n": types.UpdateUserPreferencesDocument,
@@ -45,7 +53,39 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    fragment UserInfo on User {\n        _id\n        username\n        displayName\n        profileUri\n    }\n"): (typeof documents)["\n    fragment UserInfo on User {\n        _id\n        username\n        displayName\n        profileUri\n    }\n"];
+export function graphql(source: "\n    fragment UserInfo on User {\n        _id\n        username\n        displayName\n        profileUrl\n    }\n"): (typeof documents)["\n    fragment UserInfo on User {\n        _id\n        username\n        displayName\n        profileUrl\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    fragment SongInfo on Song {\n        _id\n        spotifyId\n        uri\n        name\n        artists\n        albumUrl\n    }\n"): (typeof documents)["\n    fragment SongInfo on Song {\n        _id\n        spotifyId\n        uri\n        name\n        artists\n        albumUrl\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    fragment SnapshotInfo on Snapshot {\n        songId\n        latitude\n        longitude\n    }\n"): (typeof documents)["\n    fragment SnapshotInfo on Snapshot {\n        songId\n        latitude\n        longitude\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query SnapshotByUserId($userId: MongoID!) {\n        snapshotByUserId(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"): (typeof documents)["\n    query SnapshotByUserId($userId: MongoID!) {\n        snapshotByUserId(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query SnapshotByUserFriends($userId: MongoID!) {\n        snapshotByUserFriends(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"): (typeof documents)["\n    query SnapshotByUserFriends($userId: MongoID!) {\n        snapshotByUserFriends(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query SnapshotByUserGlobal($userId: MongoID!) {\n        snapshotByUserGlobal(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"): (typeof documents)["\n    query SnapshotByUserGlobal($userId: MongoID!) {\n        snapshotByUserGlobal(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n        mutation SnapshotCreateMany($snapshots: [CreateManySnapshotInput!]!) {\n            snapshotCreateMany(records: $snapshots) {\n                createdCount\n            }\n        }\n    "): (typeof documents)["\n        mutation SnapshotCreateMany($snapshots: [CreateManySnapshotInput!]!) {\n            snapshotCreateMany(records: $snapshots) {\n                createdCount\n            }\n        }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query SongById($id: MongoID!) {\n        songById(_id: $id) {\n            ...SongInfo\n        }\n    }\n"): (typeof documents)["\n    query SongById($id: MongoID!) {\n        songById(_id: $id) {\n            ...SongInfo\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation SongCreateOrUpdate(\n        $spotifyId: String!\n        $uri: String!\n        $name: String!\n        $artists: [String!]!\n        $albumUrl: String!\n    ) {\n        songCreateOrUpdate(\n            spotifyId: $spotifyId\n            uri: $uri\n            name: $name\n            artists: $artists\n            albumUrl: $albumUrl\n        ) {\n            _id\n        }\n    }\n"): (typeof documents)["\n    mutation SongCreateOrUpdate(\n        $spotifyId: String!\n        $uri: String!\n        $name: String!\n        $artists: [String!]!\n        $albumUrl: String!\n    ) {\n        songCreateOrUpdate(\n            spotifyId: $spotifyId\n            uri: $uri\n            name: $name\n            artists: $artists\n            albumUrl: $albumUrl\n        ) {\n            _id\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

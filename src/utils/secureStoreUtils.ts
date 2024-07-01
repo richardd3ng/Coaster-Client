@@ -4,6 +4,12 @@ const ACCESS_TOKEN_KEY = "accessToken";
 const REFRESH_TOKEN_KEY = "refreshToken";
 const TOKEN_EXPIRATION_TIME_KEY = "tokenExpirationTime";
 
+/**
+ * Store the access token, refresh token and expiration time in the secure store
+ * @param accessToken The access token
+ * @param refreshToken The refresh token
+ * @param expiresIn The number of seconds until the access token expires
+ */
 export const storeTokens = async (
     accessToken: string,
     refreshToken: string,
@@ -17,6 +23,10 @@ export const storeTokens = async (
     );
 };
 
+/**
+ * Get the access token, refresh token and expiration time from the secure store
+ * @returns The access token, refresh token and expiration time
+ */
 export const getTokens = async (): Promise<{
     accessToken: string | null;
     refreshToken: string | null;
@@ -37,6 +47,9 @@ export const getTokens = async (): Promise<{
     };
 };
 
+/**
+ * Delete the access token, refresh token and expiration time from the secure store
+ */
 export const deleteTokens = async (): Promise<void> => {
     await SecureStore.deleteItemAsync(ACCESS_TOKEN_KEY);
     await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);

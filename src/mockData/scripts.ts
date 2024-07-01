@@ -1,22 +1,6 @@
 import { PointFeature } from "supercluster";
 
 import { SongPointProps } from "../utils/superclusterManager";
-import { Song } from "../types/entities";
-
-export const generateSongs: () => Song[] = () => {
-    const songData: Song[] = [];
-    for (let i = 0; i < 50; i++) {
-        songData.push({
-            id: i,
-            uri: "spotify:track:6fTt0CH2t0mdeB2N9XFG5r",
-            title: `Song ${i}`,
-            artist: `Artist ${i}`,
-            albumUri:
-                "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-        });
-    }
-    return songData;
-};
 
 interface Bounds {
     north: number;
@@ -119,7 +103,7 @@ export const generateRandomSongPoints = (
                 songPoints.push({
                     type: "Feature",
                     properties: {
-                        songId: Math.floor(Math.random() * 50),
+                        songId: Math.floor(Math.random() * 50).toString(),
                     },
                     geometry: {
                         type: "Point",

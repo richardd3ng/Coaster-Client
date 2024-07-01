@@ -1,51 +1,6 @@
-import { generateRandomSongPoints, generateSongs } from "./scripts";
-import { JamMem, Song, UserInfo } from "../types/entities";
+import { generateRandomSongPoints } from "./scripts";
+import { JamMem } from "../types/entities";
 import { Place } from "../api/placesAPI";
-
-export const mockFriendsData: UserInfo[] = [
-    {
-        id: "1",
-        spotifyId: "shanggang",
-        username: "shanggang",
-        displayName: "Jason Shang",
-        profileUri:
-            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-    },
-    {
-        id: "2",
-        spotifyId: "rdengomng",
-        username: "rdengomng",
-        displayName: "Richard Deng",
-        profileUri:
-            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-    },
-    {
-        id: "3",
-        spotifyId: "joshisacow",
-        username: "joshisacow",
-        displayName: "Josh Chen",
-        profileUri:
-            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-    },
-    {
-        id: "4",
-        spotifyId: "anikapawlak",
-        username: "anikapawlak",
-        displayName: "Anika Pawlak",
-        profileUri:
-            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-    },
-    {
-        id: "5",
-        spotifyId: "doingdiane",
-        username: "doingdiane",
-        displayName: "Diane Lee",
-        profileUri:
-            "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-    },
-];
-
-export const mockSongData: Song[] = generateSongs();
 
 export const mockJamMemData: JamMem[] = [
     {

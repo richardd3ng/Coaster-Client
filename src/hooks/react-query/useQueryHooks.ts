@@ -8,18 +8,22 @@ import {
     fetchSentRequests,
     fetchUserInfo,
 } from "../../api/userAPI";
-import { fetchAndLoadSongPoints } from "../../api/clusterAPI";
+import { fetchAndLoadSongPoints } from "../../api/snapshotAPI";
 import { fetchJamMem, fetchJamMemMetadatas } from "../../api/jamMemAPI";
 import { fetchSong } from "../../api/songAPI";
-
-const HOUR = 60 * 60 * 1000; // milliseconds
+import {
+    CLUSTERS_QUERY_STALE_TIME,
+    JAM_MEM_QUERY_STALE_TIME,
+    PENDING_REQUESTS_QUERY_STALE_TIME,
+} from "../../utils/timeConstants";
+import useCurrentUser from "../useCurrentUser";
 
 /* Jam Mems */
 export const useJamMem = (id: number) => {
     return useQuery({
         queryKey: getQueryKeyForUseJamMem(id),
         queryFn: () => fetchJamMem(id),
-        staleTime: 12 * HOUR,
+        staleTime: JAM_MEM_QUERY_STALE_TIME,
     });
 };
 
@@ -41,10 +45,12 @@ export const getQueryKeyForUseJamMemMetadatas = () => {
 
 /* Clusters */
 export const useSongPoints = (filter: ClusterFilter) => {
+    const currentUserId = useCurrentUser().id;
     return useQuery({
         queryKey: getQueryKeyForUseSongPoints(filter),
-        queryFn: () => fetchAndLoadSongPoints(filter),
-        staleTime: filter.type === "social" ? HOUR : Infinity,
+        queryFn: () => fetchAndLoadSongPoints(currentUserId, filter),
+        staleTime:
+            filter.type === "social" ? CLUSTERS_QUERY_STALE_TIME : Infinity,
     });
 };
 
@@ -53,7 +59,7 @@ export const getQueryKeyForUseSongPoints = (filter: ClusterFilter) => {
 };
 
 /* Songs */
-export const useSong = (id: number) => {
+export const useSong = (id: string) => {
     return useQuery({
         queryKey: getQueryKeyForUseSong(id),
         queryFn: () => fetchSong(id),
@@ -61,7 +67,7 @@ export const useSong = (id: number) => {
     });
 };
 
-export const getQueryKeyForUseSong = (id: number) => {
+export const getQueryKeyForUseSong = (id: string) => {
     return ["song", id];
 };
 
@@ -94,7 +100,7 @@ export const usePendingRequests = (id: string) => {
     return useQuery({
         queryKey: getQueryKeyForUsePendingRequests(),
         queryFn: () => fetchPendingRequests(id),
-        staleTime: HOUR,
+        staleTime: PENDING_REQUESTS_QUERY_STALE_TIME,
     });
 };
 

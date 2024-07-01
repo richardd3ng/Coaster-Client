@@ -9,7 +9,7 @@ export interface UserInfo {
     spotifyId: string;
     username: string;
     displayName: string;
-    profileUri: string;
+    profileUrl: string;
 }
 
 export interface FriendArgs {
@@ -46,12 +46,3 @@ export interface JamMemMetadata
 
 export interface JamMemCreationArgs
     extends Omit<JamMem, "id" | "ownerId" | "snapshots" | "friends"> {}
-
-/* Songs */
-export interface Song {
-    id: number;
-    uri: string;
-    title: string;
-    artist: string;
-    albumUri: string;
-}
