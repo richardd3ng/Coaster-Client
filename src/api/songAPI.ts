@@ -111,3 +111,137 @@ export const fetchRecentlyPlayedSongs = async (
         throw new Error("Error: unable to fetch recently played songs");
     }
 };
+
+const songByIdsQueryDocument = graphql(`
+    query SongByIds($ids: [MongoID!]!) {
+        songByIds(_ids: $ids) {
+            spotifyId
+        }
+    }
+`);
+/**
+ * Fetches Spotify IDs for the given song IDs
+ * @param songIds - The ids of the songs to fetch Spotify IDs for
+ * @returns - An array of Spotify IDs
+ * @throws - An error if the request fails
+ */
+const fetchSpotifyIds = async (songIds: string[]): Promise<string[]> => {
+    try {
+        const response = await graphqlRequest<{
+            songByIds: { spotifyId: string }[];
+        }>(songByIdsQueryDocument, { ids: songIds });
+        return response.songByIds.map((song) => song.spotifyId);
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to fetch Spotify IDs");
+    }
+};
+
+/**
+ * Creates a playlist in the user's Spotify account
+ * @param name - The name of the playlist
+ * @param description - The description of the playlist
+ * @param accessToken - The user's Spotify access token
+ * @returns - An object containing the Spotify ID and URI of the created playlist
+ * @throws - An error if the request fails
+ */
+const createSpotifyPlaylist = async (
+    name: string,
+    description: string,
+    accessToken: string
+): Promise<{
+    id: string;
+    uri: string;
+}> => {
+    try {
+        const config: AxiosRequestConfig = {
+            method: "post",
+            url: "https://api.spotify.com/v1/me/playlists",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+            },
+            data: {
+                name,
+                description,
+                public: false,
+            },
+        };
+        const playlistResponse = await axios(config);
+        const res = {
+            id: playlistResponse.data.id,
+            uri: playlistResponse.data.uri,
+        };
+        return res;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to create Spotify playlist");
+    }
+};
+
+/**
+ * Adds tracks to a Spotify playlist
+ * @param playlistId - The Spotify ID of the playlist
+ * @param spotifyIds - An array of Spotify track IDs
+ * @param accessToken - The user's Spotify access token
+ * @throws - An error if the request fails
+ */
+const addTracksToPlaylist = async (
+    playlistId: string,
+    spotifyIds: string[],
+    accessToken: string
+): Promise<void> => {
+    try {
+        const config: AxiosRequestConfig = {
+            method: "post",
+            url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+            },
+            data: {
+                uris: spotifyIds.map((id) => `spotify:track:${id}`),
+            },
+        };
+        await axios(config);
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to add tracks to playlist");
+    }
+};
+
+/**
+ * Creates a playlist in the user's Spotify account with the provided song ids
+ * @param name - The name of the playlist
+ * @param description - The description of the playlist
+ * @param accessToken - The user's Spotify access token
+ * @param songIds - The ids of the songs to add to the playlist
+ * @returns - The Spotify URI of the created playlist
+ * @throws - An error if the request fails
+ */
+interface PlaylistCreationArgs {
+    name: string;
+    description: string;
+    accessToken: string;
+    songIds: string[];
+}
+export const createPlaylistFromSongIds = async ({
+    name,
+    description,
+    accessToken,
+    songIds,
+}: PlaylistCreationArgs): Promise<string> => {
+    try {
+        const spotifyIds = await fetchSpotifyIds(songIds);
+        const { id, uri } = await createSpotifyPlaylist(
+            name,
+            description,
+            accessToken
+        );
+        await addTracksToPlaylist(id, spotifyIds, accessToken);
+        return uri;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to create playlist");
+    }
+};

@@ -1,12 +1,17 @@
 import { useCallback, useState } from "react";
 
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+import { View } from "react-native";
 import { Divider } from "@ui-kitten/components";
 
 import ClusterListItem from "../custerListItem/ClusterListItem";
 import createStyles from "./styles";
+import { getValidAccessToken } from "../../../api/tokenUtils";
+import SaveToSpotifyPlaylistButton from "../saveToSpotifyPlaylistButton/SaveToSpotifyPlaylistButton";
 import { SongIdFrequencies } from "../../../utils/superclusterManager";
+import { useMutationToCreatePlaylistFromSongIds } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import useCurrentUser from "../../../hooks/useCurrentUser";
 
 interface ClusterListProps {
     songIdFrequencies: SongIdFrequencies;
@@ -18,6 +23,9 @@ const ClusterList: React.FC<ClusterListProps> = ({
     hideRank = false,
 }: ClusterListProps) => {
     const styles = useThemeAwareObject(createStyles);
+    const currentUserSpotifyId = useCurrentUser().spotifyId;
+    const { mutate: createSpotifyPlaylist } =
+        useMutationToCreatePlaylistFromSongIds();
     const [refetchFunctions, setRefetchFunctions] = useState<(() => void)[]>(
         []
     );
@@ -42,17 +50,31 @@ const ClusterList: React.FC<ClusterListProps> = ({
         []
     );
 
+    const handleSaveToSpotify = useCallback(async () => {
+        createSpotifyPlaylist({
+            name: "Coaster Cluster Playlist",
+            accessToken: await getValidAccessToken(currentUserSpotifyId),
+            description: "Created from a Coaster cluster!",
+            songIds: songIdFrequencies.map(([songId, _]) => songId),
+        });
+    }, []);
+
     return (
-        <BottomSheetFlatList
-            data={songIdFrequencies}
-            keyExtractor={(item) => item[0].toString()}
-            renderItem={renderItem}
-            showsVerticalScrollIndicator
-            style={styles.flatList}
-            ItemSeparatorComponent={() => <Divider style={styles.divider} />}
-            refreshing={false}
-            onRefresh={onRefresh}
-        />
+        <View style={{ flex: 1 }}>
+            <SaveToSpotifyPlaylistButton onPress={handleSaveToSpotify} />
+            <BottomSheetFlatList
+                data={songIdFrequencies}
+                keyExtractor={(item) => item[0].toString()}
+                renderItem={renderItem}
+                showsVerticalScrollIndicator
+                style={styles.flatList}
+                ItemSeparatorComponent={() => (
+                    <Divider style={styles.divider} />
+                )}
+                refreshing={false}
+                onRefresh={onRefresh}
+            />
+        </View>
     );
 };
 

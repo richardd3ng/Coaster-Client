@@ -6,7 +6,7 @@ import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
 import ErrorView from "../../shared/errorView/ErrorView";
 import LoadingView from "../../shared/loadingView/LoadingView";
-import { openSongInSpotify } from "../../../utils/spotifyUtils";
+import { openInSpotify } from "../../../utils/spotifyUtils";
 import { useSong } from "../../../hooks/react-query/useQueryHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
@@ -35,7 +35,7 @@ const ClusterListItem: React.FC<ClusterListItemProps> = ({
 
     const handleSelect = () => {
         if (song) {
-            openSongInSpotify(song.uri);
+            openInSpotify(song.uri);
         }
     };
 

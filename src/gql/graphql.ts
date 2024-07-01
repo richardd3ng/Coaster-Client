@@ -129,6 +129,7 @@ export type Query = {
   snapshotByUserGlobal?: Maybe<Array<Maybe<Snapshot>>>;
   snapshotByUserId?: Maybe<Array<Maybe<Snapshot>>>;
   songById?: Maybe<Song>;
+  songByIds: Array<Song>;
   userById?: Maybe<User>;
   userFriends?: Maybe<Array<Maybe<User>>>;
   userMoreResults?: Maybe<Array<Maybe<User>>>;
@@ -154,6 +155,13 @@ export type QuerySnapshotByUserIdArgs = {
 
 export type QuerySongByIdArgs = {
   _id: Scalars['MongoID']['input'];
+};
+
+
+export type QuerySongByIdsArgs = {
+  _ids: Array<Scalars['MongoID']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<SortFindByIdsSongInput>;
 };
 
 
@@ -207,6 +215,13 @@ export type Song = {
   spotifyId: Scalars['String']['output'];
   uri: Scalars['String']['output'];
 };
+
+export enum SortFindByIdsSongInput {
+  SpotifyidAsc = 'SPOTIFYID_ASC',
+  SpotifyidDesc = 'SPOTIFYID_DESC',
+  IdAsc = '_ID_ASC',
+  IdDesc = '_ID_DESC'
+}
 
 export type UpdateByIdUserInput = {
   dataPersistence?: InputMaybe<EnumUserDataPersistence>;
@@ -340,6 +355,13 @@ export type SongCreateOrUpdateMutationVariables = Exact<{
 
 export type SongCreateOrUpdateMutation = { __typename?: 'Mutation', songCreateOrUpdate?: { __typename?: 'Song', _id: any } | null };
 
+export type SongByIdsQueryVariables = Exact<{
+  ids: Array<Scalars['MongoID']['input']> | Scalars['MongoID']['input'];
+}>;
+
+
+export type SongByIdsQuery = { __typename?: 'Query', songByIds: Array<{ __typename?: 'Song', spotifyId: string }> };
+
 export type FetchUserInfoQueryVariables = Exact<{
   id: Scalars['MongoID']['input'];
 }>;
@@ -471,6 +493,7 @@ export const SnapshotByUserGlobalDocument = {"kind":"Document","definitions":[{"
 export const SnapshotCreateManyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SnapshotCreateMany"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"snapshots"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateManySnapshotInput"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"snapshotCreateMany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"records"},"value":{"kind":"Variable","name":{"kind":"Name","value":"snapshots"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdCount"}}]}}]}}]} as unknown as DocumentNode<SnapshotCreateManyMutation, SnapshotCreateManyMutationVariables>;
 export const SongByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SongById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"songById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SongInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SongInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Song"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"spotifyId"}},{"kind":"Field","name":{"kind":"Name","value":"uri"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"artists"}},{"kind":"Field","name":{"kind":"Name","value":"albumUrl"}}]}}]} as unknown as DocumentNode<SongByIdQuery, SongByIdQueryVariables>;
 export const SongCreateOrUpdateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SongCreateOrUpdate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"spotifyId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"uri"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"artists"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"albumUrl"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"songCreateOrUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"spotifyId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"spotifyId"}}},{"kind":"Argument","name":{"kind":"Name","value":"uri"},"value":{"kind":"Variable","name":{"kind":"Name","value":"uri"}}},{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"artists"},"value":{"kind":"Variable","name":{"kind":"Name","value":"artists"}}},{"kind":"Argument","name":{"kind":"Name","value":"albumUrl"},"value":{"kind":"Variable","name":{"kind":"Name","value":"albumUrl"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]} as unknown as DocumentNode<SongCreateOrUpdateMutation, SongCreateOrUpdateMutationVariables>;
+export const SongByIdsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SongByIds"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"songByIds"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"spotifyId"}}]}}]}}]} as unknown as DocumentNode<SongByIdsQuery, SongByIdsQueryVariables>;
 export const FetchUserInfoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserInfo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserInfo"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"profileUrl"}}]}}]} as unknown as DocumentNode<FetchUserInfoQuery, FetchUserInfoQueryVariables>;
 export const FetchUserPreferencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchUserPreferences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trackSnapshots"}},{"kind":"Field","name":{"kind":"Name","value":"shareSnapshots"}}]}}]}}]} as unknown as DocumentNode<FetchUserPreferencesQuery, FetchUserPreferencesQueryVariables>;
 export const UpdateUserPreferencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUserPreferences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MongoID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"shareSnapshots"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"trackSnapshots"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userUpdateById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"record"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"shareSnapshots"},"value":{"kind":"Variable","name":{"kind":"Name","value":"shareSnapshots"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"trackSnapshots"},"value":{"kind":"Variable","name":{"kind":"Name","value":"trackSnapshots"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"record"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trackSnapshots"}},{"kind":"Field","name":{"kind":"Name","value":"shareSnapshots"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateUserPreferencesMutation, UpdateUserPreferencesMutationVariables>;
