@@ -44,7 +44,7 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({
             <Divider style={styles.divider} />
             <BottomSheetFlatList
                 data={results}
-                keyExtractor={(result) => result.placeId}
+                keyExtractor={(result) => result.id}
                 renderItem={renderItem}
             />
         </>
