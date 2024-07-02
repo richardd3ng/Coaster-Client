@@ -187,16 +187,15 @@ export const postSnapshots = async (): Promise<number> => {
         }
         const userId = currentUser.id;
         const spotifyId = currentUser.spotifyId;
-
         const accessToken = await getValidAccessToken(spotifyId);
-        const recentlyPlayedSongsResponse = await fetchRecentlyPlayedSongs(
+        const recentlyPlayedSongs = await fetchRecentlyPlayedSongs(
             accessToken,
             50,
             Math.trunc(locations[0].timestamp)
         );
         const snapshots: SnapshotCreationArgs[] = [];
-        for (const songResponse of recentlyPlayedSongsResponse["items"]) {
-            const timestamp = new Date(songResponse["played_at"]).getTime();
+        for (const song of recentlyPlayedSongs) {
+            const { spotifyId, uri, name, artists, albumUrl, timestamp } = song;
             const matchedLocation = getClosestLocationTimestamp(
                 locations,
                 timestamp
@@ -204,16 +203,6 @@ export const postSnapshots = async (): Promise<number> => {
             if (!matchedLocation) {
                 continue;
             }
-            const spotifyId: string = songResponse["track"]["id"];
-            const uri: string = songResponse["track"]["uri"];
-            const name: string = songResponse["track"]["name"];
-            const albumUrl: string =
-                songResponse["track"]["album"]["images"].length > 0
-                    ? songResponse["track"]["album"]["images"][0]["url"]
-                    : "";
-            const artists: string[] = songResponse["track"]["artists"].map(
-                (artist: any) => artist["name"]
-            );
             const songId = await createOrUpdateSong({
                 spotifyId,
                 uri,

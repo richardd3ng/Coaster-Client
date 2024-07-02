@@ -1,5 +1,3 @@
-import axios, { AxiosRequestConfig } from "axios";
-
 import { graphql } from "../gql";
 import { graphqlRequest } from "./client.graphql";
 import { SongInfoFragment } from "../gql/graphql";
@@ -80,136 +78,78 @@ export const createOrUpdateSong = async (song: Song): Promise<string> => {
     }
 };
 
+const SongFetchRecentlyPlayedQueryDocument = graphql(`
+    query SongFetchRecentlyPlayed(
+        $accessToken: String!
+        $limit: Int
+        $after: Long!
+    ) {
+        songFetchRecentlyPlayed(
+            accessToken: $accessToken
+            limit: $limit
+            after: $after
+        ) {
+            spotifyId
+            uri
+            name
+            artists
+            albumUrl
+            timestamp
+        }
+    }
+`);
+interface RecentlyPlayedSong {
+    spotifyId: string;
+    uri: string;
+    name: string;
+    artists: string[];
+    albumUrl: string;
+    timestamp: number;
+}
 /**
  * Retrieves recently played songs from Spotify for user with the provided access token
- * https://developer.spotify.com/documentation/web-api/reference/get-recently-played
  * @param limit - Maximum number of items to return (1 to 50, default is 50)
  * @param after - Unix timestamp in milliseconds to get items after this time
- * @returns - Recently played tracks response
+ * @returns - An array of recently played songs
  * @throws - An error if the request fails
  */
 export const fetchRecentlyPlayedSongs = async (
     accessToken: string,
     limit: number = 50,
     after?: number
-) => {
-    const params: Record<string, any> = { limit };
-    if (after) params.after = after;
-    const config: AxiosRequestConfig = {
-        method: "get",
-        url: "https://api.spotify.com/v1/me/player/recently-played",
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-        },
-        params,
-    };
-    const response = await axios(config);
-    if (response.status === 200) {
-        return response.data;
-    } else {
+): Promise<RecentlyPlayedSong[]> => {
+    try {
+        const response = await graphqlRequest<{
+            songFetchRecentlyPlayed: RecentlyPlayedSong[];
+        }>(SongFetchRecentlyPlayedQueryDocument, {
+            accessToken,
+            limit,
+            after: after,
+        });
+        return response.songFetchRecentlyPlayed;
+    } catch (error) {
+        console.error(formatError(error));
         throw new Error("Error: unable to fetch recently played songs");
     }
 };
 
-const songByIdsQueryDocument = graphql(`
-    query SongByIds($ids: [MongoID!]!) {
-        songByIds(_ids: $ids) {
-            spotifyId
+const SongCreatePlaylistMutationDocument = graphql(`
+    mutation SongCreatePlaylist(
+        $name: String!
+        $description: String!
+        $accessToken: String!
+        $songIds: [String!]!
+    ) {
+        songCreatePlaylist(
+            name: $name
+            description: $description
+            accessToken: $accessToken
+            songIds: $songIds
+        ) {
+            uri
         }
     }
 `);
-/**
- * Fetches Spotify IDs for the given song IDs
- * @param songIds - The ids of the songs to fetch Spotify IDs for
- * @returns - An array of Spotify IDs
- * @throws - An error if the request fails
- */
-const fetchSpotifyIds = async (songIds: string[]): Promise<string[]> => {
-    try {
-        const response = await graphqlRequest<{
-            songByIds: { spotifyId: string }[];
-        }>(songByIdsQueryDocument, { ids: songIds });
-        return response.songByIds.map((song) => song.spotifyId);
-    } catch (error) {
-        console.error(formatError(error));
-        throw new Error("Error: unable to fetch Spotify IDs");
-    }
-};
-
-/**
- * Creates a playlist in the user's Spotify account
- * @param name - The name of the playlist
- * @param description - The description of the playlist
- * @param accessToken - The user's Spotify access token
- * @returns - An object containing the Spotify ID and URI of the created playlist
- * @throws - An error if the request fails
- */
-const createSpotifyPlaylist = async (
-    name: string,
-    description: string,
-    accessToken: string
-): Promise<{
-    id: string;
-    uri: string;
-}> => {
-    try {
-        const config: AxiosRequestConfig = {
-            method: "post",
-            url: "https://api.spotify.com/v1/me/playlists",
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
-            },
-            data: {
-                name,
-                description,
-                public: false,
-            },
-        };
-        const playlistResponse = await axios(config);
-        const res = {
-            id: playlistResponse.data.id,
-            uri: playlistResponse.data.uri,
-        };
-        return res;
-    } catch (error) {
-        console.error(formatError(error));
-        throw new Error("Error: unable to create Spotify playlist");
-    }
-};
-
-/**
- * Adds tracks to a Spotify playlist
- * @param playlistId - The Spotify ID of the playlist
- * @param spotifyIds - An array of Spotify track IDs
- * @param accessToken - The user's Spotify access token
- * @throws - An error if the request fails
- */
-const addTracksToPlaylist = async (
-    playlistId: string,
-    spotifyIds: string[],
-    accessToken: string
-): Promise<void> => {
-    try {
-        const config: AxiosRequestConfig = {
-            method: "post",
-            url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
-            },
-            data: {
-                uris: spotifyIds.map((id) => `spotify:track:${id}`),
-            },
-        };
-        await axios(config);
-    } catch (error) {
-        console.error(formatError(error));
-        throw new Error("Error: unable to add tracks to playlist");
-    }
-};
-
 /**
  * Creates a playlist in the user's Spotify account with the provided song ids
  * @param name - The name of the playlist
@@ -232,14 +172,15 @@ export const createPlaylistFromSongIds = async ({
     songIds,
 }: PlaylistCreationArgs): Promise<string> => {
     try {
-        const spotifyIds = await fetchSpotifyIds(songIds);
-        const { id, uri } = await createSpotifyPlaylist(
+        const response = await graphqlRequest<{
+            songCreatePlaylist: { uri: string };
+        }>(SongCreatePlaylistMutationDocument, {
             name,
             description,
-            accessToken
-        );
-        await addTracksToPlaylist(id, spotifyIds, accessToken);
-        return uri;
+            accessToken,
+            songIds,
+        });
+        return response.songCreatePlaylist.uri;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to create playlist");
