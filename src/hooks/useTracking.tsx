@@ -4,7 +4,6 @@ import { Alert } from "react-native";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 
-import { EXPO_DEV_MODE } from "@env";
 import {
     dispatchRecordLocationTimestamp,
     dispatchSetLastSnapshotTimestamp,
@@ -69,7 +68,7 @@ const useTracking = () => {
         ) || false;
 
     useEffect(() => {
-        if (!tracking || EXPO_DEV_MODE === "true") {
+        if (!tracking) {
             return;
         }
         const startLocationUpdates = async () => {
