@@ -1,12 +1,4 @@
-import React, {
-    createContext,
-    Dispatch,
-    useContext,
-    useEffect,
-    useState,
-    ReactNode,
-    SetStateAction,
-} from "react";
+import { useEffect } from "react";
 
 import { Alert } from "react-native";
 import * as Location from "expo-location";
@@ -18,13 +10,15 @@ import {
     dispatchSetLastSnapshotTimestamp,
     getHistoryState,
     getLastSnapshotTimestampState,
-} from "../../state/storeUtils";
-import { LocationTimestamp } from "../../types/entities";
-import { postSnapshots } from "../../api/snapshotAPI";
+} from "../state/storeUtils";
+import { LocationTimestamp } from "../types/entities";
+import { postSnapshots } from "../api/snapshotAPI";
 import {
     POST_SNAPSHOTS_COOLDOWN,
     POST_SNAPSHOTS_INTERVAL,
-} from "../../utils/timeConstants";
+} from "../utils/timeConstants";
+import { useSelector } from "react-redux";
+import { RootState } from "../state/store";
 
 const LOCATION_TASK_NAME = "location";
 
@@ -67,17 +61,12 @@ TaskManager.defineTask(
     }
 );
 
-interface TrackingContextType {
-    tracking: boolean;
-    setTracking: Dispatch<SetStateAction<boolean>>;
-}
-
-const TrackingContext = createContext<TrackingContextType | undefined>(
-    undefined
-);
-
-export const useTracking = (): TrackingContextType => {
-    const [tracking, setTracking] = useState<boolean>(false);
+const useTracking = () => {
+    const tracking =
+        useSelector(
+            (state: RootState) =>
+                state.user.currentUser?.preferences.trackSnapshots
+        ) || false;
 
     useEffect(() => {
         if (!tracking || EXPO_DEV_MODE === "true") {
@@ -104,28 +93,6 @@ export const useTracking = (): TrackingContextType => {
             console.log("Stopped receiving location updates");
         };
     }, [tracking]);
-
-    return { tracking, setTracking };
 };
 
-export const TrackingProvider: React.FC<{ children: ReactNode }> = ({
-    children,
-}) => {
-    const trackingContextValue = useTracking();
-
-    return (
-        <TrackingContext.Provider value={trackingContextValue}>
-            {children}
-        </TrackingContext.Provider>
-    );
-};
-
-export const useTrackingContext = (): TrackingContextType => {
-    const context = useContext(TrackingContext);
-    if (!context) {
-        throw new Error(
-            "useTrackingContext must be used within a TrackingProvider"
-        );
-    }
-    return context;
-};
+export default useTracking;

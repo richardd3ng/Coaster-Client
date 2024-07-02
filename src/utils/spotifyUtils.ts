@@ -1,10 +1,10 @@
 import AppLink from "react-native-app-link";
 
 /**
- * Open a song in Spotify
- * @param uri The URI of the song to open
+ * Open a uri in Spotify
+ * @param uri The URI to open
  */
-export const openSongInSpotify = (uri: string) => {
+export const openInSpotify = (uri: string) => {
     AppLink.maybeOpenURL(uri, {
         appName: "spotify",
         appStoreId: 324684580,

@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { BASE_URL } from "@env";
 import { formatError } from "./errorUtils";
-import { UserInfo } from "../types/entities";
+import { UserReduxState } from "../types/entities";
 
 /**
  * Fetches the access token, refresh token, and expiration time of the access token from Spotify, as well as the info of the registered user in our database
@@ -19,7 +19,7 @@ export const fetchAuthLogin = async (authLoginParams: {
         refreshToken: string;
         expiresIn: number;
     };
-    userInfo: UserInfo;
+    userInfo: UserReduxState;
 }> => {
     try {
         const params = new URLSearchParams({

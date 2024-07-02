@@ -17,6 +17,8 @@ import {
     getQueryKeyForUseSentRequests,
     getQueryKeyForUseUserPreferences,
 } from "./useQueryHooks";
+import { createPlaylistFromSongIds } from "../../api/songAPI";
+import { openInSpotify } from "../../utils/spotifyUtils";
 
 /* Jam Mems */
 export const useMutationToCreateJamMem = () => {
@@ -121,6 +123,16 @@ export const useMutationToCancelRequest = () => {
             queryClient.invalidateQueries({
                 queryKey: getQueryKeyForUseSentRequests(),
             });
+        },
+    });
+};
+
+/* Songs */
+export const useMutationToCreatePlaylistFromSongIds = () => {
+    return useMutation({
+        mutationFn: createPlaylistFromSongIds,
+        onSuccess: (uri: string) => {
+            openInSpotify(uri);
         },
     });
 };

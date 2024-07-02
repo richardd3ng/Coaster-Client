@@ -9,7 +9,7 @@ import {
     setSelectedClusterAction,
     setSelectedJamMemIdAction,
 } from "./actions";
-import { LocationTimestamp, UserInfo } from "../types/entities";
+import { LocationTimestamp, UserReduxState } from "../types/entities";
 import { SongCluster } from "../utils/superclusterManager";
 import store from "./store";
 
@@ -26,13 +26,13 @@ export const dispatchClearHistory = () => {
 
 export const dispatchSetLastSnapshotTimestamp = (timestamp: number) => {
     store.dispatch(setLastSnapshotTimestampAction(timestamp));
-}
+};
 
 export const dispatchSetCurrentRegion = (region: Region) => {
     store.dispatch(setCurrentRegionAction(region));
 };
 
-export const dispatchSetSelectedCluster = (cluster: SongCluster) => {
+export const dispatchSetSelectedCluster = (cluster: SongCluster | null) => {
     store.dispatch(setSelectedClusterAction(cluster));
 };
 
@@ -40,7 +40,7 @@ export const dispatchSetSelectedJamMemId = (id: number) => {
     store.dispatch(setSelectedJamMemIdAction(id));
 };
 
-export const dispatchSetCurrentUser = (user: UserInfo | null) => {
+export const dispatchSetCurrentUser = (user: UserReduxState | null) => {
     store.dispatch(setCurrentUserAction(user));
 };
 
@@ -51,7 +51,7 @@ export const getHistoryState = (): LocationTimestamp[] => {
 
 export const getLastSnapshotTimestampState = (): number | null => {
     return store.getState().snapshot.lastSnapshotTimestamp;
-}
+};
 
 export const getCurrentLocationState = (): LatLng | null => {
     return store.getState().location.currentLocation;
@@ -61,6 +61,6 @@ export const getCurrentRegionState = (): Region | null => {
     return store.getState().location.currentRegion;
 };
 
-export const getCurrentUser = (): UserInfo | null => {
+export const getCurrentUser = (): UserReduxState | null => {
     return store.getState().user.currentUser;
 };

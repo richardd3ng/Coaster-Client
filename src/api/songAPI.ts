@@ -1,5 +1,3 @@
-import axios, { AxiosRequestConfig } from "axios";
-
 import { graphql } from "../gql";
 import { graphqlRequest } from "./client.graphql";
 import { SongInfoFragment } from "../gql/graphql";
@@ -80,34 +78,111 @@ export const createOrUpdateSong = async (song: Song): Promise<string> => {
     }
 };
 
+const SongFetchRecentlyPlayedQueryDocument = graphql(`
+    query SongFetchRecentlyPlayed(
+        $accessToken: String!
+        $limit: Int
+        $after: Long!
+    ) {
+        songFetchRecentlyPlayed(
+            accessToken: $accessToken
+            limit: $limit
+            after: $after
+        ) {
+            spotifyId
+            uri
+            name
+            artists
+            albumUrl
+            timestamp
+        }
+    }
+`);
+interface RecentlyPlayedSong {
+    spotifyId: string;
+    uri: string;
+    name: string;
+    artists: string[];
+    albumUrl: string;
+    timestamp: number;
+}
 /**
  * Retrieves recently played songs from Spotify for user with the provided access token
- * https://developer.spotify.com/documentation/web-api/reference/get-recently-played
  * @param limit - Maximum number of items to return (1 to 50, default is 50)
  * @param after - Unix timestamp in milliseconds to get items after this time
- * @returns - Recently played tracks response
+ * @returns - An array of recently played songs
  * @throws - An error if the request fails
  */
 export const fetchRecentlyPlayedSongs = async (
     accessToken: string,
     limit: number = 50,
     after?: number
-) => {
-    const params: Record<string, any> = { limit };
-    if (after) params.after = after;
-    const config: AxiosRequestConfig = {
-        method: "get",
-        url: "https://api.spotify.com/v1/me/player/recently-played",
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-        },
-        params,
-    };
-    const response = await axios(config);
-    if (response.status === 200) {
-        return response.data;
-    } else {
+): Promise<RecentlyPlayedSong[]> => {
+    try {
+        const response = await graphqlRequest<{
+            songFetchRecentlyPlayed: RecentlyPlayedSong[];
+        }>(SongFetchRecentlyPlayedQueryDocument, {
+            accessToken,
+            limit,
+            after: after,
+        });
+        return response.songFetchRecentlyPlayed;
+    } catch (error) {
+        console.error(formatError(error));
         throw new Error("Error: unable to fetch recently played songs");
+    }
+};
+
+const SongCreatePlaylistMutationDocument = graphql(`
+    mutation SongCreatePlaylist(
+        $name: String!
+        $description: String!
+        $accessToken: String!
+        $songIds: [String!]!
+    ) {
+        songCreatePlaylist(
+            name: $name
+            description: $description
+            accessToken: $accessToken
+            songIds: $songIds
+        ) {
+            uri
+        }
+    }
+`);
+/**
+ * Creates a playlist in the user's Spotify account with the provided song ids
+ * @param name - The name of the playlist
+ * @param description - The description of the playlist
+ * @param accessToken - The user's Spotify access token
+ * @param songIds - The ids of the songs to add to the playlist
+ * @returns - The Spotify URI of the created playlist
+ * @throws - An error if the request fails
+ */
+interface PlaylistCreationArgs {
+    name: string;
+    description: string;
+    accessToken: string;
+    songIds: string[];
+}
+export const createPlaylistFromSongIds = async ({
+    name,
+    description,
+    accessToken,
+    songIds,
+}: PlaylistCreationArgs): Promise<string> => {
+    try {
+        const response = await graphqlRequest<{
+            songCreatePlaylist: { uri: string };
+        }>(SongCreatePlaylistMutationDocument, {
+            name,
+            description,
+            accessToken,
+            songIds,
+        });
+        return response.songCreatePlaylist.uri;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to create playlist");
     }
 };

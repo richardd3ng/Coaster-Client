@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserInfo } from "../../types/entities";
+import { UserReduxState } from "../../types/entities";
 
 export type UserState = {
-    currentUser: UserInfo | null;
+    currentUser: UserReduxState | null;
 };
 
 const initialState: UserState = {
@@ -13,7 +13,10 @@ const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setCurrentUser: (state, action: PayloadAction<UserInfo | null>) => {
+        setCurrentUser: (
+            state,
+            action: PayloadAction<UserReduxState | null>
+        ) => {
             state.currentUser = action.payload;
         },
     },

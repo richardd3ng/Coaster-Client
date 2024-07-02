@@ -1,6 +1,8 @@
-import { BASE_URL } from "@env";
-import { getTokens, storeTokens } from "../utils/secureStoreUtils";
 import axios from "axios";
+
+import { BASE_URL } from "@env";
+import { formatError } from "./errorUtils";
+import { getTokens, storeTokens } from "../utils/secureStoreUtils";
 
 /**
  * Checks if the token has expired
@@ -34,8 +36,8 @@ export const getNewAccessToken = async (
         );
         return newAccessToken;
     } catch (error) {
-        console.error("Error refreshing token:", error);
-        throw error;
+        console.error(formatError(error));
+        throw new Error("Error refreshing token");
     }
 };
 

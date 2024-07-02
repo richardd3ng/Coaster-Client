@@ -4,12 +4,15 @@ import { SongPointProps } from "../utils/superclusterManager";
 import { UserInfoFragment } from "../gql/graphql";
 
 /* Users */
-export interface UserInfo {
+export interface UserReduxState {
     id: string;
     spotifyId: string;
     username: string;
     displayName: string;
     profileUrl: string;
+    preferences: {
+        trackSnapshots: boolean;
+    };
 }
 
 export interface FriendArgs {
