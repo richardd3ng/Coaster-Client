@@ -4,9 +4,21 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
+        arrowPressable: {
+            flex: 0.05,
+        },
         artistText: {
             fontSize: theme.font.small,
             color: "gray",
+        },
+        container: {
+            flexDirection: "row",
+        },
+        iconContainer: {
+            flex: 1,
+            backgroundColor: "white",
+            borderTopRightRadius: theme.border.radiusSecondary,
+            borderBottomRightRadius: theme.border.radiusSecondary,
         },
         errorLoadingContainer: {
             flex: 9,
@@ -31,8 +43,12 @@ const createStyles = (theme: Theme) => {
             paddingLeft: 2,
             flexDirection: "row",
             backgroundColor: "white",
-            borderRadius: theme.border.radiusSecondary,
+            borderTopLeftRadius: theme.border.radiusSecondary,
+            borderBottomLeftRadius: theme.border.radiusSecondary,
             alignItems: "center",
+        },
+        listItemPressable: {
+            flex: 0.95,
         },
         rankContainer: {
             flex: 1.5,
@@ -43,16 +59,26 @@ const createStyles = (theme: Theme) => {
             fontSize: theme.font.large,
             fontWeight: "bold",
         },
-        textContainer: {
-            flex: 9,
+        nameContainer: {
+            flexDirection: "row",
+            alignItems: "center",
         },
         nameText: {
+            flex: 1,
             fontSize: theme.font.medium,
             fontWeight: "500",
         },
         playCountText: {
             paddingBottom: 2,
             fontSize: theme.font.small,
+        },
+        textContainer: {
+            flex: 9,
+        },
+        verticalDivider: {
+            backgroundColor: "black",
+            width: StyleSheet.hairlineWidth,
+            height: "100%",
         },
     });
 };

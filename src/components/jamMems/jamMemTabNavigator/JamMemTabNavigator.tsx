@@ -12,7 +12,7 @@ import { Tab, TabBar } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import { View } from "react-native";
 
-import ClusterList from "../../clusters/clusterList/ClusterList";
+import SongList from "../../clusters/songList/SongList";
 import { computeSongIdFrequencies } from "../../../utils/snapshotUtils";
 import createStyles from "./styles";
 import JamFriendsScrollView from "../jamFriendsScrollView/JamFriendsScrollView";
@@ -61,7 +61,7 @@ const JamMemTabNavigator: React.FC = () => {
                 ) : isError && error ? (
                     <ErrorView message={error.message} onRetry={refetch} />
                 ) : selectedJamMem ? (
-                    <ClusterList
+                    <SongList
                         songIdFrequencies={computeSongIdFrequencies(
                             songPoints ?? []
                         )}

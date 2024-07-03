@@ -4,6 +4,11 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
+        arrowIcon: {
+            flex: 1,
+            height: 24,
+            width: 24,
+        },
         button: {
             flexDirection: "row",
             alignItems: "center",
@@ -14,7 +19,7 @@ const createStyles = (theme: Theme) => {
         buttonContainer: {
             flexDirection: "row",
             justifyContent: "center",
-            paddingBottom: theme.spacing.double,      
+            paddingBottom: theme.spacing.double,
         },
         buttonText: {
             color: "white",

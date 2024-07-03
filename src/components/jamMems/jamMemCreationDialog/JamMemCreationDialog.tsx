@@ -41,13 +41,13 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
     const checkMissingDetails = (): string[] => {
         const missingDetails: string[] = [];
         if (!name.trim()) {
-            missingDetails.push("name");
+            missingDetails.push("Name");
         }
         if (!startDate) {
-            missingDetails.push("start date");
+            missingDetails.push("Start Date");
         }
         if (!endDate) {
-            missingDetails.push("end date");
+            missingDetails.push("End Date");
         }
         return missingDetails;
     };
@@ -56,10 +56,14 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
         let alertMessage = "Please provide ";
         if (missingDetails.length === 1) {
             alertMessage += `a ${missingDetails[0]}.`;
+        } else if (missingDetails.length === 2) {
+            alertMessage += `a ${missingDetails[0]} and a ${missingDetails[1]}.`;
         } else {
             alertMessage += "the following details: ";
             alertMessage += missingDetails.slice(0, -1).join(", ");
-            alertMessage += `, ${missingDetails[missingDetails.length - 1]}.`;
+            alertMessage += `, and ${
+                missingDetails[missingDetails.length - 1]
+            }.`;
         }
         return alertMessage;
     };
@@ -100,11 +104,11 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
         <View style={styles.dialogContainer}>
             <Input
                 onChangeText={setName}
-                placeholder="Name*"
+                placeholder="Name"
                 style={styles.input}
             />
             <Datepicker
-                placeholder="Start Date*"
+                placeholder="Start Date"
                 date={startDate}
                 onSelect={setStartDate}
                 max={new Date()}
@@ -112,7 +116,7 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
                 status={invalidDates ? "danger" : "basic"}
             />
             <Datepicker
-                placeholder="End Date*"
+                placeholder="End Date"
                 date={endDate}
                 onSelect={setEndDate}
                 max={new Date()}

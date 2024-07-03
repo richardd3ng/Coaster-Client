@@ -7,7 +7,7 @@ import {
     BottomSheetType,
     useBottomSheet,
 } from "../../../hooks/context/BottomSheetContext";
-import ClusterList from "../clusterList/ClusterList";
+import SongList from "../songList/SongList";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
@@ -62,7 +62,7 @@ const ClusterBottomModal: React.FC = () => {
                 modalType={ModalType.Cluster}
                 onClose={handleClose}
             />
-            <ClusterList songIdFrequencies={songIdFrequencies} />
+            <SongList songIdFrequencies={songIdFrequencies} />
         </BottomModal>
     );
 };

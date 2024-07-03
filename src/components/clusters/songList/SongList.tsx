@@ -1,28 +1,28 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { Alert, View } from "react-native";
+import { View } from "react-native";
 import { Divider } from "@ui-kitten/components";
 
-import ClusterListItem from "../custerListItem/ClusterListItem";
 import createStyles from "./styles";
 import { getValidAccessToken } from "../../../api/tokenUtils";
 import SaveToSpotifyPlaylistButton from "../saveToSpotifyPlaylistButton/SaveToSpotifyPlaylistButton";
 import { SongIdFrequencies } from "../../../utils/superclusterManager";
+import SongListItem from "../songListItem/SongListItem";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToCreatePlaylistFromSongIds } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 
-interface ClusterListProps {
+interface SongListProps {
     songIdFrequencies: SongIdFrequencies;
     hideRank?: boolean;
 }
 
-const ClusterList: React.FC<ClusterListProps> = ({
+const SongList: React.FC<SongListProps> = ({
     songIdFrequencies,
     hideRank = false,
-}: ClusterListProps) => {
+}: SongListProps) => {
     const styles = useThemeAwareObject(createStyles);
     const currentUserSpotifyId = useCurrentUser().spotifyId;
     const {
@@ -46,7 +46,7 @@ const ClusterList: React.FC<ClusterListProps> = ({
 
     const renderItem = useCallback(
         ({ item, index }: { item: [string, number]; index: number }) => (
-            <ClusterListItem
+            <SongListItem
                 rank={index + 1}
                 songIdFrequency={item}
                 registerRefetch={registerRefetch}
@@ -86,4 +86,4 @@ const ClusterList: React.FC<ClusterListProps> = ({
     );
 };
 
-export default ClusterList;
+export default SongList;
