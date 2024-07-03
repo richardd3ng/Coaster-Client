@@ -7,18 +7,20 @@ import ErrorView from "../../shared/errorView/ErrorView";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import JamMemsCarousel from "../jamMemsCarousel/JamMemsCarousel";
 import JamMemCreationDialog from "../jamMemCreationDialog/JamMemCreationDialog";
+import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useJamMemMetadatas } from "../../../hooks/react-query/useQueryHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const JamMemsStack: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
+    const currentUserId = useCurrentUser().id;
     const {
         data: jamMemMetadatas,
         isLoading,
         isError,
         error,
         refetch,
-    } = useJamMemMetadatas();
+    } = useJamMemMetadatas(currentUserId);
     const [showCreationDialog, setShowCreationDialog] =
         useState<boolean>(false);
 

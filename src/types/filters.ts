@@ -13,4 +13,4 @@ export enum SocialFilter {
 
 export type ClusterFilter =
     | { type: "social"; value: SocialFilter }
-    | { type: "jamMem"; value: number };
+    | { type: "jamMem"; value: string };

@@ -1,3 +1,4 @@
+import { ImageURISource } from "react-native";
 import { LatLng } from "react-native-maps";
 
 import { ClusterFilter, DateFilter, SocialFilter } from "../types/filters";
@@ -15,7 +16,10 @@ export const DEFAULT_LOCATION: LatLng = {
     latitude: 37.78825,
     longitude: -122.4324,
 };
+export const DEFAULT_ALBUM_COVER_URI: ImageURISource = require("../../assets/default-album-cover.png");
 
-export const DEFAULT_JAM_MEM_COVER_URI = "https://source.unsplash.com/random/200x200";
+export const DEFAULT_JAM_MEM_COVER_URI: ImageURISource = require("../../assets/default-jam-mem-cover.png");
+
+export const DEFAULT_PROFILE_URI: ImageURISource = require("../../assets/default-profile.png");
 
 

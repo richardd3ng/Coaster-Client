@@ -22,7 +22,7 @@ const useClusters = (region: Region | null, filter: ClusterFilter) => {
         }
     }, [songPoints, region, filter]);
 
-    return { clusters, setClusters, isLoading };
+    return { songPoints, clusters, setClusters, isLoading };
 };
 
 export default useClusters;

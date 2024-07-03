@@ -1,15 +1,16 @@
-import { View, Text, Alert } from "react-native";
+import { Alert, Image, Text, View } from "react-native";
 import { Input } from "@ui-kitten/components";
 
+import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
 import { Datepicker } from "@ui-kitten/components";
 import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/defaults";
+import { ImagePickerButton } from "../imagePickerButton/ImagePickerButton";
+import LoadingModal from "../../shared/loadingModal/LoadingModal";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { useMutationToCreateJamMem } from "../../../hooks/react-query/useMutationHooks";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
-import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import { useState } from "react";
-import LoadingModal from "../../shared/loadingModal/LoadingModal";
 
 interface JamMemCreationDialogProps {
     open: boolean;
@@ -29,18 +30,18 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
         reset,
     } = useMutationToCreateJamMem();
     useMutationErrorAlert({ isError, error, reset });
-    const [title, setTitle] = useState<string>("");
+    const [name, setName] = useState<string>("");
     const [location, setLocation] = useState<string>("");
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
-    const [coverUri, setCoverUri] = useState<string>(DEFAULT_JAM_MEM_COVER_URI);
+    const [coverUri, setCoverUri] = useState<string>("");
     const invalidDates: boolean =
         startDate !== null && endDate !== null && startDate > endDate;
 
     const checkMissingDetails = (): string[] => {
         const missingDetails: string[] = [];
-        if (!title.trim()) {
-            missingDetails.push("title");
+        if (!name.trim()) {
+            missingDetails.push("name");
         }
         if (!startDate) {
             missingDetails.push("start date");
@@ -77,29 +78,29 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
             return;
         }
         createJamMem({
-            title: title,
+            name: name,
             location: "Miami, FL",
             start: new Date(),
             end: new Date(),
-            coverUri: "https://source.unsplash.com/random/200x200",
+            coverUrl: coverUri,
         });
         handleClose();
     };
 
     const handleClose = () => {
-        setTitle("");
+        setName("");
         setLocation("");
         setStartDate(null);
         setEndDate(null);
-        setCoverUri(DEFAULT_JAM_MEM_COVER_URI);
+        setCoverUri("");
         onClose();
     };
 
     const DialogContent = (
-        <View style={styles.container}>
+        <View style={styles.dialogContainer}>
             <Input
-                onChangeText={setTitle}
-                placeholder="Title*"
+                onChangeText={setName}
+                placeholder="Name*"
                 style={styles.input}
             />
             <Datepicker
@@ -123,6 +124,18 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
                     Please provide a valid date range.
                 </Text>
             )}
+            <View style={styles.imagePickerContainer}>
+                <Image
+                    source={
+                        coverUri ? { uri: coverUri } : DEFAULT_JAM_MEM_COVER_URI
+                    }
+                    style={styles.image}
+                />
+                <ImagePickerButton
+                    onImagePicked={setCoverUri}
+                    style={styles.imagePickerButton}
+                />
+            </View>
         </View>
     );
 
@@ -131,7 +144,7 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
             <ConfirmationDialog
                 title="Create Jam Mem"
                 open={open}
-                onClose={onClose}
+                onClose={handleClose}
                 onConfirm={handleCreate}
                 preventDefaultConfirm
                 children={DialogContent}

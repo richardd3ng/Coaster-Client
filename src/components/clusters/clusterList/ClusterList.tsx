@@ -66,8 +66,10 @@ const ClusterList: React.FC<ClusterListProps> = ({
     }, []);
 
     return (
-        <View style={{ flex: 1 }}>
-            <SaveToSpotifyPlaylistButton onPress={handleSaveToSpotify} />
+        <View style={styles.container}>
+            {songIdFrequencies.length > 0 && (
+                <SaveToSpotifyPlaylistButton onPress={handleSaveToSpotify} />
+            )}
             <BottomSheetFlatList
                 data={songIdFrequencies}
                 keyExtractor={(item) => item[0].toString()}

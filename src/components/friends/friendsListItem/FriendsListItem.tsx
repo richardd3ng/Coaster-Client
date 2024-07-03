@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { Image, Text, View } from "react-native";
 import createStyles from "./styles";
+import { DEFAULT_PROFILE_URI } from "../../../constants/defaults";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
@@ -24,7 +25,7 @@ const FriendsListItem: React.FC<FriendsListItemProps> = ({
                     source={
                         user.profileUrl
                             ? { uri: user.profileUrl }
-                            : require("../../../../assets/default-profile.png")
+                            : DEFAULT_PROFILE_URI
                     }
                     style={styles.image}
                 />

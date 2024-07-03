@@ -4,11 +4,7 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        container: {
-            paddingVertical: theme.spacing.base,
-        },
-        input: {
-            flexDirection: "row",
+        dialogContainer: {
             paddingVertical: theme.spacing.base,
         },
         datepicker: {
@@ -16,6 +12,24 @@ const createStyles = (theme: Theme) => {
         },
         errorText: {
             color: "red",
+        },
+        imagePickerButton: {
+            flex: 1,
+            height: 40,
+            marginLeft: theme.spacing.base,
+        },
+        image: {
+            width: 48,
+            height: 60,
+        },
+        imagePickerContainer: {
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        input: {
+            flexDirection: "row",
+            paddingVertical: theme.spacing.base,
         },
     });
 };

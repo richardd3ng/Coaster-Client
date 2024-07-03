@@ -59,9 +59,7 @@ export const fetchPreferences = async (id: string) => {
 const updateUserPreferencesMutationDocument = graphql(`
     mutation UpdateUserPreferences($id: MongoID!, $shareSnapshots: Boolean) {
         userUpdateById(_id: $id, record: { shareSnapshots: $shareSnapshots }) {
-            record {
-                shareSnapshots
-            }
+            recordId
         }
     }
 `);
@@ -73,31 +71,29 @@ interface UpdatePreferencesArgs {
  * Updates a user's preferences
  * @param id - The id of the user
  * @param shareSnapshots - Whether to share snapshots
- * @returns - The updated user preferences
+ * @returns - The id of the updated user
  * @throws - An error if the request fails
  * */
 export const updatePreferences = async ({
     id,
     shareSnapshots,
-}: UpdatePreferencesArgs) => {
+}: UpdatePreferencesArgs): Promise<string> => {
     try {
         const response = await graphqlRequest<{
-            record: {
-                shareSnapshots: boolean;
-            };
+            recordId: string;
         }>(updateUserPreferencesMutationDocument, {
             id,
             shareSnapshots,
         });
-        return response.record;
+        return response.recordId;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to update user preferences");
     }
 };
 
-const fetchUserFriendsQueryDocument = graphql(`
-    query FetchUserFriends($id: MongoID!) {
+const userFriendsQueryDocument = graphql(`
+    query UserFriends($id: MongoID!) {
         userFriends(_id: $id) {
             ...UserInfo
         }
@@ -113,7 +109,7 @@ export const fetchFriends = async (id: string): Promise<UserInfoFragment[]> => {
     try {
         const response = await graphqlRequest<{
             userFriends: UserInfoFragment[];
-        }>(fetchUserFriendsQueryDocument, {
+        }>(userFriendsQueryDocument, {
             id,
         });
         return response.userFriends;
@@ -158,22 +154,28 @@ export const fetchMoreResults = async (
 const userDeleteFriendMutationDocument = graphql(`
     mutation UserDeleteFriend($id: MongoID!, $friendId: MongoID!) {
         userDeleteFriend(_id: $id, friendId: $friendId) {
-            ...UserInfo
+            _id
         }
     }
 `);
+/**
+ * Deletes a friend
+ * @param id - The id of the user
+ * @param friendId - The id of the friend
+ * @returns - The id of the modified user
+ */
 export const deleteFriend = async ({
     id,
     friendId,
-}: FriendArgs): Promise<UserInfoFragment> => {
+}: FriendArgs): Promise<string> => {
     try {
         const response = await graphqlRequest<{
-            userDeleteFriend: UserInfoFragment;
+            userDeleteFriend: { _id: string };
         }>(userDeleteFriendMutationDocument, {
             id,
             friendId,
         });
-        return response.userDeleteFriend;
+        return response.userDeleteFriend._id;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to delete friend");
@@ -241,22 +243,29 @@ export const fetchSentRequests = async (
 const userSendRequestMutationDocument = graphql(`
     mutation UserSendRequest($id: MongoID!, $friendId: MongoID!) {
         userSendRequest(_id: $id, friendId: $friendId) {
-            ...UserInfo
+            _id
         }
     }
 `);
+/**
+ * Sends a friend request
+ * @param id - The id of the user
+ * @param friendId - The id of the friend
+ * @returns - The id of the updated user
+ * @throws - An error if the request fails
+ * */
 export const sendRequest = async ({
     id,
     friendId,
-}: FriendArgs): Promise<UserInfoFragment> => {
+}: FriendArgs): Promise<string> => {
     try {
         const response = await graphqlRequest<{
-            userSendRequest: UserInfoFragment;
+            userSendRequest: { _id: string };
         }>(userSendRequestMutationDocument, {
             id,
             friendId,
         });
-        return response.userSendRequest;
+        return response.userSendRequest._id;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to send request");
@@ -266,7 +275,7 @@ export const sendRequest = async ({
 const userAcceptRequestMutationDocument = graphql(`
     mutation UserAcceptRequest($id: MongoID!, $friendId: MongoID!) {
         userAcceptRequest(_id: $id, friendId: $friendId) {
-            ...UserInfo
+            _id
         }
     }
 `);
@@ -274,21 +283,21 @@ const userAcceptRequestMutationDocument = graphql(`
  * Accepts a friend request
  * @param id - The id of the user
  * @param friendId - The id of the friend
- * @returns - The updated user info
+ * @returns - The id of the updated user
  * @throws - An error if the request fails
  * */
 export const acceptRequest = async ({
     id,
     friendId,
-}: FriendArgs): Promise<UserInfoFragment> => {
+}: FriendArgs): Promise<string> => {
     try {
         const response = await graphqlRequest<{
-            userAcceptRequest: UserInfoFragment;
+            userAcceptRequest: { _id: string };
         }>(userAcceptRequestMutationDocument, {
             id,
             friendId,
         });
-        return response.userAcceptRequest;
+        return response.userAcceptRequest._id;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to accept request");
@@ -298,7 +307,7 @@ export const acceptRequest = async ({
 const userCancelRequestMutationDocument = graphql(`
     mutation UserCancelRequest($id: MongoID!, $friendId: MongoID!) {
         userCancelRequest(_id: $id, friendId: $friendId) {
-            ...UserInfo
+            _id
         }
     }
 `);
@@ -306,21 +315,21 @@ const userCancelRequestMutationDocument = graphql(`
  * Cancels a friend request
  * @param id - The id of the user
  * @param friendId - The id of the friend
- * @returns - The updated user info
+ * @returns - The id of the updated user
  * @throws - An error if the request fails
  * */
 export const cancelRequest = async ({
     id,
     friendId,
-}: FriendArgs): Promise<UserInfoFragment> => {
+}: FriendArgs): Promise<string> => {
     try {
         const response = await graphqlRequest<{
-            userCancelRequest: UserInfoFragment;
+            userCancelRequest: { _id: string };
         }>(userCancelRequestMutationDocument, {
             id,
             friendId,
         });
-        return response.userCancelRequest;
+        return response.userCancelRequest._id;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to cancel request");
@@ -330,7 +339,7 @@ export const cancelRequest = async ({
 const userIgnoreRequestMutationDocument = graphql(`
     mutation UserIgnoreRequest($id: MongoID!, $friendId: MongoID!) {
         userIgnoreRequest(_id: $id, friendId: $friendId) {
-            ...UserInfo
+            _id
         }
     }
 `);
@@ -338,21 +347,21 @@ const userIgnoreRequestMutationDocument = graphql(`
  * Ignores a friend request
  * @param id - The id of the user
  * @param friendId - The id of the friend
- * @returns - The updated user info
+ * @returns - The id of the updated user
  * @throws - An error if the request fails
  * */
 export const ignoreRequest = async ({
     id,
     friendId,
-}: FriendArgs): Promise<UserInfoFragment> => {
+}: FriendArgs): Promise<string> => {
     try {
         const response = await graphqlRequest<{
-            userIgnoreRequest: UserInfoFragment;
+            userIgnoreRequest: { _id: string };
         }>(userIgnoreRequestMutationDocument, {
             id,
             friendId,
         });
-        return response.userIgnoreRequest;
+        return response.userIgnoreRequest._id;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to ignore request");

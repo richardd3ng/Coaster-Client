@@ -43,7 +43,7 @@ export const setSelectedClusterAction = (cluster: SongCluster | null) => {
     };
 };
 
-export const setSelectedJamMemIdAction = (id: number) => {
+export const setSelectedJamMemIdAction = (id: string) => {
     return {
         type: setSelectedJamMemId.type,
         payload: id,

@@ -3,14 +3,14 @@ import Carousel from "react-native-reanimated-carousel";
 import { Dimensions } from "react-native";
 
 import CarouselItem from "../carouselItem/CarouselItem";
+import { JamMemMetadataFragment } from "../../../gql/graphql";
 import styles from "./styles";
-import { JamMemMetadata } from "../../../types/entities";
 
 const CAROUSEL_WIDTH = Dimensions.get("window").width;
 const COUNT = 2;
 
 interface JamMemsCarouselProps {
-    jamMemMetadatas: JamMemMetadata[];
+    jamMemMetadatas: JamMemMetadataFragment[];
 }
 
 const JamMemsCarousel = memo<JamMemsCarouselProps>(

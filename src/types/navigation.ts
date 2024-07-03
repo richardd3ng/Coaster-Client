@@ -6,7 +6,7 @@ export enum FriendsTabName {
 }
 
 export enum JamMemTabName {
-    Clusters = "Clusters",
+    Songs = "Songs",
     JamFriends = "Jam Friends",
 }
 
@@ -26,7 +26,7 @@ export type FriendsTabParamList = {
 };
 
 export type JamMemTabParamList = {
-    [JamMemTabName.Clusters]: undefined;
+    [JamMemTabName.Songs]: undefined;
     [JamMemTabName.JamFriends]: undefined;
 };
 

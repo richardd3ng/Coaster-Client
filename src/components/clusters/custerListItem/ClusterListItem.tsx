@@ -9,6 +9,7 @@ import LoadingView from "../../shared/loadingView/LoadingView";
 import { openInSpotify } from "../../../utils/spotifyUtils";
 import { useSong } from "../../../hooks/react-query/useQueryHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { DEFAULT_ALBUM_COVER_URI } from "../../../constants/defaults";
 
 interface ClusterListItemProps {
     rank: number;
@@ -50,7 +51,7 @@ const ClusterListItem: React.FC<ClusterListItemProps> = ({
         />
     ) : song ? (
         <View style={styles.textContainer}>
-            <Text style={styles.titleText}>{song.name}</Text>
+            <Text style={styles.nameText}>{song.name}</Text>
             <Text style={styles.artistText}>{song.artists.join(", ")}</Text>
         </View>
     ) : null;
@@ -65,11 +66,11 @@ const ClusterListItem: React.FC<ClusterListItemProps> = ({
                 )}
                 <View style={styles.imageContainer}>
                     <Image
-                        source={{
-                            uri:
-                                song?.albumUrl ??
-                                "https://picsum.photos/200/300",
-                        }}
+                        source={
+                            song?.albumUrl
+                                ? { uri: song.albumUrl }
+                                : DEFAULT_ALBUM_COVER_URI
+                        }
                         style={styles.image}
                     />
                 </View>

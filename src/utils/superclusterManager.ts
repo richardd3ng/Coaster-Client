@@ -4,7 +4,7 @@ import { LatLng } from "react-native-maps";
 import { BoundingBox } from "@mapbox/geo-viewport";
 import { MAP_CONFIG } from "./mapUtils";
 
-const TOP_SONGS_COUNT = 10;
+const TOP_SONGS_COUNT = 20;
 
 export type SongIdFrequencies = [string, number][]; // [id, frequency]
 
@@ -29,7 +29,7 @@ class SuperclusterManager {
     private friendsSupercluster: Supercluster<SongPointProps, SongClusterProps>;
     private globalSupercluster: Supercluster<SongPointProps, SongClusterProps>;
     private jamMemSuperclusters: Map<
-        number,
+        string,
         Supercluster<SongPointProps, SongClusterProps>
     >;
 

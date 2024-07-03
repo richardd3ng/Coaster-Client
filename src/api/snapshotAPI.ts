@@ -43,7 +43,7 @@ export const fetchAndLoadSongPoints = async (
                 throw new Error("Unknown social filter value");
         }
     } else if (filter.type === "jamMem") {
-        points = generateRandomSongPoints(5000);
+        points = await fetchJamMemSongPoints(filter.value);
     } else {
         throw new Error("Unknown filter type");
     }
@@ -129,6 +129,29 @@ const fetchGlobalSongPoints = async (
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to fetch song points for global");
+    }
+};
+
+const JamMemByIdSnapshotsQueryDocument = graphql(`
+    query JamMemByIdSnapshots($id: MongoID!) {
+        jamMemById(_id: $id) {
+            snapshots {
+                ...SnapshotInfo
+            }
+        }
+    }
+`);
+const fetchJamMemSongPoints = async (
+    jamMemId: string
+): Promise<PointFeature<SongPointProps>[]> => {
+    try {
+        const response = await graphqlRequest<{
+            jamMemById: { snapshots: SnapshotInfoFragment[] };
+        }>(JamMemByIdSnapshotsQueryDocument, { id: jamMemId });
+        return convertSnapshotsToSongPoints(response.jamMemById.snapshots);
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to fetch song points for jam mem");
     }
 };
 
