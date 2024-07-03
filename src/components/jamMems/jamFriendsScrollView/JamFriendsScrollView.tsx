@@ -7,7 +7,7 @@ import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface JamFriendsScrollViewProps {
-    jamMemId: number;
+    jamMemId: string;
     users: UserInfoFragment[];
 }
 

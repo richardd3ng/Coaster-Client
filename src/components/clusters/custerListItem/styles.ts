@@ -35,7 +35,7 @@ const createStyles = (theme: Theme) => {
             alignItems: "center",
         },
         rankContainer: {
-            flex: 1,
+            flex: 1.5,
             alignItems: "center",
             paddingLeft: theme.spacing.base,
         },
@@ -46,7 +46,7 @@ const createStyles = (theme: Theme) => {
         textContainer: {
             flex: 9,
         },
-        titleText: {
+        nameText: {
             fontSize: theme.font.medium,
             fontWeight: "500",
         },

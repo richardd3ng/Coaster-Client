@@ -20,7 +20,9 @@ import { JamMemTabName, JamMemTabParamList } from "../../../types/navigation";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import ErrorView from "../../shared/errorView/ErrorView";
 import { RootState } from "../../../state/store";
+import useClusters from "../../../hooks/useClusters";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
+import { useMapContext } from "../../../hooks/context/MapContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const { Navigator, Screen } =
@@ -39,6 +41,8 @@ const JamMemTabNavigator: React.FC = () => {
     const selectedJamMemId = useSelector((state: RootState) => {
         return state.jamMem.selectedJamMemId;
     });
+    const { clusterFilter } = useMapContext();
+    const { songPoints } = useClusters(null, clusterFilter);
 
     const {
         data: selectedJamMem,
@@ -49,7 +53,7 @@ const JamMemTabNavigator: React.FC = () => {
         refetch,
     } = useJamMem(selectedJamMemId);
 
-    const ClustersTab = () => {
+    const SongsTab = () => {
         return (
             <View style={styles.container}>
                 {isLoading || isRefetching ? (
@@ -59,7 +63,7 @@ const JamMemTabNavigator: React.FC = () => {
                 ) : selectedJamMem ? (
                     <ClusterList
                         songIdFrequencies={computeSongIdFrequencies(
-                            selectedJamMem.snapshots
+                            songPoints ?? []
                         )}
                         hideRank
                     />
@@ -78,7 +82,7 @@ const JamMemTabNavigator: React.FC = () => {
                 ) : selectedJamMem ? (
                     <JamFriendsScrollView
                         jamMemId={selectedJamMem.id}
-                        users={selectedJamMem.friends}
+                        users={selectedJamMem.friends ?? []}
                     />
                 ) : null}
             </View>
@@ -93,7 +97,7 @@ const JamMemTabNavigator: React.FC = () => {
             selectedIndex={state.index}
             onSelect={(index) => navigation.navigate(state.routeNames[index])}
         >
-            <Tab title={JamMemTabName.Clusters} />
+            <Tab title={JamMemTabName.Songs} />
             <Tab title={JamMemTabName.JamFriends} />
         </TabBar>
     );
@@ -104,7 +108,7 @@ const JamMemTabNavigator: React.FC = () => {
                 <JamMemTabBar navigation={navigation} state={state} />
             )}
         >
-            <Screen name={JamMemTabName.Clusters} component={ClustersTab} />
+            <Screen name={JamMemTabName.Songs} component={SongsTab} />
             <Screen name={JamMemTabName.JamFriends} component={JamFriendsTab} />
         </Navigator>
     );

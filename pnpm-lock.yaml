@@ -66,8 +66,8 @@ importers:
         specifier: ^4.0.19
         version: 4.0.19(expo@51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13))
       expo-image:
-        specifier: ^1.12.9
-        version: 1.12.9(expo@51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13))
+        specifier: ^1.12.12
+        version: 1.12.12(expo@51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13))
       expo-location:
         specifier: ~17.0.1
         version: 17.0.1(expo@51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13))
@@ -2588,8 +2588,8 @@ packages:
     peerDependencies:
       expo: '*'
 
-  expo-image@1.12.9:
-    resolution: {integrity: sha512-WnC3Z3vsOTJLWE9FGB0a0GANmkpfBCqTf9bSLXXl50hEYiRcfwrAYZ/87oswAhggMGbJqOuLKZxt5rtuij1xcQ==}
+  expo-image@1.12.12:
+    resolution: {integrity: sha512-zZutUhKYqcqTH12o87pGCVLsuQeRK2vaNwxa8beznbDnmWevm3dmbOTCxaOhGgjyDxwcdwDa483Q4IKCXL6tBw==}
     peerDependencies:
       expo: '*'
 
@@ -8565,9 +8565,8 @@ snapshots:
       expo: 51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13)
       fontfaceobserver: 2.3.0
 
-  expo-image@1.12.9(expo@51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13)):
+  expo-image@1.12.12(expo@51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13)):
     dependencies:
-      '@react-native/assets-registry': 0.74.83
       expo: 51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13)
 
   expo-json-utils@0.13.1: {}

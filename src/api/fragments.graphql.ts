@@ -27,3 +27,15 @@ export const SnapshotInfo = graphql(`
         longitude
     }
 `);
+
+export const JamMemMetadata = graphql(`
+    fragment JamMemMetadata on Jam_Mem {
+        _id
+        ownerId
+        name
+        location
+        start
+        end
+        coverUrl
+    }
+`);

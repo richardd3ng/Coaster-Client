@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export const INVALID_JAM_MEM_ID = -1;
+export const INVALID_JAM_MEM_ID = "";
 
 export type JamMemState = {
-    selectedJamMemId: number;
+    selectedJamMemId: string;
 };
 
 const initialState: JamMemState = {
@@ -14,7 +14,7 @@ const jamMemSlice = createSlice({
     name: "jamMem",
     initialState,
     reducers: {
-        setSelectedJamMemId: (state, action: PayloadAction<number>) => {
+        setSelectedJamMemId: (state, action: PayloadAction<string>) => {
             state.selectedJamMemId = action.payload;
         },
     },

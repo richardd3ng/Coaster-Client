@@ -5,8 +5,8 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         image: {
-            width: "100%",
             height: "100%",
+            width: "100%",
             position: "absolute",
             borderRadius: theme.border.radiusSecondary,
         },
@@ -23,7 +23,7 @@ const createStyles = (theme: Theme) => {
             flexDirection: "column",
             alignSelf: "flex-start",
         },
-        titleText: {
+        nameText: {
             paddingHorizontal: 4,
             color: "white",
             fontWeight: "bold",

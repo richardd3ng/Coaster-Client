@@ -1,64 +1,127 @@
-import { mockJamMemData } from "../mockData/constants";
-import { JamMem, JamMemCreationArgs, JamMemMetadata } from "../types/entities";
+import { graphql } from "../gql";
+import { JamMemMetadataFragment, UserInfoFragment } from "../gql/graphql";
+import { JamMem, JamMemCreationArgs } from "../types/entities";
+import { graphqlRequest } from "./client.graphql";
+import { formatError } from "./errorUtils";
 
-export const fetchJamMemMetadatas = async (): Promise<JamMemMetadata[]> => {
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    const userId = 1; // read this from user context
-    // use error.response for server errors, error.request for client (internet connection) errors
-    const jamMemMetadatas = mockJamMemData.filter(
-        (jamMem) => jamMem.ownerId === userId
-    );
-    if (jamMemMetadatas) {
-        return jamMemMetadatas;
+const JamMemByUserIdQueryDocument = graphql(`
+    query JamMemByUserId($userId: MongoID!) {
+        jamMemByUserId(userId: $userId) {
+            ...JamMemMetadata
+        }
     }
-    throw new Error("Unable to load Jam Mems");
+`);
+export const fetchJamMemMetadatasByUser = async (
+    userId: string
+): Promise<JamMemMetadataFragment[]> => {
+    try {
+        const response = await graphqlRequest<{
+            jamMemByUserId: JamMemMetadataFragment[];
+        }>(JamMemByUserIdQueryDocument, { userId });
+        return response.jamMemByUserId;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to fetch Jam Mem Info");
+    }
 };
 
-export const fetchJamMem = async (id: number): Promise<JamMem> => {
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    const jamMem = mockJamMemData.find((jamMem) => jamMem.id === id);
-    if (jamMem) {
-        return jamMem;
+const JamMemByIdQueryDocument = graphql(`
+    query JamMemById($id: MongoID!) {
+        jamMemById(_id: $id) {
+            _id
+            name
+            location
+            start
+            end
+            friends {
+                ...UserInfo
+            }
+            snapshots {
+                ...SnapshotInfo
+            }
+        }
     }
-    throw new Error("Unable to open Jam Mem");
-};
-
-export const createJamMem = async (
-    jamMemCreationArgs: JamMemCreationArgs
-): Promise<JamMem> => {
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    const createdJamMem: JamMem = {
-        id: mockJamMemData.length + 1,
-        ownerId: 1,
-        ...jamMemCreationArgs,
-        snapshots: [],
-        friends: [],
+`);
+interface JamMemByIdResponse {
+    jamMemById: {
+        _id: string;
+        name: string;
+        location: string;
+        start: Date;
+        end: Date;
+        friends: UserInfoFragment[];
     };
-    mockJamMemData.push(createdJamMem);
-    if (createdJamMem) {
-        return createdJamMem;
+}
+export const fetchJamMem = async (id: string): Promise<JamMem | null> => {
+    if (!id) {
+        return null;
     }
+    try {
+        const response = await graphqlRequest<JamMemByIdResponse>(
+            JamMemByIdQueryDocument,
+            { id }
+        );
+        const { _id, name, location, start, end, friends } =
+            response.jamMemById;
+        return {
+            id: _id,
+            name,
+            location,
+            start: new Date(start),
+            end: new Date(end),
+            friends,
+        };
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to fetch Jam Mem");
+    }
+};
+
+export const createJamMem = async (jamMemCreationArgs: JamMemCreationArgs) => {
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
+    // const createdJamMem: JamMem = {
+    //     id: mockJamMemData.length + 1,
+    //     ownerId: 1,
+    //     ...jamMemCreationArgs,
+    //     snapshots: [],
+    //     friends: [],
+    // };
+    // mockJamMemData.push(createdJamMem);
+    // if (createdJamMem) {
+    //     return createdJamMem;
+    // }
     throw new Error("Error: unable to create Jam Mem");
 };
 
-interface DeleteFriendFromJamMemArgs {
-    jamMemId: number;
-    userId: string;
+const jamMemRemoveFriendMutationDocument = graphql(`
+    mutation JamMemRemoveFriend($jamMemId: MongoID!, $friendId: MongoID!) {
+        jamMemRemoveFriend(jamMemId: $jamMemId, friendId: $friendId) {
+            _id
+        }
+    }
+`);
+interface RemoveFriendFromJamMemArgs {
+    jamMemId: string;
+    friendId: string;
 }
-export const deleteFriendFromJamMem = async ({
+/**
+ * Removes a friend from a Jam Mem
+ * @param jamMemId The id of the Jam Mem to remove the friend from
+ * @param friendId The id of the friend to remove
+ * @returns The id of the updated Jam Mem
+ * @throws An error if the request fails
+ */
+export const removeFriendFromJamMem = async ({
     jamMemId,
-    userId,
-}: DeleteFriendFromJamMemArgs): Promise<void> => {
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    const jamMem = mockJamMemData.find((jamMem) => jamMem.id === jamMemId);
-    if (!jamMem) {
-        throw new Error("Error: Jam Mem not found");
+    friendId,
+}: RemoveFriendFromJamMemArgs): Promise<string> => {
+    try {
+        const response = await graphqlRequest<{
+            jamMemRemoveFriend: { _id: string };
+        }>(jamMemRemoveFriendMutationDocument, { jamMemId, friendId });
+        return response.jamMemRemoveFriend._id;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to remove friend from Jam Mem");
     }
-    const friendIndex = jamMem.friends.findIndex(
-        (friend) => friend._id === userId
-    );
-    if (friendIndex === -1) {
-        throw new Error("Error: friend not found in Jam Mem");
-    }
-    jamMem.friends.splice(friendIndex, 1);
 };

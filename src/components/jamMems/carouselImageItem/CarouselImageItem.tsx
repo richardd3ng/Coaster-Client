@@ -1,7 +1,5 @@
-import { useRef } from "react";
-
 import { Image } from "expo-image";
-import { ImageURISource, StyleProp, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle } from "react-native";
 import { Text, View } from "react-native";
 
 import {
@@ -10,15 +8,16 @@ import {
 } from "../../../hooks/context/BottomSheetContext";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import { JamMemMetadata } from "../../../types/entities";
+import { JamMemMetadataFragment } from "../../../gql/graphql";
 import { ModalType, useModal } from "../../../hooks/context/ModalContext";
 import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/defaults";
 
 interface CarouselImageItemProps {
     style?: StyleProp<ViewStyle>;
-    jamMem: JamMemMetadata;
+    jamMem: JamMemMetadataFragment;
 }
 
 export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
@@ -26,9 +25,6 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
     ...props
 }: CarouselImageItemProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const source = useRef<ImageURISource>({
-        uri: jamMem.coverUri,
-    }).current;
     const { close } = useBottomSheet();
     const { present, setSnapIndex } = useModal();
     const { setClusterFilter } = useMapContext();
@@ -36,7 +32,7 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
     const JamSessionImageItemText = () => {
         return (
             <View style={styles.textContainer}>
-                <Text style={styles.titleText}>{jamMem.title}</Text>
+                <Text style={styles.nameText}>{jamMem.name}</Text>
                 <Text style={styles.placeText}>{jamMem.location}</Text>
                 <Text style={styles.dateText}>{`${new Date(
                     jamMem.start
@@ -48,10 +44,10 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
     };
 
     const onPress = () => {
-        dispatchSetSelectedJamMemId(jamMem.id);
+        dispatchSetSelectedJamMemId(jamMem._id);
         setClusterFilter({
             type: "jamMem",
-            value: jamMem.id,
+            value: jamMem._id,
         });
         close(BottomSheetType.Map);
         present(ModalType.JamMem);
@@ -66,7 +62,13 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
             <Image
                 cachePolicy={"memory-disk"}
                 style={styles.image}
-                source={source}
+                source={
+                    jamMem.coverUrl
+                        ? {
+                              uri: jamMem.coverUrl,
+                          }
+                        : DEFAULT_JAM_MEM_COVER_URI
+                }
             />
             <JamSessionImageItemText />
         </CustomPressable>

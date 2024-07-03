@@ -9,7 +9,7 @@ import {
     fetchUserInfo,
 } from "../../api/userAPI";
 import { fetchAndLoadSongPoints } from "../../api/snapshotAPI";
-import { fetchJamMem, fetchJamMemMetadatas } from "../../api/jamMemAPI";
+import { fetchJamMem, fetchJamMemMetadatasByUser } from "../../api/jamMemAPI";
 import { fetchSong } from "../../api/songAPI";
 import {
     CLUSTERS_QUERY_STALE_TIME,
@@ -19,7 +19,7 @@ import {
 import useCurrentUser from "../useCurrentUser";
 
 /* Jam Mems */
-export const useJamMem = (id: number) => {
+export const useJamMem = (id: string) => {
     return useQuery({
         queryKey: getQueryKeyForUseJamMem(id),
         queryFn: () => fetchJamMem(id),
@@ -27,15 +27,15 @@ export const useJamMem = (id: number) => {
     });
 };
 
-export const useJamMemMetadatas = () => {
+export const useJamMemMetadatas = (userId: string) => {
     return useQuery({
         queryKey: getQueryKeyForUseJamMemMetadatas(),
-        queryFn: fetchJamMemMetadatas,
+        queryFn: () => fetchJamMemMetadatasByUser(userId),
         staleTime: Infinity,
     });
 };
 
-export const getQueryKeyForUseJamMem = (id: number) => {
+export const getQueryKeyForUseJamMem = (id: string) => {
     return ["jamMem", id];
 };
 

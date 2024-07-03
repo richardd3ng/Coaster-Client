@@ -74,7 +74,7 @@ const JamMemBottomModal: React.FC = () => {
             onChange={handleSheetChanges}
         >
             <BottomModalTopRow
-                headerText={selectedJamMem?.title ?? ""}
+                headerText={selectedJamMem?.name ?? ""}
                 modalType={ModalType.JamMem}
                 onClose={handleClose}
                 children={JamMemHeaderContent}

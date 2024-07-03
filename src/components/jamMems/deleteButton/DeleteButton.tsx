@@ -11,7 +11,7 @@ import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface DeleteButtonProps {
-    jamMemId: number;
+    jamMemId: string;
     user: UserInfoFragment;
 }
 
@@ -49,7 +49,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
                 description="This will remove all of their snapshots from this Jam Mem."
                 onClose={() => setShowConfirmation(false)}
                 onConfirm={() =>
-                    deleteFriendFromJamMem({ jamMemId, userId: user._id })
+                    deleteFriendFromJamMem({ jamMemId, friendId: user._id })
                 }
             />
         </>
