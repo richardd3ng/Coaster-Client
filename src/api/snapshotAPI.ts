@@ -218,7 +218,15 @@ export const postSnapshots = async (): Promise<number> => {
         );
         const snapshots: SnapshotCreationArgs[] = [];
         for (const song of recentlyPlayedSongs) {
-            const { spotifyId, uri, name, artists, albumUrl, timestamp } = song;
+            const {
+                spotifyId,
+                uri,
+                name,
+                artists,
+                albumUrl,
+                previewUrl,
+                timestamp,
+            } = song;
             const matchedLocation = getClosestLocationTimestamp(
                 locations,
                 timestamp
@@ -232,6 +240,7 @@ export const postSnapshots = async (): Promise<number> => {
                 name,
                 artists,
                 albumUrl,
+                previewUrl,
             });
             snapshots.push({
                 userId,

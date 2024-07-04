@@ -1,12 +1,14 @@
 import { memo, useCallback, useRef } from "react";
+
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { View } from "react-native";
 import { Divider } from "@ui-kitten/components";
+import { View } from "react-native";
+
 import createStyles from "./styles";
 import { getValidAccessToken } from "../../../api/tokenUtils";
 import SaveToSpotifyPlaylistButton from "../saveToSpotifyPlaylistButton/SaveToSpotifyPlaylistButton";
 import { SongIdFrequencies } from "../../../utils/superclusterManager";
-import SongListItem from "../songListItem/SongListItem";
+import SongListItem from "../songPlayingAnimation/songListItem/SongListItem";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToCreatePlaylistFromSongIds } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
@@ -21,7 +23,6 @@ const SongList: React.FC<SongListProps> = ({
     songIdFrequencies,
     hideRank = false,
 }: SongListProps) => {
-    console.log("LIST RE_RENDER");
     const styles = useThemeAwareObject(createStyles);
     const currentUserSpotifyId = useCurrentUser().spotifyId;
     const {

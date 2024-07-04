@@ -1,27 +1,18 @@
-import { useEffect, useCallback, useMemo } from "react";
-import TrackPlayer, {
-    State,
-    usePlaybackState,
-} from "react-native-track-player";
+import { useEffect, useCallback, useRef } from "react";
+import TrackPlayer from "react-native-track-player";
 import { useSelector } from "react-redux";
 
 import { dispatchSetCurrentlyPlayingSongId } from "../state/storeUtils";
-import { RootState } from "../state/store";
 import { INVALID_SONG_ID } from "../state/song/songSlice";
+import { RootState } from "../state/store";
 
 const useTrackPlayer = (songId: string, url: string) => {
-    console.log("rendering:", songId)
     const currentlyPlayingSongId = useSelector(
-        (state: RootState) => state.song.currentlyPlayingSongId
+        (state: RootState) => state.song.currentlyPlayingSongId,
+        (prev, next) => (prev === songId) === (next === songId)
     );
-    const trackPlayerState = usePlaybackState().state;
 
-    const isPlaying = useMemo(
-        () =>
-            currentlyPlayingSongId === songId &&
-            trackPlayerState === State.Playing,
-        [currentlyPlayingSongId, songId, trackPlayerState]
-    );
+    const previousSongIdRef = useRef(currentlyPlayingSongId);
 
     useEffect(() => {
         const setup = async () => {
@@ -41,7 +32,7 @@ const useTrackPlayer = (songId: string, url: string) => {
             await TrackPlayer.stop();
             dispatchSetCurrentlyPlayingSongId(INVALID_SONG_ID);
         } else {
-            if (currentlyPlayingSongId !== INVALID_SONG_ID) {
+            if (previousSongIdRef.current !== INVALID_SONG_ID) {
                 await TrackPlayer.stop();
             }
             await TrackPlayer.reset();
@@ -49,10 +40,10 @@ const useTrackPlayer = (songId: string, url: string) => {
             await TrackPlayer.play();
             dispatchSetCurrentlyPlayingSongId(songId);
         }
+        previousSongIdRef.current = currentlyPlayingSongId;
     }, [currentlyPlayingSongId, songId, url]);
 
     return {
-        isPlaying,
         togglePlay,
     };
 };

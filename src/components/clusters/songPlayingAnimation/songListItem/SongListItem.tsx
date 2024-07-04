@@ -1,16 +1,18 @@
-import React, { useEffect, useCallback, useMemo, memo } from "react";
+import React, { useEffect, useCallback, useMemo } from "react";
+
 import { Divider, Icon } from "@ui-kitten/components";
 import { Image, Text, View } from "react-native";
-import CustomPressable from "../../shared/customPressable/CustomPressable";
+
+import CustomPressable from "../../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import { DEFAULT_ALBUM_COVER_URI } from "../../../constants/defaults";
-import ErrorView from "../../shared/errorView/ErrorView";
-import LoadingView from "../../shared/loadingView/LoadingView";
-import { openInSpotify } from "../../../utils/spotifyUtils";
-import SongPlayingAnimation from "../songPlayingAnimation/SongPlayingAnimation";
-import { useSong } from "../../../hooks/react-query/useQueryHooks";
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import useTrackPlayer from "../../../hooks/useTrackPlayer";
+import { DEFAULT_ALBUM_COVER_URI } from "../../../../constants/defaults";
+import ErrorView from "../../../shared/errorView/ErrorView";
+import LoadingView from "../../../shared/loadingView/LoadingView";
+import { openInSpotify } from "../../../../utils/spotifyUtils";
+import SongPlayingAnimation from "../SongPlayingAnimation";
+import { useSong } from "../../../../hooks/react-query/useQueryHooks";
+import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
+import useTrackPlayer from "../../../../hooks/useTrackPlayer";
 
 interface SongListItemProps {
     rank: number;
@@ -28,9 +30,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
     const styles = useThemeAwareObject(createStyles);
     const [id, frequency] = songIdFrequency;
     const { data: song, isLoading, isError, error, refetch } = useSong(id);
-    const previewUrl =
-        "https://p.scdn.co/mp3-preview/ecc6383aac4b3f4240ae699324573e61c39e6aaf?cid=cfe923b2d660439caf2b557b21f31221";
-    const { isPlaying, togglePlay } = useTrackPlayer(song?._id, previewUrl);
+    const { togglePlay } = useTrackPlayer(song?._id, song?.previewUrl ?? "");
 
     useEffect(() => {
         if (registerRefetch) {
@@ -67,7 +67,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
             return (
                 <View style={styles.textContainer}>
                     <View style={styles.nameContainer}>
-                        {isPlaying && <SongPlayingAnimation />}
+                        <SongPlayingAnimation songId={song._id} />
                         <Text style={styles.nameText}>{song.name}</Text>
                     </View>
                     <Text style={styles.artistText}>
@@ -77,10 +77,10 @@ const SongListItem: React.FC<SongListItemProps> = ({
             );
         }
         return null;
-    }, [isLoading, isError, error, song, isPlaying, styles]);
+    }, [isLoading, isError, error, song, styles]);
 
-    const PlayArea = useMemo(() => {
-        return (
+    return (
+        <View style={styles.container}>
             <CustomPressable
                 onPress={togglePlay}
                 style={styles.listItemPressable}
@@ -108,12 +108,6 @@ const SongListItem: React.FC<SongListItemProps> = ({
                     </View>
                 </View>
             </CustomPressable>
-        );
-    }, [song, rank, frequency, hideRank, styles, togglePlay, SongContent]);
-
-    return (
-        <View style={styles.container}>
-            {PlayArea}
             <Divider style={styles.verticalDivider} />
             <CustomPressable
                 style={styles.arrowPressable}
