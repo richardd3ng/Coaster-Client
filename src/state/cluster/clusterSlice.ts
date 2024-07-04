@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { SongCluster } from "../../utils/superclusterManager";
 
-export type JamMemState = {
+export type ClusterState = {
     selectedCluster: SongCluster | null;
 };
 
-const initialState: JamMemState = {
+const initialState: ClusterState = {
     selectedCluster: null,
 };
 

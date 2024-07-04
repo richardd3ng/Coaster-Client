@@ -2,15 +2,19 @@ import * as eva from "@eva-design/eva";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { PersistGate } from "redux-persist/integration/react";
+import TrackPlayer from "react-native-track-player";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import AppRoot from "./src/screens/appRoot/AppRoot";
 import { LIGHT_THEME } from "./src/constants/theme/lightTheme";
 import store, { persistor } from "./src/state/store";
+import { PlaybackService } from "./src/utils/playbackServices";
 import { ThemeProvider } from "./src/hooks/context/ThemeContext"; // using our own theme provider, not ui-kitten's
 
 const queryClient = new QueryClient();
+
+TrackPlayer.registerPlaybackService(() => PlaybackService);
 
 const App: React.FC = () => {
     return (

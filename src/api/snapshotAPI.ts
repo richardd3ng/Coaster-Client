@@ -4,7 +4,7 @@ import { ClusterFilter, SocialFilter } from "../types/filters";
 import { createOrUpdateSong, fetchRecentlyPlayedSongs } from "./songAPI";
 import {
     dispatchClearHistory,
-    getCurrentUser,
+    getCurrentUserState,
     getHistoryState,
 } from "../state/storeUtils";
 import { formatError } from "./errorUtils";
@@ -200,7 +200,7 @@ const createManySnapshots = async (
  */
 export const postSnapshots = async (): Promise<number> => {
     try {
-        const currentUser = getCurrentUser();
+        const currentUser = getCurrentUserState();
         if (!currentUser) {
             throw new Error("No user logged in");
         }

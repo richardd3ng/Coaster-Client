@@ -3,9 +3,12 @@ import React from "react";
 import LottieView from "lottie-react-native";
 import { View } from "react-native";
 
-import styles from "./styles";
+import createStyles from "./styles";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const SongPlayingAnimation = () => {
+    const styles = useThemeAwareObject(createStyles);
+    
     return (
         <View style={styles.animationContainer}>
             <LottieView

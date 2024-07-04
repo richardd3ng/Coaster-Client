@@ -2,10 +2,10 @@ import { GraphQLClient, RequestDocument } from "graphql-request";
 
 import { BASE_URL } from "@env";
 import { getValidAccessToken } from "./tokenUtils";
-import { getCurrentUser } from "../state/storeUtils";
+import { getCurrentUserState } from "../state/storeUtils";
 
 const createGraphQLClient = async (): Promise<GraphQLClient> => {
-    const spotifyId = getCurrentUser()?.spotifyId;
+    const spotifyId = getCurrentUserState()?.spotifyId;
     if (spotifyId === undefined) {
         throw new Error("No spotify user found");
     }

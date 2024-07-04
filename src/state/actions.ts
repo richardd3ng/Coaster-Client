@@ -7,11 +7,14 @@ import {
     clearHistory,
 } from "./location/locationSlice";
 import { LocationTimestamp, UserReduxState } from "../types/entities";
+import { setCurrentlyPlayingSongId } from "./song/songSlice";
 import { setCurrentRegion } from "./location/locationSlice";
+import { setCurrentUser } from "./user/userSlice";
 import { setLastSnapshotTimestamp } from "./snapshot/snapshotSlice";
 import { setSelectedJamMemId } from "./jamMem/jamMemSlice";
 import { setSelectedCluster } from "./cluster/clusterSlice";
-import { setCurrentUser } from "./user/userSlice";
+
+
 import { SongCluster } from "../utils/superclusterManager";
 
 export const recordLocationTimestampAction = (
@@ -29,10 +32,24 @@ export const clearHistoryAction = () => {
     };
 };
 
+export const setCurrentlyPlayingSongIdAction = (songId: string) => {
+    return {
+        type: setCurrentlyPlayingSongId.type,
+        payload: songId,
+    };
+};
+
 export const setCurrentRegionAction = (region: Region) => {
     return {
         type: setCurrentRegion.type,
         payload: region,
+    };
+};
+
+export const setCurrentUserAction = (user: UserReduxState | null) => {
+    return {
+        type: setCurrentUser.type,
+        payload: user,
     };
 };
 
@@ -47,13 +64,6 @@ export const setSelectedJamMemIdAction = (id: string) => {
     return {
         type: setSelectedJamMemId.type,
         payload: id,
-    };
-};
-
-export const setCurrentUserAction = (user: UserReduxState | null) => {
-    return {
-        type: setCurrentUser.type,
-        payload: user,
     };
 };
 

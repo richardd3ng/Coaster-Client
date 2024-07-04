@@ -1,8 +1,6 @@
-import { useEffect } from "react";
-
+import React, { useEffect, useCallback, useMemo, memo } from "react";
 import { Divider, Icon } from "@ui-kitten/components";
 import { Image, Text, View } from "react-native";
-
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
 import { DEFAULT_ALBUM_COVER_URI } from "../../../constants/defaults";
@@ -12,6 +10,7 @@ import { openInSpotify } from "../../../utils/spotifyUtils";
 import SongPlayingAnimation from "../songPlayingAnimation/SongPlayingAnimation";
 import { useSong } from "../../../hooks/react-query/useQueryHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import useTrackPlayer from "../../../hooks/useTrackPlayer";
 
 interface SongListItemProps {
     rank: number;
@@ -29,6 +28,9 @@ const SongListItem: React.FC<SongListItemProps> = ({
     const styles = useThemeAwareObject(createStyles);
     const [id, frequency] = songIdFrequency;
     const { data: song, isLoading, isError, error, refetch } = useSong(id);
+    const previewUrl =
+        "https://p.scdn.co/mp3-preview/ecc6383aac4b3f4240ae699324573e61c39e6aaf?cid=cfe923b2d660439caf2b557b21f31221";
+    const { isPlaying, togglePlay } = useTrackPlayer(song?._id, previewUrl);
 
     useEffect(() => {
         if (registerRefetch) {
@@ -36,35 +38,51 @@ const SongListItem: React.FC<SongListItemProps> = ({
         }
     }, [registerRefetch, refetch]);
 
-    const handleOpenInSpotify = () => {
+    const handleOpenInSpotify = useCallback(() => {
         if (song) {
             openInSpotify(song.uri);
         }
-    };
+    }, [song]);
 
-    const SongContent = isLoading ? (
-        <LoadingView containerStyle={styles.errorLoadingContainer} hideText />
-    ) : isError ? (
-        <ErrorView
-            containerStyle={styles.errorLoadingContainer}
-            message={error.message}
-            messageStyle={styles.errorText}
-            hideSuggestion
-        />
-    ) : song ? (
-        <View style={styles.textContainer}>
-            <View style={styles.nameContainer}>
-                <SongPlayingAnimation />
-                <Text style={styles.nameText}>{song.name}</Text>
-            </View>
-            <Text style={styles.artistText}>{song.artists.join(", ")}</Text>
-        </View>
-    ) : null;
+    const SongContent = useMemo(() => {
+        if (isLoading) {
+            return (
+                <LoadingView
+                    containerStyle={styles.errorLoadingContainer}
+                    hideText
+                />
+            );
+        }
+        if (isError) {
+            return (
+                <ErrorView
+                    containerStyle={styles.errorLoadingContainer}
+                    message={error.message}
+                    messageStyle={styles.errorText}
+                    hideSuggestion
+                />
+            );
+        }
+        if (song) {
+            return (
+                <View style={styles.textContainer}>
+                    <View style={styles.nameContainer}>
+                        {isPlaying && <SongPlayingAnimation />}
+                        <Text style={styles.nameText}>{song.name}</Text>
+                    </View>
+                    <Text style={styles.artistText}>
+                        {song.artists.join(", ")}
+                    </Text>
+                </View>
+            );
+        }
+        return null;
+    }, [isLoading, isError, error, song, isPlaying, styles]);
 
-    return (
-        <View style={styles.container}>
+    const PlayArea = useMemo(() => {
+        return (
             <CustomPressable
-                onPress={() => console.log("playing preview...")}
+                onPress={togglePlay}
                 style={styles.listItemPressable}
             >
                 <View style={styles.listItemContainer}>
@@ -90,6 +108,12 @@ const SongListItem: React.FC<SongListItemProps> = ({
                     </View>
                 </View>
             </CustomPressable>
+        );
+    }, [song, rank, frequency, hideRank, styles, togglePlay, SongContent]);
+
+    return (
+        <View style={styles.container}>
+            {PlayArea}
             <Divider style={styles.verticalDivider} />
             <CustomPressable
                 style={styles.arrowPressable}
@@ -103,4 +127,4 @@ const SongListItem: React.FC<SongListItemProps> = ({
     );
 };
 
-export default SongListItem;
+export default React.memo(SongListItem);
