@@ -1,7 +1,7 @@
-import React from "react";
 import { Button, Icon } from "@ui-kitten/components";
-// import ImageCropPicker from "react-native-image-crop-picker";
+import ImageCropPicker from "react-native-image-crop-picker";
 import { StyleProp, ViewStyle } from "react-native";
+
 import createStyles from "./styles";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
@@ -17,17 +17,17 @@ export const ImagePickerButton: React.FC<ImagePickerButtonProps> = ({
     const styles = useThemeAwareObject(createStyles);
 
     const handlePickImage = async () => {
-        // try {
-        //     const image = await ImageCropPicker.openPicker({
-        //         width: 360,
-        //         height: 450,
-        //         cropping: true,
-        //         mediaType: "photo",
-        //     });
-        //     if (image) {
-        //         onImagePicked(image.path);
-        //     }
-        // } catch (error) {}
+        try {
+            const image = await ImageCropPicker.openPicker({
+                width: 360,
+                height: 450,
+                cropping: true,
+                mediaType: "photo",
+            });
+            if (image && image.sourceURL) {
+                onImagePicked(image.sourceURL);
+            }
+        } catch (error) {}
     };
 
     return (

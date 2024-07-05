@@ -3,12 +3,12 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { View } from "react-native";
 
-import { INVALID_JAM_MEM_ID } from "../../../../state/jamMem/jamMemSlice";
+import { INVALID_JAM_MEM_ID } from "../../../state/jamMem/jamMemSlice";
 import MapIconButton from "../mapIconButton/MapIconButton";
-import { RootState } from "../../../../state/store";
-import { SocialFilter } from "../../../../types/filters";
+import { RootState } from "../../../state/store";
+import { SocialFilter } from "../../../types/filters";
 import styles from "./styles";
-import { useMapContext } from "../../../../hooks/context/MapContext";
+import { useMapContext } from "../../../hooks/context/MapContext";
 
 const SocialFilterStack: React.FC = () => {
     const { clusterFilter, setClusterFilter } = useMapContext();

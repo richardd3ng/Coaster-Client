@@ -1,16 +1,19 @@
+import { useState } from "react";
+
 import { Alert, Image, Text, View } from "react-native";
 import { Input } from "@ui-kitten/components";
+import { Datepicker } from "@ui-kitten/components";
 
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
-import { Datepicker } from "@ui-kitten/components";
 import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/defaults";
+import { encodeBase64 } from "../../../utils/fileSystemUtils";
 import { ImagePickerButton } from "../imagePickerButton/ImagePickerButton";
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { useMutationToCreateJamMem } from "../../../hooks/react-query/useMutationHooks";
+import useCurrentUser from "../../../hooks/useCurrentUser";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
-import { useState } from "react";
+import { useMutationToCreateJamMem } from "../../../hooks/react-query/useMutationHooks";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface JamMemCreationDialogProps {
     open: boolean;
@@ -30,6 +33,7 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
         reset,
     } = useMutationToCreateJamMem();
     useMutationErrorAlert({ isError, error, reset });
+    const currentUserId = useCurrentUser().id;
     const [name, setName] = useState<string>("");
     const [location, setLocation] = useState<string>("");
     const [startDate, setStartDate] = useState<Date | null>(null);
@@ -41,13 +45,16 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
     const checkMissingDetails = (): string[] => {
         const missingDetails: string[] = [];
         if (!name.trim()) {
-            missingDetails.push("Name");
+            missingDetails.push("name");
+        }
+        if (!location.trim()) {
+            missingDetails.push("location");
         }
         if (!startDate) {
-            missingDetails.push("Start Date");
+            missingDetails.push("start date");
         }
         if (!endDate) {
-            missingDetails.push("End Date");
+            missingDetails.push("end date");
         }
         return missingDetails;
     };
@@ -57,7 +64,7 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
         if (missingDetails.length === 1) {
             alertMessage += `a ${missingDetails[0]}.`;
         } else if (missingDetails.length === 2) {
-            alertMessage += `a ${missingDetails[0]} and a ${missingDetails[1]}.`;
+            alertMessage += `a ${missingDetails[0]} and ${missingDetails[1]}.`;
         } else {
             alertMessage += "the following details: ";
             alertMessage += missingDetails.slice(0, -1).join(", ");
@@ -77,18 +84,23 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
         return true;
     };
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
         if (!validateInputs()) {
             return;
         }
-        createJamMem({
-            name: name,
-            location: "Miami, FL",
-            start: new Date(),
-            end: new Date(),
-            coverUrl: coverUri,
-        });
-        handleClose();
+        try {
+            createJamMem({
+                ownerId: currentUserId,
+                name,
+                location,
+                start: startDate!,
+                end: endDate!,
+                coverImage: await encodeBase64(coverUri),
+            });
+            handleClose();
+        } catch (error) {
+            Alert.alert("Error reading cover image");
+        }
     };
 
     const handleClose = () => {
@@ -105,7 +117,12 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
             <Input
                 onChangeText={setName}
                 placeholder="Name"
-                style={styles.input}
+                style={styles.nameInput}
+            />
+            <Input
+                onChangeText={setLocation}
+                placeholder="Location"
+                style={styles.locationInput}
             />
             <Datepicker
                 placeholder="Start Date"

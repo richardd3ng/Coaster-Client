@@ -9,16 +9,16 @@ import { Input } from "@ui-kitten/components";
 import {
     BottomSheetType,
     useBottomSheet,
-} from "../../../hooks/context/BottomSheetContext";
-import CancelTextPressable from "./search/cancelTextPressable/CancelTextPressable";
+} from "../../hooks/context/BottomSheetContext";
+import CancelTextPressable from "../shared/cancelTextPressable/CancelTextPressable";
 import createStyles from "./styles";
-import { DEFAULT_SNAP_POINTS } from "../../../hooks/context/ModalContext";
-import JamMemsStack from "../../jamMems/jamMemsStack/JamMemsStack";
-import { Place, fetchPlaces } from "../../../api/placesAPI";
-import ProfileIconButton from "../../profile/profileIconButton/ProfileIconButton";
-import SearchBar from "../../shared/searchBar/SearchBar";
-import SearchResultsList from "./search/searchResultsList/SearchResultsList";
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { DEFAULT_SNAP_POINTS } from "../../hooks/context/ModalContext";
+import JamMemsStack from "../jamMems/jamMemsStack/JamMemsStack";
+import { Place, fetchPlaces } from "../../api/placesAPI";
+import ProfileIconButton from "../profile/profileIconButton/ProfileIconButton";
+import SearchBar from "../shared/searchBar/SearchBar";
+import SearchResultsList from "../mapBottomSheet/searchResultsList/SearchResultsList";
+import useThemeAwareObject from "../../hooks/useThemeAwareObject";
 
 const MapBottomSheet: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);

@@ -1,9 +1,9 @@
 import { View } from "react-native";
 
-import NavButton from "./navButton/NavButton";
-import SocialFilterStack from "./socialFilterStack/SocialFilterStack";
+import NavButton from "../navButton/NavButton";
+import SocialFilterStack from "../socialFilterStack/SocialFilterStack";
 import styles from "./styles";
-import FriendsButton from "./friendsButton/FriendsButton";
+import FriendsButton from "../friendsButton/FriendsButton";
 
 const ButtonPanel = () => {
     return (

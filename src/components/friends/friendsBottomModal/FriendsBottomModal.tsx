@@ -9,7 +9,7 @@ import {
     BottomSheetType,
     useBottomSheet,
 } from "../../../hooks/context/BottomSheetContext";
-import CancelTextPressable from "../../map/mapBottomSheet/search/cancelTextPressable/CancelTextPressable";
+import CancelTextPressable from "../../shared/cancelTextPressable/CancelTextPressable";
 import createStyles from "./styles";
 import {
     DEFAULT_SNAP_POINTS,

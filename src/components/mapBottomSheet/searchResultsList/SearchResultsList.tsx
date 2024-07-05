@@ -4,11 +4,11 @@ import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { Divider } from "@ui-kitten/components";
 import { Text, View } from "react-native";
 
-import CustomPressable from "../../../../shared/customPressable/CustomPressable";
+import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import { Place } from "../../../../../api/placesAPI";
+import { Place } from "../../../api/placesAPI";
 import SearchResultListItem from "../searchResultListItem/SearchResultListItem";
-import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface SearchResultsListProps {
     results: Place[];

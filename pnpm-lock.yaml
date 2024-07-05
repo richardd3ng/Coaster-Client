@@ -65,6 +65,9 @@ importers:
       expo-dev-client:
         specifier: ^4.0.19
         version: 4.0.19(expo@51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13))
+      expo-file-system:
+        specifier: ^17.0.1
+        version: 17.0.1(expo@51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13))
       expo-image:
         specifier: ^1.12.12
         version: 1.12.12(expo@51.0.8(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(encoding@0.1.13))

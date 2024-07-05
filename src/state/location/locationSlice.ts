@@ -17,7 +17,6 @@ const initialState: LocationState = {
     currentRegion: null,
 };
 
-
 const locationSlice = createSlice({
     name: "location",
     initialState,

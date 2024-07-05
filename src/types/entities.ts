@@ -39,6 +39,3 @@ export interface JamMem {
     coverUrl?: string;
     friends?: UserInfoFragment[];
 }
-
-export interface JamMemCreationArgs
-    extends Omit<JamMem, "id" | "ownerId" | "snapshots" | "friends"> {}

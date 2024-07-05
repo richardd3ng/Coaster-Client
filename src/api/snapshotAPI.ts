@@ -253,7 +253,7 @@ export const postSnapshots = async (): Promise<number> => {
         let createdCount = 0;
         if (snapshots.length > 0) {
             createdCount = await createManySnapshots(snapshots);
-            console.log("Successfully posted", createdCount, "snapshots");
+            console.log("Successfully posted", createdCount, "snapshots. History size was:", locations.length);
         } else {
             console.log("No snapshots to post");
         }

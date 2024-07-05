@@ -3,11 +3,11 @@ import { useCallback } from "react";
 import {
     BottomSheetType,
     useBottomSheet,
-} from "../../../../hooks/context/BottomSheetContext";
+} from "../../../hooks/context/BottomSheetContext";
 import MapIconButton from "../mapIconButton/MapIconButton";
-import { ModalType, useModal } from "../../../../hooks/context/ModalContext";
+import { ModalType, useModal } from "../../../hooks/context/ModalContext";
 import styles from "./styles";
-import { postSnapshots } from "../../../../api/snapshotAPI";
+import { postSnapshots } from "../../../api/snapshotAPI";
 
 const FriendsButton: React.FC = () => {
     const { dismiss, present } = useModal();

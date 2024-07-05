@@ -5,8 +5,8 @@ import {
     getCurrentLocationState,
     getCurrentRegionState,
     dispatchSetCurrentRegion,
-} from "../../../../state/storeUtils";
-import { useMapContext } from "../../../../hooks/context/MapContext";
+} from "../../../state/storeUtils";
+import { useMapContext } from "../../../hooks/context/MapContext";
 
 const NavButton: React.FC = () => {
     const { followsUserLocation, setFollowsUserLocation } = useMapContext();

@@ -1,7 +1,7 @@
 import { Button, ButtonProps, Icon } from "@ui-kitten/components";
 
 import createStyles from "./styles";
-import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface MapIconButtonProps extends ButtonProps {
     name: string;

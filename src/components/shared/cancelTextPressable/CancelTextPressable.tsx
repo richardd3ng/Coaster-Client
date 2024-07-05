@@ -3,8 +3,8 @@ import { Text } from "react-native";
 import createStyles from "./styles";
 import CustomPressable, {
     CustomPressableProps,
-} from "../../../../shared/customPressable/CustomPressable";
-import useThemeAwareObject from "../../../../../hooks/useThemeAwareObject";
+} from "../../shared/customPressable/CustomPressable";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface CancelTextPressableProps extends CustomPressableProps {}
 
