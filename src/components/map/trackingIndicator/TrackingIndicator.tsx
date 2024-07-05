@@ -1,29 +1,58 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useCallback, memo } from "react";
+import { Alert, Text, View, Animated } from "react-native";
 import { useSelector } from "react-redux";
-import { View } from "react-native";
-
+import createStyles from "./styles";
+import CustomPressable from "../../shared/customPressable/CustomPressable";
 import { RootState } from "../../../state/store";
-import styles from "./styles";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const TrackingIndicator: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
     const history = useSelector((state: RootState) => state.location.history);
-    const [isBlinking, setIsBlinking] = useState<boolean>(false);
-    const [prevLength, setPrevLength] = useState<number>(history.length);
+    const trackingOn = useSelector(
+        (state: RootState) => state.user.currentUser?.preferences.trackSnapshots
+    );
+    const opacity = useRef(new Animated.Value(1)).current;
 
     useEffect(() => {
-        if (history.length !== prevLength) {
-            setIsBlinking(true);
-            setPrevLength(history.length);
+        const blink = Animated.loop(
+            Animated.sequence([
+                Animated.timing(opacity, {
+                    toValue: 0,
+                    duration: 700,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(opacity, {
+                    toValue: 1,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+            ])
+        );
+        blink.start();
 
-            const timeout = setTimeout(() => {
-                setIsBlinking(false);
-            }, 1000);
+        return () => blink.stop();
+    }, [opacity, trackingOn]);
 
-            return () => clearTimeout(timeout);
-        }
-    }, [history.length, prevLength]);
+    const handlePress = useCallback(() => {
+        Alert.alert(
+            "This is the current number of location points tracked. It will reset whenever snapshots with your recently-played songs are uploaded to our server. If you notice the number not changing when you are moving at a fast pace and have location tracking on, please report the issue."
+        );
+    }, []);
 
-    return <View style={[styles.dot, isBlinking && styles.blinkingDot]} />;
+    if (!trackingOn) {
+        return null;
+    }
+    return (
+        <CustomPressable onPress={handlePress} activeOpacity={0.8}>
+            <View style={styles.container}>
+                <Animated.View style={[styles.dot, { opacity }]} />
+                <View style={styles.textContainer}>
+                    <Text style={styles.text}>{history.length}</Text>
+                </View>
+            </View>
+        </CustomPressable>
+    );
 };
 
-export default TrackingIndicator;
+export default memo(TrackingIndicator);

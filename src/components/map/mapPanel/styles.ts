@@ -13,6 +13,11 @@ const styles = StyleSheet.create({
         top: height * 0.1,
         right: width * 0.02,
     },
+    trackingIndicatorContainer: {
+        position: "absolute",
+        top: height * 0.06,
+        right: width * 0.02,
+    },
 });
 
 export default styles;

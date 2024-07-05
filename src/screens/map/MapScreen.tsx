@@ -1,6 +1,6 @@
 import AccountBottomModal from "../../components/profile/account/accountBottomModal/AccountBottomModal";
 import { BottomSheetProvider } from "../../hooks/context/BottomSheetContext";
-import ButtonPanel from "../../components/map/buttonPanel/ButtonPanel";
+import ButtonPanel from "../../components/map/mapPanel/MapPanel";
 import ClusterBottomModal from "../../components/clusters/clusterBottomModal/ClusterBottomModal";
 import ClusteredMapView from "../../components/map/clusteredMapView/ClusteredMapView";
 import FriendsBottomModal from "../../components/friends/friendsBottomModal/FriendsBottomModal";
