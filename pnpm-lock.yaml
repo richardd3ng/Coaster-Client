@@ -71,18 +71,12 @@ importers:
       expo-image:
         specifier: ^1.12.12
         version: 1.12.12(expo@51.0.18(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(encoding@0.1.13))
-      expo-location:
-        specifier: ~17.0.1
-        version: 17.0.1(expo@51.0.18(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(encoding@0.1.13))
       expo-secure-store:
         specifier: ^13.0.2
         version: 13.0.2(expo@51.0.18(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(encoding@0.1.13))
       expo-status-bar:
         specifier: ~1.12.1
         version: 1.12.1
-      expo-task-manager:
-        specifier: ^11.8.2
-        version: 11.8.2(expo@51.0.18(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(encoding@0.1.13))
       graphql:
         specifier: ^16.9.0
         version: 16.9.0
@@ -104,6 +98,12 @@ importers:
       react-native-app-link:
         specifier: ^1.0.1
         version: 1.0.1(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
+      react-native-background-fetch:
+        specifier: ^4.2.5
+        version: 4.2.5
+      react-native-background-geolocation:
+        specifier: ^4.16.3
+        version: 4.16.3
       react-native-gesture-handler:
         specifier: ~2.16.2
         version: 2.16.2(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
@@ -2662,11 +2662,6 @@ packages:
   expo-linking@6.3.1:
     resolution: {integrity: sha512-xuZCntSBGWCD/95iZ+mTUGTwHdy8Sx+immCqbUBxdvZ2TN61P02kKg7SaLS8A4a/hLrSCwrg5tMMwu5wfKr35g==}
 
-  expo-location@17.0.1:
-    resolution: {integrity: sha512-m+OzotzlAXO3ZZ1uqW5GC25nXW868zN+ROyBA1V4VF6jGay1ZEs4URPglCVUDzZby2F5wt24cMzqDKw2IX6nRw==}
-    peerDependencies:
-      expo: '*'
-
   expo-manifests@0.14.3:
     resolution: {integrity: sha512-L3b5/qocBPiQjbW0cpOHfnqdKZbTJS7sA3mgeDJT+mWga/xYsdpma1EfNmsuvrOzjLGjStr1k1fceM9Bl49aqQ==}
     peerDependencies:
@@ -4236,6 +4231,12 @@ packages:
     peerDependencies:
       react: '*'
       react-native: '>=0.20.0'
+
+  react-native-background-fetch@4.2.5:
+    resolution: {integrity: sha512-llOU+UWPd1fjOFGNGB4v4YrYaA0sMLn5hMk0aNx0Ok9+wQ2nQillVwj7G/XZEpIiD2vTVkntTNNXWycF5Ju0kQ==}
+
+  react-native-background-geolocation@4.16.3:
+    resolution: {integrity: sha512-4QJ3ZdAHktW6P1SxrceMrmCuSB1wOZDjm/n3cuQZg+OyiGErtNitrFwJ/fAr4mqmyeYRdJTvQZli23SV26vg0g==}
 
   react-native-dotenv@3.4.11:
     resolution: {integrity: sha512-6vnIE+WHABSeHCaYP6l3O1BOEhWxKH6nHAdV7n/wKn/sciZ64zPPp2NUdEUf1m7g4uuzlLbjgr+6uDt89q2DOg==}
@@ -8920,10 +8921,6 @@ snapshots:
       - expo
       - supports-color
 
-  expo-location@17.0.1(expo@51.0.18(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(encoding@0.1.13)):
-    dependencies:
-      expo: 51.0.18(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(encoding@0.1.13)
-
   expo-manifests@0.14.3(expo@51.0.18(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(encoding@0.1.13)):
     dependencies:
       '@expo/config': 9.0.2
@@ -10629,6 +10626,12 @@ snapshots:
     dependencies:
       react: 18.2.0
       react-native: 0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0)
+
+  react-native-background-fetch@4.2.5: {}
+
+  react-native-background-geolocation@4.16.3:
+    dependencies:
+      react-native-background-fetch: 4.2.5
 
   react-native-dotenv@3.4.11(@babel/runtime@7.24.7):
     dependencies:

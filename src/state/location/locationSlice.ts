@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LatLng, Region } from "react-native-maps";
 
 import { LocationTimestamp } from "../../types/entities";
-import { LOCATION_UPDATE_INTERVAL } from "../../utils/timeConstants";
+import { LOCATION_UPDATE_INTERVAL_MOVING } from "../../utils/timeConstants";
 
 export type LocationState = {
     history: LocationTimestamp[];
@@ -30,7 +30,7 @@ const locationSlice = createSlice({
             if (
                 state.history.length === 0 ||
                 timestamp - state.history[state.history.length - 1].timestamp >
-                    LOCATION_UPDATE_INTERVAL
+                    LOCATION_UPDATE_INTERVAL_MOVING
             ) {
                 newHistory.push(action.payload);
                 console.log(

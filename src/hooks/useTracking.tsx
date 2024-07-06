@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 
 import { Alert } from "react-native";
-import * as Location from "expo-location";
-import * as TaskManager from "expo-task-manager";
+import { useSelector } from "react-redux";
+import BackgroundGeolocation, {
+    Location,
+} from "react-native-background-geolocation";
 
 import {
     dispatchRecordLocationTimestamp,
@@ -10,55 +12,41 @@ import {
     getHistoryState,
     getLastSnapshotTimestampState,
 } from "../state/storeUtils";
-import { LocationTimestamp } from "../types/entities";
-import { postSnapshots } from "../api/snapshotAPI";
 import {
+    LOCATION_UPDATE_INTERVAL_STATIONARY,
     POST_SNAPSHOTS_COOLDOWN,
     POST_SNAPSHOTS_INTERVAL,
 } from "../utils/timeConstants";
-import { useSelector } from "react-redux";
+import { postSnapshots } from "../api/snapshotAPI";
 import { RootState } from "../state/store";
 
-const LOCATION_TASK_NAME = "location";
-
-interface LocationTaskData {
-    locations: Location.LocationObject[];
-    error: TaskManager.TaskManagerError | null;
-}
-
-TaskManager.defineTask(
-    LOCATION_TASK_NAME,
-    async ({ data }: { data: LocationTaskData }) => {
-        const { locations, error } = data;
-        if (error) {
-            Alert.alert("Error receiving location updates");
-            console.error("Error receiving location updates:", error.message);
-            return;
-        }
-        const locationTimestamp: LocationTimestamp = {
-            coords: {
-                latitude: locations[0].coords.latitude,
-                longitude: locations[0].coords.longitude,
-            },
-            timestamp: locations[0].timestamp,
-        };
-        dispatchRecordLocationTimestamp(locationTimestamp);
-        const history = getHistoryState();
+/**
+ * Handles the update of the location timestamp. Records the location timestamp and posts snapshots if the history spans a long enough time period
+ * @param locationTimestamp The incoming location timestamp
+ */
+const handleLocationUpdate = async (location: Location) => {
+    dispatchRecordLocationTimestamp({
+        coords: {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+        },
+        timestamp: new Date(location.timestamp).getTime(),
+    });
+    const history = getHistoryState();
+    if (
+        history[history.length - 1].timestamp - history[0].timestamp >=
+        POST_SNAPSHOTS_INTERVAL
+    ) {
+        const lastSnapshotTimestamp = getLastSnapshotTimestampState();
         if (
-            history[history.length - 1].timestamp - history[0].timestamp >=
-            POST_SNAPSHOTS_INTERVAL
+            lastSnapshotTimestamp === null ||
+            Date.now() - lastSnapshotTimestamp > POST_SNAPSHOTS_COOLDOWN
         ) {
-            const lastSnapshotTimestamp = getLastSnapshotTimestampState();
-            if (
-                lastSnapshotTimestamp === null ||
-                Date.now() - lastSnapshotTimestamp > POST_SNAPSHOTS_COOLDOWN
-            ) {
-                dispatchSetLastSnapshotTimestamp(Date.now());
-                await postSnapshots();
-            }
+            dispatchSetLastSnapshotTimestamp(Date.now());
+            await postSnapshots();
         }
     }
-);
+};
 
 const useTracking = () => {
     const tracking =
@@ -68,28 +56,49 @@ const useTracking = () => {
         ) || false;
 
     useEffect(() => {
+        const stopTracking = () => {
+            console.log("Stopped receiving location updates");
+            BackgroundGeolocation.stop();
+        };
+
         if (!tracking) {
+            stopTracking();
             return;
         }
-        const startLocationUpdates = async () => {
-            if (
-                !(await Location.requestForegroundPermissionsAsync()).granted ||
-                !(await Location.requestBackgroundPermissionsAsync()).granted
-            ) {
-                Alert.alert("Permission to access location was denied");
-                console.error("Permission to access location was denied");
-                return;
+
+        BackgroundGeolocation.onHeartbeat(() => {
+            BackgroundGeolocation.getCurrentPosition({
+                samples: 1,
+                persist: true,
+            }).then(handleLocationUpdate);
+        });
+
+        BackgroundGeolocation.onLocation(handleLocationUpdate, (error) => {
+            console.log("[location] ERROR: ", error);
+        });
+
+        const startTracking = async () => {
+            try {
+                await BackgroundGeolocation.ready({
+                    desiredAccuracy:
+                        BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+                    heartbeatInterval: LOCATION_UPDATE_INTERVAL_STATIONARY,
+                    preventSuspend: true,
+                });
+                console.log("Started receiving location updates");
+                await BackgroundGeolocation.start();
+            } catch (error) {
+                console.error(
+                    "Error initializing BackgroundGeolocation:",
+                    error
+                );
+                Alert.alert("Error", "Failed to initialize location tracking.");
             }
-            await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-                accuracy: Location.Accuracy.Balanced,
-            });
-            console.log("Started receiving location updates");
         };
-        startLocationUpdates();
+        startTracking();
 
         return () => {
-            Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
-            console.log("Stopped receiving location updates");
+            stopTracking();
         };
     }, [tracking]);
 };
