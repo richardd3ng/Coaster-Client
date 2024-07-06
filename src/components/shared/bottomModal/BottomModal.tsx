@@ -1,13 +1,11 @@
 import { ReactNode, useCallback, useMemo } from "react";
-
 import { BottomSheetModal, BottomSheetModalProps } from "@gorhom/bottom-sheet";
-
 import BottomModalWrapper from "../bottomModalWrapper/BottomModalWrapper";
 import createStyles from "./styles";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
-    useModal,
+    useModalHook,
 } from "../../../hooks/context/ModalContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
@@ -22,21 +20,24 @@ const BottomModal: React.FC<BottomModalProps> = ({
     ...props
 }: BottomModalProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const { refs: modalRefs, dismiss, snapIndexes } = useModal();
+    const { ref, dismiss, snapIndex } = useModalHook(modalType);
     const snapPoints =
         props.snapPoints || useMemo(() => [DEFAULT_SNAP_POINTS[1]], []);
 
-    const handleSheetChanges = useCallback((index: number) => {
-        if (index === -1) {
-            dismiss(modalType);
-        }
-    }, []);
+    const handleSheetChanges = useCallback(
+        (index: number) => {
+            if (index === -1) {
+                dismiss();
+            }
+        },
+        [dismiss]
+    );
 
     return (
         <BottomModalWrapper>
             <BottomSheetModal
-                ref={modalRefs[modalType]}
-                index={snapIndexes[modalType]}
+                ref={ref}
+                index={snapIndex}
                 snapPoints={snapPoints}
                 onChange={props.onChange || handleSheetChanges}
                 handleComponent={null}

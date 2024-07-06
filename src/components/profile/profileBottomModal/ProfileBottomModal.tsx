@@ -8,8 +8,7 @@ import CloseButton from "../../shared/closeButton/CloseButton";
 import createStyles from "./styles";
 import {
     DEFAULT_SNAP_POINTS,
-    ModalType,
-    useModal,
+    useProfileModal,
 } from "../../../hooks/context/ModalContext";
 import ProfileIconButton from "../profileIconButton/ProfileIconButton";
 import ProfileList from "../profileList/ProfileList";
@@ -18,14 +17,14 @@ import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const ProfileBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const { refs: modalRefs, dismiss, isVisible } = useModal();
+    const { ref, dismiss, isVisible } = useProfileModal();
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[1]], []);
     const user = useCurrentUser();
 
     const handleSheetChanges = useCallback(
         (index: number) => {
             if (index === -1) {
-                dismiss(ModalType.Profile);
+                dismiss();
             }
         },
         [dismiss]
@@ -46,7 +45,7 @@ const ProfileBottomModal: React.FC = () => {
                         {user?.username ?? "Guest"}
                     </Text>
                 </View>
-                <CloseButton onPress={() => dismiss(ModalType.Profile)} />
+                <CloseButton onPress={dismiss} />
             </View>
         ),
         [styles, user, dismiss]
@@ -57,16 +56,14 @@ const ProfileBottomModal: React.FC = () => {
             <View
                 style={{
                     ...styles.bottomSheetModalContainer,
-                    pointerEvents: isVisible(ModalType.Profile)
-                        ? undefined
-                        : "box-none",
-                    backgroundColor: isVisible(ModalType.Profile)
+                    pointerEvents: isVisible ? undefined : "box-none",
+                    backgroundColor: isVisible
                         ? "rgba(128, 128, 128, 0.25)"
                         : undefined,
                 }}
             >
                 <BottomSheetModal
-                    ref={modalRefs[ModalType.Profile]}
+                    ref={ref}
                     index={0}
                     snapPoints={snapPoints}
                     onChange={handleSheetChanges}

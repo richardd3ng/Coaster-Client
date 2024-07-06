@@ -6,10 +6,6 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Input } from "@ui-kitten/components";
 
-import {
-    BottomSheetType,
-    useBottomSheet,
-} from "../../hooks/context/BottomSheetContext";
 import CancelTextPressable from "../shared/cancelTextPressable/CancelTextPressable";
 import createStyles from "./styles";
 import { DEFAULT_SNAP_POINTS } from "../../hooks/context/ModalContext";
@@ -18,6 +14,7 @@ import { Place, fetchPlaces } from "../../api/placesAPI";
 import ProfileIconButton from "../profile/profileIconButton/ProfileIconButton";
 import SearchBar from "../shared/searchBar/SearchBar";
 import SearchResultsList from "../mapBottomSheet/searchResultsList/SearchResultsList";
+import { useMapBottomSheet } from "../../hooks/context/BottomSheetContext";
 import useThemeAwareObject from "../../hooks/useThemeAwareObject";
 
 const MapBottomSheet: React.FC = () => {
@@ -27,10 +24,10 @@ const MapBottomSheet: React.FC = () => {
     const [searchResults, setSearchResults] = useState<Place[] | null>(null);
     const [showProfile, setShowProfile] = useState<boolean>(true);
     const {
-        refs: bottomSheetRefs,
-        snapIndexes,
+        ref,
+        snapIndex,
         setSnapIndex,
-    } = useBottomSheet();
+    } = useMapBottomSheet();
 
     const clearSearch = useCallback(() => {
         searchBarInputRef.current?.blur();
@@ -45,7 +42,7 @@ const MapBottomSheet: React.FC = () => {
         try {
             const results = await fetchPlaces(query);
             setSearchResults(results);
-            setSnapIndex(BottomSheetType.Map, 2);
+            setSnapIndex(2);
         } catch (error) {
             Alert.alert((error as AxiosError).message);
         }
@@ -53,7 +50,7 @@ const MapBottomSheet: React.FC = () => {
 
     const handleSheetChanges = useCallback((index: number) => {
         searchBarInputRef.current?.clear();
-        setSnapIndex(BottomSheetType.Map, index);
+        setSnapIndex(index);
         if (index !== 2) {
             clearSearch();
             setSearchResults(null);
@@ -65,12 +62,12 @@ const MapBottomSheet: React.FC = () => {
         setShowProfile(true);
         clearSearch();
         setSearchResults(null);
-        setSnapIndex(BottomSheetType.Map, 1);
+        setSnapIndex(1);
     }, []);
 
     const handleFocus = useCallback(() => {
         setShowProfile(false);
-        setSnapIndex(BottomSheetType.Map, 2);
+        setSnapIndex(2);
     }, []);
 
     const TopRow = useMemo(
@@ -103,8 +100,8 @@ const MapBottomSheet: React.FC = () => {
     return (
         <GestureHandlerRootView style={styles.gestureHandlerRootView}>
             <BottomSheet
-                ref={bottomSheetRefs[BottomSheetType.Map]}
-                index={snapIndexes[BottomSheetType.Map]}
+                ref={ref}
+                index={snapIndex}
                 onChange={handleSheetChanges}
                 snapPoints={snapPoints}
                 handleStyle={styles.bottomSheetHandle}

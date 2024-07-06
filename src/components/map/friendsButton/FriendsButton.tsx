@@ -1,24 +1,27 @@
 import { useCallback } from "react";
 
-import {
-    BottomSheetType,
-    useBottomSheet,
-} from "../../../hooks/context/BottomSheetContext";
 import MapIconButton from "../mapIconButton/MapIconButton";
-import { ModalType, useModal } from "../../../hooks/context/ModalContext";
-import styles from "./styles";
 import { postSnapshots } from "../../../api/snapshotAPI";
+import styles from "./styles";
+import {
+    useClusterModal,
+    useFriendsModal,
+    useJamMemModal,
+} from "../../../hooks/context/ModalContext";
+import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 
 const FriendsButton: React.FC = () => {
-    const { dismiss, present } = useModal();
-    const { close } = useBottomSheet();
+    const { dismiss: dismissClusterModal } = useClusterModal();
+    const { dismiss: dismissJamMemModal } = useJamMemModal();
+    const { present: presentFriendsModal } = useFriendsModal();
+    const { close: closeMapBottomSheet } = useMapBottomSheet();
 
     const handlePress = useCallback(() => {
         postSnapshots();
-        present(ModalType.Friends);
-        dismiss(ModalType.Cluster);
-        dismiss(ModalType.JamMem);
-        close(BottomSheetType.Map);
+        presentFriendsModal();
+        dismissClusterModal();
+        dismissJamMemModal();
+        closeMapBottomSheet();
     }, []);
 
     return (

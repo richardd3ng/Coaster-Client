@@ -6,28 +6,25 @@ import { useSelector } from "react-redux";
 
 import BottomModal from "../../shared/bottomModal/BottomModal";
 import BottomModalTopRow from "../../shared/bottomModalTopRow/BottomModalTopRow";
-import {
-    BottomSheetType,
-    useBottomSheet,
-} from "../../../hooks/context/BottomSheetContext";
 import createStyles from "./styles";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
-    useModal,
+    useJamMemModal,
 } from "../../../hooks/context/ModalContext";
 import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
 import { INVALID_JAM_MEM_ID } from "../../../state/jamMem/jamMemSlice";
 import JamMemTabNavigator from "../jamMemTabNavigator/JamMemTabNavigator";
 import { RootState } from "../../../state/store";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
+import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const JamMemBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const { dismiss } = useModal();
-    const { setSnapIndex } = useBottomSheet();
+    const { dismiss } = useJamMemModal();
+    const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const { setClusterFilter, socialFilter } = useMapContext();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
 
@@ -43,8 +40,8 @@ const JamMemBottomModal: React.FC = () => {
             type: "social",
             value: socialFilter,
         });
-        dismiss(ModalType.JamMem);
-        setSnapIndex(BottomSheetType.Map, 1);
+        dismiss();
+        setMapBottomSheetSnapIndex(1);
     };
 
     const handleSheetChanges = (index: number) => {

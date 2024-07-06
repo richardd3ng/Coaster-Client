@@ -2,15 +2,12 @@ import { Divider } from "@ui-kitten/components";
 import { Region } from "react-native-maps";
 import { Text, View } from "react-native";
 
-import {
-    BottomSheetType,
-    useBottomSheet,
-} from "../../../hooks/context/BottomSheetContext";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
 import IconButton from "../../shared/iconButton/IconButton";
 import { Place } from "../../../api/placesAPI";
 import { dispatchSetCurrentRegion } from "../../../state/storeUtils";
+import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
@@ -23,7 +20,7 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = ({
 }: SearchResultListItemProps) => {
     const styles = useThemeAwareObject(createStyles);
     const { setFollowsUserLocation } = useMapContext();
-    const { setSnapIndex } = useBottomSheet();
+    const { setSnapIndex } = useMapBottomSheet();
 
     const handleSelect = () => {
         setFollowsUserLocation(false);
@@ -34,7 +31,7 @@ const SearchResultListItem: React.FC<SearchResultListItemProps> = ({
             longitudeDelta: item.longitudeDelta,
         };
         dispatchSetCurrentRegion(region);
-        setSnapIndex(BottomSheetType.Map, 0);
+        setSnapIndex(0);
     };
 
     const LocationIcon = () => {

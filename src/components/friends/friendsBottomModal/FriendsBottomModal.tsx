@@ -1,20 +1,16 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 import { View } from "react-native";
 import { Input } from "@ui-kitten/components";
 
 import BottomModal from "../../shared/bottomModal/BottomModal";
 import BottomModalTopRow from "../../shared/bottomModalTopRow/BottomModalTopRow";
-import {
-    BottomSheetType,
-    useBottomSheet,
-} from "../../../hooks/context/BottomSheetContext";
 import CancelTextPressable from "../../shared/cancelTextPressable/CancelTextPressable";
 import createStyles from "./styles";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
-    useModal,
+    useFriendsModal,
 } from "../../../hooks/context/ModalContext";
 import ErrorView from "../../shared/errorView/ErrorView";
 import { fetchMoreResults } from "../../../api/userAPI";
@@ -23,15 +19,16 @@ import FriendsScrollView from "../friendsScrollView/FriendsScrollView";
 import FriendsTabNavigator from "../friendsTabNavigator/FriendsTabNavigator";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import SearchBar from "../../shared/searchBar/SearchBar";
-import { useFriends } from "../../../hooks/react-query/useQueryHooks";
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import useCurrentUser from "../../../hooks/useCurrentUser";
+import { useFriends } from "../../../hooks/react-query/useQueryHooks";
+import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { UserInfoFragment } from "../../../gql/graphql";
 
 const FriendsBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const { dismiss } = useModal();
-    const { setSnapIndex } = useBottomSheet();
+    const { dismiss } = useFriendsModal();
+    const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[2]], []);
     const currentUserId = useCurrentUser().id;
     const {
@@ -70,9 +67,9 @@ const FriendsBottomModal: React.FC = () => {
     const handleClose = useCallback(() => {
         setShowCancel(false);
         clearSearch();
-        dismiss(ModalType.Friends);
-        setSnapIndex(BottomSheetType.Map, 0);
-    }, [clearSearch, dismiss, setSnapIndex]);
+        dismiss();
+        setMapBottomSheetSnapIndex(0);
+    }, [clearSearch, dismiss, setMapBottomSheetSnapIndex]);
 
     const handleSheetChanges = useCallback(
         (index: number) => {
