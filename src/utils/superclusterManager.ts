@@ -1,7 +1,9 @@
-import Supercluster, { ClusterFeature, PointFeature } from "supercluster";
-import { ClusterFilter, SocialFilter } from "../types/filters";
-import { LatLng } from "react-native-maps";
 import { BoundingBox } from "@mapbox/geo-viewport";
+import { LatLng } from "react-native-maps";
+import Supercluster, { ClusterFeature, PointFeature } from "supercluster";
+
+import { ClusterFilter } from "../types/filters";
+
 import { MAP_CONFIG } from "./mapUtils";
 
 const TOP_SONGS_COUNT = 20;
@@ -25,10 +27,7 @@ export interface SongClusterProps {
 class SuperclusterManager {
     private static instance: SuperclusterManager;
 
-    private meSupercluster: Supercluster<SongPointProps, SongClusterProps>;
-    private friendsSupercluster: Supercluster<SongPointProps, SongClusterProps>;
-    private globalSupercluster: Supercluster<SongPointProps, SongClusterProps>;
-    private jamMemSuperclusters: Map<
+    private superClusters: Map<
         string,
         Supercluster<SongPointProps, SongClusterProps>
     >;
@@ -38,11 +37,8 @@ class SuperclusterManager {
             songs: new Map([[props.songId, 1]]),
         }),
         reduce: (accumulated: SongClusterProps, props: SongClusterProps) => {
-            const combinedFreqs = new Map();
+            const combinedFreqs = new Map(accumulated.songs);
             for (const [songId, frequency] of props.songs) {
-                combinedFreqs.set(songId, frequency);
-            }
-            for (const [songId, frequency] of accumulated.songs) {
                 combinedFreqs.set(
                     songId,
                     (combinedFreqs.get(songId) || 0) + frequency
@@ -54,10 +50,7 @@ class SuperclusterManager {
     };
 
     private constructor() {
-        this.meSupercluster = new Supercluster(this.options);
-        this.friendsSupercluster = new Supercluster(this.options);
-        this.globalSupercluster = new Supercluster(this.options);
-        this.jamMemSuperclusters = new Map();
+        this.superClusters = new Map();
     }
 
     public static getInstance = (): SuperclusterManager => {
@@ -72,27 +65,13 @@ class SuperclusterManager {
         points: PointFeature<SongPointProps>[]
     ) => {
         const start = Date.now();
-        if (filter.type === "social") {
-            switch (filter.value) {
-                case SocialFilter.Global:
-                    this.globalSupercluster.load(points);
-                    break;
-                case SocialFilter.Me:
-                    this.meSupercluster.load(points);
-                    break;
-                case SocialFilter.Friends:
-                    this.friendsSupercluster.load(points);
-                    break;
-            }
-        } else if (filter.type === "jamMem") {
-            if (!this.jamMemSuperclusters.has(filter.value)) {
-                this.jamMemSuperclusters.set(
-                    filter.value,
-                    new Supercluster(this.options)
-                );
-            }
-            this.jamMemSuperclusters.get(filter.value)!.load(points);
+        const filterKey = this.getFilterKey(filter);
+
+        if (!this.superClusters.has(filterKey)) {
+            this.superClusters.set(filterKey, new Supercluster(this.options));
         }
+        this.superClusters.get(filterKey)!.load(points);
+
         console.log("Loaded data in", Date.now() - start, "ms");
     };
 
@@ -103,7 +82,7 @@ class SuperclusterManager {
     ): SongCluster[] => {
         const index = this.getSuperclusterInstance(filter);
         const clusters = index.getClusters(bBox, zoom).map((item) => {
-            if (item.properties.point_count > 1) {
+            if ((item.properties as any).point_count > 1) {
                 const cluster = item as ClusterFeature<SongClusterProps>;
                 return {
                     coords: {
@@ -113,7 +92,7 @@ class SuperclusterManager {
                     topSongs: Array.from(cluster.properties.songs.entries())
                         .sort((a, b) => b[1] - a[1])
                         .slice(0, TOP_SONGS_COUNT) as SongIdFrequencies,
-                    size: cluster.properties.point_count,
+                    size: (cluster.properties as any).point_count,
                 };
             } else {
                 const point = item as PointFeature<SongPointProps>;
@@ -133,20 +112,21 @@ class SuperclusterManager {
     };
 
     private getSuperclusterInstance = (filter: ClusterFilter): Supercluster => {
-        if (filter.type === "social") {
-            switch (filter.value) {
-                case SocialFilter.Me:
-                    return this.meSupercluster;
-                case SocialFilter.Friends:
-                    return this.friendsSupercluster;
-                case SocialFilter.Global:
-                    return this.globalSupercluster;
-            }
-        } else if (filter.type === "jamMem") {
-            return (
-                this.jamMemSuperclusters.get(filter.value) ||
-                new Supercluster(this.options)
+        const filterKey = this.getFilterKey(filter);
+        const supercluster = this.superClusters.get(filterKey);
+        if (!supercluster) {
+            throw new Error(
+                `No supercluster instance found for key: ${filterKey}`
             );
+        }
+        return supercluster;
+    };
+
+    private getFilterKey = (filter: ClusterFilter): string => {
+        if (filter.type === "social") {
+            return filter.value;
+        } else if (filter.type === "jamMem") {
+            return `jamMem-${filter.value}`;
         }
         throw new Error("Invalid filter type");
     };

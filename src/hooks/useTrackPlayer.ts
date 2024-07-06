@@ -1,10 +1,17 @@
-import { useEffect, useCallback, useRef } from "react";
-import TrackPlayer from "react-native-track-player";
+import { useCallback, useEffect, useRef } from "react";
+
+import TrackPlayer, { Event } from "react-native-track-player";
 import { useSelector } from "react-redux";
 
 import { dispatchSetCurrentlyPlayingSongId } from "../state/storeUtils";
 import { INVALID_SONG_ID } from "../state/song/songSlice";
 import { RootState } from "../state/store";
+
+export const PlaybackService = async () => {
+    TrackPlayer.addEventListener(Event.RemotePlay, () => TrackPlayer.play());
+};
+
+TrackPlayer.registerPlaybackService(() => PlaybackService);
 
 const useTrackPlayer = (songId: string, url: string) => {
     const currentlyPlayingSongId = useSelector(

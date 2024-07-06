@@ -88,19 +88,15 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
         if (!validateInputs()) {
             return;
         }
-        try {
-            createJamMem({
-                ownerId: currentUserId,
-                name,
-                location,
-                start: startDate!,
-                end: endDate!,
-                coverImage: await encodeBase64(coverUri),
-            });
-            handleClose();
-        } catch (error) {
-            Alert.alert("Error reading cover image");
-        }
+        createJamMem({
+            ownerId: currentUserId,
+            name,
+            location,
+            start: startDate!,
+            end: endDate!,
+            coverImage: await encodeBase64(coverUri),
+        });
+        handleClose();
     };
 
     const handleClose = () => {

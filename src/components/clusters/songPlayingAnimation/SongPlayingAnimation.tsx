@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 
 import LottieView from "lottie-react-native";
 import { useSelector } from "react-redux";
@@ -43,4 +43,4 @@ const SongPlayingAnimation: React.FC<SongPlayingAnimationProps> = ({
     );
 };
 
-export default SongPlayingAnimation;
+export default memo(SongPlayingAnimation);

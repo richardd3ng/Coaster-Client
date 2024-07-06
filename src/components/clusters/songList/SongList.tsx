@@ -1,6 +1,6 @@
 import { memo, useCallback, useRef } from "react";
 
-import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+import { BottomSheetFlatList, BottomSheetVirtualizedList } from "@gorhom/bottom-sheet";
 import { Divider } from "@ui-kitten/components";
 import { View } from "react-native";
 
@@ -24,6 +24,7 @@ const SongList: React.FC<SongListProps> = ({
     hideRank = false,
 }: SongListProps) => {
     const styles = useThemeAwareObject(createStyles);
+    console.log("rendering list with size:", songIdFrequencies.length);
     const currentUserSpotifyId = useCurrentUser().spotifyId;
     const {
         mutate: createSpotifyPlaylist,
@@ -42,30 +43,9 @@ const SongList: React.FC<SongListProps> = ({
         refetchFunctionsRef.current.forEach((refetch) => refetch());
     }, []);
 
-    const MemoizedSongListItem = memo(
-        ({
-            rank,
-            songIdFrequency,
-            registerRefetch,
-            hideRank,
-        }: {
-            rank: number;
-            songIdFrequency: [string, number];
-            registerRefetch: (refetch: () => void) => void;
-            hideRank: boolean;
-        }) => (
-            <SongListItem
-                rank={rank}
-                songIdFrequency={songIdFrequency}
-                registerRefetch={registerRefetch}
-                hideRank={hideRank}
-            />
-        )
-    );
-
     const renderItem = useCallback(
         ({ item, index }: { item: [string, number]; index: number }) => (
-            <MemoizedSongListItem
+            <SongListItem
                 rank={index + 1}
                 songIdFrequency={item}
                 registerRefetch={registerRefetch}
@@ -89,9 +69,11 @@ const SongList: React.FC<SongListProps> = ({
             {songIdFrequencies.length > 0 && (
                 <SaveToSpotifyPlaylistButton onPress={handleSaveToSpotify} />
             )}
-            <BottomSheetFlatList
+            <BottomSheetVirtualizedList
                 data={songIdFrequencies}
                 keyExtractor={(item) => item[0].toString()}
+                getItemCount={() => songIdFrequencies.length}
+                getItem={(data, index) => data[index]}
                 renderItem={renderItem}
                 showsVerticalScrollIndicator
                 style={styles.flatList}
@@ -105,4 +87,4 @@ const SongList: React.FC<SongListProps> = ({
     );
 };
 
-export default SongList;
+export default memo(SongList);

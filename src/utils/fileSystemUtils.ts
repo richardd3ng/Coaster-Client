@@ -1,12 +1,5 @@
-import * as FileSystem from "expo-file-system";
+import { readFile } from "react-native-fs";
 
-export const encodeBase64 = async (fileUri: string): Promise<string> => {
-    try {
-        return FileSystem.readAsStringAsync(fileUri, {
-            encoding: FileSystem.EncodingType.Base64,
-        });
-    } catch (error) {
-        console.error(error);
-        throw new Error(`Error encoding file: ${fileUri}`);
-    }
+export const encodeBase64 = async (filepath: string): Promise<string> => {
+    return readFile(filepath, "base64");
 };

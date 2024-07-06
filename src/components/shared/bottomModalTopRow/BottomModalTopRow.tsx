@@ -1,10 +1,11 @@
+import { memo, ReactNode } from "react";
+
 import { Text, View } from "react-native";
 
 import createStyles from "./styles";
 import CloseButton from "../closeButton/CloseButton";
 import { ModalType, useModalHook } from "../../../hooks/context/ModalContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { ReactNode } from "react";
 
 interface BottomModalTopRowProps {
     headerText: string;
@@ -33,4 +34,4 @@ const BottomModalTopRow: React.FC<BottomModalTopRowProps> = ({
     );
 };
 
-export default BottomModalTopRow;
+export default memo(BottomModalTopRow);

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 import { Icon } from "@ui-kitten/components";
 import { Text, View } from "react-native";
@@ -27,14 +27,15 @@ const JamMemBottomModal: React.FC = () => {
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const { setClusterFilter, socialFilter } = useMapContext();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
+    console.log("rendering jam mem bottom modal");
 
-    const selectedJamMemId = useSelector((state: RootState) => {
-        return state.jamMem.selectedJamMemId;
-    });
+    const selectedJamMemId = useSelector(
+        (state: RootState) => state.jamMem.selectedJamMemId
+    );
 
     const { data: selectedJamMem } = useJamMem(selectedJamMemId);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         dispatchSetSelectedJamMemId(INVALID_JAM_MEM_ID);
         setClusterFilter({
             type: "social",
@@ -42,27 +43,33 @@ const JamMemBottomModal: React.FC = () => {
         });
         dismiss();
         setMapBottomSheetSnapIndex(1);
-    };
+    }, [dismiss, setClusterFilter, socialFilter, setMapBottomSheetSnapIndex]);
 
-    const handleSheetChanges = (index: number) => {
-        if (index === -1) {
-            handleClose();
-        }
-    };
-
-    const JamMemHeaderContent = selectedJamMem && (
-        <>
-            <View style={styles.locationInfoContainer}>
-                <Icon name="pin" fill="green" style={styles.icon} />
-                <Text style={styles.locationText}>
-                    {selectedJamMem.location}
-                </Text>
-            </View>
-            <Text
-                style={styles.dateText}
-            >{`${selectedJamMem.start.toDateString()} - ${selectedJamMem.end.toDateString()}`}</Text>
-        </>
+    const handleSheetChanges = useCallback(
+        (index: number) => {
+            if (index === -1) {
+                handleClose();
+            }
+        },
+        [handleClose]
     );
+
+    const JamMemHeaderContent = useMemo(() => {
+        if (!selectedJamMem) return null;
+        return (
+            <>
+                <View style={styles.locationInfoContainer}>
+                    <Icon name="pin" fill="green" style={styles.icon} />
+                    <Text style={styles.locationText}>
+                        {selectedJamMem.location}
+                    </Text>
+                </View>
+                <Text style={styles.dateText}>
+                    {`${selectedJamMem.start.toDateString()} - ${selectedJamMem.end.toDateString()}`}
+                </Text>
+            </>
+        );
+    }, [selectedJamMem, styles]);
 
     return (
         <BottomModal

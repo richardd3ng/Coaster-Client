@@ -15,7 +15,6 @@ import { SongIdFrequencies } from "../../../utils/superclusterManager";
 import SongList from "../songList/SongList";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 
-
 const ClusterBottomModal: React.FC = () => {
     const { dismiss } = useClusterModal();
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();

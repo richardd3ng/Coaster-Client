@@ -27,6 +27,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
     registerRefetch,
     hideRank = false,
 }: SongListItemProps) => {
+    console.log("rendering song list item:", rank, songIdFrequency)
     const styles = useThemeAwareObject(createStyles);
     const [id, frequency] = songIdFrequency;
     const { data: song, isLoading, isError, error, refetch } = useSong(id);

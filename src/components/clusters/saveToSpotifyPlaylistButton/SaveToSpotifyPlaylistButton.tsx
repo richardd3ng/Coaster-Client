@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 
 import { Icon } from "@ui-kitten/components";
 import { Text, View } from "react-native";
@@ -50,4 +50,4 @@ const SaveToSpotifyPlaylistButton: React.FC<
     );
 };
 
-export default SaveToSpotifyPlaylistButton;
+export default memo(SaveToSpotifyPlaylistButton);

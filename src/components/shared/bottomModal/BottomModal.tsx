@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useMemo } from "react";
+import { memo, ReactNode, useCallback, useMemo } from "react";
 import { BottomSheetModal, BottomSheetModalProps } from "@gorhom/bottom-sheet";
 import BottomModalWrapper from "../bottomModalWrapper/BottomModalWrapper";
 import createStyles from "./styles";
@@ -49,4 +49,4 @@ const BottomModal: React.FC<BottomModalProps> = ({
     );
 };
 
-export default BottomModal;
+export default memo(BottomModal);

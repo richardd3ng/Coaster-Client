@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+
 import { Region } from "react-native-maps";
+
 import { calculateBBox, getMapZoom, MAP_CONFIG } from "../utils/mapUtils";
+import { ClusterFilter } from "../types/filters";
 import superclusterManager, { SongCluster } from "../utils/superclusterManager";
 import { useSongPoints } from "./react-query/useQueryHooks";
-import { ClusterFilter } from "../types/filters";
 
 const useClusters = (region: Region | null, filter: ClusterFilter) => {
     const [clusters, setClusters] = useState<SongCluster[]>([]);

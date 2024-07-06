@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import LottieView from "lottie-react-native";
 import { View } from "react-native";
 
@@ -6,7 +8,7 @@ import createStyles from "./styles";
 
 const RecordingAnimation: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    
+
     return (
         <View style={styles.animationContainer}>
             <LottieView
@@ -19,4 +21,4 @@ const RecordingAnimation: React.FC = () => {
     );
 };
 
-export default RecordingAnimation;
+export default memo(RecordingAnimation);
