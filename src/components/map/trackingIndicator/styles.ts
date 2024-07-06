@@ -6,17 +6,9 @@ const createStyles = (theme: Theme) => {
         container: {
             flexDirection: "row",
             alignItems: "center",
-            backgroundColor: "pink",
+            backgroundColor: "papayawhip",
             padding: theme.spacing.base / 2,
             borderRadius: theme.border.radiusSecondary,
-        },
-        dot: {
-            width: 15,
-            height: 15,
-            borderRadius: 10,
-            backgroundColor: "crimson",
-            borderColor: "white",
-            borderWidth: StyleSheet.hairlineWidth
         },
         textContainer: {
             width: 26,
