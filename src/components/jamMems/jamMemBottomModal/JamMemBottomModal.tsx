@@ -14,6 +14,7 @@ import {
 } from "../../../hooks/context/ModalContext";
 import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
 import { INVALID_JAM_MEM_ID } from "../../../state/jamMem/jamMemSlice";
+import JamMemActionMenu from "../jamMemActionMenu/JamMemActionMenu";
 import JamMemTabNavigator from "../jamMemTabNavigator/JamMemTabNavigator";
 import { RootState } from "../../../state/store";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
@@ -27,7 +28,6 @@ const JamMemBottomModal: React.FC = () => {
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const { setClusterFilter, socialFilter } = useMapContext();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
-    console.log("rendering jam mem bottom modal");
 
     const selectedJamMemId = useSelector(
         (state: RootState) => state.jamMem.selectedJamMemId
@@ -57,17 +57,24 @@ const JamMemBottomModal: React.FC = () => {
     const JamMemHeaderContent = useMemo(() => {
         if (!selectedJamMem) return null;
         return (
-            <>
-                <View style={styles.locationInfoContainer}>
-                    <Icon name="pin" fill="green" style={styles.icon} />
-                    <Text style={styles.locationText}>
-                        {selectedJamMem.location}
+            <View style={styles.headerContentContainer}>
+                <View style={styles.metadataContainer}>
+                    <View style={styles.locationInfoContainer}>
+                        <Icon
+                            name="pin"
+                            fill="green"
+                            style={styles.locationIcon}
+                        />
+                        <Text style={styles.locationText}>
+                            {selectedJamMem.location}
+                        </Text>
+                    </View>
+                    <Text style={styles.dateText}>
+                        {`${selectedJamMem.start.toDateString()} - ${selectedJamMem.end.toDateString()}`}
                     </Text>
                 </View>
-                <Text style={styles.dateText}>
-                    {`${selectedJamMem.start.toDateString()} - ${selectedJamMem.end.toDateString()}`}
-                </Text>
-            </>
+                <JamMemActionMenu jamMemId={selectedJamMemId}/>
+            </View>
         );
     }, [selectedJamMem, styles]);
 

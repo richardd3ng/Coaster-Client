@@ -149,6 +149,25 @@ export const createJamMem = async ({
     }
 };
 
+const deleteJamMemMutationDocument = graphql(`
+    mutation deleteJamMem($id: MongoID!) {
+        jamMemDeleteById(_id: $id) {
+            _id
+        }
+    }
+`);
+export const deleteJamMem = async (id: string): Promise<string> => {
+    try {
+        const response = await graphqlRequest<{
+            jamMemDeleteById: { _id: string };
+        }>(deleteJamMemMutationDocument, { id });
+        return response.jamMemDeleteById._id;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to delete Jam Mem");
+    }
+};
+
 const jamMemRemoveFriendMutationDocument = graphql(`
     mutation JamMemRemoveFriend($jamMemId: MongoID!, $friendId: MongoID!) {
         jamMemRemoveFriend(jamMemId: $jamMemId, friendId: $friendId) {

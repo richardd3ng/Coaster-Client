@@ -4,7 +4,7 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        container: {
+        topContainer: {
             flexDirection: "row",
             padding: theme.spacing.double,
             backgroundColor: theme.color.background,

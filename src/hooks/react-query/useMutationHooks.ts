@@ -8,7 +8,11 @@ import {
     sendRequest,
     updatePreferences,
 } from "../../api/userAPI";
-import { createJamMem, removeFriendFromJamMem } from "../../api/jamMemAPI";
+import {
+    createJamMem,
+    deleteJamMem,
+    removeFriendFromJamMem,
+} from "../../api/jamMemAPI";
 import {
     getQueryKeyForUseFriends,
     getQueryKeyForUseJamMem,
@@ -30,6 +34,19 @@ export const useMutationToCreateJamMem = () => {
             queryClient.invalidateQueries({
                 queryKey: getQueryKeyForUseJamMemMetadatas(),
             }),
+    });
+};
+
+export const useMutationToDeleteJamMem = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: deleteJamMem,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUseJamMemMetadatas(),
+            });
+        },
     });
 };
 

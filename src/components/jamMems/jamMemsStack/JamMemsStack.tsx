@@ -1,12 +1,10 @@
-import { useState } from "react";
+import { Text, View } from "react-native";
 
-import { Button, Text, View } from "react-native";
-
+import CreateButton from "../createButton/CreateButton";
 import createStyles from "./styles";
 import ErrorView from "../../shared/errorView/ErrorView";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import JamMemsCarousel from "../jamMemsCarousel/JamMemsCarousel";
-import JamMemCreationDialog from "../jamMemCreationDialog/JamMemCreationDialog";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useJamMemMetadatas } from "../../../hooks/react-query/useQueryHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
@@ -21,8 +19,6 @@ const JamMemsStack: React.FC = () => {
         error,
         refetch,
     } = useJamMemMetadatas(currentUserId);
-    const [showCreationDialog, setShowCreationDialog] =
-        useState<boolean>(false);
 
     const JamMemsContent = isLoading ? (
         <LoadingView containerStyle={styles.errorLoadingContainer} />
@@ -40,16 +36,9 @@ const JamMemsStack: React.FC = () => {
         <>
             <View style={styles.jamSessionStack}>
                 <Text style={styles.headerText}>Jam Mems</Text>
-                <Button
-                    title="+ Jam Mem"
-                    onPress={() => setShowCreationDialog(true)}
-                />
+                <CreateButton />
                 {JamMemsContent}
             </View>
-            <JamMemCreationDialog
-                open={showCreationDialog}
-                onClose={() => setShowCreationDialog(false)}
-            />
         </>
     );
 };

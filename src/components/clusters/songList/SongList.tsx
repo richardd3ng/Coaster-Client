@@ -24,7 +24,6 @@ const SongList: React.FC<SongListProps> = ({
     hideRank = false,
 }: SongListProps) => {
     const styles = useThemeAwareObject(createStyles);
-    console.log("rendering list with size:", songIdFrequencies.length);
     const currentUserSpotifyId = useCurrentUser().spotifyId;
     const {
         mutate: createSpotifyPlaylist,

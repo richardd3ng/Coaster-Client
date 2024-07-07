@@ -14,7 +14,7 @@ const createStyles = (theme: Theme) => {
             height: 24,
         },
         text: {
-            color: "red",
+            color: "royalblue",
             paddingLeft: theme.spacing.base / 2,
             fontSize: theme.font.medium,
         },
