@@ -98,8 +98,7 @@ export type Mutation = {
   jamMemCreateOne?: Maybe<Jam_Mem>;
   jamMemDeleteById?: Maybe<Jam_Mem>;
   jamMemRemoveFriend?: Maybe<Jam_Mem>;
-  /** Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it. */
-  jamMemUpdateById?: Maybe<UpdateByIdJam_MemPayload>;
+  jamMemUpdateById?: Maybe<Jam_Mem>;
   /** Creates Many documents with mongoose defaults, setters, hooks and validation */
   snapshotCreateMany?: Maybe<CreateManySnapshotPayload>;
   songCreateOrUpdate?: Maybe<Song>;
@@ -138,7 +137,11 @@ export type MutationJamMemRemoveFriendArgs = {
 
 export type MutationJamMemUpdateByIdArgs = {
   _id: Scalars['MongoID']['input'];
-  record: UpdateByIdJam_MemInput;
+  coverImage?: InputMaybe<Scalars['String']['input']>;
+  end?: InputMaybe<Scalars['Date']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  start?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -332,27 +335,6 @@ export type Song = {
   previewUrl?: Maybe<Scalars['String']['output']>;
   spotifyId: Scalars['String']['output'];
   uri: Scalars['String']['output'];
-};
-
-export type UpdateByIdJam_MemInput = {
-  coverUrl?: InputMaybe<Scalars['String']['input']>;
-  end?: InputMaybe<Scalars['Date']['input']>;
-  friends?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  location?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  ownerId?: InputMaybe<Scalars['MongoID']['input']>;
-  snapshots?: InputMaybe<Array<InputMaybe<Scalars['MongoID']['input']>>>;
-  start?: InputMaybe<Scalars['Date']['input']>;
-};
-
-export type UpdateByIdJam_MemPayload = {
-  __typename?: 'UpdateByIdJam_MemPayload';
-  /** Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response. */
-  error?: Maybe<ErrorInterface>;
-  /** Updated document */
-  record?: Maybe<Jam_Mem>;
-  /** Document ID */
-  recordId?: Maybe<Scalars['MongoID']['output']>;
 };
 
 export type UpdateByIdUserInput = {
