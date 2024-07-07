@@ -2,25 +2,22 @@ import { useEffect, useMemo, useState } from "react";
 
 import { useSelector } from "react-redux";
 
+import BottomModal from "../../shared/bottomModal/BottomModal";
 import BottomModalTopRow from "../../shared/bottomModalTopRow/BottomModalTopRow";
-import {
-    BottomSheetType,
-    useBottomSheet,
-} from "../../../hooks/context/BottomSheetContext";
-import ClusterList from "../clusterList/ClusterList";
 import {
     DEFAULT_SNAP_POINTS,
     ModalType,
-    useModal,
+    useClusterModal,
 } from "../../../hooks/context/ModalContext";
+import { dispatchSetSelectedCluster } from "../../../state/storeUtils";
 import { RootState } from "../../../state/store";
 import { SongIdFrequencies } from "../../../utils/superclusterManager";
-import BottomModal from "../../shared/bottomModal/BottomModal";
-import { dispatchSetSelectedCluster } from "../../../state/storeUtils";
+import SongList from "../songList/SongList";
+import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 
 const ClusterBottomModal: React.FC = () => {
-    const { dismiss } = useModal();
-    const { setSnapIndex } = useBottomSheet();
+    const { dismiss } = useClusterModal();
+    const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const [songIdFrequencies, setSongIdFrequencies] =
         useState<SongIdFrequencies>([]);
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
@@ -41,8 +38,8 @@ const ClusterBottomModal: React.FC = () => {
 
     const handleClose = () => {
         dispatchSetSelectedCluster(null);
-        dismiss(ModalType.Cluster);
-        setSnapIndex(BottomSheetType.Map, 0);
+        dismiss();
+        setMapBottomSheetSnapIndex(0);
     };
 
     const handleSheetChanges = (index: number) => {
@@ -62,7 +59,7 @@ const ClusterBottomModal: React.FC = () => {
                 modalType={ModalType.Cluster}
                 onClose={handleClose}
             />
-            <ClusterList songIdFrequencies={songIdFrequencies} />
+            <SongList songIdFrequencies={songIdFrequencies} />
         </BottomModal>
     );
 };

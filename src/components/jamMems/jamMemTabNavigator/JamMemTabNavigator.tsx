@@ -12,7 +12,7 @@ import { Tab, TabBar } from "@ui-kitten/components";
 import { useSelector } from "react-redux";
 import { View } from "react-native";
 
-import ClusterList from "../../clusters/clusterList/ClusterList";
+import SongList from "../../clusters/songList/SongList";
 import { computeSongIdFrequencies } from "../../../utils/snapshotUtils";
 import createStyles from "./styles";
 import JamFriendsScrollView from "../jamFriendsScrollView/JamFriendsScrollView";
@@ -24,6 +24,8 @@ import useClusters from "../../../hooks/useClusters";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
+import superclusterManager from "../../../utils/superclusterManager";
 
 const { Navigator, Screen } =
     createMaterialTopTabNavigator<JamMemTabParamList>();
@@ -61,7 +63,7 @@ const JamMemTabNavigator: React.FC = () => {
                 ) : isError && error ? (
                     <ErrorView message={error.message} onRetry={refetch} />
                 ) : selectedJamMem ? (
-                    <ClusterList
+                    <SongList
                         songIdFrequencies={computeSongIdFrequencies(
                             songPoints ?? []
                         )}
@@ -120,4 +122,4 @@ const JamMemTabNavigator: React.FC = () => {
     );
 };
 
-export default JamMemTabNavigator;
+export default memo(JamMemTabNavigator);

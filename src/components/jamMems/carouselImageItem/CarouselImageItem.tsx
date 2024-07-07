@@ -2,18 +2,15 @@ import { Image } from "expo-image";
 import { StyleProp, ViewStyle } from "react-native";
 import { Text, View } from "react-native";
 
-import {
-    BottomSheetType,
-    useBottomSheet,
-} from "../../../hooks/context/BottomSheetContext";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import { JamMemMetadataFragment } from "../../../gql/graphql";
-import { ModalType, useModal } from "../../../hooks/context/ModalContext";
-import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
-import { useMapContext } from "../../../hooks/context/MapContext";
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/defaults";
+import { JamMemMetadataFragment } from "../../../gql/graphql";
+import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
+import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
+import { useMapContext } from "../../../hooks/context/MapContext";
+import { useJamMemModal } from "../../../hooks/context/ModalContext";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface CarouselImageItemProps {
     style?: StyleProp<ViewStyle>;
@@ -25,8 +22,8 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
     ...props
 }: CarouselImageItemProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const { close } = useBottomSheet();
-    const { present, setSnapIndex } = useModal();
+    const { close: closeMapBottomSheet } = useMapBottomSheet();
+    const { present, setSnapIndex } = useJamMemModal();
     const { setClusterFilter } = useMapContext();
 
     const JamSessionImageItemText = () => {
@@ -49,9 +46,9 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
             type: "jamMem",
             value: jamMem._id,
         });
-        close(BottomSheetType.Map);
-        present(ModalType.JamMem);
-        setSnapIndex(ModalType.JamMem, 1);
+        closeMapBottomSheet();
+        present();
+        setSnapIndex(1);
     };
 
     return (

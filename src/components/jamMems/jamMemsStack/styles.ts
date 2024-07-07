@@ -16,7 +16,6 @@ const createStyles = (theme: Theme) => {
             color: "#6E6E6E",
             fontSize: theme.font.medium,
             paddingHorizontal: theme.spacing.double,
-            paddingBottom: theme.spacing.base,
         },
         jamSessionStack: {
             flex: 1,

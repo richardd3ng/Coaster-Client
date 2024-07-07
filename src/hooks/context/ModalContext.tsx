@@ -1,4 +1,4 @@
-import {
+import React, {
     createContext,
     MutableRefObject,
     ReactNode,
@@ -22,90 +22,109 @@ export enum ModalType {
 export const DEFAULT_SNAP_POINTS = ["12%", "35%", "92%"];
 
 interface ModalContextType {
-    present: (modalType: ModalType) => void;
-    dismiss: (modalType: ModalType) => void;
-    refs: Record<ModalType, MutableRefObject<BottomSheetModal | null>>;
-    isVisible: (modalType: ModalType) => boolean;
-    snapIndexes: Record<ModalType, number>;
-    setSnapIndex: (modalType: ModalType, index: number) => void;
+    present: () => void;
+    dismiss: () => void;
+    ref: MutableRefObject<BottomSheetModal | null>;
+    isVisible: boolean;
+    snapIndex: number;
+    setSnapIndex: (index: number) => void;
 }
 
-const ModalContext = createContext<ModalContextType | undefined>(undefined);
+function createModalContext(modalType: ModalType) {
+    const Context = createContext<ModalContextType | undefined>(undefined);
 
-interface ModalProviderProps {
-    children: ReactNode;
-}
+    const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
+        const ref = useRef<BottomSheetModal>(null);
+        const [isVisible, setIsVisible] = useState(false);
+        const [snapIndex, setSnapIndex] = useState(0);
 
-export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
-    const refs: Record<ModalType, MutableRefObject<BottomSheetModal | null>> = {
-        [ModalType.Account]: useRef<BottomSheetModal>(null),
-        [ModalType.Cluster]: useRef<BottomSheetModal>(null),
-        [ModalType.Friends]: useRef<BottomSheetModal>(null),
-        [ModalType.JamMem]: useRef<BottomSheetModal>(null),
-        [ModalType.Preferences]: useRef<BottomSheetModal>(null),
-        [ModalType.Profile]: useRef<BottomSheetModal>(null),
-        [ModalType.SentRequests]: useRef<BottomSheetModal>(null),
+        const present = useCallback(() => {
+            ref.current?.present();
+            setIsVisible(true);
+        }, []);
+
+        const dismiss = useCallback(() => {
+            ref.current?.dismiss();
+            setIsVisible(false);
+        }, []);
+
+        return (
+            <Context.Provider
+                value={{
+                    present,
+                    dismiss,
+                    ref,
+                    isVisible,
+                    snapIndex,
+                    setSnapIndex,
+                }}
+            >
+                {children}
+            </Context.Provider>
+        );
     };
 
-    const [visible, setVisible] = useState<Record<ModalType, boolean>>({
-        [ModalType.Account]: false,
-        [ModalType.Cluster]: false,
-        [ModalType.Friends]: false,
-        [ModalType.JamMem]: false,
-        [ModalType.Preferences]: false,
-        [ModalType.Profile]: false,
-        [ModalType.SentRequests]: false,
-    });
+    const useModal = (): ModalContextType => {
+        const context = useContext(Context);
+        if (!context) {
+            throw new Error(
+                `use${ModalType[modalType]}Modal must be used within its ModalProvider`
+            );
+        }
+        return context;
+    };
 
-    const [snapIndexes, setSnapIndexes] = useState<Record<ModalType, number>>({
-        [ModalType.Account]: 0,
-        [ModalType.Cluster]: 0,
-        [ModalType.Friends]: 0,
-        [ModalType.JamMem]: 0,
-        [ModalType.Preferences]: 0,
-        [ModalType.Profile]: 0,
-        [ModalType.SentRequests]: 0,
-    });
+    return { Provider, useModal };
+}
 
-    const present = useCallback((modalType: ModalType) => {
-        refs[modalType]?.current?.present();
-        setVisible((prev) => ({ ...prev, [modalType]: true }));
-    }, []);
+const modalContexts = (Object.values(ModalType) as ModalType[]).reduce(
+    (acc, modalType) => {
+        acc[modalType] = createModalContext(modalType);
+        return acc;
+    },
+    {} as Record<ModalType, ReturnType<typeof createModalContext>>
+);
 
-    const dismiss = useCallback((modalType: ModalType) => {
-        refs[modalType]?.current?.dismiss();
-        setVisible((prev) => ({ ...prev, [modalType]: false }));
-    }, []);
-
-    const isVisible = useCallback(
-        (modalType: ModalType) => !!visible[modalType],
-        [visible]
-    );
-
-    const setSnapIndex = useCallback((modalType: ModalType, index: number) => {
-        setSnapIndexes((prev) => ({ ...prev, [modalType]: index }));
-    }, []);
-
-    return (
-        <ModalContext.Provider
-            value={{
-                present,
-                dismiss,
-                refs,
-                isVisible,
-                snapIndexes,
-                setSnapIndex,
-            }}
-        >
-            {children}
-        </ModalContext.Provider>
+export const ModalProvider: React.FC<{ children: ReactNode }> = ({
+    children,
+}) => {
+    return (Object.values(ModalType) as ModalType[]).reduce(
+        (acc, modalType) => {
+            const { Provider } = modalContexts[modalType];
+            return <Provider>{acc}</Provider>;
+        },
+        <>{children}</>
     );
 };
 
-export const useModal = (): ModalContextType => {
-    const context = useContext(ModalContext);
-    if (!context) {
-        throw new Error("useModal must be used within a ModalProvider");
+export const useAccountModal = modalContexts[ModalType.Account].useModal;
+export const useClusterModal = modalContexts[ModalType.Cluster].useModal;
+export const useFriendsModal = modalContexts[ModalType.Friends].useModal;
+export const useJamMemModal = modalContexts[ModalType.JamMem].useModal;
+export const usePreferencesModal =
+    modalContexts[ModalType.Preferences].useModal;
+export const useProfileModal = modalContexts[ModalType.Profile].useModal;
+export const useSentRequestsModal =
+    modalContexts[ModalType.SentRequests].useModal;
+
+// this is probably not ideal but is needed for BottomModal.tsx and BottomModalTopRow.tsx (avoid using it otherwise)
+export const useModalHook = (modalType: ModalType) => {
+    switch (modalType) {
+        case ModalType.Account:
+            return useAccountModal();
+        case ModalType.Cluster:
+            return useClusterModal();
+        case ModalType.Friends:
+            return useFriendsModal();
+        case ModalType.JamMem:
+            return useJamMemModal();
+        case ModalType.Preferences:
+            return usePreferencesModal();
+        case ModalType.Profile:
+            return useProfileModal();
+        case ModalType.SentRequests:
+            return useSentRequestsModal();
+        default:
+            throw new Error(`Unsupported modal type: ${modalType}`);
     }
-    return context;
 };

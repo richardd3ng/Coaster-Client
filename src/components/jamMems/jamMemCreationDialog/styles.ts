@@ -27,9 +27,13 @@ const createStyles = (theme: Theme) => {
             justifyContent: "center",
             alignItems: "center",
         },
-        input: {
+        nameInput: {
             flexDirection: "row",
             paddingVertical: theme.spacing.base,
+        },
+        locationInput: {
+            flexDirection: "row",
+            paddingBottom: theme.spacing.base,
         },
     });
 };

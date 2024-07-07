@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 
+import { Icon } from "@ui-kitten/components";
 import { Text, View } from "react-native";
 
 import createStyles from "./styles";
@@ -36,12 +37,17 @@ const SaveToSpotifyPlaylistButton: React.FC<
                 >
                     <SpotifyIcon width={24} height={24} />
                     <Text style={styles.buttonText}>
-                        Save to Spotify Playlist 〉
+                        Save to Spotify Playlist
                     </Text>
+                    <Icon
+                        name="arrow-ios-forward"
+                        fill="white"
+                        style={styles.arrowIcon}
+                    />
                 </CustomPressable>
             </View>
         </>
     );
 };
 
-export default SaveToSpotifyPlaylistButton;
+export default memo(SaveToSpotifyPlaylistButton);

@@ -1,6 +1,6 @@
 import { graphql } from "../gql";
 import { JamMemMetadataFragment, UserInfoFragment } from "../gql/graphql";
-import { JamMem, JamMemCreationArgs } from "../types/entities";
+import { JamMem } from "../types/entities";
 import { graphqlRequest } from "./client.graphql";
 import { formatError } from "./errorUtils";
 
@@ -77,20 +77,95 @@ export const fetchJamMem = async (id: string): Promise<JamMem | null> => {
     }
 };
 
-export const createJamMem = async (jamMemCreationArgs: JamMemCreationArgs) => {
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    // const createdJamMem: JamMem = {
-    //     id: mockJamMemData.length + 1,
-    //     ownerId: 1,
-    //     ...jamMemCreationArgs,
-    //     snapshots: [],
-    //     friends: [],
-    // };
-    // mockJamMemData.push(createdJamMem);
-    // if (createdJamMem) {
-    //     return createdJamMem;
-    // }
-    throw new Error("Error: unable to create Jam Mem");
+const createJamMemMutationDocument = graphql(`
+    mutation CreateJamMem(
+        $ownerId: MongoID!
+        $name: String!
+        $location: String!
+        $start: Date!
+        $end: Date!
+        $coverImage: String
+        $friends: [MongoID!]
+    ) {
+        jamMemCreateOne(
+            ownerId: $ownerId
+            name: $name
+            location: $location
+            start: $start
+            end: $end
+            coverImage: $coverImage
+            friends: $friends
+        ) {
+            _id
+        }
+    }
+`);
+interface JamMemCreationArgs {
+    ownerId: string;
+    name: string;
+    location: string;
+    start: Date;
+    end: Date;
+    coverImage?: string;
+    friends?: string[];
+}
+/**
+ * Creates a new Jam Mem
+ * @param ownerId The id of the owner of the Jam Mem
+ * @param name The name of the Jam Mem
+ * @param location The location of the Jam Mem
+ * @param start The start date of the Jam Mem
+ * @param end The end date of the Jam Mem
+ * @param coverImage The base64 encoded image for the cover
+ * @param friends The ids of the friends to add to the Jam Mem
+ * @returns The created Jam Mem
+ * @throws An error if the request fails
+ */
+export const createJamMem = async ({
+    ownerId,
+    name,
+    location,
+    start,
+    end,
+    coverImage,
+    friends,
+}: JamMemCreationArgs) => {
+    try {
+        const response = await graphqlRequest<{
+            jamMemCreateOne: { _id: string };
+        }>(createJamMemMutationDocument, {
+            ownerId,
+            name,
+            location,
+            start,
+            end,
+            coverImage,
+            friends,
+        });
+        return response.jamMemCreateOne._id;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to create Jam Mem");
+    }
+};
+
+const deleteJamMemMutationDocument = graphql(`
+    mutation deleteJamMem($id: MongoID!) {
+        jamMemDeleteById(_id: $id) {
+            _id
+        }
+    }
+`);
+export const deleteJamMem = async (id: string): Promise<string> => {
+    try {
+        const response = await graphqlRequest<{
+            jamMemDeleteById: { _id: string };
+        }>(deleteJamMemMutationDocument, { id });
+        return response.jamMemDeleteById._id;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to delete Jam Mem");
+    }
 };
 
 const jamMemRemoveFriendMutationDocument = graphql(`

@@ -4,10 +4,10 @@
         "slug": "Coaster",
         "version": "1.0.0",
         "orientation": "portrait",
-        "icon": "./assets/icon.png",
+        "icon": "./assets/images/icon.png",
         "userInterfaceStyle": "light",
         "splash": {
-            "image": "./assets/splash.png",
+            "image": "./assets/images/splash.png",
             "resizeMode": "contain",
             "backgroundColor": "#C5FF95"
         },
@@ -17,11 +17,18 @@
             "bundleIdentifier": "com.anonymous.Coaster",
             "infoPlist": {
                 "LSApplicationQueriesSchemes": ["spotify"],
-                "UIBackgroundModes": ["location", "fetch"],
+                "UIBackgroundModes": [
+                    "location",
+                    "fetch",
+                    "processing",
+                    "audio"
+                ],
                 "NSPhotoLibraryUsageDescription": "$(PRODUCT_NAME) needs access to your photo library to select photos.",
-                "NSLocationWhenInUseUsageDescription": "$(PRODUCT_NAME) needs access to your location while you are using it to track the songs you play at each location.",
-                "NSLocationAlwaysAndWhenInUseUsageDescription": "$(PRODUCT_NAME) needs access to your location at all times to continuously track the songs you play, even when the app is in the background.",
-                "NSLocationAlwaysUsageDescription": "$(PRODUCT_NAME) needs access to your location at all times to track the songs you play at each location, ensuring accurate logging even when the app is not in the foreground."
+                "BGTaskSchedulerPermittedIdentifiers": [
+                    "com.transistorsoft.fetch"
+                ],
+                "NSLocationAlwaysAndWhenInUseUsageDescription": "$(PRODUCT_NAME) requires location in the background",
+                "NSLocationWhenInUseUsageDescription": "$(PRODUCT_NAME) requires location while in use"
             },
             "config": {
                 "usesNonExemptEncryption": false
@@ -29,13 +36,13 @@
         },
         "android": {
             "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
+                "foregroundImage": "./assets/images/adaptive-icon.png",
                 "backgroundColor": "#ffffff"
             },
             "package": "com.anonymous.Coaster"
         },
         "web": {
-            "favicon": "./assets/favicon.png"
+            "favicon": "./assets/images/favicon.png"
         },
         "extra": {
             "eas": {
@@ -43,14 +50,7 @@
             }
         },
         "scheme": "Coaster",
-        "plugins": [
-            [
-                "expo-location",
-                {
-                    "locationAlwaysAndWhenInUsePermission": "Allow Coaster to use your location."
-                }
-            ]
-        ],
+        "plugins": ["react-native-background-fetch"],
         "build": {
             "preview": {
                 "developmentClient": true

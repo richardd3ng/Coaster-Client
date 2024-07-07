@@ -9,93 +9,94 @@ import React, {
 } from "react";
 import BottomSheet from "@gorhom/bottom-sheet";
 
-export enum BottomSheetType {
+enum BottomSheetType {
     Map,
 }
 
 interface BottomSheetContextType {
-    refs: Record<BottomSheetType, MutableRefObject<BottomSheet | null>>;
-    snapIndexes: Record<BottomSheetType, number>;
-    setSnapIndex: (bottomSheetType: BottomSheetType, index: number) => void;
-    close: (bottomSheetType: BottomSheetType) => void;
+    ref: MutableRefObject<BottomSheet | null>;
+    snapIndex: number;
+    setSnapIndex: (index: number) => void;
+    close: () => void;
 }
 
-const BottomSheetContext = createContext<BottomSheetContextType | undefined>(
-    undefined
-);
-
-interface BottomSheetProviderProps {
-    children: ReactNode;
-}
-
-export const BottomSheetProvider: React.FC<BottomSheetProviderProps> = ({
-    children,
-}) => {
-    const refs: Record<
-        BottomSheetType,
-        MutableRefObject<BottomSheet | null>
-    > = {
-        [BottomSheetType.Map]: useRef<BottomSheet>(null),
-    };
-
-    const [snapIndexes, setSnapIndexes] = useState<
-        Record<BottomSheetType, number>
-    >({
-        [BottomSheetType.Map]: 0,
-    });
-
-    const setSnapIndex = useCallback(
-        (bottomSheetType: BottomSheetType, index: number) => {
-            const bottomSheet = refs[bottomSheetType]?.current;
-            if (bottomSheet) {
-                bottomSheet.snapToIndex(index);
-                setSnapIndexes((prev) => ({
-                    ...prev,
-                    [bottomSheetType]: index,
-                }));
-            } else {
-                console.warn(
-                    `No BottomSheet found for type ${bottomSheetType}`
-                );
-            }
-        },
-        [refs]
+function createBottomSheetContext(bottomSheetType: BottomSheetType) {
+    const Context = createContext<BottomSheetContextType | undefined>(
+        undefined
     );
 
-    const close = useCallback(
-        (bottomSheetType: BottomSheetType) => {
-            const bottomSheet = refs[bottomSheetType]?.current;
+    const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
+        const ref = useRef<BottomSheet>(null);
+        const [snapIndex, setSnapIndexState] = useState(0);
+
+        const setSnapIndex = useCallback((index: number) => {
+            const bottomSheet = ref.current;
+            if (bottomSheet) {
+                bottomSheet.snapToIndex(index);
+                setSnapIndexState(index);
+            } else {
+                console.warn(
+                    `No BottomSheet found for type ${BottomSheetType[bottomSheetType]}`
+                );
+            }
+        }, []);
+
+        const close = useCallback(() => {
+            const bottomSheet = ref.current;
             if (bottomSheet) {
                 bottomSheet.close();
             } else {
                 console.warn(
-                    `No BottomSheet found for type ${bottomSheetType}`
+                    `No BottomSheet found for type ${BottomSheetType[bottomSheetType]}`
                 );
             }
-        },
-        [refs]
-    );
+        }, []);
 
-    return (
-        <BottomSheetContext.Provider
-            value={{
-                refs,
-                snapIndexes,
-                setSnapIndex,
-                close,
-            }}
-        >
-            {children}
-        </BottomSheetContext.Provider>
-    );
-};
-
-export const useBottomSheet = (): BottomSheetContextType => {
-    const context = useContext(BottomSheetContext);
-    if (!context) {
-        throw new Error(
-            "useBottomSheet must be used within a BottomSheetProvider"
+        return (
+            <Context.Provider
+                value={{
+                    ref,
+                    snapIndex,
+                    setSnapIndex,
+                    close,
+                }}
+            >
+                {children}
+            </Context.Provider>
         );
-    }
-    return context;
+    };
+
+    const useBottomSheet = (): BottomSheetContextType => {
+        const context = useContext(Context);
+        if (!context) {
+            throw new Error(
+                `use${BottomSheetType[bottomSheetType]}BottomSheet must be used within its BottomSheetProvider`
+            );
+        }
+        return context;
+    };
+
+    return { Provider, useBottomSheet };
+}
+
+const bottomSheetContexts = (
+    Object.values(BottomSheetType) as BottomSheetType[]
+).reduce((acc, bottomSheetType) => {
+    acc[bottomSheetType] = createBottomSheetContext(bottomSheetType);
+    return acc;
+}, {} as Record<BottomSheetType, ReturnType<typeof createBottomSheetContext>>);
+
+export const BottomSheetProvider: React.FC<{ children: ReactNode }> = ({
+    children,
+}) => {
+    return (Object.values(BottomSheetType) as BottomSheetType[]).reduce(
+        (acc, bottomSheetType) => {
+            const { Provider } = bottomSheetContexts[bottomSheetType];
+            return <Provider>{acc}</Provider>;
+        },
+        <>{children}</>
+    );
 };
+
+export const useMapBottomSheet =
+    bottomSheetContexts[BottomSheetType.Map].useBottomSheet;

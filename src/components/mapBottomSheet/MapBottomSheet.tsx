@@ -1,0 +1,127 @@
+import { useCallback, useMemo, useRef, useState } from "react";
+
+import { Alert, View } from "react-native";
+import { AxiosError } from "axios";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Input } from "@ui-kitten/components";
+
+import CancelTextPressable from "../shared/cancelTextPressable/CancelTextPressable";
+import createStyles from "./styles";
+import { DEFAULT_SNAP_POINTS } from "../../hooks/context/ModalContext";
+import JamMemsStack from "../jamMems/jamMemsStack/JamMemsStack";
+import { Place, fetchPlaces } from "../../api/placesAPI";
+import ProfileIconButton from "../profile/profileIconButton/ProfileIconButton";
+import SearchBar from "../shared/searchBar/SearchBar";
+import SearchResultsList from "../mapBottomSheet/searchResultsList/SearchResultsList";
+import { useMapBottomSheet } from "../../hooks/context/BottomSheetContext";
+import useThemeAwareObject from "../../hooks/useThemeAwareObject";
+
+const MapBottomSheet: React.FC = () => {
+    const styles = useThemeAwareObject(createStyles);
+    const searchBarInputRef = useRef<Input>(null);
+    const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
+    const [searchResults, setSearchResults] = useState<Place[] | null>(null);
+    const [showProfile, setShowProfile] = useState<boolean>(true);
+    const {
+        ref,
+        snapIndex,
+        setSnapIndex,
+    } = useMapBottomSheet();
+
+    const clearSearch = useCallback(() => {
+        searchBarInputRef.current?.blur();
+        searchBarInputRef.current?.clear();
+    }, []);
+
+    const handleSearch = async (query: string) => {
+        if (!searchBarInputRef.current?.isFocused()) {
+            // attempt to fix the search bar debounce issue, not perfect
+            return;
+        }
+        try {
+            const results = await fetchPlaces(query);
+            setSearchResults(results);
+            setSnapIndex(2);
+        } catch (error) {
+            Alert.alert((error as AxiosError).message);
+        }
+    };
+
+    const handleSheetChanges = useCallback((index: number) => {
+        searchBarInputRef.current?.clear();
+        setSnapIndex(index);
+        if (index !== 2) {
+            clearSearch();
+            setSearchResults(null);
+            setShowProfile(true);
+        }
+    }, []);
+
+    const resetBottomSheet = useCallback(() => {
+        setShowProfile(true);
+        clearSearch();
+        setSearchResults(null);
+        setSnapIndex(1);
+    }, []);
+
+    const handleFocus = useCallback(() => {
+        setShowProfile(false);
+        setSnapIndex(2);
+    }, []);
+
+    const TopRow = useMemo(
+        () => (
+            <View style={styles.bottomSheetTopRow}>
+                <View
+                    style={{
+                        width: showProfile ? "90%" : "87.5%",
+                    }}
+                >
+                    <SearchBar
+                        ref={searchBarInputRef}
+                        placeholder="Search Location, Song, or Artist"
+                        onSearch={handleSearch}
+                        style={styles.bottomSheetTextInput}
+                        onFocus={handleFocus}
+                        onClear={() => setSearchResults(null)}
+                    />
+                </View>
+                {showProfile ? (
+                    <ProfileIconButton />
+                ) : (
+                    <CancelTextPressable onPress={resetBottomSheet} />
+                )}
+            </View>
+        ),
+        [showProfile]
+    );
+
+    return (
+        <GestureHandlerRootView style={styles.gestureHandlerRootView}>
+            <BottomSheet
+                ref={ref}
+                index={snapIndex}
+                onChange={handleSheetChanges}
+                snapPoints={snapPoints}
+                handleStyle={styles.bottomSheetHandle}
+            >
+                {TopRow}
+                {searchResults ? (
+                    <SearchResultsList results={searchResults} />
+                ) : (
+                    <BottomSheetScrollView
+                        contentContainerStyle={
+                            styles.bottomSheetContentContainer
+                        }
+                        showsVerticalScrollIndicator
+                    >
+                        <JamMemsStack />
+                    </BottomSheetScrollView>
+                )}
+            </BottomSheet>
+        </GestureHandlerRootView>
+    );
+};
+
+export default MapBottomSheet;

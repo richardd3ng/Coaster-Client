@@ -1,56 +1,69 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
-import { ActivityIndicator, View } from "react-native";
+import { Alert, View } from "react-native";
+import { Icon, Text } from "@ui-kitten/components";
 
-import CloseButton from "../../shared/closeButton/CloseButton";
-import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
-import { useMutationToDeleteFriendFromJamMem } from "../../../hooks/react-query/useMutationHooks";
-import { UserInfoFragment } from "../../../gql/graphql";
+import CustomPressable from "../../shared/customPressable/CustomPressable";
+import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
+import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
+import { INVALID_JAM_MEM_ID } from "../../../state/jamMem/jamMemSlice";
+import { useJamMemModal } from "../../../hooks/context/ModalContext";
+import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
+import { useMapContext } from "../../../hooks/context/MapContext";
+import { useMutationToDeleteJamMem } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface DeleteButtonProps {
     jamMemId: string;
-    user: UserInfoFragment;
 }
 
 const DeleteButton: React.FC<DeleteButtonProps> = ({
     jamMemId,
-    user,
 }: DeleteButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
+    const { mutate: deleteJamMem } = useMutationToDeleteJamMem();
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
-    const {
-        mutate: deleteFriendFromJamMem,
-        isPending,
-        isError,
-        error,
-        reset,
-    } = useMutationToDeleteFriendFromJamMem(jamMemId);
-    useMutationErrorAlert({ isError, error, reset });
+    const { dismiss } = useJamMemModal();
+    const { setClusterFilter, socialFilter } = useMapContext();
+    const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
+
+    const handleConfirm = useCallback(() => {
+        deleteJamMem(jamMemId, {
+            onSuccess: () => {
+                dispatchSetSelectedJamMemId(INVALID_JAM_MEM_ID);
+                setClusterFilter({
+                    type: "social",
+                    value: socialFilter,
+                });
+                dismiss();
+                setMapBottomSheetSnapIndex(1);
+                Alert.alert("Successfully deleted Jam Mem");
+            },
+            onError: (error) => {
+                Alert.alert(error.message);
+            },
+        });
+    }, [jamMemId, deleteJamMem]);
 
     return (
         <>
-            <View style={styles.container}>
-                {isPending ? (
-                    <ActivityIndicator />
-                ) : (
-                    <CloseButton
-                        style={styles.button}
-                        onPress={() => setShowConfirmation(true)}
-                        iconStyle={styles.icon}
+            <CustomPressable onPress={() => setShowConfirmation(true)}>
+                <View style={styles.container}>
+                    <Icon
+                        name="trash-2-outline"
+                        fill="red"
+                        style={styles.icon}
                     />
-                )}
-            </View>
+                    <Text style={styles.text}>Delete</Text>
+                </View>
+            </CustomPressable>
             <ConfirmationDialog
                 open={showConfirmation}
-                title={`Are you sure you want to remove ${user.displayName} from this Jam Mem?`}
-                description="This will remove all of their snapshots from this Jam Mem."
+                title="Confirm Delete"
+                description="Are you sure you want to delete this Jam Mem? Your Jam Friends will also be unable to view this Jam Mem anymore."
                 onClose={() => setShowConfirmation(false)}
-                onConfirm={() =>
-                    deleteFriendFromJamMem({ jamMemId, friendId: user._id })
-                }
+                onConfirm={handleConfirm}
             />
         </>
     );

@@ -5,6 +5,7 @@ import {
     recordLocationTimestampAction,
     setCurrentRegionAction,
     setCurrentUserAction,
+    setCurrentlyPlayingSongIdAction,
     setLastSnapshotTimestampAction,
     setSelectedClusterAction,
     setSelectedJamMemIdAction,
@@ -44,6 +45,10 @@ export const dispatchSetCurrentUser = (user: UserReduxState | null) => {
     store.dispatch(setCurrentUserAction(user));
 };
 
+export const dispatchSetCurrentlyPlayingSongId = (songId: string) => {
+    store.dispatch(setCurrentlyPlayingSongIdAction(songId));
+};
+
 /* accessors */
 export const getHistoryState = (): LocationTimestamp[] => {
     return store.getState().location.history;
@@ -61,6 +66,10 @@ export const getCurrentRegionState = (): Region | null => {
     return store.getState().location.currentRegion;
 };
 
-export const getCurrentUser = (): UserReduxState | null => {
+export const getCurrentUserState = (): UserReduxState | null => {
     return store.getState().user.currentUser;
+};
+
+export const getCurrentPlayingSongIdState = (): string => {
+    return store.getState().song.currentlyPlayingSongId;
 };

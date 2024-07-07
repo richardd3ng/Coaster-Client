@@ -1,7 +1,7 @@
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 import createStyles from "./styles";
-import DeleteButton from "../deleteButton/DeleteButton";
+import RemoveFriendButton from "../removeFriendButton/RemoveFriendButton";
 import FriendsListItem from "../../friends/friendsListItem/FriendsListItem";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
@@ -27,7 +27,7 @@ const JamFriendsScrollView: React.FC<JamFriendsScrollViewProps> = ({
                     key={user._id}
                     user={user}
                     leftComponent={
-                        <DeleteButton jamMemId={jamMemId} user={user} />
+                        <RemoveFriendButton jamMemId={jamMemId} user={user} />
                     }
                 />
             ))}

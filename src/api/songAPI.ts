@@ -34,7 +34,8 @@ const songCreateOrUpdateMutationDocument = graphql(`
         $uri: String!
         $name: String!
         $artists: [String!]!
-        $albumUrl: String!
+        $albumUrl: String
+        $previewUrl: String
     ) {
         songCreateOrUpdate(
             spotifyId: $spotifyId
@@ -42,6 +43,7 @@ const songCreateOrUpdateMutationDocument = graphql(`
             name: $name
             artists: $artists
             albumUrl: $albumUrl
+            previewUrl: $previewUrl
         ) {
             _id
         }
@@ -52,7 +54,8 @@ interface Song {
     uri: string;
     name: string;
     artists: string[];
-    albumUrl: string;
+    albumUrl?: string;
+    previewUrl?: string;
 }
 /**
  * Creates or potentially updates a song in the database
@@ -70,6 +73,7 @@ export const createOrUpdateSong = async (song: Song): Promise<string> => {
             name: song.name,
             artists: song.artists,
             albumUrl: song.albumUrl,
+            previewUrl: song.previewUrl,
         });
         return response.songCreateOrUpdate._id;
     } catch (error) {
@@ -94,6 +98,7 @@ const SongFetchRecentlyPlayedQueryDocument = graphql(`
             name
             artists
             albumUrl
+            previewUrl
             timestamp
         }
     }
@@ -103,13 +108,14 @@ interface RecentlyPlayedSong {
     uri: string;
     name: string;
     artists: string[];
-    albumUrl: string;
+    albumUrl?: string;
+    previewUrl?: string;
     timestamp: number;
 }
 /**
  * Retrieves recently played songs from Spotify for user with the provided access token
  * @param limit - Maximum number of items to return (1 to 50, default is 50)
- * @param after - Unix timestamp in milliseconds to get items after this time
+ * @param after - Unix timestamp in milliseconds to get items after this time (IMPORTANT: needs to be a whole number)
  * @returns - An array of recently played songs
  * @throws - An error if the request fails
  */

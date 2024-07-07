@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 
-import { Modal, View, Text, ActivityIndicator } from "react-native";
+import { Modal, View, Text } from "react-native";
 import { Divider } from "@ui-kitten/components";
 
 import createStyles from "./styles";
@@ -40,16 +40,6 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
         }
         onConfirm();
     };
-
-    // const CloseIcon = (props: any): IconElement => {
-    //     return <Icon {...props} name="close" fill="gray" />;
-    // };
-
-    // const CloseIconButton = (
-    //     <CustomPressable onPress={handleClear}>
-    //         <CloseIcon />
-    //     </CustomPressable>
-    // );
 
     return (
         <Modal transparent={true} visible={open} onRequestClose={onClose}>

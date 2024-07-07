@@ -4,15 +4,21 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        button: {
-            alignSelf: "flex-end",
-        },
         container: {
-            flex: 1,
-            alignItems: "flex-end",
-            paddingRight: theme.spacing.base,
+            flexDirection: "row",
+            alignItems: "center",
+            padding: theme.spacing.base,
         },
-        icon: { height: 20, width: 20 },
+        icon: {
+            width: 24,
+            height: 24,
+        },
+        text: {
+            color: "red",
+            paddingLeft: theme.spacing.base / 2,
+            fontSize: theme.font.medium,
+        },
     });
 };
+
 export default createStyles;

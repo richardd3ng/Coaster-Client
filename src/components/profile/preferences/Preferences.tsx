@@ -1,19 +1,20 @@
 import IconButton from "../../shared/iconButton/IconButton";
-import { ModalType, useModal } from "../../../hooks/context/ModalContext";
 import ProfileListItem from "../profileListItem/ProfileListItem";
 import { ProfileOption } from "../../../types/navigation";
 import styles from "./styles";
+import { usePreferencesModal } from "../../../hooks/context/ModalContext";
 
 const PreferencesIcon = (
     <IconButton iconName="settings-2" iconColor="black" style={styles.icon} />
 );
 
 const Preferences: React.FC = () => {
-    const { present } = useModal();
+    const { present } = usePreferencesModal();
+
     return (
         <ProfileListItem
             text={ProfileOption.Preferences}
-            onPress={() => present(ModalType.Preferences)}
+            onPress={present}
             icon={PreferencesIcon}
         />
     );

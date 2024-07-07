@@ -4,7 +4,7 @@ import { ClusterFilter, SocialFilter } from "../types/filters";
 import { createOrUpdateSong, fetchRecentlyPlayedSongs } from "./songAPI";
 import {
     dispatchClearHistory,
-    getCurrentUser,
+    getCurrentUserState,
     getHistoryState,
 } from "../state/storeUtils";
 import { formatError } from "./errorUtils";
@@ -200,7 +200,7 @@ const createManySnapshots = async (
  */
 export const postSnapshots = async (): Promise<number> => {
     try {
-        const currentUser = getCurrentUser();
+        const currentUser = getCurrentUserState();
         if (!currentUser) {
             throw new Error("No user logged in");
         }
@@ -218,7 +218,15 @@ export const postSnapshots = async (): Promise<number> => {
         );
         const snapshots: SnapshotCreationArgs[] = [];
         for (const song of recentlyPlayedSongs) {
-            const { spotifyId, uri, name, artists, albumUrl, timestamp } = song;
+            const {
+                spotifyId,
+                uri,
+                name,
+                artists,
+                albumUrl,
+                previewUrl,
+                timestamp,
+            } = song;
             const matchedLocation = getClosestLocationTimestamp(
                 locations,
                 timestamp
@@ -232,6 +240,7 @@ export const postSnapshots = async (): Promise<number> => {
                 name,
                 artists,
                 albumUrl,
+                previewUrl,
             });
             snapshots.push({
                 userId,
@@ -244,7 +253,7 @@ export const postSnapshots = async (): Promise<number> => {
         let createdCount = 0;
         if (snapshots.length > 0) {
             createdCount = await createManySnapshots(snapshots);
-            console.log("Successfully posted", createdCount, "snapshots");
+            console.log("Successfully posted", createdCount, "snapshots. History size was:", locations.length);
         } else {
             console.log("No snapshots to post");
         }

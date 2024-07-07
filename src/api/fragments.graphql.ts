@@ -17,6 +17,7 @@ export const SongInfo = graphql(`
         name
         artists
         albumUrl
+        previewUrl
     }
 `);
 
