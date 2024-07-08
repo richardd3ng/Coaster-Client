@@ -13,6 +13,7 @@ const createStyles = (theme: Theme) => {
         },
         container: {
             flexDirection: "row",
+            paddingHorizontal: theme.spacing.double,
         },
         iconContainer: {
             flex: 1,

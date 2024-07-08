@@ -1,7 +1,8 @@
-import React, { useEffect, useCallback, useMemo } from "react";
+import { memo, useEffect, useCallback, useMemo } from "react";
 
 import { Divider, Icon } from "@ui-kitten/components";
-import { Image, Text, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import { Text, View } from "react-native";
 
 import CustomPressable from "../../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
@@ -42,7 +43,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
         if (song) {
             openInSpotify(song.uri);
         }
-    }, [song]);
+    }, [song?.uri]);
 
     const SongContent = useMemo(() => {
         if (isLoading) {
@@ -77,7 +78,38 @@ const SongListItem: React.FC<SongListItemProps> = ({
             );
         }
         return null;
-    }, [isLoading, isError, error, song, styles]);
+    }, [isLoading, isError, error?.message, song, styles]);
+
+    const imageSource = useMemo(
+        () =>
+            song?.albumUrl ? { uri: song.albumUrl } : DEFAULT_ALBUM_COVER_URI,
+        [song?.albumUrl]
+    );
+
+    const renderRank = useMemo(
+        () =>
+            !hideRank && (
+                <View style={styles.rankContainer}>
+                    <Text style={styles.rankText}>{rank}</Text>
+                </View>
+            ),
+        [hideRank, rank, styles.rankContainer, styles.rankText]
+    );
+
+    const renderFrequency = useMemo(
+        () => (
+            <View style={styles.frequencyContainer}>
+                <Text style={styles.playCountText}>Play Count</Text>
+                <Text style={styles.frequencyText}>{frequency}</Text>
+            </View>
+        ),
+        [
+            frequency,
+            styles.frequencyContainer,
+            styles.playCountText,
+            styles.frequencyText,
+        ]
+    );
 
     return (
         <View style={styles.container}>
@@ -86,26 +118,15 @@ const SongListItem: React.FC<SongListItemProps> = ({
                 style={styles.listItemPressable}
             >
                 <View style={styles.listItemContainer}>
-                    {!hideRank && (
-                        <View style={styles.rankContainer}>
-                            <Text style={styles.rankText}>{rank}</Text>
-                        </View>
-                    )}
+                    {renderRank}
                     <View style={styles.imageContainer}>
-                        <Image
-                            source={
-                                song?.albumUrl
-                                    ? { uri: song.albumUrl }
-                                    : DEFAULT_ALBUM_COVER_URI
-                            }
+                        <FastImage
+                            source={imageSource}
                             style={styles.image}
                         />
                     </View>
                     {SongContent}
-                    <View style={styles.frequencyContainer}>
-                        <Text style={styles.playCountText}>Play Count</Text>
-                        <Text style={styles.frequencyText}>{frequency}</Text>
-                    </View>
+                    {renderFrequency}
                 </View>
             </CustomPressable>
             <Divider style={styles.verticalDivider} />
@@ -121,4 +142,4 @@ const SongListItem: React.FC<SongListItemProps> = ({
     );
 };
 
-export default React.memo(SongListItem);
+export default memo(SongListItem);

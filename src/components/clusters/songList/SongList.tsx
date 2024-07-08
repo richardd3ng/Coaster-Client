@@ -1,7 +1,7 @@
 import { memo, useCallback, useRef } from "react";
 
-import { BottomSheetFlatList, BottomSheetVirtualizedList } from "@gorhom/bottom-sheet";
 import { Divider } from "@ui-kitten/components";
+import { FlashList } from "@shopify/flash-list";
 import { View } from "react-native";
 
 import createStyles from "./styles";
@@ -45,6 +45,7 @@ const SongList: React.FC<SongListProps> = ({
     const renderItem = useCallback(
         ({ item, index }: { item: [string, number]; index: number }) => (
             <SongListItem
+                key={index}
                 rank={index + 1}
                 songIdFrequency={item}
                 registerRefetch={registerRefetch}
@@ -68,20 +69,20 @@ const SongList: React.FC<SongListProps> = ({
             {songIdFrequencies.length > 0 && (
                 <SaveToSpotifyPlaylistButton onPress={handleSaveToSpotify} />
             )}
-            <BottomSheetVirtualizedList
-                data={songIdFrequencies}
-                keyExtractor={(item) => item[0].toString()}
-                getItemCount={() => songIdFrequencies.length}
-                getItem={(data, index) => data[index]}
-                renderItem={renderItem}
-                showsVerticalScrollIndicator
-                style={styles.flatList}
-                ItemSeparatorComponent={() => (
-                    <Divider style={styles.divider} />
-                )}
-                refreshing={false}
-                onRefresh={onRefresh}
-            />
+            <View style={styles.listContainer}>
+                <FlashList
+                    data={songIdFrequencies}
+                    keyExtractor={(item) => item[0]}
+                    renderItem={renderItem}
+                    showsVerticalScrollIndicator
+                    ItemSeparatorComponent={() => (
+                        <Divider style={styles.divider} />
+                    )}
+                    refreshing={false}
+                    onRefresh={onRefresh}
+                    estimatedItemSize={100}
+                />
+            </View>
         </View>
     );
 };

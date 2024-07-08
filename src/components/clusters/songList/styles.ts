@@ -10,9 +10,8 @@ const createStyles = (theme: Theme) => {
             backgroundColor: theme.color.background,
             height: 10,
         },
-        flatList: {
-            backgroundColor: theme.color.background,
-            paddingHorizontal: theme.spacing.double,
+        listContainer: {
+            flex: 1,
         },
     });
 };

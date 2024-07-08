@@ -1,6 +1,6 @@
-import React from "react";
 import { Button, ButtonProps } from "@ui-kitten/components";
 import { Image, ImageStyle, StyleProp, ViewStyle } from "react-native";
+
 import styles from "./styles";
 
 interface ImageButtonProps extends ButtonProps {

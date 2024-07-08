@@ -1,5 +1,8 @@
 import { ReactElement } from "react";
-import { Image, Text, View } from "react-native";
+
+import FastImage from "react-native-fast-image";
+import { Text, View } from "react-native";
+
 import createStyles from "./styles";
 import { DEFAULT_PROFILE_URI } from "../../../constants/defaults";
 import { UserInfoFragment } from "../../../gql/graphql";
@@ -21,7 +24,7 @@ const FriendsListItem: React.FC<FriendsListItemProps> = ({
     return (
         <View style={styles.listItemContainer}>
             <View style={styles.imageContainer}>
-                <Image
+                <FastImage
                     source={
                         user.profileUrl
                             ? { uri: user.profileUrl }

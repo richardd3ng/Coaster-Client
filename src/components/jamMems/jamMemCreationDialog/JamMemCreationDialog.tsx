@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-import { Image, Text, View } from "react-native";
-import { Input } from "@ui-kitten/components";
 import { Datepicker } from "@ui-kitten/components";
+import FastImage from "react-native-fast-image";
+import { Input } from "@ui-kitten/components";
+import { Text, View } from "react-native";
 
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
@@ -110,7 +111,7 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
                 </Text>
             )}
             <View style={styles.imagePickerContainer}>
-                <Image
+                <FastImage
                     source={
                         coverUri ? { uri: coverUri } : DEFAULT_JAM_MEM_COVER_URI
                     }
