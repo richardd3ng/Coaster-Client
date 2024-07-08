@@ -3,11 +3,12 @@ import { memo, useMemo } from "react";
 import { ButtonProps } from "@ui-kitten/components";
 import { ImageStyle, StyleProp, ViewStyle } from "react-native";
 
+import createStyles from "./styles";
 import IconButton from "../../shared/iconButton/IconButton";
 import ImageButton from "../../shared/imageButton/ImageButton";
-import styles from "./styles";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useProfileModal } from "../../../hooks/context/ModalContext";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface ProfileIconButtonProps extends ButtonProps {
     style?: StyleProp<ViewStyle>;
@@ -15,10 +16,11 @@ interface ProfileIconButtonProps extends ButtonProps {
 }
 
 const ProfileIconButton: React.FC<ProfileIconButtonProps> = ({
-    style = styles.button,
-    imageStyle = styles.button,
+    style,
+    imageStyle,
     ...props
 }: ProfileIconButtonProps) => {
+    const styles = useThemeAwareObject(createStyles);
     const { present } = useProfileModal();
     const user = useCurrentUser();
     const onPress = props.onPress || present;
@@ -27,16 +29,16 @@ const ProfileIconButton: React.FC<ProfileIconButtonProps> = ({
         return user.profileUrl ? (
             <ImageButton
                 onPress={onPress}
-                style={style}
+                style={[styles.button, style]}
                 uri={user.profileUrl}
                 imageStyle={imageStyle}
             />
         ) : (
             <IconButton
                 onPress={present}
-                style={style}
+                style={[styles.button, style]}
                 iconName="person"
-                iconColor="royalblue"
+                iconColor={styles.icon.color}
             />
         );
     }, [user]);

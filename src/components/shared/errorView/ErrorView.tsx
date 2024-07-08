@@ -1,8 +1,9 @@
 import { Icon } from "@ui-kitten/components";
 import { StyleProp, Text, TextStyle, View, ViewStyle } from "react-native";
 
-import styles from "./styles";
+import createStyles from "./styles";
 import TextButton from "../textButton/TextButton";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface ErrorViewProps {
     message: string;
@@ -17,20 +18,24 @@ const ErrorView: React.FC<ErrorViewProps> = ({
     message,
     suggestion = "Check your internet connection",
     onRetry,
-    messageStyle = styles.messageText,
-    containerStyle = styles.errorContainer,
+    messageStyle,
+    containerStyle,
     hideSuggestion = false,
 }: ErrorViewProps) => {
+    const styles = useThemeAwareObject(createStyles);
+
     return (
         <View style={containerStyle}>
-            <Text style={messageStyle}>{message}</Text>
+            <Text style={[styles.messageText, messageStyle]}>{message}</Text>
             {!hideSuggestion && (
                 <Text style={styles.suggestionText}>{suggestion}</Text>
             )}
             {onRetry && (
                 <TextButton
                     onPress={onRetry}
-                    accessoryLeft={<Icon name="refresh" fill="royalblue" />}
+                    accessoryLeft={
+                        <Icon name="refresh" fill={styles.buttonIcon.color} />
+                    }
                     size="small"
                     text="Try Again"
                     style={styles.button}

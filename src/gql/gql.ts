@@ -18,9 +18,11 @@ const documents = {
     "\n    fragment SnapshotInfo on Snapshot {\n        songId\n        latitude\n        longitude\n    }\n": types.SnapshotInfoFragmentDoc,
     "\n    fragment JamMemMetadata on Jam_Mem {\n        _id\n        ownerId\n        name\n        location\n        start\n        end\n        coverUrl\n    }\n": types.JamMemMetadataFragmentDoc,
     "\n    query JamMemByUserId($userId: MongoID!) {\n        jamMemByUserId(userId: $userId) {\n            ...JamMemMetadata\n        }\n    }\n": types.JamMemByUserIdDocument,
-    "\n    query JamMemById($id: MongoID!) {\n        jamMemById(_id: $id) {\n            _id\n            name\n            location\n            start\n            end\n            friends {\n                ...UserInfo\n            }\n            snapshots {\n                ...SnapshotInfo\n            }\n        }\n    }\n": types.JamMemByIdDocument,
+    "\n    query JamMemById($id: MongoID!) {\n        jamMemById(_id: $id) {\n            _id\n            name\n            location\n            start\n            end\n            friends {\n                ...UserInfo\n            }\n        }\n    }\n": types.JamMemByIdDocument,
     "\n    mutation CreateJamMem(\n        $ownerId: MongoID!\n        $name: String!\n        $location: String!\n        $start: Date!\n        $end: Date!\n        $coverImage: String\n        $friends: [MongoID!]\n    ) {\n        jamMemCreateOne(\n            ownerId: $ownerId\n            name: $name\n            location: $location\n            start: $start\n            end: $end\n            coverImage: $coverImage\n            friends: $friends\n        ) {\n            _id\n        }\n    }\n": types.CreateJamMemDocument,
+    "\n    mutation UpdateJamMemUser($id: MongoID!, $record: JamMemUpdateInput!) {\n        jamMemUpdateById(_id: $id, record: $record) {\n            _id\n        }\n    }\n": types.UpdateJamMemUserDocument,
     "\n    mutation deleteJamMem($id: MongoID!) {\n        jamMemDeleteById(_id: $id) {\n            _id\n        }\n    }\n": types.DeleteJamMemDocument,
+    "\n    mutation JamMemAddFriends($jamMemId: MongoID!, $friendIds: [MongoID!]!) {\n        jamMemAddFriends(jamMemId: $jamMemId, friendIds: $friendIds) {\n            _id\n        }\n    }\n": types.JamMemAddFriendsDocument,
     "\n    mutation JamMemRemoveFriend($jamMemId: MongoID!, $friendId: MongoID!) {\n        jamMemRemoveFriend(jamMemId: $jamMemId, friendId: $friendId) {\n            _id\n        }\n    }\n": types.JamMemRemoveFriendDocument,
     "\n    query PlacesQuery($query: String!) {\n        placesQuery(query: $query) {\n            id\n            name\n            address\n            latitude\n            longitude\n            latitudeDelta\n            longitudeDelta\n        }\n    }\n": types.PlacesQueryDocument,
     "\n    query SnapshotByUserId($userId: MongoID!) {\n        snapshotByUserId(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserIdDocument,
@@ -83,7 +85,7 @@ export function graphql(source: "\n    query JamMemByUserId($userId: MongoID!) {
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query JamMemById($id: MongoID!) {\n        jamMemById(_id: $id) {\n            _id\n            name\n            location\n            start\n            end\n            friends {\n                ...UserInfo\n            }\n            snapshots {\n                ...SnapshotInfo\n            }\n        }\n    }\n"): (typeof documents)["\n    query JamMemById($id: MongoID!) {\n        jamMemById(_id: $id) {\n            _id\n            name\n            location\n            start\n            end\n            friends {\n                ...UserInfo\n            }\n            snapshots {\n                ...SnapshotInfo\n            }\n        }\n    }\n"];
+export function graphql(source: "\n    query JamMemById($id: MongoID!) {\n        jamMemById(_id: $id) {\n            _id\n            name\n            location\n            start\n            end\n            friends {\n                ...UserInfo\n            }\n        }\n    }\n"): (typeof documents)["\n    query JamMemById($id: MongoID!) {\n        jamMemById(_id: $id) {\n            _id\n            name\n            location\n            start\n            end\n            friends {\n                ...UserInfo\n            }\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -91,7 +93,15 @@ export function graphql(source: "\n    mutation CreateJamMem(\n        $ownerId:
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n    mutation UpdateJamMemUser($id: MongoID!, $record: JamMemUpdateInput!) {\n        jamMemUpdateById(_id: $id, record: $record) {\n            _id\n        }\n    }\n"): (typeof documents)["\n    mutation UpdateJamMemUser($id: MongoID!, $record: JamMemUpdateInput!) {\n        jamMemUpdateById(_id: $id, record: $record) {\n            _id\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n    mutation deleteJamMem($id: MongoID!) {\n        jamMemDeleteById(_id: $id) {\n            _id\n        }\n    }\n"): (typeof documents)["\n    mutation deleteJamMem($id: MongoID!) {\n        jamMemDeleteById(_id: $id) {\n            _id\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation JamMemAddFriends($jamMemId: MongoID!, $friendIds: [MongoID!]!) {\n        jamMemAddFriends(jamMemId: $jamMemId, friendIds: $friendIds) {\n            _id\n        }\n    }\n"): (typeof documents)["\n    mutation JamMemAddFriends($jamMemId: MongoID!, $friendIds: [MongoID!]!) {\n        jamMemAddFriends(jamMemId: $jamMemId, friendIds: $friendIds) {\n            _id\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

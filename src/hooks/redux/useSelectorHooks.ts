@@ -8,3 +8,7 @@ export const useCurrentLocation = () => {
 export const useCurrentRegion = () => {
     return useSelector((state: RootState) => state.location.currentRegion);
 };
+
+export const useSelecteJamMemId = () => {
+    return useSelector((state: RootState) => state.jamMem.selectedJamMemId);
+}

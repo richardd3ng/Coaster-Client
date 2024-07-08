@@ -8,6 +8,12 @@ const createStyles = (theme: Theme) => {
             backgroundColor: "lightgray",
             borderWidth: 0,
         },
+        icon: {
+            color: theme.color.primary,
+        },
+        text: {
+            color: theme.color.primary,
+        }
     });
 };
 

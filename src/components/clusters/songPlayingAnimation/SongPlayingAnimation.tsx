@@ -34,7 +34,7 @@ const SongPlayingAnimation: React.FC<SongPlayingAnimationProps> = ({
     return (
         <View style={styles.animationContainer}>
             <LottieView
-                source={require("../../../../assets/animations/song-playing-animation.json")}
+                source={require("../../../../assets/animations/song-playing.json")}
                 style={styles.animation}
                 autoPlay
                 loop

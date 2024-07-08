@@ -8,16 +8,21 @@ const createStyles = (theme: Theme) => {
             flexDirection: "row",
             alignItems: "center",
             padding: theme.spacing.base,
+            marginTop: theme.spacing.base,
+            marginHorizontal: theme.spacing.double,
+            marginBottom: theme.spacing.double,
+            backgroundColor: "white",
+            borderRadius: theme.border.radiusSecondary,
         },
         icon: {
-            width: 24,
-            height: 24,
-            color: "red",
+            width: 42,
+            height: 42,
+            color: theme.color.primary,
         },
         text: {
-            color: "red",
+            color: theme.color.primary,
             paddingLeft: theme.spacing.base / 2,
-            fontSize: theme.font.medium,
+            fontSize: theme.font.large,
         },
     });
 };

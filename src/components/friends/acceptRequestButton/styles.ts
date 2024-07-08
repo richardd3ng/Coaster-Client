@@ -22,7 +22,7 @@ const createStyles = (theme: Theme) => {
             width: 25,
         },
         text: {
-            color: "royalblue",
+            color: theme.color.primary,
             fontSize: theme.font.small,
         },
     });

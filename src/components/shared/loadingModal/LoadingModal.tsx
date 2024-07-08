@@ -1,21 +1,39 @@
-import { ActivityIndicator, Text, View } from "react-native";
+import React from "react";
 
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import LottieView from "lottie-react-native";
+import { Modal, Text, View } from "react-native";
+
 import createStyles from "./styles";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface LoadingModalProps {
+    visible: boolean;
     text: string;
 }
 
 const LoadingModal: React.FC<LoadingModalProps> = ({
+    visible,
     text,
 }: LoadingModalProps) => {
     const styles = useThemeAwareObject(createStyles);
+
     return (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#0000ff" />
-            <Text style={styles.text}>{text}</Text>
-        </View>
+        <Modal transparent={true} animationType="fade" visible={visible}>
+            <View style={styles.modalBackground}>
+                <View style={styles.loadingContainer}>
+                    <View style={styles.animationContainer}>
+                        <LottieView
+                            source={require("../../../../assets/animations/loading.json")}
+                            style={styles.animation}
+                            autoPlay
+                            loop
+                        />
+                    </View>
+
+                    <Text style={styles.text}>{text}</Text>
+                </View>
+            </View>
+        </Modal>
     );
 };
 

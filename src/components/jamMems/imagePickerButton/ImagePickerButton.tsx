@@ -1,6 +1,6 @@
 import { Button, Icon } from "@ui-kitten/components";
 import ImageCropPicker from "react-native-image-crop-picker";
-import { StyleProp, ViewStyle } from "react-native";
+import { StyleProp, Text, ViewStyle } from "react-native";
 
 import createStyles from "./styles";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
@@ -34,11 +34,11 @@ export const ImagePickerButton: React.FC<ImagePickerButtonProps> = ({
         <Button
             onPress={handlePickImage}
             appearance="outline"
-            accessoryLeft={<Icon name="image" />}
+            accessoryLeft={<Icon name="image" fill={styles.icon.color} />}
             style={[styles.button, style]}
             activeOpacity={0.5}
         >
-            Cover Image
+            {() => <Text style={styles.text}>Cover Image</Text>}
         </Button>
     );
 };

@@ -11,6 +11,12 @@ const JamMemByUserIdQueryDocument = graphql(`
         }
     }
 `);
+/**
+ * Fetches Jam Mem metadatas by a user's id (see JamMemMetadataFragment)
+ * @param userId The id of the user
+ * @returns The Jam Mem metadatas
+ * @throws An error if the request fails
+ */
 export const fetchJamMemMetadatasByUser = async (
     userId: string
 ): Promise<JamMemMetadataFragment[]> => {
@@ -36,9 +42,6 @@ const JamMemByIdQueryDocument = graphql(`
             friends {
                 ...UserInfo
             }
-            snapshots {
-                ...SnapshotInfo
-            }
         }
     }
 `);
@@ -52,6 +55,12 @@ interface JamMemByIdResponse {
         friends: UserInfoFragment[];
     };
 }
+/**
+ * Fetches a Jam Mem by its id
+ * @param id The id of the Jam Mem
+ * @returns The Jam Mem
+ * @throws An error if the request fails
+ */
 export const fetchJamMem = async (id: string): Promise<JamMem | null> => {
     if (!id) {
         return null;
@@ -149,6 +158,42 @@ export const createJamMem = async ({
     }
 };
 
+const updateJamMemMutationDocument = graphql(`
+    mutation UpdateJamMemUser($id: MongoID!, $record: JamMemUpdateInput!) {
+        jamMemUpdateById(_id: $id, record: $record) {
+            _id
+        }
+    }
+`);
+interface UpdateJamMemArgs {
+    id: string;
+    record: {
+        name?: string;
+        location?: string;
+        start?: Date;
+        end?: Date;
+        coverImage?: string;
+    };
+}
+/**
+ * Updates a Jam Mem
+ * @param id The id of the Jam Mem to update
+ * @param record The fields to update
+ * @returns The id of the updated Jam Mem
+ * @throws An error if the request fails
+ */
+export const updateJamMem = async ({ id, record }: UpdateJamMemArgs) => {
+    try {
+        const response = await graphqlRequest<{
+            jamMemUpdateById: { _id: string };
+        }>(updateJamMemMutationDocument, { id, record });
+        return response.jamMemUpdateById._id;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to update Jam Mem");
+    }
+};
+
 const deleteJamMemMutationDocument = graphql(`
     mutation deleteJamMem($id: MongoID!) {
         jamMemDeleteById(_id: $id) {
@@ -156,6 +201,12 @@ const deleteJamMemMutationDocument = graphql(`
         }
     }
 `);
+/**
+ * Deletes a Jam Mem
+ * @param id The id of the Jam Mem to delete
+ * @returns The id of the deleted Jam Mem
+ * @throws An error if the request fails
+ */
 export const deleteJamMem = async (id: string): Promise<string> => {
     try {
         const response = await graphqlRequest<{
@@ -165,6 +216,39 @@ export const deleteJamMem = async (id: string): Promise<string> => {
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to delete Jam Mem");
+    }
+};
+
+const jamMemAddFriendsMutationDocument = graphql(`
+    mutation JamMemAddFriends($jamMemId: MongoID!, $friendIds: [MongoID!]!) {
+        jamMemAddFriends(jamMemId: $jamMemId, friendIds: $friendIds) {
+            _id
+        }
+    }
+`);
+interface AddFriendsToJamMemArgs {
+    jamMemId: string;
+    friendIds: string[];
+}
+/**
+ * Adds friends to a Jam Mem
+ * @param jamMemId The id of the Jam Mem to add friends to
+ * @param friendIds The ids of the friends to add
+ * @returns The id of the updated Jam Mem
+ * @throws An error if the request fails
+ */
+export const addFriendsToJamMem = async ({
+    jamMemId,
+    friendIds,
+}: AddFriendsToJamMemArgs): Promise<string> => {
+    try {
+        const response = await graphqlRequest<{
+            jamMemAddFriends: { _id: string };
+        }>(jamMemAddFriendsMutationDocument, { jamMemId, friendIds });
+        return response.jamMemAddFriends._id;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to add friends to Jam Mem");
     }
 };
 

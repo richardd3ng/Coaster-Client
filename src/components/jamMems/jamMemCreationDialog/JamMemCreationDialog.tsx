@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Alert, Image, Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import { Input } from "@ui-kitten/components";
 import { Datepicker } from "@ui-kitten/components";
 
@@ -11,9 +11,12 @@ import { encodeBase64 } from "../../../utils/fileSystemUtils";
 import { ImagePickerButton } from "../imagePickerButton/ImagePickerButton";
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
 import useCurrentUser from "../../../hooks/useCurrentUser";
+import { useFriends } from "../../../hooks/react-query/useQueryHooks";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToCreateJamMem } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { validateInputs } from "../../../utils/jamMemUtils";
+import AddFriendsDropdown from "../addFriendsDropdown/AddFriendsDropdown";
 
 interface JamMemCreationDialogProps {
     open: boolean;
@@ -34,6 +37,7 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
     } = useMutationToCreateJamMem();
     useMutationErrorAlert({ isError, error, reset });
     const currentUserId = useCurrentUser().id;
+    const { data: friends } = useFriends(currentUserId);
     const [name, setName] = useState<string>("");
     const [location, setLocation] = useState<string>("");
     const [startDate, setStartDate] = useState<Date | null>(null);
@@ -41,62 +45,26 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
     const [coverUri, setCoverUri] = useState<string>("");
     const invalidDates: boolean =
         startDate !== null && endDate !== null && startDate > endDate;
-
-    const checkMissingDetails = (): string[] => {
-        const missingDetails: string[] = [];
-        if (!name.trim()) {
-            missingDetails.push("name");
-        }
-        if (!location.trim()) {
-            missingDetails.push("location");
-        }
-        if (!startDate) {
-            missingDetails.push("start date");
-        }
-        if (!endDate) {
-            missingDetails.push("end date");
-        }
-        return missingDetails;
-    };
-
-    const generateAlertMessage = (missingDetails: string[]): string => {
-        let alertMessage = "Please provide ";
-        if (missingDetails.length === 1) {
-            alertMessage += `a ${missingDetails[0]}.`;
-        } else if (missingDetails.length === 2) {
-            alertMessage += `a ${missingDetails[0]} and ${missingDetails[1]}.`;
-        } else {
-            alertMessage += "the following details: ";
-            alertMessage += missingDetails.slice(0, -1).join(", ");
-            alertMessage += `, and ${
-                missingDetails[missingDetails.length - 1]
-            }.`;
-        }
-        return alertMessage;
-    };
-
-    const validateInputs = (): boolean => {
-        const missingDetails: string[] = checkMissingDetails();
-        if (missingDetails.length > 0) {
-            Alert.alert(generateAlertMessage(missingDetails));
-            return false;
-        }
-        return true;
-    };
+    const [friendIds, setFriendIds] = useState<string[]>([]);
 
     const handleCreate = async () => {
-        if (!validateInputs()) {
+        if (!validateInputs(name, location, startDate!, endDate!)) {
             return;
         }
-        createJamMem({
-            ownerId: currentUserId,
-            name,
-            location,
-            start: startDate!,
-            end: endDate!,
-            coverImage: await encodeBase64(coverUri),
-        });
-        handleClose();
+        createJamMem(
+            {
+                ownerId: currentUserId,
+                name,
+                location,
+                start: startDate!,
+                end: endDate!,
+                coverImage: coverUri ? await encodeBase64(coverUri) : undefined,
+                friends: friendIds.length > 0 ? friendIds : undefined,
+            },
+            {
+                onSuccess: handleClose,
+            }
+        );
     };
 
     const handleClose = () => {
@@ -153,6 +121,19 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
                     style={styles.imagePickerButton}
                 />
             </View>
+            <View style={styles.dropdownContainer}>
+                <AddFriendsDropdown
+                    friends={friends ?? []}
+                    onSelect={(selectedIndex) => {
+                        setFriendIds(
+                            selectedIndex.map(
+                                (index) => (friends ?? [])[index.row]._id
+                            )
+                        );
+                    }}
+                    placeholder="Add Friends"
+                />
+            </View>
         </View>
     );
 
@@ -168,7 +149,7 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
                 disableConfirm={invalidDates}
                 sameButtonTextStyle
             />
-            {isPending && <LoadingModal text="Creating Jam Mem..." />}
+            <LoadingModal visible={isPending} text="Creating Jam Mem..." />
         </>
     );
 };

@@ -3,6 +3,7 @@ import { BORDER_THEME, FONT_THEME, SPACING_THEME } from "./globalStyles";
 
 const DARK_COLOR_THEME: ColorTheme = {
     background: "#3f3f3f",
+    primary: "#009BFF",
 };
 
 export const DARK_THEME_ID = "dark";

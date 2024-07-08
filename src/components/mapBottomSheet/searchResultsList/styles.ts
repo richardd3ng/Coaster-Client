@@ -19,7 +19,7 @@ const createStyles = (theme: Theme) => {
             fontSize: theme.font.medium,
             paddingLeft: theme.spacing.double,
             paddingVertical: 12,
-            color: "blue",
+            color: theme.color.primary,
         },
         moreTextButton: { paddingRight: theme.spacing.double },
     });

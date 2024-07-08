@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import {
     createMaterialTopTabNavigator,
     MaterialTopTabNavigationEventMap,
@@ -9,9 +11,9 @@ import {
     TabNavigationState,
 } from "@react-navigation/native";
 import { Tab, TabBar } from "@ui-kitten/components";
-import { useSelector } from "react-redux";
 import { View } from "react-native";
 
+import AddFriendButton from "../addFriendButton/AddFriendButton";
 import SongList from "../../clusters/songList/SongList";
 import { computeSongIdFrequencies } from "../../../utils/snapshotUtils";
 import createStyles from "./styles";
@@ -19,13 +21,11 @@ import JamFriendsScrollView from "../jamFriendsScrollView/JamFriendsScrollView";
 import { JamMemTabName, JamMemTabParamList } from "../../../types/navigation";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import ErrorView from "../../shared/errorView/ErrorView";
-import { RootState } from "../../../state/store";
 import useClusters from "../../../hooks/useClusters";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { memo, useEffect, useMemo, useRef, useState } from "react";
-import superclusterManager from "../../../utils/superclusterManager";
+import { useSelecteJamMemId } from "../../../hooks/redux/useSelectorHooks";
 
 const { Navigator, Screen } =
     createMaterialTopTabNavigator<JamMemTabParamList>();
@@ -40,9 +40,7 @@ interface JamMemTabBarProps {
 
 const JamMemTabNavigator: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const selectedJamMemId = useSelector((state: RootState) => {
-        return state.jamMem.selectedJamMemId;
-    });
+    const selectedJamMemId = useSelecteJamMemId();
     const { clusterFilter } = useMapContext();
     const { songPoints } = useClusters(null, clusterFilter);
 
@@ -63,12 +61,14 @@ const JamMemTabNavigator: React.FC = () => {
                 ) : isError && error ? (
                     <ErrorView message={error.message} onRetry={refetch} />
                 ) : selectedJamMem ? (
-                    <SongList
-                        songIdFrequencies={computeSongIdFrequencies(
-                            songPoints ?? []
-                        )}
-                        hideRank
-                    />
+                    <View style={styles.songListContainer}>
+                        <SongList
+                            songIdFrequencies={computeSongIdFrequencies(
+                                songPoints ?? []
+                            )}
+                            hideRank
+                        />
+                    </View>
                 ) : null}
             </View>
         );
@@ -82,10 +82,12 @@ const JamMemTabNavigator: React.FC = () => {
                 ) : isError && error ? (
                     <ErrorView message={error.message} onRetry={refetch} />
                 ) : selectedJamMem ? (
-                    <JamFriendsScrollView
-                        jamMemId={selectedJamMem.id}
-                        users={selectedJamMem.friends ?? []}
-                    />
+                    <>
+                        <AddFriendButton />
+                        <JamFriendsScrollView
+                            users={selectedJamMem.friends ?? []}
+                        />
+                    </>
                 ) : null}
             </View>
         );

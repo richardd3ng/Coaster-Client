@@ -5,6 +5,7 @@ export interface BorderTheme {
 
 export interface ColorTheme {
     background: string;
+    primary: string;
 }
 
 export interface FontTheme {

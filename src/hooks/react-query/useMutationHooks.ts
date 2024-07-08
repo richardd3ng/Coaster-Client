@@ -9,19 +9,22 @@ import {
     updatePreferences,
 } from "../../api/userAPI";
 import {
+    addFriendsToJamMem,
     createJamMem,
     deleteJamMem,
     removeFriendFromJamMem,
+    updateJamMem,
 } from "../../api/jamMemAPI";
+import { createPlaylistFromSongIds } from "../../api/songAPI";
 import {
     getQueryKeyForUseFriends,
     getQueryKeyForUseJamMem,
     getQueryKeyForUseJamMemMetadatas,
     getQueryKeyForUsePendingRequests,
     getQueryKeyForUseSentRequests,
+    getQueryKeyForUseSongPoints,
     getQueryKeyForUseUserPreferences,
 } from "./useQueryHooks";
-import { createPlaylistFromSongIds } from "../../api/songAPI";
 import { openInSpotify } from "../../utils/spotifyUtils";
 
 /* Jam Mems */
@@ -34,6 +37,30 @@ export const useMutationToCreateJamMem = () => {
             queryClient.invalidateQueries({
                 queryKey: getQueryKeyForUseJamMemMetadatas(),
             }),
+    });
+};
+
+export const useMutationToUpdateJamMem = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: updateJamMem,
+        onSuccess: (id, updateJamMemArgs) => {
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUseJamMemMetadatas(),
+            });
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUseJamMem(id),
+            });
+            if (updateJamMemArgs.record.start || updateJamMemArgs.record.end) {
+                queryClient.invalidateQueries({
+                    queryKey: getQueryKeyForUseSongPoints({
+                        type: "jamMem",
+                        value: id,
+                    }),
+                });
+            }
+        },
     });
 };
 
@@ -50,14 +77,39 @@ export const useMutationToDeleteJamMem = () => {
     });
 };
 
-export const useMutationToDeleteFriendFromJamMem = (jamMemId: string) => {
+export const useMutationToAddFriendsToJamMem = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: addFriendsToJamMem,
+        onSuccess: (id) => {
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUseJamMem(id),
+            });
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUseSongPoints({
+                    type: "jamMem",
+                    value: id,
+                }),
+            });
+        },
+    });
+};
+
+export const useMutationToDeleteFriendFromJamMem = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: removeFriendFromJamMem,
-        onSuccess: () => {
+        onSuccess: (id) => {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseJamMem(jamMemId),
+                queryKey: getQueryKeyForUseJamMem(id),
+            });
+            queryClient.invalidateQueries({
+                queryKey: getQueryKeyForUseSongPoints({
+                    type: "jamMem",
+                    value: id,
+                }),
             });
         },
     });
@@ -148,7 +200,7 @@ export const useMutationToCancelRequest = () => {
 export const useMutationToCreatePlaylistFromSongIds = () => {
     return useMutation({
         mutationFn: createPlaylistFromSongIds,
-        onSuccess: (uri: string) => {
+        onSuccess: (uri) => {
             openInSpotify(uri);
         },
     });

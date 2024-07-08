@@ -37,7 +37,7 @@ const PreferencesListItem: React.FC<PreferencesListItemProps> = ({
         <Icon
             name="checkmark"
             style={styles.icon}
-            fill={isEnabled ? "royalblue" : "white"}
+            fill={isEnabled ? styles.icon.color : "white"}
         />
     );
 
