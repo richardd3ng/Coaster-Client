@@ -7,6 +7,7 @@ const createStyles = (theme: Theme) => {
         icon: {
             height: 25,
             width: 25,
+            color: theme.color.primary,
         },
         container: {
             flexDirection: "row",

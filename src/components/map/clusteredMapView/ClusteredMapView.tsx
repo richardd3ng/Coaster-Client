@@ -36,25 +36,28 @@ const ClusteredMapView = () => {
         }
     }, [location, dispatchSetCurrentRegion]);
 
-    return location && region && !isLoading ? (
-        <MapView
-            style={styles.map}
-            region={region}
-            showsUserLocation
-            followsUserLocation={followsUserLocation}
-            onRegionChangeComplete={dispatchSetCurrentRegion}
-            onPanDrag={() => setFollowsUserLocation(false)}
-            showsCompass
-            showsScale
-            loadingEnabled
-            showsMyLocationButton={false}
-        >
-            {clusters.map((cluster: SongCluster, index: number) => (
-                <ClusterMarker key={index} cluster={cluster} />
-            ))}
-        </MapView>
-    ) : (
-        <LoadingModal text="Loading Clusters..." />
+    return (
+        <>
+            {location && region && (
+                <MapView
+                    style={styles.map}
+                    region={region}
+                    showsUserLocation
+                    followsUserLocation={followsUserLocation}
+                    onRegionChangeComplete={dispatchSetCurrentRegion}
+                    onPanDrag={() => setFollowsUserLocation(false)}
+                    showsCompass
+                    showsScale
+                    loadingEnabled
+                    showsMyLocationButton={false}
+                >
+                    {clusters.map((cluster: SongCluster, index: number) => (
+                        <ClusterMarker key={index} cluster={cluster} />
+                    ))}
+                </MapView>
+            )}
+            <LoadingModal visible={isLoading} text="Loading clusters..." />
+        </>
     );
 };
 

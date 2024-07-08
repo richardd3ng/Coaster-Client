@@ -19,7 +19,7 @@ const CreateButton: React.FC = () => {
                 <View style={styles.container}>
                     <Icon
                         name="plus-square-outline"
-                        fill="royalblue"
+                        fill={styles.icon.color}
                         style={styles.icon}
                     />
                     <Text style={styles.text}>Create</Text>

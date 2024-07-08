@@ -4,21 +4,35 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        loadingContainer: {
-            ...StyleSheet.absoluteFillObject,
-            pointerEvents: "box-none",
+        animationContainer: {
+            width: 50,
+            height: 50,
             justifyContent: "center",
-            alignSelf: "center",
-            verticalAlign: "bottom",
+            alignItems: "center",
+            backgroundColor: theme.color.background,
         },
-        spinner: {
+        animation: {
+            width: 100,
+            height: 100,
+        },
+        modalBackground: {
             flex: 1,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        loadingContainer: {
+            backgroundColor: theme.color.background,
+            padding: theme.spacing.double,
+            borderRadius: theme.border.radiusSecondary,
+            alignItems: "center",
+            justifyContent: "center",
         },
         text: {
-            paddingTop: theme.spacing.base,
+            marginTop: theme.spacing.base,
             fontSize: theme.font.medium,
-            alignSelf: "center",
-            color: "blue",
+            color: theme.color.primary,
+            fontWeight: "600",
         },
     });
 };

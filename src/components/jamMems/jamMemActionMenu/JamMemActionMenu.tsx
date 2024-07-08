@@ -2,27 +2,17 @@ import { memo, useState } from "react";
 
 import { Divider, Icon } from "@ui-kitten/components";
 import { Popover } from "@ui-kitten/components";
+import { Pressable, View } from "react-native";
 
 import createStyles from "./styles";
 import DeleteButton from "../deleteButton/DeleteButton";
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import TextButton from "../../shared/textButton/TextButton";
-import { Pressable, View } from "react-native";
 import EditButton from "../editButton/EditButton";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
-interface JamMemActionMenuProps {
-    jamMemId: string;
-}
-
-const JamMemActionMenu: React.FC<JamMemActionMenuProps> = ({
-    jamMemId,
-}: JamMemActionMenuProps) => {
+const JamMemActionMenu: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const [visible, setVisible] = useState<boolean>(false);
 
-    if (!jamMemId) {
-        return null;
-    }
     const MoreOptionsButton = () => (
         <Pressable
             onPress={() => {
@@ -46,9 +36,9 @@ const JamMemActionMenu: React.FC<JamMemActionMenuProps> = ({
                 onBackdropPress={() => setVisible(false)}
             >
                 <>
-                    <EditButton jamMemId={jamMemId} />
+                    <EditButton />
                     <Divider />
-                    <DeleteButton jamMemId={jamMemId} />
+                    <DeleteButton />
                 </>
             </Popover>
         </View>

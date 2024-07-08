@@ -1,12 +1,18 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-    button: {
-        height: 40,
-        width: 40,
-        backgroundColor: "lightgray",
-        borderRadius: 20,
-    },
-});
+import { Theme } from "../../../types/theme";
 
-export default styles;
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        button: {
+            height: 40,
+            width: 40,
+            backgroundColor: "lightgray",
+            borderRadius: 20,
+        },
+        icon: {
+            color: theme.color.primary,
+        },
+    });
+};
+export default createStyles;

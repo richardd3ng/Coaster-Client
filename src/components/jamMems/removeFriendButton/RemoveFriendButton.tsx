@@ -8,18 +8,18 @@ import createStyles from "./styles";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToDeleteFriendFromJamMem } from "../../../hooks/react-query/useMutationHooks";
 import { UserInfoFragment } from "../../../gql/graphql";
+import { useSelecteJamMemId } from "../../../hooks/redux/useSelectorHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface RemoveFriendButtonProps {
-    jamMemId: string;
     user: UserInfoFragment;
 }
 
 const RemoveFriendButton: React.FC<RemoveFriendButtonProps> = ({
-    jamMemId,
     user,
 }: RemoveFriendButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
+    const jamMemId = useSelecteJamMemId();
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const {
         mutate: deleteFriendFromJamMem,
@@ -27,7 +27,7 @@ const RemoveFriendButton: React.FC<RemoveFriendButtonProps> = ({
         isError,
         error,
         reset,
-    } = useMutationToDeleteFriendFromJamMem(jamMemId);
+    } = useMutationToDeleteFriendFromJamMem();
     useMutationErrorAlert({ isError, error, reset });
 
     return (

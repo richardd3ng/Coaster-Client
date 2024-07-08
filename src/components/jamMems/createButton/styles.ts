@@ -15,9 +15,10 @@ const createStyles = (theme: Theme) => {
         icon: {
             width: 42,
             height: 42,
+            color: theme.color.primary,
         },
         text: {
-            color: "royalblue",
+            color: theme.color.primary,
             paddingLeft: theme.spacing.base / 2,
             fontSize: theme.font.large,
         },

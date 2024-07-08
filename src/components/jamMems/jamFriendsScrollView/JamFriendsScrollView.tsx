@@ -7,12 +7,10 @@ import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface JamFriendsScrollViewProps {
-    jamMemId: string;
     users: UserInfoFragment[];
 }
 
 const JamFriendsScrollView: React.FC<JamFriendsScrollViewProps> = ({
-    jamMemId,
     users,
 }: JamFriendsScrollViewProps) => {
     const styles = useThemeAwareObject(createStyles);
@@ -26,9 +24,7 @@ const JamFriendsScrollView: React.FC<JamFriendsScrollViewProps> = ({
                 <FriendsListItem
                     key={user._id}
                     user={user}
-                    leftComponent={
-                        <RemoveFriendButton jamMemId={jamMemId} user={user} />
-                    }
+                    leftComponent={<RemoveFriendButton user={user} />}
                 />
             ))}
         </BottomSheetScrollView>

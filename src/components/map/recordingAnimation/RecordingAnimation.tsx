@@ -12,7 +12,7 @@ const RecordingAnimation: React.FC = () => {
     return (
         <View style={styles.animationContainer}>
             <LottieView
-                source={require("../../../../assets/animations/recording-animation.json")}
+                source={require("../../../../assets/animations/recording.json")}
                 style={styles.animation}
                 autoPlay
                 loop

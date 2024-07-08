@@ -17,7 +17,7 @@ const createStyles = (theme: Theme) => {
             paddingRight: theme.spacing.base,
         },
         text: {
-            color: "royalblue",
+            color: theme.color.primary,
             fontSize: theme.font.small,
         },
     });

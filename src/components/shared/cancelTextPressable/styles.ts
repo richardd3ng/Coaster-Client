@@ -6,7 +6,7 @@ const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         cancelText: {
             fontSize: theme.font.medium,
-            color: "blue",
+            color: theme.color.primary,
         },
         cancelButton: {
             alignSelf: "center",

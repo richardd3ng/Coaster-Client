@@ -73,7 +73,7 @@ const JamMemBottomModal: React.FC = () => {
                         {`${selectedJamMem.start.toDateString()} - ${selectedJamMem.end.toDateString()}`}
                     </Text>
                 </View>
-                <JamMemActionMenu jamMemId={selectedJamMemId}/>
+                <JamMemActionMenu />
             </View>
         );
     }, [selectedJamMem, styles]);
