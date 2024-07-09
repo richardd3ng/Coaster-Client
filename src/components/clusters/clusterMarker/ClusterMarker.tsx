@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from "react";
 
-import { Icon } from "@ui-kitten/components";
 import { Marker } from "react-native-maps";
 import { Platform, View } from "react-native";
 import { useSelector } from "react-redux";
@@ -14,6 +13,9 @@ import {
     useFriendsModal,
 } from "../../../hooks/context/ModalContext";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
+import FastImage from "react-native-fast-image";
+import { useSong } from "../../../hooks/react-query/useQueryHooks";
+import { DEFAULT_ALBUM_COVER_URI } from "../../../constants/assets";
 
 interface ClusterMarkerProps {
     cluster: SongCluster;
@@ -22,7 +24,7 @@ interface ClusterMarkerProps {
 const ClusterMarker: React.FC<ClusterMarkerProps> = ({
     cluster,
 }: ClusterMarkerProps) => {
-    const { width, height, backgroundColor } = getIconStyle(cluster.size);
+    const { width, height } = getIconStyle(cluster.size);
     const {
         present: presentClusterModal,
         setSnapIndex: setClusterModalSnapIndex,
@@ -32,6 +34,7 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
     const selectedCluster = useSelector(
         (state: RootState) => state.cluster.selectedCluster
     );
+    const { data: song } = useSong(cluster.topSongs[0][0]);
 
     const handlePress = useCallback(
         (cluster: SongCluster) => {
@@ -72,19 +75,25 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
         >
             <View
                 style={{
-                    width,
-                    height,
+                    width: width + 4,
+                    height: height + 4,
                     borderRadius: width / 2,
-                    backgroundColor,
-                    opacity: selectedCluster === cluster ? 1.0 : 0.6,
+                    opacity: selectedCluster === cluster ? 1.0 : 0.7,
                     ...shadowStyle,
                     ...styles.container,
                 }}
             >
-                <Icon
-                    name="music"
-                    style={{ width: width * 0.8, height: height * 0.8 }}
-                    fill="black"
+                <FastImage
+                    source={
+                        song && song.albumUrl
+                            ? { uri: song.albumUrl }
+                            : DEFAULT_ALBUM_COVER_URI
+                    }
+                    style={{
+                        width,
+                        height,
+                        borderRadius: width,
+                    }}
                 />
             </View>
         </Marker>
