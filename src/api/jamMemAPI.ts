@@ -39,6 +39,7 @@ const JamMemByIdQueryDocument = graphql(`
             location
             start
             end
+            coverUrl
             friends {
                 ...UserInfo
             }
@@ -52,6 +53,7 @@ interface JamMemByIdResponse {
         location: string;
         start: Date;
         end: Date;
+        coverUrl: string;
         friends: UserInfoFragment[];
     };
 }
@@ -70,7 +72,7 @@ export const fetchJamMem = async (id: string): Promise<JamMem | null> => {
             JamMemByIdQueryDocument,
             { id }
         );
-        const { _id, name, location, start, end, friends } =
+        const { _id, name, location, start, end, coverUrl, friends } =
             response.jamMemById;
         return {
             id: _id,
@@ -78,6 +80,7 @@ export const fetchJamMem = async (id: string): Promise<JamMem | null> => {
             location,
             start: new Date(start),
             end: new Date(end),
+            coverUrl,
             friends,
         };
     } catch (error) {

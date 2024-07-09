@@ -61,20 +61,23 @@ const AddFriendsDialog: React.FC<AddFriendsDialogProps> = ({
     );
 
     return (
-        <>
-            <ConfirmationDialog
-                title="Add Friends to Jam Mem"
-                open={open}
-                onClose={onClose}
-                onConfirm={handleConfirm}
-                preventDefaultConfirm
-                children={DialogContent}
-                sameButtonTextStyle
-            />
-            {isPending && (
-                <LoadingModal visible={isPending} text="Adding Friends..." />
-            )}
-        </>
+        <ConfirmationDialog
+            title="Add Friends to Jam Mem"
+            open={open}
+            onClose={onClose}
+            onConfirm={handleConfirm}
+            preventDefaultConfirm
+            children={
+                <>
+                    {DialogContent}
+                    <LoadingModal
+                        visible={isPending}
+                        text="Adding Friends..."
+                    />
+                </>
+            }
+            sameButtonTextStyle
+        />
     );
 };
 

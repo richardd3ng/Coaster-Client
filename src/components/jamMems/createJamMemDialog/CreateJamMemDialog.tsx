@@ -7,27 +7,31 @@ import { Text, View } from "react-native";
 
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
-import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/defaults";
+import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/assets";
 import { encodeBase64 } from "../../../utils/fileSystemUtils";
 import { ImagePickerButton } from "../imagePickerButton/ImagePickerButton";
+import {
+    JAM_MEM_COVER_HEIGHT,
+    JAM_MEM_COVER_WIDTH,
+} from "../../../constants/size";
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useFriends } from "../../../hooks/react-query/useQueryHooks";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToCreateJamMem } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { validateInputs } from "../../../utils/jamMemUtils";
+import { validateJamMemInputs } from "../../../utils/validationUtils";
 import AddFriendsDropdown from "../addFriendsDropdown/AddFriendsDropdown";
 
-interface JamMemCreationDialogProps {
+interface CreateJamMemDialogProps {
     open: boolean;
     onClose: () => void;
 }
 
-const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
+const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
     open,
     onClose,
-}: JamMemCreationDialogProps) => {
+}: CreateJamMemDialogProps) => {
     const styles = useThemeAwareObject(createStyles);
     const {
         mutate: createJamMem,
@@ -49,7 +53,7 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
     const [friendIds, setFriendIds] = useState<string[]>([]);
 
     const handleCreate = async () => {
-        if (!validateInputs(name, location, startDate!, endDate!)) {
+        if (!validateJamMemInputs(name, location, startDate!, endDate!)) {
             return;
         }
         createJamMem(
@@ -118,8 +122,11 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
                     style={styles.image}
                 />
                 <ImagePickerButton
+                    title="Cover Image"
                     onImagePicked={setCoverUri}
                     style={styles.imagePickerButton}
+                    width={JAM_MEM_COVER_WIDTH}
+                    height={JAM_MEM_COVER_HEIGHT}
                 />
             </View>
             <View style={styles.dropdownContainer}>
@@ -139,20 +146,25 @@ const JamMemCreationDialog: React.FC<JamMemCreationDialogProps> = ({
     );
 
     return (
-        <>
-            <ConfirmationDialog
-                title="Create Jam Mem"
-                open={open}
-                onClose={handleClose}
-                onConfirm={handleCreate}
-                preventDefaultConfirm
-                children={DialogContent}
-                disableConfirm={invalidDates}
-                sameButtonTextStyle
-            />
-            <LoadingModal visible={isPending} text="Creating Jam Mem..." />
-        </>
+        <ConfirmationDialog
+            title="Create Jam Mem"
+            open={open}
+            onClose={handleClose}
+            onConfirm={handleCreate}
+            preventDefaultConfirm
+            children={
+                <>
+                    {DialogContent}
+                    <LoadingModal
+                        visible={isPending}
+                        text="Creating Jam Mem..."
+                    />
+                </>
+            }
+            disableConfirm={invalidDates}
+            sameButtonTextStyle
+        />
     );
 };
 
-export default JamMemCreationDialog;
+export default CreateJamMemDialog;

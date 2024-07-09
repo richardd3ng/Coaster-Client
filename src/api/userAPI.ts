@@ -1,33 +1,8 @@
 import { formatError } from "./errorUtils";
-import { FriendArgs } from "../types/entities";
+import { FriendArgs, UserReduxState } from "../types/entities";
 import { graphql } from "../gql";
 import { graphqlRequest } from "./client.graphql";
 import { UserInfoFragment } from "../gql/graphql";
-
-const fetchUserInfoQueryDocument = graphql(`
-    query FetchUserInfo($id: MongoID!) {
-        userById(_id: $id) {
-            ...UserInfo
-        }
-    }
-`);
-/**
- * Fetches a user's info by id
- * @param id - The id of the user
- * @returns - The fetched user info
- * @throws - An error if the request fails
- * */
-export const fetchUserInfo = async (id: string): Promise<UserInfoFragment> => {
-    try {
-        const response = await graphqlRequest<{
-            userById: UserInfoFragment;
-        }>(fetchUserInfoQueryDocument, { id });
-        return response.userById;
-    } catch (error) {
-        console.error(formatError(error));
-        throw new Error("Error: unable to fetch user info");
-    }
-};
 
 const fetchUserPreferencesQueryDocument = graphql(`
     query FetchUserPreferences($id: MongoID!) {
@@ -57,15 +32,15 @@ export const fetchPreferences = async (id: string) => {
 };
 
 const updateUserPreferencesMutationDocument = graphql(`
-    mutation UpdateUserPreferences($id: MongoID!, $shareSnapshots: Boolean) {
-        userUpdateById(_id: $id, record: { shareSnapshots: $shareSnapshots }) {
-            recordId
+    mutation UpdateUserPreferences($id: MongoID!, $record: UserUpdateInput!) {
+        userUpdateById(_id: $id, record: $record) {
+            _id
         }
     }
 `);
 interface UpdatePreferencesArgs {
     id: string;
-    shareSnapshots?: boolean;
+    record: { shareSnapshots?: boolean };
 }
 /**
  * Updates a user's preferences
@@ -76,19 +51,73 @@ interface UpdatePreferencesArgs {
  * */
 export const updatePreferences = async ({
     id,
-    shareSnapshots,
+    record,
 }: UpdatePreferencesArgs): Promise<string> => {
     try {
         const response = await graphqlRequest<{
-            recordId: string;
+            userUpdateById: { _id: string };
         }>(updateUserPreferencesMutationDocument, {
             id,
-            shareSnapshots,
+            record,
         });
-        return response.recordId;
+        return response.userUpdateById._id;
     } catch (error) {
         console.error(formatError(error));
         throw new Error("Error: unable to update user preferences");
+    }
+};
+
+const updateUserProfileMutationDocument = graphql(`
+    mutation UpdateUserProfile($id: MongoID!, $record: UserUpdateInput!) {
+        userUpdateById(_id: $id, record: $record) {
+            _id
+            spotifyId
+            username
+            displayName
+            profileUrl
+            shareSnapshots
+        }
+    }
+`);
+interface UpdateProfileArgs {
+    id: string;
+    record: {
+        displayName?: string;
+        username?: string;
+        profilePicture?: string;
+    };
+}
+export const updateProfile = async ({
+    id,
+    record,
+}: UpdateProfileArgs): Promise<UserReduxState> => {
+    try {
+        const response = await graphqlRequest<{
+            userUpdateById: {
+                _id: string;
+                spotifyId: string;
+                username: string;
+                displayName: string;
+                profileUrl: string;
+                shareSnapshots: boolean;
+            };
+        }>(updateUserProfileMutationDocument, {
+            id,
+            record,
+        });
+        return {
+            id: response.userUpdateById._id,
+            spotifyId: response.userUpdateById.spotifyId,
+            username: response.userUpdateById.username,
+            displayName: response.userUpdateById.displayName,
+            profileUrl: response.userUpdateById.profileUrl,
+            preferences: {
+                trackSnapshots: response.userUpdateById.shareSnapshots,
+            },
+        };
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to update profile");
     }
 };
 

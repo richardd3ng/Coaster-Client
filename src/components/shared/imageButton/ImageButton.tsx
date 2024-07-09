@@ -22,9 +22,9 @@ const ImageButton: React.FC<ImageButtonProps> = ({
         <Button
             style={style || styles.button}
             appearance="ghost"
-            accessoryLeft={
+            accessoryLeft={() => (
                 <Image source={{ uri }} style={imageStyle || styles.button} />
-            }
+            )}
             {...buttonProps}
         />
     );

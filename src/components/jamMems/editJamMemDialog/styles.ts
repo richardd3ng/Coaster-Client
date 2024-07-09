@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 
+import { JAM_MEM_COVER_ASPECT_RATIO } from "../../../constants/size";
 import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
@@ -21,7 +22,7 @@ const createStyles = (theme: Theme) => {
         },
         image: {
             width: theme.size.xlargeAsset,
-            height: theme.size.xlargeAsset * 1.25,
+            height: theme.size.xlargeAsset * JAM_MEM_COVER_ASPECT_RATIO,
         },
         imagePickerContainer: {
             flexDirection: "row",

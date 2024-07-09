@@ -54,7 +54,7 @@ const JamMemBottomModal: React.FC = () => {
         [handleClose]
     );
 
-    const JamMemHeaderContent = useMemo(() => {
+    const JamMemHeaderContent = () => {
         if (!selectedJamMem) return null;
         return (
             <View style={styles.headerContentContainer}>
@@ -76,7 +76,7 @@ const JamMemBottomModal: React.FC = () => {
                 <JamMemActionMenu />
             </View>
         );
-    }, [selectedJamMem, styles]);
+    };
 
     return (
         <BottomModal
@@ -88,7 +88,7 @@ const JamMemBottomModal: React.FC = () => {
                 headerText={selectedJamMem?.name ?? ""}
                 modalType={ModalType.JamMem}
                 onClose={handleClose}
-                children={JamMemHeaderContent}
+                children={<JamMemHeaderContent />}
             />
             <JamMemTabNavigator />
         </BottomModal>

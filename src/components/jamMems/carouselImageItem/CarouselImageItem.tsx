@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/defaults";
+import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/assets";
 import { JamMemMetadataFragment } from "../../../gql/graphql";
 import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";

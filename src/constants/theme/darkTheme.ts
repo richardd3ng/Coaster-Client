@@ -4,7 +4,7 @@ import { BORDER_THEME, SIZE_THEME, SPACING_THEME } from "./globalStyles";
 const DARK_COLOR_THEME: ColorTheme = {
     background: "#3f3f3f",
     primary: "#009BFF",
-    danger: "#FFF2F2",
+    danger: "red",
 };
 
 export const DARK_THEME_ID = "dark";

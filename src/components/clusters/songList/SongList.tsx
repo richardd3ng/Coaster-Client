@@ -8,7 +8,7 @@ import createStyles from "./styles";
 import { getValidAccessToken } from "../../../api/tokenUtils";
 import SaveToSpotifyPlaylistButton from "../saveToSpotifyPlaylistButton/SaveToSpotifyPlaylistButton";
 import { SongIdFrequencies } from "../../../utils/superclusterManager";
-import SongListItem from "../songPlayingAnimation/songListItem/SongListItem";
+import SongListItem from "../songListItem/SongListItem";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToCreatePlaylistFromSongIds } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";

@@ -4,16 +4,16 @@ import { Divider, Icon } from "@ui-kitten/components";
 import FastImage from "react-native-fast-image";
 import { Text, View } from "react-native";
 
-import CustomPressable from "../../../shared/customPressable/CustomPressable";
+import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import { DEFAULT_ALBUM_COVER_URI } from "../../../../constants/defaults";
-import ErrorView from "../../../shared/errorView/ErrorView";
-import LoadingView from "../../../shared/loadingView/LoadingView";
-import { openInSpotify } from "../../../../utils/spotifyUtils";
-import SongPlayingAnimation from "../SongPlayingAnimation";
-import { useSong } from "../../../../hooks/react-query/useQueryHooks";
-import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
-import useTrackPlayer from "../../../../hooks/useTrackPlayer";
+import { DEFAULT_ALBUM_COVER_URI } from "../../../constants/assets";
+import ErrorView from "../../shared/errorView/ErrorView";
+import LoadingView from "../../shared/loadingView/LoadingView";
+import { openInSpotify } from "../../../utils/spotifyUtils";
+import SongPlayingAnimation from "../songPlayingAnimation/SongPlayingAnimation";
+import { useSong } from "../../../hooks/react-query/useQueryHooks";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import useTrackPlayer from "../../../hooks/useTrackPlayer";
 
 interface SongListItemProps {
     rank: number;
@@ -120,10 +120,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
                 <View style={styles.listItemContainer}>
                     {renderRank}
                     <View style={styles.imageContainer}>
-                        <FastImage
-                            source={imageSource}
-                            style={styles.image}
-                        />
+                        <FastImage source={imageSource} style={styles.image} />
                     </View>
                     {SongContent}
                     {renderFrequency}

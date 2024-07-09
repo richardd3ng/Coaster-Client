@@ -5,7 +5,7 @@ import createStyles from "./styles";
 import { PreferencesOption } from "../../../../types/navigation";
 import PreferencesListItem from "../preferencesListItem/PreferencesListItem";
 import useMutationErrorAlert from "../../../../hooks/useMutationErrorAlert";
-import { useMutationToUpdateUserPreferences } from "../../../../hooks/react-query/useMutationHooks";
+import { useMutationToUpdatePreferences } from "../../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
 import { useUserPreferences } from "../../../../hooks/react-query/useQueryHooks";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
@@ -22,7 +22,7 @@ const ShareSnapshots: React.FC = () => {
         isError,
         error,
         reset,
-    } = useMutationToUpdateUserPreferences();
+    } = useMutationToUpdatePreferences();
     useMutationErrorAlert({ isError, error, reset });
 
     const handleToggle = () => {
@@ -31,7 +31,7 @@ const ShareSnapshots: React.FC = () => {
         } else {
             updatePreferences({
                 id: currentUserId,
-                shareSnapshots: true,
+                record: { shareSnapshots: true },
             });
         }
     };
@@ -39,7 +39,7 @@ const ShareSnapshots: React.FC = () => {
     const handleConfirm = () => {
         updatePreferences({
             id: currentUserId,
-            shareSnapshots: false,
+            record: { shareSnapshots: false },
         });
     };
 

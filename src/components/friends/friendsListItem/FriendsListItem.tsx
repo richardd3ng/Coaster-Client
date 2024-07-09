@@ -4,7 +4,7 @@ import FastImage from "react-native-fast-image";
 import { Text, View } from "react-native";
 
 import createStyles from "./styles";
-import { DEFAULT_PROFILE_URI } from "../../../constants/defaults";
+import { DEFAULT_PROFILE_URI } from "../../../constants/assets";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 

@@ -16,7 +16,7 @@ import {
     LOCATION_UPDATE_INTERVAL_STATIONARY,
     POST_SNAPSHOTS_COOLDOWN,
     POST_SNAPSHOTS_INTERVAL,
-} from "../utils/timeConstants";
+} from "../constants/time";
 import { postSnapshots } from "../api/snapshotAPI";
 import { RootState } from "../state/store";
 

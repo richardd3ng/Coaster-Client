@@ -7,6 +7,7 @@ import {
     ignoreRequest,
     sendRequest,
     updatePreferences,
+    updateProfile,
 } from "../../api/userAPI";
 import {
     addFriendsToJamMem,
@@ -16,6 +17,7 @@ import {
     updateJamMem,
 } from "../../api/jamMemAPI";
 import { createPlaylistFromSongIds } from "../../api/songAPI";
+import { dispatchSetCurrentUser } from "../../state/storeUtils";
 import {
     getQueryKeyForUseFriends,
     getQueryKeyForUseJamMem,
@@ -116,7 +118,7 @@ export const useMutationToDeleteFriendFromJamMem = () => {
 };
 
 /* Users */
-export const useMutationToUpdateUserPreferences = () => {
+export const useMutationToUpdatePreferences = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -125,6 +127,13 @@ export const useMutationToUpdateUserPreferences = () => {
             queryClient.invalidateQueries({
                 queryKey: getQueryKeyForUseUserPreferences(),
             }),
+    });
+};
+
+export const useMutationToUpdateProfile = () => {
+    return useMutation({
+        mutationFn: updateProfile,
+        onSuccess: dispatchSetCurrentUser,
     });
 };
 

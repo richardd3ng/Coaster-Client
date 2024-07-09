@@ -6,7 +6,7 @@ import { View } from "react-native";
 import createStyles from "./styles";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import JamMemCreationDialog from "../jamMemCreationDialog/JamMemCreationDialog";
+import CreateJamMemDialog from "../createJamMemDialog/CreateJamMemDialog";
 
 const CreateButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
@@ -25,7 +25,7 @@ const CreateButton: React.FC = () => {
                     <Text style={styles.text}>Create</Text>
                 </View>
             </CustomPressable>
-            <JamMemCreationDialog
+            <CreateJamMemDialog
                 open={showCreationDialog}
                 onClose={() => setShowCreationDialog(false)}
             />

@@ -6,6 +6,7 @@ import { View } from "react-native";
 
 import createStyles from "./styles";
 import { RootState } from "../../../state/store";
+import { SONG_PLAYING_ANIMATION_URI } from "../../../constants/assets";
 import {
     State as TrackPlayerState,
     usePlaybackState,
@@ -34,7 +35,7 @@ const SongPlayingAnimation: React.FC<SongPlayingAnimationProps> = ({
     return (
         <View style={styles.animationContainer}>
             <LottieView
-                source={require("../../../../assets/animations/song-playing.json")}
+                source={SONG_PLAYING_ANIMATION_URI}
                 style={styles.animation}
                 autoPlay
                 loop

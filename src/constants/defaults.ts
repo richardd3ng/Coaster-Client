@@ -15,8 +15,3 @@ export const DEFAULT_LOCATION: LatLng = {
     latitude: 37.78825,
     longitude: -122.4324,
 };
-export const DEFAULT_ALBUM_COVER_URI = require("../../assets/images/default-album-cover.png");
-
-export const DEFAULT_JAM_MEM_COVER_URI = require("../../assets/images/default-jam-mem-cover.png");
-
-export const DEFAULT_PROFILE_URI = require("../../assets/images/default-profile.png");

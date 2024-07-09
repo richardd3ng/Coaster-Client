@@ -4,40 +4,39 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        datepicker: {
-            paddingBottom: theme.spacing.base,
-        },
         dialogContainer: {
             paddingVertical: theme.spacing.base,
         },
-        dropdownContainer: {
-            marginVertical: theme.spacing.base,
-            flexDirection: "row",
-        },
         errorText: {
             color: "red",
+            paddingBottom: theme.spacing.base,
         },
         imagePickerButton: {
-            flex: 1,
             height: theme.size.largeAsset,
-            marginLeft: theme.spacing.base,
+            marginTop: theme.spacing.base,
+        },
+        label: {
+            color: "gray",
+            fontSize: theme.size.smallFont,
         },
         image: {
-            width: theme.size.xlargeAsset,
-            height: theme.size.xlargeAsset * 1.25,
+            width: 120,
+            height: 120,
+            backgroundColor: "red",
+            borderRadius: 120,
         },
         imagePickerContainer: {
-            flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
         },
-        nameInput: {
+        displayNameInput: {
             flexDirection: "row",
-            paddingVertical: theme.spacing.base,
-        },
-        locationInput: {
-            flexDirection: "row",
+            paddingTop: theme.spacing.base / 2,
             paddingBottom: theme.spacing.base,
+        },
+        usernameInput: {
+            flexDirection: "row",
+            paddingBottom: theme.spacing.double,
         },
     });
 };

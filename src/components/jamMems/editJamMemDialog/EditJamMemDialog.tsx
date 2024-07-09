@@ -1,33 +1,32 @@
 import { useState } from "react";
 
+import { Alert, Text, View } from "react-native";
 import { Datepicker } from "@ui-kitten/components";
 import FastImage from "react-native-fast-image";
 import { Input } from "@ui-kitten/components";
-import { Text, View } from "react-native";
 
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
-import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/defaults";
+import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/assets";
 import { encodeBase64 } from "../../../utils/fileSystemUtils";
 import { ImagePickerButton } from "../imagePickerButton/ImagePickerButton";
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToUpdateJamMem } from "../../../hooks/react-query/useMutationHooks";
+import { useSelecteJamMemId } from "../../../hooks/redux/useSelectorHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
-import { validateInputs } from "../../../utils/jamMemUtils";
+import { validateJamMemInputs } from "../../../utils/validationUtils";
 
-interface JamMemEditDialogProps {
+interface EditJamMemDialogProps {
     open: boolean;
     onClose: () => void;
-    jamMemId: string;
 }
 
-const JamMemEditDialog: React.FC<JamMemEditDialogProps> = ({
+const EditJamMemDialog: React.FC<EditJamMemDialogProps> = ({
     open,
     onClose,
-    jamMemId,
-}: JamMemEditDialogProps) => {
+}: EditJamMemDialogProps) => {
     const styles = useThemeAwareObject(createStyles);
     const {
         mutate: updateJamMem,
@@ -37,7 +36,7 @@ const JamMemEditDialog: React.FC<JamMemEditDialogProps> = ({
         reset,
     } = useMutationToUpdateJamMem();
     useMutationErrorAlert({ isError, error, reset });
-    const { data: jamMem } = useJamMem(jamMemId);
+    const { data: jamMem } = useJamMem(useSelecteJamMemId());
     const [name, setName] = useState<string>(jamMem?.name ?? "");
     const [location, setLocation] = useState<string>(jamMem?.location ?? "");
     const [startDate, setStartDate] = useState<Date | null>(
@@ -49,32 +48,35 @@ const JamMemEditDialog: React.FC<JamMemEditDialogProps> = ({
         startDate !== null && endDate !== null && startDate > endDate;
 
     const handleConfirm = async () => {
-        if (!validateInputs(name, location, startDate!, endDate!)) {
-            return;
+        if (
+            !jamMem ||
+            !validateJamMemInputs(name, location, startDate!, endDate!)
+        ) {
+            Alert.alert("Error: unable to retrieve Jam Mem");
         }
         updateJamMem(
             {
-                id: jamMemId,
+                id: jamMem!.id,
                 record: {
-                    name: name !== jamMem?.name ? name : undefined,
+                    name: name !== jamMem!.name ? name : undefined,
                     location:
-                        location !== jamMem?.location ? location : undefined,
+                        location !== jamMem!.location ? location : undefined,
                     start:
-                        startDate !== jamMem?.start && startDate
+                        startDate !== jamMem!.start && startDate
                             ? startDate
                             : undefined,
                     end:
-                        endDate !== jamMem?.end && endDate
+                        endDate !== jamMem!.end && endDate
                             ? endDate
                             : undefined,
                     coverImage:
-                        coverUri !== jamMem?.coverUrl
+                        coverUri !== jamMem!.coverUrl
                             ? await encodeBase64(coverUri)
                             : undefined,
                 },
             },
             {
-                onSuccess: handleClose,
+                onSuccess: onClose,
             }
         );
     };
@@ -90,7 +92,7 @@ const JamMemEditDialog: React.FC<JamMemEditDialogProps> = ({
 
     return (
         <ConfirmationDialog
-            title="Update Jam Mem"
+            title="Edit Jam Mem"
             open={open}
             onClose={handleClose}
             onConfirm={handleConfirm}
@@ -141,6 +143,7 @@ const JamMemEditDialog: React.FC<JamMemEditDialogProps> = ({
                                 style={styles.image}
                             />
                             <ImagePickerButton
+                                title="Cover Image"
                                 onImagePicked={setCoverUri}
                                 style={styles.imagePickerButton}
                             />
@@ -158,4 +161,4 @@ const JamMemEditDialog: React.FC<JamMemEditDialogProps> = ({
     );
 };
 
-export default JamMemEditDialog;
+export default EditJamMemDialog;

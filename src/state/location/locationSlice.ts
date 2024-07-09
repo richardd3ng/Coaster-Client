@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LatLng, Region } from "react-native-maps";
 
 import { LocationTimestamp } from "../../types/entities";
-import { LOCATION_UPDATE_INTERVAL_MOVING } from "../../utils/timeConstants";
+import { LOCATION_UPDATE_INTERVAL_MOVING } from "../../constants/time";
 
 export type LocationState = {
     history: LocationTimestamp[];
