@@ -5,14 +5,17 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         addressText: {
-            fontSize: theme.font.small,
+            fontSize: theme.size.smallFont,
         },
-        divider: { backgroundColor: "gray", marginLeft: 72 },
+        divider: {
+            backgroundColor: "gray",
+            marginLeft: 72,
+        },
         iconButton: {
             backgroundColor: "white",
-            width: 24,
-            height: 24,
-            borderRadius: 24,
+            width: theme.size.smallAsset,
+            height: theme.size.smallAsset,
+            borderRadius: theme.size.smallAsset,
         },
         listItemContainer: {
             flexDirection: "row",
@@ -21,10 +24,10 @@ const createStyles = (theme: Theme) => {
             paddingVertical: 12,
         },
         placeText: {
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
         },
         textContainer: {
-            paddingLeft: theme.font.medium,
+            paddingLeft: theme.size.mediumFont,
             justifyContent: "center",
             paddingRight: 32,
         },

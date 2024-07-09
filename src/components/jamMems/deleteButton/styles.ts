@@ -10,14 +10,14 @@ const createStyles = (theme: Theme) => {
             padding: theme.spacing.base,
         },
         icon: {
-            width: 24,
-            height: 24,
-            color: "red",
+            width: theme.size.smallAsset,
+            height: theme.size.smallAsset,
+            color: theme.color.danger,
         },
         text: {
-            color: "red",
+            color: theme.color.danger,
             paddingLeft: theme.spacing.base / 2,
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
         },
     });
 };

@@ -8,16 +8,18 @@ const createStyles = (theme: Theme) => {
             flexDirection: "row",
             alignItems: "center",
             padding: theme.spacing.base,
+            backgroundColor: "white",
+            borderRadius: theme.border.radiusSecondary,
         },
         icon: {
-            width: theme.size.smallAsset,
-            height: theme.size.smallAsset,
+            width: theme.size.mediumAsset,
+            height: theme.size.mediumAsset,
             color: theme.color.primary,
         },
         text: {
             color: theme.color.primary,
             paddingLeft: theme.spacing.base / 2,
-            fontSize: theme.size.mediumFont,
+            fontSize: theme.size.largeFont,
         },
     });
 };

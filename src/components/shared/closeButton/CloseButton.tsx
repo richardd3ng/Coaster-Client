@@ -1,10 +1,9 @@
-import React from "react";
-
 import { ButtonProps, Icon } from "@ui-kitten/components";
-
-import styles from "./styles";
-import CustomPressable from "../customPressable/CustomPressable";
 import { StyleProp, ViewStyle } from "react-native";
+
+import createStyles from "./styles";
+import CustomPressable from "../customPressable/CustomPressable";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface CloseIconProps {
     iconStyle: StyleProp<ViewStyle>;
@@ -19,15 +18,17 @@ interface CloseButtonProps extends ButtonProps {
 }
 
 const CloseButton: React.FC<CloseButtonProps> = ({
-    iconStyle = styles.icon,
+    iconStyle,
     ...props
 }: CloseButtonProps) => {
+    const styles = useThemeAwareObject(createStyles);
+
     return (
         <CustomPressable
             onPress={props.onPress}
             style={props.style || styles.button}
         >
-            <CloseIcon iconStyle={iconStyle} />
+            <CloseIcon iconStyle={iconStyle || styles.icon} />
         </CustomPressable>
     );
 };

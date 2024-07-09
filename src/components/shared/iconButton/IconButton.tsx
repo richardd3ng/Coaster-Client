@@ -1,7 +1,8 @@
 import { Button, ButtonProps, Icon } from "@ui-kitten/components";
 import { StyleProp, ViewStyle } from "react-native";
 
-import styles from "./styles";
+import createStyles from "./styles";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface IconButtonProps extends ButtonProps {
     iconName: string;
@@ -12,17 +13,21 @@ interface IconButtonProps extends ButtonProps {
 const IconButton: React.FC<IconButtonProps> = ({
     iconName,
     iconColor,
-    style = styles.button,
+    style,
     ...buttonProps
-}) => (
-    <Button
-        style={style}
-        appearance="ghost"
-        accessoryLeft={() => (
-            <Icon name={iconName} fill={iconColor} style={styles.icon} />
-        )}
-        {...buttonProps}
-    />
-);
+}: IconButtonProps) => {
+    const styles = useThemeAwareObject(createStyles);
+
+    return (
+        <Button
+            style={style || styles.button}
+            appearance="ghost"
+            accessoryLeft={
+                <Icon name={iconName} fill={iconColor} style={styles.icon} />
+            }
+            {...buttonProps}
+        />
+    );
+};
 
 export default IconButton;

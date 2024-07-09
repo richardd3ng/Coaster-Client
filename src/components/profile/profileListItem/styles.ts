@@ -14,7 +14,7 @@ const createStyles = (theme: Theme) => {
         },
         divider: { backgroundColor: "gray", marginLeft: 64 },
         text: {
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
             paddingLeft: theme.spacing.double,
             flex: 1,
         },

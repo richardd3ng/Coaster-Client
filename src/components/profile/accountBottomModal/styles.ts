@@ -4,13 +4,12 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        button: {
-            alignSelf: "flex-end",
-        },
         container: {
-            paddingRight: theme.spacing.base,
+            flex: 1,
+            backgroundColor: theme.color.background,
+            paddingHorizontal: theme.spacing.double,
         },
-        icon: { height: theme.size.xsmallAsset, width: theme.size.xsmallAsset },
     });
 };
+
 export default createStyles;

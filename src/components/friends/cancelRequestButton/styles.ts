@@ -10,7 +10,7 @@ const createStyles = (theme: Theme) => {
         container: {
             paddingRight: theme.spacing.base,
         },
-        icon: { height: 20, width: 20 },
+        icon: { height: theme.size.smallAsset, width: theme.size.smallAsset },
     });
 };
 export default createStyles;

@@ -8,7 +8,7 @@ const createStyles = (theme: Theme) => {
             flex: 0.05,
         },
         artistText: {
-            fontSize: theme.font.small,
+            fontSize: theme.size.smallFont,
             color: "gray",
         },
         container: {
@@ -34,9 +34,12 @@ const createStyles = (theme: Theme) => {
             paddingRight: theme.spacing.base,
         },
         frequencyText: {
-            fontSize: theme.font.large,
+            fontSize: theme.size.largeFont,
         },
-        image: { width: 50, height: 50 },
+        image: {
+            width: theme.size.xlargeAsset,
+            height: theme.size.xlargeAsset,
+        },
         imageContainer: {
             padding: theme.spacing.base,
         },
@@ -57,7 +60,7 @@ const createStyles = (theme: Theme) => {
             paddingLeft: theme.spacing.base,
         },
         rankText: {
-            fontSize: theme.font.large,
+            fontSize: theme.size.largeFont,
             fontWeight: "bold",
         },
         nameContainer: {
@@ -66,12 +69,12 @@ const createStyles = (theme: Theme) => {
         },
         nameText: {
             flex: 1,
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
             fontWeight: "500",
         },
         playCountText: {
             paddingBottom: 2,
-            fontSize: theme.font.small,
+            fontSize: theme.size.smallFont,
         },
         textContainer: {
             flex: 9,

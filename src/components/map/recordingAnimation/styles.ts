@@ -4,15 +4,15 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         animationContainer: {
-            width: 16,
-            height: 16,
+            width: theme.size.xsmallAsset * 0.75,
+            height: theme.size.xsmallAsset * 0.75,
             overflow: "hidden",
             justifyContent: "center",
             alignItems: "center",
         },
         animation: {
-            width: 24,
-            height: 24,
+            width: theme.size.smallAsset,
+            height: theme.size.smallAsset,
         },
     });
 };

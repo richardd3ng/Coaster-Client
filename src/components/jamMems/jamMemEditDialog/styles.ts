@@ -16,12 +16,12 @@ const createStyles = (theme: Theme) => {
         },
         imagePickerButton: {
             flex: 1,
-            height: 40,
+            height: theme.size.largeAsset,
             marginLeft: theme.spacing.base,
         },
         image: {
-            width: 48,
-            height: 60,
+            width: theme.size.xlargeAsset,
+            height: theme.size.xlargeAsset * 1.25,
         },
         imagePickerContainer: {
             flexDirection: "row",

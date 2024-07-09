@@ -6,9 +6,9 @@ import { View } from "react-native";
 import createStyles from "./styles";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import JamMemCreationDialog from "../jamMemCreationDialog/JamMemCreationDialog";
+import JamMemCreationDialog from "../../jamMems/jamMemCreationDialog/JamMemCreationDialog";
 
-const CreateButton: React.FC = () => {
+const EditProfileButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const [showCreationDialog, setShowCreationDialog] =
         useState<boolean>(false);
@@ -32,4 +32,4 @@ const CreateButton: React.FC = () => {
         </>
     );
 };
-export default CreateButton;
+export default EditProfileButton;

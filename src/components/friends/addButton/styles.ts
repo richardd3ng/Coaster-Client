@@ -8,8 +8,8 @@ const createStyles = (theme: Theme) => {
             alignSelf: "flex-end",
             backgroundColor: "lightgray",
             borderRadius: theme.border.radiusPrimary,
-            height: 25,
-            width: 50,
+            height: theme.size.smallAsset,
+            width: theme.size.smallAsset * 2,
             padding: 0,
         },
         container: {
@@ -18,12 +18,12 @@ const createStyles = (theme: Theme) => {
             paddingRight: theme.spacing.base,
         },
         spinner: {
-            height: 25,
-            width: 25,
+            height: theme.size.smallAsset,
+            width: theme.size.smallAsset,
         },
         text: {
             color: theme.color.primary,
-            fontSize: theme.font.small,
+            fontSize: theme.size.smallFont,
         },
     });
 };

@@ -13,14 +13,14 @@ const createStyles = (theme: Theme) => {
             borderRadius: theme.border.radiusSecondary,
         },
         icon: {
-            width: 42,
-            height: 42,
+            width: theme.size.largeAsset,
+            height: theme.size.largeAsset,
             color: theme.color.primary,
         },
         text: {
             color: theme.color.primary,
             paddingLeft: theme.spacing.base / 2,
-            fontSize: theme.font.large,
+            fontSize: theme.size.largeFont,
         },
     });
 };

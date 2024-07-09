@@ -1,17 +1,21 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-    button: {
-        borderRadius: 30,
-        position: "absolute",
-        top: 14,
-        right: 14,
-        backgroundColor: "gainsboro",
-    },
-    icon: {
-        width: 24,
-        height: 24,
-    },
-});
+import { Theme } from "../../../types/theme";
 
-export default styles;
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        button: {
+            borderRadius: 30,
+            position: "absolute",
+            top: 14,
+            right: 14,
+            backgroundColor: "gainsboro",
+        },
+        icon: {
+            width: theme.size.smallAsset,
+            height: theme.size.smallAsset,
+        },
+    });
+};
+
+export default createStyles;

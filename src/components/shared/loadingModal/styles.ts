@@ -5,15 +5,15 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         animationContainer: {
-            width: 50,
-            height: 50,
+            width: theme.size.xlargeAsset,
+            height: theme.size.xlargeAsset,
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: theme.color.background,
         },
         animation: {
-            width: 100,
-            height: 100,
+            width: theme.size.largeAsset * 2,
+            height: theme.size.largeAsset * 2,
         },
         modalBackground: {
             flex: 1,
@@ -30,7 +30,7 @@ const createStyles = (theme: Theme) => {
         },
         text: {
             marginTop: theme.spacing.base,
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
             color: theme.color.primary,
             fontWeight: "600",
         },
