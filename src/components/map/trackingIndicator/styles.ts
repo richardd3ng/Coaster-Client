@@ -16,7 +16,7 @@ const createStyles = (theme: Theme) => {
             alignItems: "flex-end",
         },
         text: {
-            fontSize: theme.font.small,
+            fontSize: theme.size.smallFont,
         },
     });
 };

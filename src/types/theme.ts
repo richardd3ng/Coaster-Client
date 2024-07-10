@@ -6,13 +6,20 @@ export interface BorderTheme {
 export interface ColorTheme {
     background: string;
     primary: string;
+    danger: string;
 }
 
-export interface FontTheme {
-    small: number;
-    medium: number;
-    large: number;
-    xlarge: number;
+export interface SizeTheme {
+    xsmallAsset: number;
+    smallAsset: number;
+    mediumAsset: number;
+    largeAsset: number;
+    xlargeAsset: number;
+
+    smallFont: number;
+    mediumFont: number;
+    largeFont: number;
+    xlargeFont: number;
 }
 
 export interface SpacingTheme {
@@ -23,7 +30,7 @@ export interface SpacingTheme {
 export interface Theme {
     id: string;
     border: BorderTheme;
-    font: FontTheme;
+    size: SizeTheme;
     color: ColorTheme;
     spacing: SpacingTheme;
 }

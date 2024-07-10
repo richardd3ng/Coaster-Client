@@ -6,16 +6,16 @@ import { View } from "react-native";
 import createStyles from "./styles";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import JamMemCreateUpdateDialog from "../jamMemCreationDialog/JamMemCreationDialog";
+import CreateJamMemDialog from "../createJamMemDialog/CreateJamMemDialog";
 
 const CreateButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const [showCreationDialog, setShowCreationDialog] =
+    const [showDialog, setShowDialog] =
         useState<boolean>(false);
 
     return (
         <>
-            <CustomPressable onPress={() => setShowCreationDialog(true)}>
+            <CustomPressable onPress={() => setShowDialog(true)}>
                 <View style={styles.container}>
                     <Icon
                         name="plus-square-outline"
@@ -25,9 +25,9 @@ const CreateButton: React.FC = () => {
                     <Text style={styles.text}>Create</Text>
                 </View>
             </CustomPressable>
-            <JamMemCreateUpdateDialog
-                open={showCreationDialog}
-                onClose={() => setShowCreationDialog(false)}
+            <CreateJamMemDialog
+                open={showDialog}
+                onClose={() => setShowDialog(false)}
             />
         </>
     );

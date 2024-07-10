@@ -6,7 +6,8 @@ import {
     setCurrentRegionAction,
     setCurrentUserAction,
     setCurrentlyPlayingSongIdAction,
-    setLastSnapshotTimestampAction,
+    setLastAttemptedSnapshotTimestampAction,
+    setLastSuccessfulSnapshotTimestampAction,
     setSelectedClusterAction,
     setSelectedJamMemIdAction,
 } from "./actions";
@@ -25,8 +26,16 @@ export const dispatchClearHistory = () => {
     store.dispatch(clearHistoryAction());
 };
 
-export const dispatchSetLastSnapshotTimestamp = (timestamp: number) => {
-    store.dispatch(setLastSnapshotTimestampAction(timestamp));
+export const dispatchSetLastAttemptedSnapshotTimestamp = (
+    timestamp: number
+) => {
+    store.dispatch(setLastAttemptedSnapshotTimestampAction(timestamp));
+};
+
+export const dispatchSetLastSuccessfulSnapshotTimestamp = (
+    timestamp: number
+) => {
+    store.dispatch(setLastSuccessfulSnapshotTimestampAction(timestamp));
 };
 
 export const dispatchSetCurrentRegion = (region: Region) => {
@@ -54,8 +63,8 @@ export const getHistoryState = (): LocationTimestamp[] => {
     return store.getState().location.history;
 };
 
-export const getLastSnapshotTimestampState = (): number | null => {
-    return store.getState().snapshot.lastSnapshotTimestamp;
+export const getLastAttemptedSnapshotTimestampState = (): number | null => {
+    return store.getState().snapshot.lastAttemptedSnapshotTimestamp;
 };
 
 export const getCurrentLocationState = (): LatLng | null => {

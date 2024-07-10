@@ -6,7 +6,8 @@ import {
     ViewStyle,
 } from "react-native";
 
-import styles from "./styles";
+import createStyles from "./styles";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface LoadingViewProps {
     containerStyle?: StyleProp<ViewStyle>;
@@ -14,11 +15,13 @@ interface LoadingViewProps {
 }
 
 const LoadingView: React.FC<LoadingViewProps> = ({
-    containerStyle = styles.loadingContainer,
+    containerStyle,
     hideText = false,
 }: LoadingViewProps) => {
+    const styles = useThemeAwareObject(createStyles);
+
     return (
-        <View style={containerStyle}>
+        <View style={containerStyle || styles.loadingContainer}>
             <ActivityIndicator style={styles.spinner} />
             {!hideText && <Text style={styles.text}>Loading...</Text>}
         </View>

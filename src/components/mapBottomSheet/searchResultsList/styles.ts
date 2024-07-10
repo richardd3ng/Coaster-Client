@@ -10,13 +10,13 @@ const createStyles = (theme: Theme) => {
             justifyContent: "space-between",
         },
         locationsText: {
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
             paddingLeft: theme.spacing.double,
             paddingVertical: 12,
             color: "gray",
         },
         moreText: {
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
             paddingLeft: theme.spacing.double,
             paddingVertical: 12,
             color: theme.color.primary,

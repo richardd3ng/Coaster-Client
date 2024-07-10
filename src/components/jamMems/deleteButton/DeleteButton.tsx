@@ -12,13 +12,13 @@ import { useJamMemModal } from "../../../hooks/context/ModalContext";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import { useMutationToDeleteJamMem } from "../../../hooks/react-query/useMutationHooks";
-import { useSelecteJamMemId } from "../../../hooks/redux/useSelectorHooks";
+import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
 
 const DeleteButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const jamMemId = useSelecteJamMemId();
+    const jamMemId = useSelectedJamMemId();
     const { mutate: deleteJamMem, isPending } = useMutationToDeleteJamMem();
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const { dismiss } = useJamMemModal();

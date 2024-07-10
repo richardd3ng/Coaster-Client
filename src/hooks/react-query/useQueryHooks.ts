@@ -6,7 +6,6 @@ import {
     fetchPendingRequests,
     fetchPreferences,
     fetchSentRequests,
-    fetchUserInfo,
 } from "../../api/userAPI";
 import { fetchAndLoadSongPoints } from "../../api/snapshotAPI";
 import { fetchJamMem, fetchJamMemMetadatasByUser } from "../../api/jamMemAPI";
@@ -15,7 +14,7 @@ import {
     CLUSTERS_QUERY_STALE_TIME,
     JAM_MEM_QUERY_STALE_TIME,
     PENDING_REQUESTS_QUERY_STALE_TIME,
-} from "../../utils/timeConstants";
+} from "../../constants/time";
 import useCurrentUser from "../useCurrentUser";
 
 /* Jam Mems */
@@ -47,15 +46,21 @@ export const getQueryKeyForUseJamMemMetadatas = () => {
 export const useSongPoints = (filter: ClusterFilter) => {
     const currentUserId = useCurrentUser().id;
     return useQuery({
-        queryKey: getQueryKeyForUseSongPoints(filter),
+        queryKey: getQueryKeyForUseSongPointsWithFilter(filter),
         queryFn: () => fetchAndLoadSongPoints(currentUserId, filter),
         staleTime:
             filter.type === "social" ? CLUSTERS_QUERY_STALE_TIME : Infinity,
     });
 };
 
-export const getQueryKeyForUseSongPoints = (filter: ClusterFilter) => {
-    return ["songPoints", filter.value as string];
+export const getQueryKeyForUseSongPoints = () => {
+    return ["songPoints"];
+};
+
+export const getQueryKeyForUseSongPointsWithFilter = (
+    filter: ClusterFilter
+) => {
+    return getQueryKeyForUseSongPoints().concat(filter.value);
 };
 
 /* Songs */
@@ -72,14 +77,6 @@ export const getQueryKeyForUseSong = (id: string) => {
 };
 
 /* Users */
-export const useUserInfo = (id: string) => {
-    return useQuery({
-        queryKey: getQueryKeyForUseUserInfo(),
-        queryFn: () => fetchUserInfo(id),
-        staleTime: Infinity,
-    });
-};
-
 export const useUserPreferences = (id: string) => {
     return useQuery({
         queryKey: getQueryKeyForUseUserPreferences(),
@@ -110,10 +107,6 @@ export const useSentRequests = (id: string) => {
         queryFn: () => fetchSentRequests(id),
         staleTime: Infinity,
     });
-};
-
-export const getQueryKeyForUseUserInfo = () => {
-    return ["userInfo"];
 };
 
 export const getQueryKeyForUseUserPreferences = () => {

@@ -4,8 +4,8 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         animationContainer: {
-            width: 20,
-            height: 20,
+            width: theme.size.xsmallAsset,
+            height: theme.size.xsmallAsset,
             overflow: "hidden",
             justifyContent: "flex-end",
             alignItems: "center",
@@ -13,8 +13,8 @@ const createStyles = (theme: Theme) => {
             bottom: theme.spacing.base / 2,
         },
         animation: {
-            width: 40,
-            height: 40,
+            width: theme.size.mediumAsset,
+            height: theme.size.mediumAsset,
             bottom: -theme.spacing.base,
         },
     });

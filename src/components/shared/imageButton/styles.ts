@@ -1,11 +1,15 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-    button: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-    },
-});
+import { Theme } from "../../../types/theme";
 
-export default styles;
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        button: {
+            width: theme.size.largeAsset,
+            height: theme.size.largeAsset,
+            borderRadius: theme.size.largeAsset,
+        },
+    });
+};
+
+export default createStyles;

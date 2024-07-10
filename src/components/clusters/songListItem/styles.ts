@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { Theme } from "../../../../types/theme";
+import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
@@ -8,11 +8,12 @@ const createStyles = (theme: Theme) => {
             flex: 0.05,
         },
         artistText: {
-            fontSize: theme.font.small,
+            fontSize: theme.size.smallFont,
             color: "gray",
         },
         container: {
             flexDirection: "row",
+            paddingHorizontal: theme.spacing.double,
         },
         iconContainer: {
             flex: 1,
@@ -33,9 +34,12 @@ const createStyles = (theme: Theme) => {
             paddingRight: theme.spacing.base,
         },
         frequencyText: {
-            fontSize: theme.font.large,
+            fontSize: theme.size.largeFont,
         },
-        image: { width: 50, height: 50 },
+        image: {
+            width: 50,
+            height: 50,
+        },
         imageContainer: {
             padding: theme.spacing.base,
         },
@@ -56,7 +60,7 @@ const createStyles = (theme: Theme) => {
             paddingLeft: theme.spacing.base,
         },
         rankText: {
-            fontSize: theme.font.large,
+            fontSize: theme.size.largeFont,
             fontWeight: "bold",
         },
         nameContainer: {
@@ -65,12 +69,12 @@ const createStyles = (theme: Theme) => {
         },
         nameText: {
             flex: 1,
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
             fontWeight: "500",
         },
         playCountText: {
             paddingBottom: 2,
-            fontSize: theme.font.small,
+            fontSize: theme.size.smallFont,
         },
         textContainer: {
             flex: 9,

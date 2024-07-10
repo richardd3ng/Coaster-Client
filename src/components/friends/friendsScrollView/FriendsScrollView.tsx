@@ -1,5 +1,4 @@
-import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import AcceptRequestButton from "../acceptRequestButton/AcceptRequestButton";
 import AddButton from "../addButton/AddButton";
@@ -30,10 +29,7 @@ const FriendsScrollView: React.FC<FriendsListProps> = ({
 }: FriendsListProps) => {
     const styles = useThemeAwareObject(createStyles);
     return (
-        <BottomSheetScrollView
-            showsVerticalScrollIndicator
-            style={styles.scrollView}
-        >
+        <ScrollView showsVerticalScrollIndicator style={styles.scrollView}>
             {friends && (
                 <Text key={-1} style={styles.text}>{`My Friends (${
                     friends.length < 50 ? friends.length : "50+"
@@ -90,7 +86,7 @@ const FriendsScrollView: React.FC<FriendsListProps> = ({
                     />
                 ))}
             <View style={styles.bottomPadding} />
-        </BottomSheetScrollView>
+        </ScrollView>
     );
 };
 

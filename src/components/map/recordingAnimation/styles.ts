@@ -11,8 +11,8 @@ const createStyles = (theme: Theme) => {
             alignItems: "center",
         },
         animation: {
-            width: 24,
-            height: 24,
+            width: theme.size.smallAsset,
+            height: theme.size.smallAsset,
         },
     });
 };

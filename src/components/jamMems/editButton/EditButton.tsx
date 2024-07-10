@@ -5,13 +5,11 @@ import { View } from "react-native";
 
 import createStyles from "./styles";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
-import JamMemEditDialog from "../jamMemEditDialog/JamMemEditDialog";
-import { useSelecteJamMemId } from "../../../hooks/redux/useSelectorHooks";
+import EditJamMemDialog from "../editJamMemDialog/EditJamMemDialog";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const EditButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const jamMemId = useSelecteJamMemId();
     const [showDialog, setShowDialog] = useState<boolean>(false);
 
     return (
@@ -26,8 +24,7 @@ const EditButton: React.FC = () => {
                     <Text style={styles.text}>Edit</Text>
                 </View>
             </CustomPressable>
-            <JamMemEditDialog
-                jamMemId={jamMemId}
+            <EditJamMemDialog
                 open={showDialog}
                 onClose={() => setShowDialog(false)}
             />

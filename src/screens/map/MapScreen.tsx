@@ -1,4 +1,4 @@
-import AccountBottomModal from "../../components/profile/account/accountBottomModal/AccountBottomModal";
+import AccountBottomModal from "../../components/profile/accountBottomModal/AccountBottomModal";
 import { BottomSheetProvider } from "../../hooks/context/BottomSheetContext";
 import ButtonPanel from "../../components/map/mapPanel/MapPanel";
 import ClusterBottomModal from "../../components/clusters/clusterBottomModal/ClusterBottomModal";

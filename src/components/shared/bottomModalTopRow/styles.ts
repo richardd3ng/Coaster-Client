@@ -12,7 +12,7 @@ const createStyles = (theme: Theme) => {
             borderTopRightRadius: theme.border.radiusPrimary,
         },
         headerText: {
-            fontSize: theme.font.xlarge,
+            fontSize: theme.size.xlargeFont,
             fontWeight: "bold",
         },
         textContainer: {

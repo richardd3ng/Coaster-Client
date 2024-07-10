@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 
 import MapIconButton from "../mapIconButton/MapIconButton";
-import { postSnapshots } from "../../../api/snapshotAPI";
 import styles from "./styles";
 import {
     useClusterModal,
@@ -9,6 +8,7 @@ import {
     useJamMemModal,
 } from "../../../hooks/context/ModalContext";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
+import { postSnapshots } from "../../../api/snapshotAPI";
 
 const FriendsButton: React.FC = () => {
     const { dismiss: dismissClusterModal } = useClusterModal();

@@ -6,9 +6,9 @@ const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         icon: {
             backgroundColor: "crimson",
-            width: 40,
-            height: 40,
-            borderRadius: 20,
+            width: theme.size.mediumAsset,
+            height: theme.size.mediumAsset,
+            borderRadius: theme.size.mediumAsset,
         },
         profileListItem: {
             borderBottomRightRadius: theme.border.radiusSecondary,

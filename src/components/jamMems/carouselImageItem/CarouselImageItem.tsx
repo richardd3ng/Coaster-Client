@@ -1,10 +1,10 @@
-import { Image } from "expo-image";
+import FastImage from "react-native-fast-image";
 import { StyleProp, ViewStyle } from "react-native";
 import { Text, View } from "react-native";
 
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/defaults";
+import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/assets";
 import { JamMemMetadataFragment } from "../../../gql/graphql";
 import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
@@ -56,9 +56,7 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
             onPress={onPress}
             style={[styles.imageItemContainer, props.style]}
         >
-            <Image
-                cachePolicy={"memory-disk"}
-                style={styles.image}
+            <FastImage
                 source={
                     jamMem.coverUrl
                         ? {
@@ -66,6 +64,7 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
                           }
                         : DEFAULT_JAM_MEM_COVER_URI
                 }
+                style={styles.image}
             />
             <JamSessionImageItemText />
         </CustomPressable>

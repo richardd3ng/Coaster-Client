@@ -15,7 +15,7 @@ const createStyles = (theme: Theme) => {
             height: "100%",
         },
         displayNameText: {
-            fontSize: theme.font.xlarge,
+            fontSize: theme.size.xlargeFont,
             fontWeight: "bold",
         },
         profileBottomModalTopRow: {
@@ -27,10 +27,10 @@ const createStyles = (theme: Theme) => {
             borderTopRightRadius: theme.border.radiusPrimary,
         },
         profileIconButton: {
-            height: 50,
-            width: 50,
+            height: theme.size.xlargeAsset,
+            width: theme.size.xlargeAsset,
             backgroundColor: "lightgray",
-            borderRadius: 25,
+            borderRadius: theme.size.xlargeAsset,
         },
         textContainer: {
             flex: 1,
@@ -39,7 +39,7 @@ const createStyles = (theme: Theme) => {
             paddingRight: 32,
         },
         usernameText: {
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
             color: "gray",
         },
     });

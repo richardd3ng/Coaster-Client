@@ -10,10 +10,9 @@ import { LocationTimestamp, UserReduxState } from "../types/entities";
 import { setCurrentlyPlayingSongId } from "./song/songSlice";
 import { setCurrentRegion } from "./location/locationSlice";
 import { setCurrentUser } from "./user/userSlice";
-import { setLastSnapshotTimestamp } from "./snapshot/snapshotSlice";
+import { setLastAttemptedSnapshotTimestamp, setLastSuccessfulSnapshotTimestamp } from "./snapshot/snapshotSlice";
 import { setSelectedJamMemId } from "./jamMem/jamMemSlice";
 import { setSelectedCluster } from "./cluster/clusterSlice";
-
 
 import { SongCluster } from "../utils/superclusterManager";
 
@@ -67,9 +66,16 @@ export const setSelectedJamMemIdAction = (id: string) => {
     };
 };
 
-export const setLastSnapshotTimestampAction = (timestamp: number) => {
+export const setLastAttemptedSnapshotTimestampAction = (timestamp: number) => {
     return {
-        type: setLastSnapshotTimestamp.type,
+        type: setLastAttemptedSnapshotTimestamp.type,
+        payload: timestamp,
+    };
+};
+
+export const setLastSuccessfulSnapshotTimestampAction = (timestamp: number) => {
+    return {
+        type: setLastSuccessfulSnapshotTimestamp.type,
         payload: timestamp,
     };
 };

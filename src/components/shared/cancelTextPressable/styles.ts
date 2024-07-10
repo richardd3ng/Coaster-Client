@@ -5,7 +5,7 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         cancelText: {
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
             color: theme.color.primary,
         },
         cancelButton: {

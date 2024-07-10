@@ -17,7 +17,7 @@ const createStyles = (theme: Theme) => {
         },
         text: {
             paddingVertical: theme.spacing.double,
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
         },
         requestsHeaderContainer: {
             flex: 1,

@@ -6,8 +6,8 @@ const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         arrowIcon: {
             flex: 1,
-            height: 24,
-            width: 24,
+            height: theme.size.smallAsset,
+            width: theme.size.smallAsset,
         },
         button: {
             flexDirection: "row",
@@ -24,7 +24,7 @@ const createStyles = (theme: Theme) => {
         buttonText: {
             color: "white",
             paddingLeft: theme.spacing.base,
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
             fontWeight: "400",
         },
     });

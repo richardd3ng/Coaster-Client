@@ -29,14 +29,14 @@ const ProfileIconButton: React.FC<ProfileIconButtonProps> = ({
         return user.profileUrl ? (
             <ImageButton
                 onPress={onPress}
-                style={[styles.button, style]}
+                style={style || styles.button}
                 uri={user.profileUrl}
                 imageStyle={imageStyle}
-            />
+            /> 
         ) : (
             <IconButton
                 onPress={present}
-                style={[styles.button, style]}
+                style={style || styles.button}
                 iconName="person"
                 iconColor={styles.icon.color}
             />

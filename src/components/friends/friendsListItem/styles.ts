@@ -10,7 +10,11 @@ const createStyles = (theme: Theme) => {
             alignItems: "center", // Centers items vertically
             justifyContent: "flex-end", // Aligns items to the right horizontally
         },
-        image: { height: 50, width: 50, borderRadius: 25 },
+        image: {
+            height: theme.size.xlargeAsset,
+            width: theme.size.xlargeAsset,
+            borderRadius: theme.size.xlargeAsset / 2,
+        },
         imageContainer: {
             padding: theme.spacing.base,
         },
@@ -26,11 +30,11 @@ const createStyles = (theme: Theme) => {
             paddingLeft: theme.spacing.base,
         },
         displayNameText: {
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
             fontWeight: "bold",
         },
         usernameText: {
-            fontSize: theme.font.small,
+            fontSize: theme.size.smallFont,
         },
     });
 };

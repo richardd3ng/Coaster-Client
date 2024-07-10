@@ -12,7 +12,7 @@ const createStyles = (theme: Theme) => {
             alignItems: "flex-end",
             paddingRight: theme.spacing.base,
         },
-        icon: { height: 20, width: 20 },
+        icon: { height: theme.size.xsmallAsset, width: theme.size.xsmallAsset },
     });
 };
 export default createStyles;

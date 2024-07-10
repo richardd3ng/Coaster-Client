@@ -5,8 +5,8 @@ import { Theme } from "../../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         icon: {
-            height: 25,
-            width: 25,
+            height: theme.size.smallAsset,
+            width: theme.size.smallAsset,
             color: theme.color.primary,
         },
         container: {
@@ -18,12 +18,12 @@ const createStyles = (theme: Theme) => {
         },
         divider: { backgroundColor: "gray" },
         text: {
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
             flex: 1,
         },
         spinner: {
-            height: 25,
-            width: 25,
+            height: theme.size.smallAsset,
+            width: theme.size.smallAsset,
         },
     });
 };

@@ -1,4 +1,4 @@
-import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { ScrollView } from "react-native";
 
 import createStyles from "./styles";
 import RemoveFriendButton from "../removeFriendButton/RemoveFriendButton";
@@ -16,10 +16,7 @@ const JamFriendsScrollView: React.FC<JamFriendsScrollViewProps> = ({
     const styles = useThemeAwareObject(createStyles);
 
     return (
-        <BottomSheetScrollView
-            showsVerticalScrollIndicator
-            style={styles.scrollView}
-        >
+        <ScrollView showsVerticalScrollIndicator style={styles.scrollView}>
             {users.map((user) => (
                 <FriendsListItem
                     key={user._id}
@@ -27,7 +24,7 @@ const JamFriendsScrollView: React.FC<JamFriendsScrollViewProps> = ({
                     leftComponent={<RemoveFriendButton user={user} />}
                 />
             ))}
-        </BottomSheetScrollView>
+        </ScrollView>
     );
 };
 

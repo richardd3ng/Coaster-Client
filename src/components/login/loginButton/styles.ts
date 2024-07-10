@@ -15,7 +15,7 @@ const createStyles = (theme: Theme) => {
             color: "white",
             paddingLeft: theme.spacing.base,
             fontWeight: "400",
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
         },
     });
 };

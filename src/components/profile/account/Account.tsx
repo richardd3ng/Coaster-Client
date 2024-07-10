@@ -9,15 +9,17 @@ const Account: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const { present } = useAccountModal();
 
-    const AccountIcon = (
-        <IconButton iconName="person" iconColor="black" style={styles.icon} />
-    );
-
     return (
         <ProfileListItem
             text={ProfileOption.Account}
             onPress={present}
-            icon={AccountIcon}
+            icon={
+                <IconButton
+                    iconName="person"
+                    iconColor={styles.icon.color}
+                    style={styles.icon}
+                />
+            }
             containerStyle={styles.profileListItem}
         />
     );

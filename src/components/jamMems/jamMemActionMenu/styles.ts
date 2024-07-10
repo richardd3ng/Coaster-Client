@@ -8,8 +8,8 @@ const createStyles = (theme: Theme) => {
             alignSelf: "center",
         },
         moreOptionsIcon: {
-            width: 20,
-            height: 20,
+            width: theme.size.xsmallAsset,
+            height: theme.size.xsmallAsset,
         },
     });
 };

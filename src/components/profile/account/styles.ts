@@ -5,10 +5,11 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         icon: {
+            color: "black",
             backgroundColor: "lightblue",
-            width: 40,
-            height: 40,
-            borderRadius: 20,
+            width: theme.size.largeAsset,
+            height: theme.size.largeAsset,
+            borderRadius: theme.size.largeAsset,
         },
         profileListItem: {
             borderTopRightRadius: theme.border.radiusSecondary,

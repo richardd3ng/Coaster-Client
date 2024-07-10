@@ -10,7 +10,7 @@ import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToAddFriendsToJamMem } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { UserInfoFragment } from "../../../gql/graphql";
-import { useSelecteJamMemId } from "../../../hooks/redux/useSelectorHooks";
+import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
 
 interface AddFriendsDialogProps {
     friends: UserInfoFragment[];
@@ -33,7 +33,7 @@ const AddFriendsDialog: React.FC<AddFriendsDialogProps> = ({
         reset,
     } = useMutationToAddFriendsToJamMem();
     useMutationErrorAlert({ isError, error, reset });
-    const jamMemId = useSelecteJamMemId();
+    const jamMemId = useSelectedJamMemId();
 
     const handleConfirm = () => {
         addFriends(
@@ -61,20 +61,23 @@ const AddFriendsDialog: React.FC<AddFriendsDialogProps> = ({
     );
 
     return (
-        <>
-            <ConfirmationDialog
-                title="Add Friends to Jam Mem"
-                open={open}
-                onClose={onClose}
-                onConfirm={handleConfirm}
-                preventDefaultConfirm
-                children={DialogContent}
-                sameButtonTextStyle
-            />
-            {isPending && (
-                <LoadingModal visible={isPending} text="Adding Friends..." />
-            )}
-        </>
+        <ConfirmationDialog
+            title="Add Friends to Jam Mem"
+            open={open}
+            onClose={onClose}
+            onConfirm={handleConfirm}
+            preventDefaultConfirm
+            children={
+                <>
+                    {DialogContent}
+                    <LoadingModal
+                        visible={isPending}
+                        text="Adding Friends..."
+                    />
+                </>
+            }
+            sameButtonTextStyle
+        />
     );
 };
 

@@ -14,7 +14,7 @@ const createStyles = (theme: Theme) => {
         },
         headerText: {
             color: "#6E6E6E",
-            fontSize: theme.font.medium,
+            fontSize: theme.size.mediumFont,
             paddingHorizontal: theme.spacing.double,
         },
         jamSessionStack: {

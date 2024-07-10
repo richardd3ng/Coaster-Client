@@ -1,19 +1,23 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-    loadingContainer: {
-        position: "absolute",
-        top: "12.5%",
-        left: 0,
-        right: 0,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    spinner: {
-        height: 32,
-        width: 32,
-    },
-    text: { color: "gray" },
-});
+import { Theme } from "../../../types/theme";
 
-export default styles;
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        loadingContainer: {
+            position: "absolute",
+            top: "12.5%",
+            left: 0,
+            right: 0,
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        spinner: {
+            height: theme.size.mediumAsset,
+            width: theme.size.mediumAsset,
+        },
+        text: { color: "gray" },
+    });
+};
+
+export default createStyles;

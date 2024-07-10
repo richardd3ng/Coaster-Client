@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from "react";
 
-import { Icon } from "@ui-kitten/components";
 import { Marker } from "react-native-maps";
 import { Platform, View } from "react-native";
-import { useSelector } from "react-redux";
 
+import ClusterPulseAnimation from "../clusterPulseAnimation/ClusterPulseAnimation";
+import { DEFAULT_ALBUM_COVER_URI } from "../../../constants/assets";
 import { dispatchSetSelectedCluster } from "../../../state/storeUtils";
-import { RootState } from "../../../state/store";
+import FastImage from "react-native-fast-image";
 import { SongCluster } from "../../../utils/superclusterManager";
 import styles, { getIconStyle } from "./styles";
 import {
@@ -14,6 +14,8 @@ import {
     useFriendsModal,
 } from "../../../hooks/context/ModalContext";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
+import { useSelectedCluster } from "../../../hooks/redux/useSelectorHooks";
+import { useSong } from "../../../hooks/react-query/useQueryHooks";
 
 interface ClusterMarkerProps {
     cluster: SongCluster;
@@ -22,16 +24,16 @@ interface ClusterMarkerProps {
 const ClusterMarker: React.FC<ClusterMarkerProps> = ({
     cluster,
 }: ClusterMarkerProps) => {
-    const { width, height, backgroundColor } = getIconStyle(cluster.size);
+    const { width, height } = getIconStyle(cluster.size);
     const {
         present: presentClusterModal,
         setSnapIndex: setClusterModalSnapIndex,
     } = useClusterModal();
     const { dismiss: dismissFriendsModal } = useFriendsModal();
     const { close: closeMapBottomSheet } = useMapBottomSheet();
-    const selectedCluster = useSelector(
-        (state: RootState) => state.cluster.selectedCluster
-    );
+    const selectedCluster = useSelectedCluster();
+    const { data: song } = useSong(cluster.topSongs[0][0]);
+    const isSelected = selectedCluster === cluster;
 
     const handlePress = useCallback(
         (cluster: SongCluster) => {
@@ -55,14 +57,14 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
             ios: {
                 shadowColor: "black",
                 shadowOffset: { width: 0, height: 2 },
-                shadowRadius: selectedCluster === cluster ? 8 : 4,
-                shadowOpacity: selectedCluster === cluster ? 0.6 : 0.4,
+                shadowRadius: isSelected ? 8 : 4,
+                shadowOpacity: isSelected ? 0.6 : 0.4,
             },
             android: {
-                elevation: selectedCluster === cluster ? 12 : 8,
+                elevation: isSelected ? 12 : 8,
             },
         });
-    }, [selectedCluster, cluster]);
+    }, [isSelected]);
 
     return (
         <Marker
@@ -72,20 +74,34 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
         >
             <View
                 style={{
-                    width,
-                    height,
+                    width: width + 4,
+                    height: height + 4,
                     borderRadius: width / 2,
-                    backgroundColor,
-                    opacity: selectedCluster === cluster ? 1.0 : 0.6,
+                    opacity: selectedCluster === cluster ? 1.0 : 0.7,
                     ...shadowStyle,
                     ...styles.container,
                 }}
             >
-                <Icon
-                    name="music"
-                    style={{ width: width * 0.8, height: height * 0.8 }}
-                    fill="black"
+                <FastImage
+                    source={
+                        song && song.albumUrl
+                            ? { uri: song.albumUrl }
+                            : DEFAULT_ALBUM_COVER_URI
+                    }
+                    style={{
+                        width,
+                        height,
+                        borderRadius: width,
+                    }}
                 />
+                {isSelected && (
+                    <View style={styles.animationContainer}>
+                        <ClusterPulseAnimation
+                            width={width + 64}
+                            height={height + 64}
+                        />
+                    </View>
+                )}
             </View>
         </Marker>
     );

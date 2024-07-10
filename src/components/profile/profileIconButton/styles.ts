@@ -5,10 +5,10 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         button: {
-            height: 40,
-            width: 40,
+            height: theme.size.largeAsset,
+            width: theme.size.largeAsset,
             backgroundColor: "lightgray",
-            borderRadius: 20,
+            borderRadius: theme.size.largeAsset,
         },
         icon: {
             color: theme.color.primary,

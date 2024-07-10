@@ -4,11 +4,11 @@ import { ClusterFilter, SocialFilter } from "../types/filters";
 import { createOrUpdateSong, fetchRecentlyPlayedSongs } from "./songAPI";
 import {
     dispatchClearHistory,
+    dispatchSetLastSuccessfulSnapshotTimestamp,
     getCurrentUserState,
     getHistoryState,
 } from "../state/storeUtils";
 import { formatError } from "./errorUtils";
-import { generateRandomSongPoints } from "../mockData/scripts";
 import { getValidAccessToken } from "./tokenUtils";
 import { graphql } from "../gql";
 import { graphqlRequest } from "./client.graphql";
@@ -193,12 +193,52 @@ const createManySnapshots = async (
     }
 };
 
+const snapshotClearHistoryMutationDocument = graphql(`
+    mutation SnapshotClearHistory(
+        $userId: MongoID!
+        $start: Date!
+        $end: Date!
+    ) {
+        snapshotClearHistory(userId: $userId, start: $start, end: $end)
+    }
+`);
+interface ClearSnapshotHistoryArgs {
+    userId: string;
+    start: Date;
+    end: Date;
+}
+/**
+ * Clears the history for the current user
+ * @returns True if the history was cleared successfully
+ * @throws An error if the request fails
+ */
+export const clearSnapshotHistory = async ({
+    userId,
+    start,
+    end,
+}: ClearSnapshotHistoryArgs): Promise<boolean> => {
+    try {
+        console.log("clearing history", userId, start, end);
+        const response = await graphqlRequest<{
+            snapshotClearHistory: boolean;
+        }>(snapshotClearHistoryMutationDocument, {
+            userId,
+            start,
+            end,
+        });
+        return response.snapshotClearHistory;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to clear history");
+    }
+};
+
 /**
  * Posts snapshots to the database based on the current history state from redux and the user's recently-played songs from Spotify. Note: need to use a semaphore to prevent multiple calls to this function from running concurrently
  * @returns The number of succesfully posted snapshots
  * @throws An error if the request fails
  */
-export const postSnapshots = async (): Promise<number> => {
+export const postSnapshots = async (): Promise<void> => {
     try {
         const currentUser = getCurrentUserState();
         if (!currentUser) {
@@ -206,7 +246,7 @@ export const postSnapshots = async (): Promise<number> => {
         }
         const locations = getHistoryState();
         if (locations.length === 0) {
-            return 0;
+            return;
         }
         const userId = currentUser.id;
         const spotifyId = currentUser.spotifyId;
@@ -253,14 +293,16 @@ export const postSnapshots = async (): Promise<number> => {
         let createdCount = 0;
         if (snapshots.length > 0) {
             createdCount = await createManySnapshots(snapshots);
-            console.log("Successfully posted", createdCount, "snapshots. History size was:", locations.length);
+            console.log(
+                "Successfully posted",
+                createdCount,
+                "snapshots. History size was:",
+                locations.length
+            );
         } else {
             console.log("No snapshots to post");
         }
+        dispatchSetLastSuccessfulSnapshotTimestamp(Date.now());
         dispatchClearHistory();
-        return createdCount;
-    } catch (error) {
-        console.error(formatError(error));
-        throw error;
-    }
+    } catch (error) {} // swallow the error because this can occur when app is backgrounded
 };

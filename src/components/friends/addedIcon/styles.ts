@@ -8,8 +8,8 @@ const createStyles = (theme: Theme) => {
             alignSelf: "flex-end",
             backgroundColor: "lightgray",
             borderRadius: theme.border.radiusPrimary,
-            height: 25,
-            width: 60,
+            height: theme.size.smallAsset,
+            width: theme.size.smallAsset * 2.5,
             padding: 0,
         },
         container: {
@@ -18,7 +18,7 @@ const createStyles = (theme: Theme) => {
         },
         text: {
             color: theme.color.primary,
-            fontSize: theme.font.small,
+            fontSize: theme.size.smallFont,
         },
     });
 };
