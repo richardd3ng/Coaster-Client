@@ -2,7 +2,6 @@ import { useCallback, useMemo } from "react";
 
 import { Icon } from "@ui-kitten/components";
 import { Text, View } from "react-native";
-import { useSelector } from "react-redux";
 
 import BottomModal from "../../shared/bottomModal/BottomModal";
 import BottomModalTopRow from "../../shared/bottomModalTopRow/BottomModalTopRow";
@@ -16,10 +15,10 @@ import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
 import { INVALID_JAM_MEM_ID } from "../../../state/jamMem/jamMemSlice";
 import JamMemActionMenu from "../jamMemActionMenu/JamMemActionMenu";
 import JamMemTabNavigator from "../jamMemTabNavigator/JamMemTabNavigator";
-import { RootState } from "../../../state/store";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
+import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const JamMemBottomModal: React.FC = () => {
@@ -28,10 +27,7 @@ const JamMemBottomModal: React.FC = () => {
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const { setClusterFilter, socialFilter } = useMapContext();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
-
-    const selectedJamMemId = useSelector(
-        (state: RootState) => state.jamMem.selectedJamMemId
-    );
+    const selectedJamMemId = useSelectedJamMemId();
 
     const { data: selectedJamMem } = useJamMem(selectedJamMemId);
 

@@ -1,20 +1,20 @@
-import React, { useEffect, useRef, useCallback } from "react";
-import { Alert, Text, View, Animated } from "react-native";
-import { useSelector } from "react-redux";
+import { useEffect, useRef, useCallback } from "react";
+
+import { Alert, Animated, Text, View } from "react-native";
+
 import createStyles from "./styles";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
-import { RootState } from "../../../state/store";
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import RecordingAnimation from "../recordingAnimation/RecordingAnimation";
+import {
+    useHistoryLength,
+    useTrackingOn,
+} from "../../../hooks/redux/useSelectorHooks";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const TrackingIndicator: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const historyLength = useSelector(
-        (state: RootState) => state.location.history.length
-    );
-    const trackingOn = useSelector(
-        (state: RootState) => state.user.currentUser?.preferences.trackSnapshots
-    );
+    const historyLength = useHistoryLength();
+    const trackingOn = useTrackingOn();
     const opacity = useRef(new Animated.Value(1)).current;
 
     useEffect(() => {

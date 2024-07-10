@@ -1,16 +1,15 @@
 import { memo } from "react";
 
 import LottieView from "lottie-react-native";
-import { useSelector } from "react-redux";
 import { View } from "react-native";
 
 import createStyles from "./styles";
-import { RootState } from "../../../state/store";
 import { SONG_PLAYING_ANIMATION_URI } from "../../../constants/assets";
 import {
     State as TrackPlayerState,
     usePlaybackState,
 } from "react-native-track-player";
+import { useCurrentlyPlayingSongId } from "../../../hooks/redux/useSelectorHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface SongPlayingAnimationProps {
@@ -22,9 +21,7 @@ const SongPlayingAnimation: React.FC<SongPlayingAnimationProps> = ({
 }: SongPlayingAnimationProps) => {
     const styles = useThemeAwareObject(createStyles);
     const trackPlayerState = usePlaybackState().state;
-    const currentlyPlayingSongId = useSelector(
-        (state: RootState) => state.song.currentlyPlayingSongId
-    );
+    const currentlyPlayingSongId = useCurrentlyPlayingSongId();
     const isPlaying =
         currentlyPlayingSongId === songId &&
         trackPlayerState === TrackPlayerState.Playing;

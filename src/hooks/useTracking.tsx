@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 
 import { Alert } from "react-native";
-import { useSelector } from "react-redux";
 import BackgroundGeolocation, {
     Location,
 } from "react-native-background-geolocation";
+import { useSelector } from "react-redux";
 
 import {
     dispatchRecordLocationTimestamp,
-    dispatchSetLastSnapshotTimestamp,
+    dispatchSetLastAttemptedSnapshotTimestamp,
     getHistoryState,
-    getLastSnapshotTimestampState,
+    getLastAttemptedSnapshotTimestampState,
 } from "../state/storeUtils";
 import {
     LOCATION_UPDATE_INTERVAL_STATIONARY,
@@ -21,7 +21,7 @@ import { postSnapshots } from "../api/snapshotAPI";
 import { RootState } from "../state/store";
 
 /**
- * Handles the update of the location timestamp. Records the location timestamp and posts snapshots if the history spans a long enough time period
+ * Handles the update of the location timestamp. Records the location timestamp and posts snapshots if the history spans a long enough time period. postSnapshots() will only be called if the last attempted call was taken more than POST_SNAPSHOTS_COOLDOWN milliseconds ago (when errors occur).
  * @param locationTimestamp The incoming location timestamp
  */
 const handleLocationUpdate = async (location: Location) => {
@@ -37,12 +37,12 @@ const handleLocationUpdate = async (location: Location) => {
         history[history.length - 1].timestamp - history[0].timestamp >=
         POST_SNAPSHOTS_INTERVAL
     ) {
-        const lastSnapshotTimestamp = getLastSnapshotTimestampState();
+        const lastSnapshotTimestamp = getLastAttemptedSnapshotTimestampState();
         if (
             lastSnapshotTimestamp === null ||
             Date.now() - lastSnapshotTimestamp > POST_SNAPSHOTS_COOLDOWN
         ) {
-            dispatchSetLastSnapshotTimestamp(Date.now());
+            dispatchSetLastAttemptedSnapshotTimestamp(Date.now());
             await postSnapshots();
         }
     }

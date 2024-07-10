@@ -13,7 +13,7 @@ import { ImagePickerButton } from "../imagePickerButton/ImagePickerButton";
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
 import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
 import { useMutationToUpdateJamMem } from "../../../hooks/react-query/useMutationHooks";
-import { useSelecteJamMemId } from "../../../hooks/redux/useSelectorHooks";
+import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
 import { validateJamMemInputs } from "../../../utils/validationUtils";
@@ -36,7 +36,7 @@ const EditJamMemDialog: React.FC<EditJamMemDialogProps> = ({
         reset,
     } = useMutationToUpdateJamMem();
     useMutationErrorAlert({ isError, error, reset });
-    const { data: jamMem } = useJamMem(useSelecteJamMemId());
+    const { data: jamMem } = useJamMem(useSelectedJamMemId());
     const [name, setName] = useState<string>(jamMem?.name ?? "");
     const [location, setLocation] = useState<string>(jamMem?.location ?? "");
     const [startDate, setStartDate] = useState<Date | null>(

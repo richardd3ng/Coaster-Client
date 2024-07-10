@@ -1,6 +1,10 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+    animationContainer: {
+        position: "absolute",
+        zIndex: -1,
+    },
     container: {
         alignItems: "center",
         backgroundColor: "white",

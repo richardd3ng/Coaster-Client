@@ -22,7 +22,7 @@ const createStyles = (theme: Theme) => {
         image: {
             width: 120,
             height: 120,
-            backgroundColor: "red",
+            backgroundColor: "white",
             borderRadius: 120,
         },
         imagePickerContainer: {

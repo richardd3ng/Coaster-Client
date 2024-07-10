@@ -33,6 +33,7 @@ const EditProfileDialog: React.FC<EditProfileProps> = ({
         isPending,
         reset,
     } = useMutationToUpdateProfile();
+    
     useMutationErrorAlert({ isError, error, reset });
     const currentUser = useCurrentUser();
     const [displayName, setDisplayName] = useState<string>(

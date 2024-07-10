@@ -10,14 +10,15 @@ const createStyles = (theme: Theme) => {
             padding: theme.spacing.base,
             backgroundColor: "white",
             borderRadius: theme.border.radiusSecondary,
+            marginVertical: theme.spacing.base,
         },
         icon: {
             width: theme.size.mediumAsset,
             height: theme.size.mediumAsset,
-            color: theme.color.primary,
+            color: theme.color.danger,
         },
         text: {
-            color: theme.color.primary,
+            color: theme.color.danger,
             paddingLeft: theme.spacing.base,
             fontSize: theme.size.largeFont,
         },

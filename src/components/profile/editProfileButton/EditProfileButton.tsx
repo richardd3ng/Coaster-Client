@@ -10,12 +10,12 @@ import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const EditProfileButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const [showCreationDialog, setShowCreationDialog] =
+    const [showDialog, setShowDialog] =
         useState<boolean>(false);
 
     return (
         <>
-            <CustomPressable onPress={() => setShowCreationDialog(true)}>
+            <CustomPressable onPress={() => setShowDialog(true)}>
                 <View style={styles.container}>
                     <Icon
                         name="edit-outline"
@@ -26,8 +26,8 @@ const EditProfileButton: React.FC = () => {
                 </View>
             </CustomPressable>
             <EditProfileDialog
-                open={showCreationDialog}
-                onClose={() => setShowCreationDialog(false)}
+                open={showDialog}
+                onClose={() => setShowDialog(false)}
             />
         </>
     );

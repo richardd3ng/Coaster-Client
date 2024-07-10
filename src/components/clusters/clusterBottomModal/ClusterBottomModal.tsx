@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { useSelector } from "react-redux";
-
 import BottomModal from "../../shared/bottomModal/BottomModal";
 import BottomModalTopRow from "../../shared/bottomModalTopRow/BottomModalTopRow";
 import {
@@ -10,10 +8,10 @@ import {
     useClusterModal,
 } from "../../../hooks/context/ModalContext";
 import { dispatchSetSelectedCluster } from "../../../state/storeUtils";
-import { RootState } from "../../../state/store";
 import { SongIdFrequencies } from "../../../utils/superclusterManager";
 import SongList from "../songList/SongList";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
+import { useSelectedCluster } from "../../../hooks/redux/useSelectorHooks";
 
 const ClusterBottomModal: React.FC = () => {
     const { dismiss } = useClusterModal();
@@ -21,10 +19,7 @@ const ClusterBottomModal: React.FC = () => {
     const [songIdFrequencies, setSongIdFrequencies] =
         useState<SongIdFrequencies>([]);
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
-
-    const selectedCluster = useSelector((state: RootState) => {
-        return state.cluster.selectedCluster;
-    });
+    const selectedCluster = useSelectedCluster();
 
     useEffect(() => {
         const fetchClusterData = async () => {

@@ -56,13 +56,15 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
         if (!validateJamMemInputs(name, location, startDate!, endDate!)) {
             return;
         }
+        const endPlusOneDay = new Date(endDate!);
+        endPlusOneDay.setDate(endPlusOneDay.getDate() + 1);
         createJamMem(
             {
                 ownerId: currentUserId,
                 name,
                 location,
                 start: startDate!,
-                end: endDate!,
+                end: endPlusOneDay,
                 coverImage: coverUri ? await encodeBase64(coverUri) : undefined,
                 friends: friendIds.length > 0 ? friendIds : undefined,
             },

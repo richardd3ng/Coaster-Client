@@ -12,14 +12,13 @@ import {
     useFriends,
     useJamMem,
 } from "../../../hooks/react-query/useQueryHooks";
-import { useSelecteJamMemId } from "../../../hooks/redux/useSelectorHooks";
+import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 
 const AddFriendButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const [showCreationDialog, setShowCreationDialog] =
-        useState<boolean>(false);
-    const { data: jamMem } = useJamMem(useSelecteJamMemId());
+    const [showDialog, setShowDialog] = useState<boolean>(false);
+    const { data: jamMem } = useJamMem(useSelectedJamMemId());
     const currentUserId = useCurrentUser().id;
     const { data: friends } = useFriends(currentUserId);
 
@@ -45,7 +44,7 @@ const AddFriendButton: React.FC = () => {
     }
     return (
         <>
-            <CustomPressable onPress={() => setShowCreationDialog(true)}>
+            <CustomPressable onPress={() => setShowDialog(true)}>
                 <View style={styles.container}>
                     <Icon
                         name="plus-square-outline"
@@ -57,8 +56,8 @@ const AddFriendButton: React.FC = () => {
             </CustomPressable>
             <AddFriendsDialog
                 friends={friendsNotInJamMem}
-                open={showCreationDialog}
-                onClose={() => setShowCreationDialog(false)}
+                open={showDialog}
+                onClose={() => setShowDialog(false)}
             />
         </>
     );

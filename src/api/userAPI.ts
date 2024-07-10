@@ -1,4 +1,4 @@
-import { formatError } from "./errorUtils";
+import { formatError, parseErrorGraphQL } from "./errorUtils";
 import { FriendArgs, UserReduxState } from "../types/entities";
 import { graphql } from "../gql";
 import { graphqlRequest } from "./client.graphql";
@@ -115,8 +115,16 @@ export const updateProfile = async ({
                 trackSnapshots: response.userUpdateById.shareSnapshots,
             },
         };
-    } catch (error) {
-        console.error(formatError(error));
+    } catch (error: any) {
+        const graphqlError = parseErrorGraphQL(error);
+        if (
+            graphqlError &&
+            graphqlError.message === "Duplicate key error" &&
+            graphqlError.extensions.code === "CONFLICT" &&
+            graphqlError.extensions.duplicateField === "username"
+        ) {
+            throw new Error("Username already taken");
+        }
         throw new Error("Error: unable to update profile");
     }
 };

@@ -9,3 +9,5 @@ export const LOADING_ANIMATION_URI = require("../../assets/animations/loading.js
 export const RECORDING_ANIMATION_URI = require("../../assets/animations/recording.json");
 
 export const SONG_PLAYING_ANIMATION_URI = require("../../assets/animations/song-playing.json");
+
+export const CLUSTER_PULSE_ANIMATION_URI = require("../../assets/animations/cluster-pulse.json");

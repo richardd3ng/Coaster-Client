@@ -5,6 +5,7 @@ import { View } from "react-native";
 
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import createStyles from "./styles";
+import { RECORDING_ANIMATION_URI } from "../../../constants/assets";
 
 const RecordingAnimation: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
@@ -12,7 +13,7 @@ const RecordingAnimation: React.FC = () => {
     return (
         <View style={styles.animationContainer}>
             <LottieView
-                source={require("../../../../assets/animations/recording.json")}
+                source={RECORDING_ANIMATION_URI}
                 style={styles.animation}
                 autoPlay
                 loop

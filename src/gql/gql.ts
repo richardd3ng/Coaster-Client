@@ -30,6 +30,7 @@ const documents = {
     "\n    query SnapshotByUserGlobal($userId: MongoID!) {\n        snapshotByUserGlobal(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserGlobalDocument,
     "\n    query JamMemByIdSnapshots($id: MongoID!) {\n        jamMemById(_id: $id) {\n            snapshots {\n                ...SnapshotInfo\n            }\n        }\n    }\n": types.JamMemByIdSnapshotsDocument,
     "\n        mutation SnapshotCreateMany($snapshots: [CreateManySnapshotInput!]!) {\n            snapshotCreateMany(records: $snapshots) {\n                createdCount\n            }\n        }\n    ": types.SnapshotCreateManyDocument,
+    "\n    mutation SnapshotClearHistory(\n        $userId: MongoID!\n        $start: Date!\n        $end: Date!\n    ) {\n        snapshotClearHistory(userId: $userId, start: $start, end: $end)\n    }\n": types.SnapshotClearHistoryDocument,
     "\n    query SongById($id: MongoID!) {\n        songById(_id: $id) {\n            ...SongInfo\n        }\n    }\n": types.SongByIdDocument,
     "\n    mutation SongCreateOrUpdate(\n        $spotifyId: String!\n        $uri: String!\n        $name: String!\n        $artists: [String!]!\n        $albumUrl: String\n        $previewUrl: String\n    ) {\n        songCreateOrUpdate(\n            spotifyId: $spotifyId\n            uri: $uri\n            name: $name\n            artists: $artists\n            albumUrl: $albumUrl\n            previewUrl: $previewUrl\n        ) {\n            _id\n        }\n    }\n": types.SongCreateOrUpdateDocument,
     "\n    query SongFetchRecentlyPlayed(\n        $accessToken: String!\n        $limit: Int\n        $after: Long!\n    ) {\n        songFetchRecentlyPlayed(\n            accessToken: $accessToken\n            limit: $limit\n            after: $after\n        ) {\n            spotifyId\n            uri\n            name\n            artists\n            albumUrl\n            previewUrl\n            timestamp\n        }\n    }\n": types.SongFetchRecentlyPlayedDocument,
@@ -130,6 +131,10 @@ export function graphql(source: "\n    query JamMemByIdSnapshots($id: MongoID!) 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n        mutation SnapshotCreateMany($snapshots: [CreateManySnapshotInput!]!) {\n            snapshotCreateMany(records: $snapshots) {\n                createdCount\n            }\n        }\n    "): (typeof documents)["\n        mutation SnapshotCreateMany($snapshots: [CreateManySnapshotInput!]!) {\n            snapshotCreateMany(records: $snapshots) {\n                createdCount\n            }\n        }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation SnapshotClearHistory(\n        $userId: MongoID!\n        $start: Date!\n        $end: Date!\n    ) {\n        snapshotClearHistory(userId: $userId, start: $start, end: $end)\n    }\n"): (typeof documents)["\n    mutation SnapshotClearHistory(\n        $userId: MongoID!\n        $start: Date!\n        $end: Date!\n    ) {\n        snapshotClearHistory(userId: $userId, start: $start, end: $end)\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

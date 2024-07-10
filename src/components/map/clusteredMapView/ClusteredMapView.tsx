@@ -46,7 +46,6 @@ const ClusteredMapView = () => {
                     followsUserLocation={followsUserLocation}
                     onRegionChangeComplete={dispatchSetCurrentRegion}
                     onPanDrag={() => setFollowsUserLocation(false)}
-                    showsCompass
                     showsScale
                     loadingEnabled
                     showsMyLocationButton={false}
@@ -56,7 +55,7 @@ const ClusteredMapView = () => {
                     ))}
                 </MapView>
             )}
-            <LoadingModal visible={isLoading} text="Loading clusters..." />
+            <LoadingModal visible={isLoading} text="Loading Clusters..." />
         </>
     );
 };

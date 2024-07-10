@@ -46,15 +46,21 @@ export const getQueryKeyForUseJamMemMetadatas = () => {
 export const useSongPoints = (filter: ClusterFilter) => {
     const currentUserId = useCurrentUser().id;
     return useQuery({
-        queryKey: getQueryKeyForUseSongPoints(filter),
+        queryKey: getQueryKeyForUseSongPointsWithFilter(filter),
         queryFn: () => fetchAndLoadSongPoints(currentUserId, filter),
         staleTime:
             filter.type === "social" ? CLUSTERS_QUERY_STALE_TIME : Infinity,
     });
 };
 
-export const getQueryKeyForUseSongPoints = (filter: ClusterFilter) => {
-    return ["songPoints", filter.value as string];
+export const getQueryKeyForUseSongPoints = () => {
+    return ["songPoints"];
+};
+
+export const getQueryKeyForUseSongPointsWithFilter = (
+    filter: ClusterFilter
+) => {
+    return getQueryKeyForUseSongPoints().concat(filter.value);
 };
 
 /* Songs */

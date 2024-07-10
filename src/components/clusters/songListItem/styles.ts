@@ -37,8 +37,8 @@ const createStyles = (theme: Theme) => {
             fontSize: theme.size.largeFont,
         },
         image: {
-            width: theme.size.xlargeAsset,
-            height: theme.size.xlargeAsset,
+            width: 50,
+            height: 50,
         },
         imageContainer: {
             padding: theme.spacing.base,

@@ -1,8 +1,9 @@
-import { View } from "react-native";
+import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
-import createStyles from "./styles";
 import BottomModal from "../../shared/bottomModal/BottomModal";
 import BottomModalTopRow from "../../shared/bottomModalTopRow/BottomModalTopRow";
+import ClearHistoryButton from "../clearSnapshotHistoryButton/ClearSnapshotHistoryButton";
+import createStyles from "./styles";
 import EditProfileButton from "../editProfileButton/EditProfileButton";
 import { ModalType } from "../../../hooks/context/ModalContext";
 import { ProfileOption } from "../../../types/navigation";
@@ -17,9 +18,10 @@ const AccountBottomModal: React.FC = () => {
                 headerText={ProfileOption.Account}
                 modalType={ModalType.Account}
             />
-            <View style={styles.container}>
+            <BottomSheetScrollView style={styles.container}>
                 <EditProfileButton />
-            </View>
+                <ClearHistoryButton />
+            </BottomSheetScrollView>
         </BottomModal>
     );
 };

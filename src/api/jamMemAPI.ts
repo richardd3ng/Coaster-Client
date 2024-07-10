@@ -126,8 +126,8 @@ interface JamMemCreationArgs {
  * @param ownerId The id of the owner of the Jam Mem
  * @param name The name of the Jam Mem
  * @param location The location of the Jam Mem
- * @param start The start date of the Jam Mem
- * @param end The end date of the Jam Mem
+ * @param start The start date of the Jam Mem (inclusive)
+ * @param end The end date of the Jam Mem (exclusive)
  * @param coverImage The base64 encoded image for the cover
  * @param friends The ids of the friends to add to the Jam Mem
  * @returns The created Jam Mem
