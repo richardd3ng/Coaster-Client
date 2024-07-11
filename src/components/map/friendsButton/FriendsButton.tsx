@@ -8,7 +8,6 @@ import {
     useJamMemModal,
 } from "../../../hooks/context/ModalContext";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
-import { postSnapshots } from "../../../api/snapshotAPI";
 
 const FriendsButton: React.FC = () => {
     const { dismiss: dismissClusterModal } = useClusterModal();
@@ -17,7 +16,6 @@ const FriendsButton: React.FC = () => {
     const { close: closeMapBottomSheet } = useMapBottomSheet();
 
     const handlePress = useCallback(() => {
-        postSnapshots();
         presentFriendsModal();
         dismissClusterModal();
         dismissJamMemModal();

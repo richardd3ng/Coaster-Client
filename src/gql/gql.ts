@@ -24,10 +24,10 @@ const documents = {
     "\n    mutation deleteJamMem($id: MongoID!) {\n        jamMemDeleteById(_id: $id) {\n            _id\n        }\n    }\n": types.DeleteJamMemDocument,
     "\n    mutation JamMemAddFriends($jamMemId: MongoID!, $friendIds: [MongoID!]!) {\n        jamMemAddFriends(jamMemId: $jamMemId, friendIds: $friendIds) {\n            _id\n        }\n    }\n": types.JamMemAddFriendsDocument,
     "\n    mutation JamMemRemoveFriend($jamMemId: MongoID!, $friendId: MongoID!) {\n        jamMemRemoveFriend(jamMemId: $jamMemId, friendId: $friendId) {\n            _id\n        }\n    }\n": types.JamMemRemoveFriendDocument,
-    "\n    query PlacesQuery($query: String!) {\n        placesQuery(query: $query) {\n            id\n            name\n            address\n            latitude\n            longitude\n            latitudeDelta\n            longitudeDelta\n        }\n    }\n": types.PlacesQueryDocument,
-    "\n    query SnapshotByUserId($userId: MongoID!) {\n        snapshotByUserId(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserIdDocument,
-    "\n    query SnapshotByUserFriends($userId: MongoID!) {\n        snapshotByUserFriends(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserFriendsDocument,
-    "\n    query SnapshotByUserGlobal($userId: MongoID!) {\n        snapshotByUserGlobal(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserGlobalDocument,
+    "\n    query SearchByLocationSongOrArtist($query: String!) {\n        searchByLocationSongOrArtist(query: $query) {\n            id\n            type\n            name\n            data\n        }\n    }\n": types.SearchByLocationSongOrArtistDocument,
+    "\n    query SnapshotByUserId($userId: MongoID!, $filter: SearchFilter) {\n        snapshotByUserId(userId: $userId, filter: $filter) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserIdDocument,
+    "\n    query SnapshotByUserFriends($userId: MongoID!, $filter: SearchFilter) {\n        snapshotByUserFriends(userId: $userId, filter: $filter) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserFriendsDocument,
+    "\n    query SnapshotByUserGlobal($userId: MongoID!, $filter: SearchFilter) {\n        snapshotByUserGlobal(userId: $userId, filter: $filter) {\n            ...SnapshotInfo\n        }\n    }\n": types.SnapshotByUserGlobalDocument,
     "\n    query JamMemByIdSnapshots($id: MongoID!) {\n        jamMemById(_id: $id) {\n            snapshots {\n                ...SnapshotInfo\n            }\n        }\n    }\n": types.JamMemByIdSnapshotsDocument,
     "\n        mutation SnapshotCreateMany($snapshots: [CreateManySnapshotInput!]!) {\n            snapshotCreateMany(records: $snapshots) {\n                createdCount\n            }\n        }\n    ": types.SnapshotCreateManyDocument,
     "\n    mutation SnapshotClearHistory(\n        $userId: MongoID!\n        $start: Date!\n        $end: Date!\n    ) {\n        snapshotClearHistory(userId: $userId, start: $start, end: $end)\n    }\n": types.SnapshotClearHistoryDocument,
@@ -110,19 +110,19 @@ export function graphql(source: "\n    mutation JamMemRemoveFriend($jamMemId: Mo
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query PlacesQuery($query: String!) {\n        placesQuery(query: $query) {\n            id\n            name\n            address\n            latitude\n            longitude\n            latitudeDelta\n            longitudeDelta\n        }\n    }\n"): (typeof documents)["\n    query PlacesQuery($query: String!) {\n        placesQuery(query: $query) {\n            id\n            name\n            address\n            latitude\n            longitude\n            latitudeDelta\n            longitudeDelta\n        }\n    }\n"];
+export function graphql(source: "\n    query SearchByLocationSongOrArtist($query: String!) {\n        searchByLocationSongOrArtist(query: $query) {\n            id\n            type\n            name\n            data\n        }\n    }\n"): (typeof documents)["\n    query SearchByLocationSongOrArtist($query: String!) {\n        searchByLocationSongOrArtist(query: $query) {\n            id\n            type\n            name\n            data\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query SnapshotByUserId($userId: MongoID!) {\n        snapshotByUserId(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"): (typeof documents)["\n    query SnapshotByUserId($userId: MongoID!) {\n        snapshotByUserId(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"];
+export function graphql(source: "\n    query SnapshotByUserId($userId: MongoID!, $filter: SearchFilter) {\n        snapshotByUserId(userId: $userId, filter: $filter) {\n            ...SnapshotInfo\n        }\n    }\n"): (typeof documents)["\n    query SnapshotByUserId($userId: MongoID!, $filter: SearchFilter) {\n        snapshotByUserId(userId: $userId, filter: $filter) {\n            ...SnapshotInfo\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query SnapshotByUserFriends($userId: MongoID!) {\n        snapshotByUserFriends(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"): (typeof documents)["\n    query SnapshotByUserFriends($userId: MongoID!) {\n        snapshotByUserFriends(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"];
+export function graphql(source: "\n    query SnapshotByUserFriends($userId: MongoID!, $filter: SearchFilter) {\n        snapshotByUserFriends(userId: $userId, filter: $filter) {\n            ...SnapshotInfo\n        }\n    }\n"): (typeof documents)["\n    query SnapshotByUserFriends($userId: MongoID!, $filter: SearchFilter) {\n        snapshotByUserFriends(userId: $userId, filter: $filter) {\n            ...SnapshotInfo\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query SnapshotByUserGlobal($userId: MongoID!) {\n        snapshotByUserGlobal(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"): (typeof documents)["\n    query SnapshotByUserGlobal($userId: MongoID!) {\n        snapshotByUserGlobal(userId: $userId) {\n            ...SnapshotInfo\n        }\n    }\n"];
+export function graphql(source: "\n    query SnapshotByUserGlobal($userId: MongoID!, $filter: SearchFilter) {\n        snapshotByUserGlobal(userId: $userId, filter: $filter) {\n            ...SnapshotInfo\n        }\n    }\n"): (typeof documents)["\n    query SnapshotByUserGlobal($userId: MongoID!, $filter: SearchFilter) {\n        snapshotByUserGlobal(userId: $userId, filter: $filter) {\n            ...SnapshotInfo\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

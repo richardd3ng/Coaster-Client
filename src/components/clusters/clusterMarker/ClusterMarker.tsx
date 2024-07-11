@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 
 import { Marker } from "react-native-maps";
 import { Platform, View } from "react-native";
+import { isEqual } from "lodash";
 
 import ClusterPulseAnimation from "../clusterPulseAnimation/ClusterPulseAnimation";
 import { DEFAULT_ALBUM_COVER_URI } from "../../../constants/assets";
@@ -33,7 +34,7 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
     const { close: closeMapBottomSheet } = useMapBottomSheet();
     const selectedCluster = useSelectedCluster();
     const { data: song } = useSong(cluster.topSongs[0][0]);
-    const isSelected = selectedCluster === cluster;
+    const isSelected = isEqual(selectedCluster, cluster);
 
     const handlePress = useCallback(
         (cluster: SongCluster) => {
@@ -77,7 +78,7 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
                     width: width + 4,
                     height: height + 4,
                     borderRadius: width / 2,
-                    opacity: selectedCluster === cluster ? 1.0 : 0.7,
+                    opacity: isSelected ? 1.0 : 0.7,
                     ...shadowStyle,
                     ...styles.container,
                 }}

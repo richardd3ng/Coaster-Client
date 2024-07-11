@@ -10,9 +10,10 @@ import CancelTextPressable from "../shared/cancelTextPressable/CancelTextPressab
 import createStyles from "./styles";
 import { DEFAULT_SNAP_POINTS } from "../../hooks/context/ModalContext";
 import JamMemsStack from "../jamMems/jamMemsStack/JamMemsStack";
-import { Place, fetchPlaces } from "../../api/placesAPI";
+import { searchByLocationSongOrArtist } from "../../api/searchAPI";
 import ProfileIconButton from "../profile/profileIconButton/ProfileIconButton";
 import SearchBar from "../shared/searchBar/SearchBar";
+import { SearchResult } from "../../gql/graphql";
 import SearchResultsList from "../mapBottomSheet/searchResultsList/SearchResultsList";
 import { useMapBottomSheet } from "../../hooks/context/BottomSheetContext";
 import useThemeAwareObject from "../../hooks/useThemeAwareObject";
@@ -21,13 +22,11 @@ const MapBottomSheet: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const searchBarInputRef = useRef<Input>(null);
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
-    const [searchResults, setSearchResults] = useState<Place[] | null>(null);
+    const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
+        null
+    );
     const [showProfile, setShowProfile] = useState<boolean>(true);
-    const {
-        ref,
-        snapIndex,
-        setSnapIndex,
-    } = useMapBottomSheet();
+    const { ref, snapIndex, setSnapIndex } = useMapBottomSheet();
 
     const clearSearch = useCallback(() => {
         searchBarInputRef.current?.blur();
@@ -40,7 +39,7 @@ const MapBottomSheet: React.FC = () => {
             return;
         }
         try {
-            const results = await fetchPlaces(query);
+            const results = await searchByLocationSongOrArtist(query);
             setSearchResults(results);
             setSnapIndex(2);
         } catch (error) {
