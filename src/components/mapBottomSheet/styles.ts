@@ -30,6 +30,9 @@ const createStyles = (theme: Theme) => {
             width: "100%",
             pointerEvents: "box-none",
         },
+        profileIconContainer: {
+            paddingLeft: theme.spacing.base,
+        },
     });
 };
 

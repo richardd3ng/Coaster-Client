@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { ClusterFilter } from "../../types/filters";
+import { ClusterFilter, SocialFilter, getFilterKey } from "../../types/filters";
 import {
     fetchFriends,
     fetchPendingRequests,
@@ -45,11 +45,19 @@ export const getQueryKeyForUseJamMemMetadatas = () => {
 /* Clusters */
 export const useSongPoints = (filter: ClusterFilter) => {
     const currentUserId = useCurrentUser().id;
+
     return useQuery({
         queryKey: getQueryKeyForUseSongPointsWithFilter(filter),
         queryFn: () => fetchAndLoadSongPoints(currentUserId, filter),
-        staleTime:
-            filter.type === "social" ? CLUSTERS_QUERY_STALE_TIME : Infinity,
+        staleTime: () => {
+            if ("searchFilter" in filter && filter.searchFilter) {
+                return 0;
+            }
+            if (filter.type === "social" && filter.value === SocialFilter.Me) {
+                return Infinity;
+            }
+            return CLUSTERS_QUERY_STALE_TIME;
+        },
     });
 };
 
@@ -60,7 +68,9 @@ export const getQueryKeyForUseSongPoints = () => {
 export const getQueryKeyForUseSongPointsWithFilter = (
     filter: ClusterFilter
 ) => {
-    return getQueryKeyForUseSongPoints().concat(filter.value);
+    let key = getQueryKeyForUseSongPoints();
+    key = key.concat(getFilterKey(filter));
+    return key;
 };
 
 /* Songs */

@@ -4,7 +4,8 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        addressText: {
+        descriptionText: {
+            color: "gray",
             fontSize: theme.size.smallFont,
         },
         divider: {
@@ -13,9 +14,13 @@ const createStyles = (theme: Theme) => {
         },
         iconButton: {
             backgroundColor: "white",
+            width: theme.size.largeAsset,
+            height: theme.size.largeAsset,
+            borderRadius: theme.size.smallAsset,
+        },
+        icon: {
             width: theme.size.smallAsset,
             height: theme.size.smallAsset,
-            borderRadius: theme.size.smallAsset,
         },
         listItemContainer: {
             flexDirection: "row",
@@ -23,7 +28,7 @@ const createStyles = (theme: Theme) => {
             paddingHorizontal: theme.spacing.double,
             paddingVertical: 12,
         },
-        placeText: {
+        titleText: {
             fontSize: theme.size.mediumFont,
         },
         textContainer: {

@@ -14,6 +14,7 @@ import {
 import clusterReducer from "./cluster/clusterSlice";
 import jamMemReducer from "./jamMem/jamMemSlice";
 import locationReducer from "./location/locationSlice";
+import searchResultReducer from "./searchResult/searchResultSlice";
 import snapshotReducer from "./snapshot/snapshotSlice";
 import songReducer from "./song/songSlice";
 import userReducer from "./user/userSlice";
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
     jamMem: jamMemReducer,
     location: persistReducer(locationPersistConfig, locationReducer),
     snapshot: snapshotReducer,
+    searchResult: searchResultReducer,
     song: songReducer,
     user: persistReducer(userPersistConfig, userReducer),
 });

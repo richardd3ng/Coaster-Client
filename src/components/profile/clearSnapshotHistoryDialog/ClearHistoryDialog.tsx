@@ -57,11 +57,9 @@ const ClearSnapshotHistoryDialog: React.FC<ClearSnapshotHistoryDialogProps> = ({
                 start.setHours(0, 0, 0, 0);
                 break;
             case 3:
-                start = new Date(2000, 0, 1);
+                start = new Date(0);
                 break;
         }
-        console.log(userId, start.toISOString(), end.toISOString());
-
         clearSnapshotHistory(
             {
                 userId,
@@ -72,7 +70,7 @@ const ClearSnapshotHistoryDialog: React.FC<ClearSnapshotHistoryDialogProps> = ({
                 onSuccess: onClose,
             }
         );
-    }, []);
+    }, [selectedIndex, userId, clearSnapshotHistory, onClose]);
 
     const DialogContent = (
         <View style={styles.dialogContainer}>

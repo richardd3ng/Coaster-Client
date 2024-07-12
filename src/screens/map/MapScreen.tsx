@@ -10,6 +10,7 @@ import { MapContextProvider } from "../../hooks/context/MapContext";
 import { ModalProvider } from "../../hooks/context/ModalContext";
 import PreferencesBottomModal from "../../components/profile/preferences/preferencesBottomModal/PreferencesBottomModal";
 import ProfileBottomModal from "../../components/profile/profileBottomModal/ProfileBottomModal";
+import SearchResultsBottomModal from "../../components/map/searchResultsBottomModal/SearchResultsBottomModal";
 import SentRequestsBottomModal from "../../components/friends/sentRequestsBottomModal/SentRequestsBottomModal";
 
 const MapScreen: React.FC = () => {
@@ -23,6 +24,7 @@ const MapScreen: React.FC = () => {
                     <FriendsBottomModal />
                     <SentRequestsBottomModal />
                     <JamMemBottomModal />
+                    <SearchResultsBottomModal />
                     <ClusterBottomModal />
                     <ProfileBottomModal />
                     <AccountBottomModal />

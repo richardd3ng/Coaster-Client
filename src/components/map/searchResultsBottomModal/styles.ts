@@ -4,12 +4,10 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        cancelText: {
+        text: {
+            paddingHorizontal: theme.spacing.double,
+            color: "gray",
             fontSize: theme.size.mediumFont,
-            color: "blue",
-        },
-        cancelButton: {
-            alignSelf: "center",
         },
     });
 };

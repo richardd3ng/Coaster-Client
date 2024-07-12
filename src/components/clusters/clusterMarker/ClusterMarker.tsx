@@ -7,6 +7,7 @@ import ClusterPulseAnimation from "../clusterPulseAnimation/ClusterPulseAnimatio
 import { DEFAULT_ALBUM_COVER_URI } from "../../../constants/assets";
 import { dispatchSetSelectedCluster } from "../../../state/storeUtils";
 import FastImage from "react-native-fast-image";
+import { isEqualClusters } from "../../../utils/snapshotUtils";
 import { SongCluster } from "../../../utils/superclusterManager";
 import styles, { getIconStyle } from "./styles";
 import {
@@ -33,7 +34,7 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
     const { close: closeMapBottomSheet } = useMapBottomSheet();
     const selectedCluster = useSelectedCluster();
     const { data: song } = useSong(cluster.topSongs[0][0]);
-    const isSelected = selectedCluster === cluster;
+    const isSelected = selectedCluster && isEqualClusters(selectedCluster, cluster);
 
     const handlePress = useCallback(
         (cluster: SongCluster) => {
@@ -77,7 +78,7 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
                     width: width + 4,
                     height: height + 4,
                     borderRadius: width / 2,
-                    opacity: selectedCluster === cluster ? 1.0 : 0.7,
+                    opacity: isSelected ? 1.0 : 0.7,
                     ...shadowStyle,
                     ...styles.container,
                 }}

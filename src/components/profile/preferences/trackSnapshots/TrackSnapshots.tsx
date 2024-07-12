@@ -7,6 +7,26 @@ import { PreferencesOption } from "../../../../types/navigation";
 import PreferencesListItem from "../preferencesListItem/PreferencesListItem";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
+import { UserReduxState } from "../../../../types/entities";
+
+export const DISABLE_TRACKING_CONFIRMATION_TITLE =
+    "Are you sure you want to disable Snapshot tracking?";
+
+export const DISABLE_TRACKING_CONFIRMATION_DESCRIPTION =
+    "This will disable tracking of your location and recently-played songs. Note that the map will still follow your location, but nothing will be recorded.";
+
+export const setTrackSnapshots = (
+    currentUser: UserReduxState,
+    trackSnapshots: boolean
+) => {
+    dispatchSetCurrentUser({
+        ...currentUser,
+        preferences: {
+            ...currentUser.preferences,
+            trackSnapshots,
+        },
+    });
+};
 
 const TrackSnapshots: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
@@ -15,21 +35,11 @@ const TrackSnapshots: React.FC = () => {
     const currentUser = useCurrentUser();
     const trackSnapshots = currentUser.preferences.trackSnapshots;
 
-    const setTrackSnapshots = (trackSnapshots: boolean) => {
-        dispatchSetCurrentUser({
-            ...currentUser,
-            preferences: {
-                ...currentUser.preferences,
-                trackSnapshots,
-            },
-        });
-    };
-
     const handleToggle = () => {
         if (trackSnapshots) {
             setShowConfirmationDialog(true);
         } else {
-            setTrackSnapshots(true);
+            setTrackSnapshots(currentUser, true);
         }
     };
 
@@ -43,11 +53,11 @@ const TrackSnapshots: React.FC = () => {
                 isEnabled={trackSnapshots}
             />
             <ConfirmationDialog
-                title={"Are you sure you want to disable Snapshot tracking?"}
-                description="This will disable tracking of your location and recently-played songs. Note that the map will still follow your location, but nothing will be recorded."
+                title={DISABLE_TRACKING_CONFIRMATION_TITLE}
+                description={DISABLE_TRACKING_CONFIRMATION_DESCRIPTION}
                 open={showConfiramtionDialog}
                 onClose={() => setShowConfirmationDialog(false)}
-                onConfirm={() => setTrackSnapshots(false)}
+                onConfirm={() => setTrackSnapshots(currentUser, false)}
             />
         </>
     );

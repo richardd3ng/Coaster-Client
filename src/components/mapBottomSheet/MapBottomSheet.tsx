@@ -1,100 +1,79 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 
 import { Alert, View } from "react-native";
-import { AxiosError } from "axios";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Input } from "@ui-kitten/components";
 
-import CancelTextPressable from "../shared/cancelTextPressable/CancelTextPressable";
 import createStyles from "./styles";
 import { DEFAULT_SNAP_POINTS } from "../../hooks/context/ModalContext";
 import JamMemsStack from "../jamMems/jamMemsStack/JamMemsStack";
-import { Place, fetchPlaces } from "../../api/placesAPI";
+import { searchByLocationSongOrArtist } from "../../api/searchAPI";
 import ProfileIconButton from "../profile/profileIconButton/ProfileIconButton";
-import SearchBar from "../shared/searchBar/SearchBar";
+import SearchBar, { SearchBarRef } from "../shared/searchBar/SearchBar";
+import { SearchResult } from "../../gql/graphql";
 import SearchResultsList from "../mapBottomSheet/searchResultsList/SearchResultsList";
 import { useMapBottomSheet } from "../../hooks/context/BottomSheetContext";
 import useThemeAwareObject from "../../hooks/useThemeAwareObject";
 
 const MapBottomSheet: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const searchBarInputRef = useRef<Input>(null);
+    const searchBarRef = useRef<SearchBarRef>(null);
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
-    const [searchResults, setSearchResults] = useState<Place[] | null>(null);
-    const [showProfile, setShowProfile] = useState<boolean>(true);
-    const {
-        ref,
-        snapIndex,
-        setSnapIndex,
-    } = useMapBottomSheet();
-
-    const clearSearch = useCallback(() => {
-        searchBarInputRef.current?.blur();
-        searchBarInputRef.current?.clear();
-    }, []);
+    const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
+        null
+    );
+    const { ref, snapIndex, setSnapIndex } = useMapBottomSheet();
 
     const handleSearch = async (query: string) => {
-        if (!searchBarInputRef.current?.isFocused()) {
-            // attempt to fix the search bar debounce issue, not perfect
-            return;
-        }
         try {
-            const results = await fetchPlaces(query);
+            const results = await searchByLocationSongOrArtist(query);
+            if (searchBarRef.current?.getIsCancelled()) {
+                return;
+            }
             setSearchResults(results);
-            setSnapIndex(2);
-        } catch (error) {
-            Alert.alert((error as AxiosError).message);
+        } catch (error: any) {
+            Alert.alert("Error", error.message);
         }
     };
 
     const handleSheetChanges = useCallback((index: number) => {
-        searchBarInputRef.current?.clear();
         setSnapIndex(index);
         if (index !== 2) {
-            clearSearch();
             setSearchResults(null);
-            setShowProfile(true);
+            searchBarRef.current?.cancel();
         }
     }, []);
 
-    const resetBottomSheet = useCallback(() => {
-        setShowProfile(true);
-        clearSearch();
+    const handleCancel = useCallback(() => {
         setSearchResults(null);
         setSnapIndex(1);
     }, []);
 
-    const handleFocus = useCallback(() => {
-        setShowProfile(false);
-        setSnapIndex(2);
-    }, []);
+    const ProfileIcon = useMemo(
+        () => (
+            <View style={styles.profileIconContainer}>
+                <ProfileIconButton />
+            </View>
+        ),
+        []
+    );
 
     const TopRow = useMemo(
         () => (
             <View style={styles.bottomSheetTopRow}>
-                <View
-                    style={{
-                        width: showProfile ? "90%" : "87.5%",
-                    }}
-                >
-                    <SearchBar
-                        ref={searchBarInputRef}
-                        placeholder="Search Location, Song, or Artist"
-                        onSearch={handleSearch}
-                        style={styles.bottomSheetTextInput}
-                        onFocus={handleFocus}
-                        onClear={() => setSearchResults(null)}
-                    />
-                </View>
-                {showProfile ? (
-                    <ProfileIconButton />
-                ) : (
-                    <CancelTextPressable onPress={resetBottomSheet} />
-                )}
+                <SearchBar
+                    ref={searchBarRef}
+                    placeholder="Search Location, Song, or Artist"
+                    onSearch={handleSearch}
+                    onFocus={() => setSnapIndex(2)}
+                    onClear={() => setSearchResults(null)}
+                    onCancel={handleCancel}
+                    rightComponent={ProfileIcon}
+                    style={styles.bottomSheetTextInput}
+                />
             </View>
         ),
-        [showProfile]
+        []
     );
 
     return (

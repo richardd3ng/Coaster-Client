@@ -2,7 +2,7 @@ import { BoundingBox } from "@mapbox/geo-viewport";
 import { LatLng } from "react-native-maps";
 import Supercluster, { ClusterFeature, PointFeature } from "supercluster";
 
-import { ClusterFilter } from "../types/filters";
+import { ClusterFilter, getFilterKey } from "../types/filters";
 
 import { MAP_CONFIG } from "./mapUtils";
 
@@ -65,7 +65,7 @@ class SuperclusterManager {
         points: PointFeature<SongPointProps>[]
     ) => {
         const start = Date.now();
-        const filterKey = this.getFilterKey(filter);
+        const filterKey = getFilterKey(filter);
 
         if (!this.superClusters.has(filterKey)) {
             this.superClusters.set(filterKey, new Supercluster(this.options));
@@ -112,7 +112,7 @@ class SuperclusterManager {
     };
 
     private getSuperclusterInstance = (filter: ClusterFilter): Supercluster => {
-        const filterKey = this.getFilterKey(filter);
+        const filterKey = getFilterKey(filter);
         const supercluster = this.superClusters.get(filterKey);
         if (!supercluster) {
             throw new Error(
@@ -120,15 +120,6 @@ class SuperclusterManager {
             );
         }
         return supercluster;
-    };
-
-    private getFilterKey = (filter: ClusterFilter): string => {
-        if (filter.type === "social") {
-            return filter.value;
-        } else if (filter.type === "jamMem") {
-            return `jamMem-${filter.value}`;
-        }
-        throw new Error("Invalid filter type");
     };
 }
 

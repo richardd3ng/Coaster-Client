@@ -3,17 +3,21 @@
 import { Region } from "react-native-maps";
 
 import {
-    recordLocationTimestamp,
     clearHistory,
+    recordLocationTimestamp,
 } from "./location/locationSlice";
 import { LocationTimestamp, UserReduxState } from "../types/entities";
 import { setCurrentlyPlayingSongId } from "./song/songSlice";
 import { setCurrentRegion } from "./location/locationSlice";
 import { setCurrentUser } from "./user/userSlice";
-import { setLastAttemptedSnapshotTimestamp, setLastSuccessfulSnapshotTimestamp } from "./snapshot/snapshotSlice";
+import {
+    setLastAttemptedSnapshotTimestamp,
+    setLastSuccessfulSnapshotTimestamp,
+} from "./snapshot/snapshotSlice";
 import { setSelectedJamMemId } from "./jamMem/jamMemSlice";
 import { setSelectedCluster } from "./cluster/clusterSlice";
-
+import { SearchResult } from "../gql/graphql";
+import { setSearchResult } from "./searchResult/searchResultSlice";
 import { SongCluster } from "../utils/superclusterManager";
 
 export const recordLocationTimestampAction = (
@@ -77,5 +81,12 @@ export const setLastSuccessfulSnapshotTimestampAction = (timestamp: number) => {
     return {
         type: setLastSuccessfulSnapshotTimestamp.type,
         payload: timestamp,
+    };
+};
+
+export const setSearchResultAction = (searchResult: SearchResult | null) => {
+    return {
+        type: setSearchResult.type,
+        payload: searchResult,
     };
 };

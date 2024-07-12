@@ -11,10 +11,12 @@ import {
     useSongPoints,
 } from "./react-query/useQueryHooks";
 import { useLastSucccesfulSnapshotTimestamp } from "./redux/useSelectorHooks";
+import { useMapContext } from "./context/MapContext";
 
 const useClusters = (region: Region | null, filter: ClusterFilter) => {
     const [clusters, setClusters] = useState<SongCluster[]>([]);
     const { data: songPoints, isLoading } = useSongPoints(filter);
+    const { followsUserLocation, setFollowsUserLocation } = useMapContext();
     const lastSuccessfulSnapshotTimestamp =
         useLastSucccesfulSnapshotTimestamp();
     const queryClient = useQueryClient();
@@ -33,7 +35,6 @@ const useClusters = (region: Region | null, filter: ClusterFilter) => {
                     value: SocialFilter.Friends,
                 }),
             });
-            // TODO: don't invalidate global once we start having a ton of data points and the loading becomes slow
             queryClient.invalidateQueries({
                 queryKey: getQueryKeyForUseSongPointsWithFilter({
                     type: "social",

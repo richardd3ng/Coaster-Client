@@ -19,25 +19,29 @@ import {
     convertSnapshotsToSongPoints,
     getClosestLocationTimestamp,
 } from "../utils/snapshotUtils";
-import { SnapshotInfoFragment } from "../gql/graphql";
+import { SearchFilter, SnapshotInfoFragment } from "../gql/graphql";
 
 export const fetchAndLoadSongPoints = async (
     userId: string,
     filter: ClusterFilter
 ): Promise<PointFeature<SongPointProps>[]> => {
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
     let points: PointFeature<SongPointProps>[] = [];
-
     if (filter.type === "social") {
         switch (filter.value) {
             case SocialFilter.Me:
-                points = await fetchMeSongPoints(userId);
+                points = await fetchMeSongPoints(userId, filter.searchFilter);
                 break;
             case SocialFilter.Friends:
-                points = await fetchFriendsSongPoints(userId);
+                points = await fetchFriendsSongPoints(
+                    userId,
+                    filter.searchFilter
+                );
                 break;
             case SocialFilter.Global:
-                points = await fetchGlobalSongPoints(userId);
+                points = await fetchGlobalSongPoints(
+                    userId,
+                    filter.searchFilter
+                );
                 break;
             default:
                 throw new Error("Unknown social filter value");
@@ -47,14 +51,13 @@ export const fetchAndLoadSongPoints = async (
     } else {
         throw new Error("Unknown filter type");
     }
-
     await superclusterManager.loadData(filter, points);
     return points;
 };
 
 const snapshotByUserIdQueryDocument = graphql(`
-    query SnapshotByUserId($userId: MongoID!) {
-        snapshotByUserId(userId: $userId) {
+    query SnapshotByUserId($userId: MongoID!, $filter: SearchFilter) {
+        snapshotByUserId(userId: $userId, filter: $filter) {
             ...SnapshotInfo
         }
     }
@@ -66,12 +69,16 @@ const snapshotByUserIdQueryDocument = graphql(`
  * @throws An error if the request fails
  */
 const fetchMeSongPoints = async (
-    userId: string
+    userId: string,
+    filter?: SearchFilter
 ): Promise<PointFeature<SongPointProps>[]> => {
     try {
         const response = await graphqlRequest<{
             snapshotByUserId: SnapshotInfoFragment[];
-        }>(snapshotByUserIdQueryDocument, { userId });
+        }>(snapshotByUserIdQueryDocument, {
+            userId,
+            filter,
+        });
         return convertSnapshotsToSongPoints(response.snapshotByUserId);
     } catch (error) {
         console.error(formatError(error));
@@ -80,8 +87,8 @@ const fetchMeSongPoints = async (
 };
 
 const snapshotByUserFriendsQueryDocument = graphql(`
-    query SnapshotByUserFriends($userId: MongoID!) {
-        snapshotByUserFriends(userId: $userId) {
+    query SnapshotByUserFriends($userId: MongoID!, $filter: SearchFilter) {
+        snapshotByUserFriends(userId: $userId, filter: $filter) {
             ...SnapshotInfo
         }
     }
@@ -93,12 +100,16 @@ const snapshotByUserFriendsQueryDocument = graphql(`
  * @throws An error if the request fails
  */
 const fetchFriendsSongPoints = async (
-    userId: string
+    userId: string,
+    filter?: SearchFilter
 ): Promise<PointFeature<SongPointProps>[]> => {
     try {
         const response = await graphqlRequest<{
             snapshotByUserFriends: SnapshotInfoFragment[];
-        }>(snapshotByUserFriendsQueryDocument, { userId });
+        }>(snapshotByUserFriendsQueryDocument, {
+            userId,
+            filter,
+        });
         return convertSnapshotsToSongPoints(response.snapshotByUserFriends);
     } catch (error) {
         console.error(formatError(error));
@@ -107,8 +118,8 @@ const fetchFriendsSongPoints = async (
 };
 
 const snapshotByUserGlobalQueryDocument = graphql(`
-    query SnapshotByUserGlobal($userId: MongoID!) {
-        snapshotByUserGlobal(userId: $userId) {
+    query SnapshotByUserGlobal($userId: MongoID!, $filter: SearchFilter) {
+        snapshotByUserGlobal(userId: $userId, filter: $filter) {
             ...SnapshotInfo
         }
     }
@@ -119,12 +130,16 @@ const snapshotByUserGlobalQueryDocument = graphql(`
  * @throws An error if the request fails
  */
 const fetchGlobalSongPoints = async (
-    userId: string
+    userId: string,
+    filter?: SearchFilter
 ): Promise<PointFeature<SongPointProps>[]> => {
     try {
         const response = await graphqlRequest<{
             snapshotByUserGlobal: SnapshotInfoFragment[];
-        }>(snapshotByUserGlobalQueryDocument, { userId });
+        }>(snapshotByUserGlobalQueryDocument, {
+            userId,
+            filter,
+        });
         return convertSnapshotsToSongPoints(response.snapshotByUserGlobal);
     } catch (error) {
         console.error(formatError(error));
@@ -218,7 +233,12 @@ export const clearSnapshotHistory = async ({
     end,
 }: ClearSnapshotHistoryArgs): Promise<boolean> => {
     try {
-        console.log("clearing history", userId, start, end);
+        console.log(
+            "clearing history",
+            userId,
+            start.toLocaleString(),
+            end.toLocaleString()
+        );
         const response = await graphqlRequest<{
             snapshotClearHistory: boolean;
         }>(snapshotClearHistoryMutationDocument, {
