@@ -2,12 +2,12 @@ import { useCallback, useMemo } from "react";
 
 import { Marker } from "react-native-maps";
 import { Platform, View } from "react-native";
-import { isEqual } from "lodash";
 
 import ClusterPulseAnimation from "../clusterPulseAnimation/ClusterPulseAnimation";
 import { DEFAULT_ALBUM_COVER_URI } from "../../../constants/assets";
 import { dispatchSetSelectedCluster } from "../../../state/storeUtils";
 import FastImage from "react-native-fast-image";
+import { isEqualClusters } from "../../../utils/snapshotUtils";
 import { SongCluster } from "../../../utils/superclusterManager";
 import styles, { getIconStyle } from "./styles";
 import {
@@ -34,7 +34,7 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
     const { close: closeMapBottomSheet } = useMapBottomSheet();
     const selectedCluster = useSelectedCluster();
     const { data: song } = useSong(cluster.topSongs[0][0]);
-    const isSelected = isEqual(selectedCluster, cluster);
+    const isSelected = selectedCluster && isEqualClusters(selectedCluster, cluster);
 
     const handlePress = useCallback(
         (cluster: SongCluster) => {

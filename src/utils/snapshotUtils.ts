@@ -2,7 +2,7 @@ import { PointFeature } from "supercluster";
 
 import { LocationTimestamp } from "../types/entities";
 import { SnapshotInfoFragment } from "../gql/graphql";
-import { SongPointProps } from "./superclusterManager";
+import { SongCluster, SongPointProps } from "./superclusterManager";
 
 /**
  * Converts the given snapshat data to song points
@@ -76,3 +76,32 @@ export const getClosestLocationTimestamp = (
     }
     return null;
 };
+
+/**
+ * Checks if the given clusters are equivalent
+ * @param cluster1 The first cluster
+ * @param cluster2 The second cluster
+ * @returns True if the clusters are equivalent, false otherwise
+ */
+export function isEqualClusters(
+    cluster1: SongCluster,
+    cluster2: SongCluster
+): boolean {
+    if (cluster1.size !== cluster2.size) {
+        return false;
+    }
+    if (
+        cluster1.coords.latitude !== cluster2.coords.latitude ||
+        cluster1.coords.longitude !== cluster2.coords.longitude
+    ) {
+        return false;
+    }
+    if (cluster1.topSongs.length !== cluster2.topSongs.length) {
+        return false;
+    }
+    return cluster1.topSongs.every(
+        (song, index) =>
+            song[0] === cluster2.topSongs[index][0] &&
+            song[1] === cluster2.topSongs[index][1]
+    );
+}

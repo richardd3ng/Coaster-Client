@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { ClusterFilter, SocialFilter } from "../../types/filters";
+import { ClusterFilter, SocialFilter, getFilterKey } from "../../types/filters";
 import {
     fetchFriends,
     fetchPendingRequests,
@@ -68,10 +68,8 @@ export const getQueryKeyForUseSongPoints = () => {
 export const getQueryKeyForUseSongPointsWithFilter = (
     filter: ClusterFilter
 ) => {
-    let key = getQueryKeyForUseSongPoints().concat(filter.value);
-    if ("searchFilter" in filter && filter.searchFilter) {
-        key = key.concat(filter.searchFilter.type, filter.searchFilter.value);
-    }
+    let key = getQueryKeyForUseSongPoints();
+    key = key.concat(getFilterKey(filter));
     return key;
 };
 

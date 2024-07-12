@@ -341,7 +341,7 @@ export type SearchResult = {
   data?: Maybe<Scalars['JSON']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  type?: Maybe<SearchResultType>;
+  type: SearchResultType;
 };
 
 export enum SearchResultType {
@@ -492,7 +492,7 @@ export type SearchByLocationSongOrArtistQueryVariables = Exact<{
 }>;
 
 
-export type SearchByLocationSongOrArtistQuery = { __typename?: 'Query', searchByLocationSongOrArtist?: Array<{ __typename?: 'SearchResult', id: string, type?: SearchResultType | null, name: string, data?: any | null } | null> | null };
+export type SearchByLocationSongOrArtistQuery = { __typename?: 'Query', searchByLocationSongOrArtist?: Array<{ __typename?: 'SearchResult', id: string, type: SearchResultType, name: string, data?: any | null } | null> | null };
 
 export type SnapshotByUserIdQueryVariables = Exact<{
   userId: Scalars['MongoID']['input'];

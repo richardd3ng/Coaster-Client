@@ -5,7 +5,6 @@ import { Input } from "@ui-kitten/components";
 
 import BottomModal from "../../shared/bottomModal/BottomModal";
 import BottomModalTopRow from "../../shared/bottomModalTopRow/BottomModalTopRow";
-import CancelTextPressable from "../../shared/cancelTextPressable/CancelTextPressable";
 import createStyles from "./styles";
 import {
     DEFAULT_SNAP_POINTS,
@@ -39,19 +38,9 @@ const FriendsBottomModal: React.FC = () => {
         refetch,
     } = useFriends(currentUserId);
     const [moreResults, setMoreResults] = useState<UserInfoFragment[]>([]);
-    const [showCancel, setShowCancel] = useState<boolean>(false);
-    const searchBarInputRef = useRef<Input>(null);
     const [query, setQuery] = useState<string>("");
 
-    const clearSearch = useCallback(() => {
-        setQuery("");
-        searchBarInputRef.current?.blur();
-        searchBarInputRef.current?.clear();
-        setMoreResults([]);
-    }, [dataFriends]);
-
     const handleSearch = async (searchQuery: string) => {
-        setQuery(searchQuery);
         if (searchQuery.trim() === "") {
             setMoreResults([]);
         } else {
@@ -59,17 +48,11 @@ const FriendsBottomModal: React.FC = () => {
         }
     };
 
-    const handleCancel = useCallback(() => {
-        clearSearch();
-        setShowCancel(false);
-    }, [clearSearch]);
-
     const handleClose = useCallback(() => {
-        setShowCancel(false);
-        clearSearch();
+        setMoreResults([]);
         dismiss();
         setMapBottomSheetSnapIndex(0);
-    }, [clearSearch, dismiss, setMapBottomSheetSnapIndex]);
+    }, [dismiss, setMapBottomSheetSnapIndex]);
 
     const handleSheetChanges = useCallback(
         (index: number) => {
@@ -101,23 +84,13 @@ const FriendsBottomModal: React.FC = () => {
     const SearchBarRow = (
         <View style={styles.searchBarRowContainer}>
             <SearchBar
-                ref={searchBarInputRef}
                 placeholder="Add or search friends"
                 onSearch={handleSearch}
-                onClear={() => {
-                    setQuery("");
-                    setMoreResults([]);
-                }}
-                onFocus={() => setShowCancel(true)}
+                onClear={() => setQuery("")}
                 onChangeText={setQuery}
+                onCancel={() => setQuery("")}
                 style={styles.textInput}
             />
-            {showCancel && (
-                <CancelTextPressable
-                    style={styles.cancelButton}
-                    onPress={handleCancel}
-                />
-            )}
         </View>
     );
 

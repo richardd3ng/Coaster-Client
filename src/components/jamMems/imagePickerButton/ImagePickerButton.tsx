@@ -1,6 +1,6 @@
 import { Button, Icon } from "@ui-kitten/components";
 import ImageCropPicker from "react-native-image-crop-picker";
-import { StyleProp, Text, ViewStyle } from "react-native";
+import { Alert, StyleProp, Text, ViewStyle } from "react-native";
 
 import createStyles from "./styles";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
@@ -22,7 +22,7 @@ export const ImagePickerButton: React.FC<ImagePickerButtonProps> = ({
     cropperCircleOverlay,
     freeStyleCropEnabled,
     width,
-    height
+    height,
 }: ImagePickerButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
 
@@ -39,7 +39,11 @@ export const ImagePickerButton: React.FC<ImagePickerButtonProps> = ({
             if (image && image.sourceURL) {
                 onImagePicked(image.sourceURL);
             }
-        } catch (error) {}
+        } catch (error: any) {
+            if (error.message === "User did not grant library permission.") {
+                Alert.alert("Permission required", "Please allow access to your gallery to pick an image.")
+            }
+        }
     };
 
     return (

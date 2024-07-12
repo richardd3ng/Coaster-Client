@@ -16,6 +16,7 @@ export enum ModalType {
     JamMem,
     Preferences,
     Profile,
+    SearchResults,
     SentRequests,
 }
 
@@ -104,8 +105,10 @@ export const useJamMemModal = modalContexts[ModalType.JamMem].useModal;
 export const usePreferencesModal =
     modalContexts[ModalType.Preferences].useModal;
 export const useProfileModal = modalContexts[ModalType.Profile].useModal;
+export const useSearchResultsModal = modalContexts[ModalType.SearchResults].useModal;
 export const useSentRequestsModal =
     modalContexts[ModalType.SentRequests].useModal;
+
 
 // this is probably not ideal but is needed for BottomModal.tsx and BottomModalTopRow.tsx (avoid using it otherwise)
 export const useModalHook = (modalType: ModalType) => {
@@ -122,6 +125,8 @@ export const useModalHook = (modalType: ModalType) => {
             return usePreferencesModal();
         case ModalType.Profile:
             return useProfileModal();
+        case ModalType.SearchResults:
+            return useSearchResultsModal();
         case ModalType.SentRequests:
             return useSentRequestsModal();
         default:

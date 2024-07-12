@@ -3,7 +3,8 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        container: {
+        container: { flexDirection: "row", alignItems: "center" },
+        indicatorContainer: {
             flexDirection: "row",
             alignItems: "center",
             backgroundColor: "papayawhip",
@@ -17,6 +18,11 @@ const createStyles = (theme: Theme) => {
         },
         text: {
             fontSize: theme.size.smallFont,
+        },
+        questionIcon: {
+            color: "gray",
+            height: theme.size.xsmallAsset,
+            width: theme.size.xsmallAsset,
         },
     });
 };

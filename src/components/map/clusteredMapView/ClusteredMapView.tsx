@@ -19,9 +19,6 @@ const ClusteredMapView = () => {
     useTracking();
     const { followsUserLocation, setFollowsUserLocation, clusterFilter } =
         useMapContext();
-    useEffect(() => {
-        console.log("clusterFilter", clusterFilter);
-    }, [clusterFilter]);
     const isInitialized = useRef(false);
     const location = useCurrentLocation();
     const region = useCurrentRegion();

@@ -8,12 +8,14 @@ import {
     setCurrentlyPlayingSongIdAction,
     setLastAttemptedSnapshotTimestampAction,
     setLastSuccessfulSnapshotTimestampAction,
+    setSearchResultAction,
     setSelectedClusterAction,
     setSelectedJamMemIdAction,
 } from "./actions";
 import { LocationTimestamp, UserReduxState } from "../types/entities";
 import { SongCluster } from "../utils/superclusterManager";
 import store from "./store";
+import { SearchResult } from "../gql/graphql";
 
 /* dispatchers */
 export const dispatchRecordLocationTimestamp = (
@@ -58,7 +60,11 @@ export const dispatchSetCurrentlyPlayingSongId = (songId: string) => {
     store.dispatch(setCurrentlyPlayingSongIdAction(songId));
 };
 
-/* accessors */
+export const dispatchSetSearchResult = (searchResult: SearchResult | null) => {
+    store.dispatch(setSearchResultAction(searchResult));
+}
+
+/* accessors (Note: generally use useSelector() if inside a component) */ 
 export const getHistoryState = (): LocationTimestamp[] => {
     return store.getState().location.history;
 };

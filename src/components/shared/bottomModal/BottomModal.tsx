@@ -40,6 +40,7 @@ const BottomModal: React.FC<BottomModalProps> = ({
                 index={snapIndex}
                 snapPoints={snapPoints}
                 onChange={props.onChange || handleSheetChanges}
+                onDismiss={props.onDismiss}
                 handleComponent={null}
                 backgroundStyle={styles.bottomSheetModal}
             >

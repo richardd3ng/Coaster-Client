@@ -15,7 +15,7 @@ const useMutationErrorAlert = ({
 }: UseMutationErrorAlertProps) => {
     useEffect(() => {
         if (isError && error) {
-            Alert.alert(error.message);
+            Alert.alert("Error", error.message);
             reset();
         }
     }, [isError, error, reset]);

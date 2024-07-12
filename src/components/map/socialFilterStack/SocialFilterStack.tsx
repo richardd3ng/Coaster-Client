@@ -13,42 +13,37 @@ const SocialFilterStack: React.FC = () => {
     const { clusterFilter, setClusterFilter } = useMapContext();
     const selectedJamMemId = useSelectedJamMemId();
 
+    const createFilterHandler = (value: SocialFilter) => () => {
+        setClusterFilter({
+            type: "social",
+            value,
+            searchFilter:
+                "searchFilter" in clusterFilter
+                    ? clusterFilter.searchFilter
+                    : undefined,
+        });
+    };
+
+    const filterButtons = [
+        { name: "person", filter: SocialFilter.Me },
+        { name: "people", filter: SocialFilter.Friends },
+        { name: "globe-2", filter: SocialFilter.Global },
+    ];
+
     return useMemo(() => {
+        if (selectedJamMemId !== INVALID_JAM_MEM_ID) return null;
+
         return (
-            selectedJamMemId === INVALID_JAM_MEM_ID && (
-                <View style={styles.buttonStack}>
+            <View style={styles.buttonStack}>
+                {filterButtons.map(({ name, filter }) => (
                     <MapIconButton
-                        name="person"
-                        onPress={() =>
-                            setClusterFilter({
-                                type: "social",
-                                value: SocialFilter.Me,
-                            })
-                        }
-                        filled={clusterFilter.value === SocialFilter.Me}
+                        key={name}
+                        name={name}
+                        onPress={createFilterHandler(filter)}
+                        filled={clusterFilter.value === filter}
                     />
-                    <MapIconButton
-                        name="people"
-                        onPress={() => {
-                            setClusterFilter({
-                                type: "social",
-                                value: SocialFilter.Friends,
-                            });
-                        }}
-                        filled={clusterFilter.value === SocialFilter.Friends}
-                    />
-                    <MapIconButton
-                        name="globe-2"
-                        onPress={() =>
-                            setClusterFilter({
-                                type: "social",
-                                value: SocialFilter.Global,
-                            })
-                        }
-                        filled={clusterFilter.value === SocialFilter.Global}
-                    />
-                </View>
-            )
+                ))}
+            </View>
         );
     }, [clusterFilter, selectedJamMemId]);
 };
