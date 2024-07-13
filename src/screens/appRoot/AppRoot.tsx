@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
+import Toast from "react-native-toast-message";
 import { View } from "react-native";
 
 import LoginScreen from "../login/LoginScreen";
@@ -23,6 +24,7 @@ const AppRoot: React.FC = () => {
                     <Stack.Screen name={ScreenName.Map} component={MapScreen} />
                 </Stack.Navigator>
             </NavigationContainer>
+            <Toast />
         </View>
     );
 };

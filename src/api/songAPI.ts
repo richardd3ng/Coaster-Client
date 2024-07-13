@@ -16,11 +16,14 @@ const songByIdQueryDocument = graphql(`
  * @returns - The fetched song
  * @throws - An error if the request fails
  */
-export const fetchSong = async (id: string) => {
+export const fetchSong = async (id: string): Promise<SongInfoFragment> => {
     try {
         const response = await graphqlRequest<{
             songById: SongInfoFragment;
         }>(songByIdQueryDocument, { id });
+        if (!response.songById) {
+            throw new Error("Song not found");
+        }
         return response.songById;
     } catch (error) {
         console.error(formatError(error));

@@ -54,7 +54,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
                 />
             );
         }
-        if (isError) {
+        if (isError || error) {
             return (
                 <ErrorView
                     containerStyle={styles.errorLoadingContainer}

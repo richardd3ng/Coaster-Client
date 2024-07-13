@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Alert } from "react-native";
 import BackgroundGeolocation, {
     Location,
 } from "react-native-background-geolocation";
+import Toast from "react-native-toast-message";
 import { useSelector } from "react-redux";
 
 import {
@@ -19,6 +20,7 @@ import {
 } from "../constants/time";
 import { postSnapshots } from "../api/snapshotAPI";
 import { RootState } from "../state/store";
+import { showGeolocationErrorToast } from "../utils/geolocationUtils";
 
 /**
  * Handles the update of the location timestamp. Records the location timestamp and posts snapshots if the history spans a long enough time period. postSnapshots() will only be called if the last attempted call was taken more than POST_SNAPSHOTS_COOLDOWN milliseconds ago (when errors occur).
@@ -55,6 +57,18 @@ const useTracking = () => {
                 state.user.currentUser?.preferences.trackSnapshots
         ) || false;
 
+    const [isError, setIsError] = useState<boolean>(false);
+
+    const onLocationUpdate = useCallback(
+        (location: Location) => {
+            if (isError) {
+                setIsError(false);
+            }
+            handleLocationUpdate(location);
+        },
+        [isError]
+    );
+
     useEffect(() => {
         const stopTracking = () => {
             console.log("Stopped receiving location updates");
@@ -70,11 +84,15 @@ const useTracking = () => {
             BackgroundGeolocation.getCurrentPosition({
                 samples: 1,
                 persist: true,
-            }).then(handleLocationUpdate);
+            }).then(onLocationUpdate);
         });
 
-        BackgroundGeolocation.onLocation(handleLocationUpdate, (error) => {
-            console.log("[location] ERROR: ", error);
+        BackgroundGeolocation.onLocation(onLocationUpdate, (error) => {
+            if (isError) {
+                return;
+            }
+            setIsError(true);
+            showGeolocationErrorToast(error);
         });
 
         const startTracking = async () => {
@@ -92,7 +110,10 @@ const useTracking = () => {
                     "Error initializing BackgroundGeolocation:",
                     error
                 );
-                Alert.alert("Error", "Failed to initialize location tracking.");
+                Alert.alert(
+                    "Error",
+                    "Failed to initialize location tracking. Refresh the app and if the issue persists, submit a bug request."
+                );
             }
         };
         startTracking();

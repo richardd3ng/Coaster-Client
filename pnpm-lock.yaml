@@ -137,6 +137,9 @@ importers:
       react-native-svg:
         specifier: 15.2.0
         version: 15.2.0(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
+      react-native-toast-message:
+        specifier: ^2.2.0
+        version: 2.2.0(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
       react-native-track-player:
         specifier: ^4.1.1
         version: 4.1.1(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
@@ -4373,6 +4376,12 @@ packages:
       react: '*'
       react-native: '*'
       react-native-pager-view: '*'
+
+  react-native-toast-message@2.2.0:
+    resolution: {integrity: sha512-AFti8VzUk6JvyGAlLm9/BknTNDXrrhqnUk7ak/pM7uCTxDPveAu2ekszU0on6vnUPFnG04H/QfYE2IlETqeaWw==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
 
   react-native-track-player@4.1.1:
     resolution: {integrity: sha512-E5N/eK/+HtAVJUAzXpm1cWz8ROheV9jb0TI6h2bM+333U+DWibTTnT2T1122FkCoXLXIYavtm2FR2if+5jH8cA==}
@@ -10845,6 +10854,11 @@ snapshots:
       react-native: 0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0)
       react-native-pager-view: 6.3.3(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
       use-latest-callback: 0.1.11(react@18.2.0)
+
+  react-native-toast-message@2.2.0(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0):
+    dependencies:
+      react: 18.2.0
+      react-native: 0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0)
 
   react-native-track-player@4.1.1(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0):
     dependencies:

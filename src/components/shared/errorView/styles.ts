@@ -13,7 +13,6 @@ const createStyles = (theme: Theme) => {
         buttonText: { color: theme.color.primary },
         messageText: {
             fontWeight: "bold",
-            paddingBottom: 10,
         },
         suggestionText: {
             color: "gray",

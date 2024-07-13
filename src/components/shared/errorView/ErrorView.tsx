@@ -26,7 +26,15 @@ const ErrorView: React.FC<ErrorViewProps> = ({
 
     return (
         <View style={containerStyle}>
-            <Text style={[styles.messageText, messageStyle]}>{message}</Text>
+            <Text
+                style={[
+                    styles.messageText,
+                    messageStyle,
+                    { paddingBottom: !hideSuggestion ? 10 : undefined },
+                ]}
+            >
+                {message}
+            </Text>
             {!hideSuggestion && (
                 <Text style={styles.suggestionText}>{suggestion}</Text>
             )}
