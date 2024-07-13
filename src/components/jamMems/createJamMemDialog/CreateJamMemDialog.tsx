@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Datepicker } from "@ui-kitten/components";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import FastImage from "react-native-fast-image";
 import { Input } from "@ui-kitten/components";
 import { Text, View } from "react-native";
@@ -45,25 +45,24 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
     const { data: friends } = useFriends(currentUserId);
     const [name, setName] = useState<string>("");
     const [location, setLocation] = useState<string>("");
-    const [startDate, setStartDate] = useState<Date | null>(null);
-    const [endDate, setEndDate] = useState<Date | null>(null);
+    const [startDate, setStartDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<Date>(new Date());
     const [coverUri, setCoverUri] = useState<string>("");
-    const invalidDates: boolean =
-        startDate !== null && endDate !== null && startDate > endDate;
+    const invalidDates: boolean = startDate > endDate;
     const [friendIds, setFriendIds] = useState<string[]>([]);
 
     const handleCreate = async () => {
-        if (!validateJamMemInputs(name, location, startDate!, endDate!)) {
+        if (!validateJamMemInputs(name, location, startDate, endDate)) {
             return;
         }
-        const endPlusOneDay = new Date(endDate!);
+        const endPlusOneDay = new Date(endDate);
         endPlusOneDay.setDate(endPlusOneDay.getDate() + 1);
         createJamMem(
             {
                 ownerId: currentUserId,
                 name,
                 location,
-                start: startDate!,
+                start: startDate,
                 end: endPlusOneDay,
                 coverImage: coverUri ? await encodeBase64(coverUri) : undefined,
                 friends: friendIds.length > 0 ? friendIds : undefined,
@@ -77,8 +76,8 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
     const handleClose = () => {
         setName("");
         setLocation("");
-        setStartDate(null);
-        setEndDate(null);
+        setStartDate(new Date());
+        setEndDate(new Date());
         setCoverUri("");
         onClose();
     };
@@ -95,22 +94,27 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
                 placeholder="Location"
                 style={styles.locationInput}
             />
-            <Datepicker
-                placeholder="Start Date"
-                date={startDate}
-                onSelect={setStartDate}
-                max={new Date()}
-                style={styles.datepicker}
-                status={invalidDates ? "danger" : "basic"}
-            />
-            <Datepicker
-                placeholder="End Date"
-                date={endDate}
-                onSelect={setEndDate}
-                max={new Date()}
-                style={styles.datepicker}
-                status={invalidDates ? "danger" : "basic"}
-            />
+            <View style={styles.datepickerContainer}>
+                <Text style={styles.dateText}>Start</Text>
+                <DateTimePicker
+                    value={startDate}
+                    onChange={(_e, date) => setStartDate(date ?? new Date())}
+                    style={styles.datepicker}
+                    mode="datetime"
+                    maximumDate={new Date()}
+                />
+            </View>
+            <View style={styles.datepickerContainer}>
+                <Text style={styles.dateText}>End</Text>
+                <DateTimePicker
+                    value={endDate}
+                    onChange={(_e, date) => setEndDate(date ?? new Date())}
+                    style={styles.datepicker}
+                    mode="datetime"
+                    maximumDate={new Date()}
+                />
+            </View>
+
             {invalidDates && (
                 <Text style={styles.errorText}>
                     Please provide a valid date range.
