@@ -6,19 +6,20 @@ import { View } from "react-native";
 import AddFriendsDialog from "../addFriendsDialog/AddFriendsDialog";
 import createStyles from "./styles";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { UserInfoFragment } from "../../../gql/graphql";
 import {
     useFriends,
     useJamMem,
 } from "../../../hooks/react-query/useQueryHooks";
-import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
 import useCurrentUser from "../../../hooks/useCurrentUser";
+import { useJamMemModal } from "../../../hooks/context/ModalContext";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const AddFriendButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const [showDialog, setShowDialog] = useState<boolean>(false);
-    const { data: jamMem } = useJamMem(useSelectedJamMemId());
+    const { value: selectedJamMemId } = useJamMemModal();
+    const { data: jamMem } = useJamMem(selectedJamMemId);
     const currentUserId = useCurrentUser().id;
     const { data: friends } = useFriends(currentUserId);
 

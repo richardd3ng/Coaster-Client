@@ -7,24 +7,20 @@ const createStyles = (theme: Theme) => {
         button: {
             backgroundColor: "lightgray",
             borderWidth: 0,
-            width: 205,
+            width: "50%",
         },
         buttonIcon: { color: theme.color.primary },
         buttonText: { color: theme.color.primary },
+        container: {
+            justifyContent: "center",
+            alignItems: "center",
+        },
         messageText: {
             fontWeight: "bold",
         },
         suggestionText: {
             color: "gray",
             paddingBottom: 10,
-        },
-        errorContainer: {
-            position: "absolute",
-            top: "12.5%",
-            left: 0,
-            right: 0,
-            justifyContent: "center",
-            alignItems: "center",
         },
     });
 };

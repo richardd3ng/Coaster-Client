@@ -5,6 +5,7 @@ import FastImage from "react-native-fast-image";
 import { Input } from "@ui-kitten/components";
 import { Text, View } from "react-native";
 
+import AddFriendsDropdown from "../addFriendsDropdown/AddFriendsDropdown";
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
 import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/assets";
@@ -17,11 +18,13 @@ import {
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useFriends } from "../../../hooks/react-query/useQueryHooks";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToCreateJamMem } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { validateJamMemInputs } from "../../../utils/validationUtils";
-import AddFriendsDropdown from "../addFriendsDropdown/AddFriendsDropdown";
+import { useJamMemModal } from "../../../hooks/context/ModalContext";
+import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
+import { useMapContext } from "../../../hooks/context/MapContext";
 
 interface CreateJamMemDialogProps {
     open: boolean;
@@ -40,35 +43,44 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
         error,
         reset,
     } = useMutationToCreateJamMem();
-    useMutationErrorAlert({ isError, error, reset });
+    useMutationErrorToast({ isError, error, reset });
+    const { present: presentJamMemModal } = useJamMemModal();
+    const { close: closeMapBottomSheet } = useMapBottomSheet();
+    const { setClusterFilter } = useMapContext();
     const currentUserId = useCurrentUser().id;
     const { data: friends } = useFriends(currentUserId);
     const [name, setName] = useState<string>("");
     const [location, setLocation] = useState<string>("");
-    const [startDate, setStartDate] = useState<Date>(new Date());
-    const [endDate, setEndDate] = useState<Date>(new Date());
+    const [start, setStart] = useState<Date>(new Date());
+    const [end, setEnd] = useState<Date>(new Date());
     const [coverUri, setCoverUri] = useState<string>("");
-    const invalidDates: boolean = startDate > endDate;
+    const invalidDates: boolean = start > end;
     const [friendIds, setFriendIds] = useState<string[]>([]);
 
     const handleCreate = async () => {
-        if (!validateJamMemInputs(name, location, startDate, endDate)) {
+        if (!validateJamMemInputs(name, location, start, end)) {
             return;
         }
-        const endPlusOneDay = new Date(endDate);
-        endPlusOneDay.setDate(endPlusOneDay.getDate() + 1);
         createJamMem(
             {
                 ownerId: currentUserId,
                 name,
                 location,
-                start: startDate,
-                end: endPlusOneDay,
+                start,
+                end,
                 coverImage: coverUri ? await encodeBase64(coverUri) : undefined,
                 friends: friendIds.length > 0 ? friendIds : undefined,
             },
             {
-                onSuccess: handleClose,
+                onSuccess: (createdJamMemId) => {
+                    closeMapBottomSheet();
+                    setClusterFilter({
+                        type: "jamMem",
+                        value: createdJamMemId,
+                    });
+                    presentJamMemModal(createdJamMemId);
+                    handleClose();
+                },
             }
         );
     };
@@ -76,8 +88,8 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
     const handleClose = () => {
         setName("");
         setLocation("");
-        setStartDate(new Date());
-        setEndDate(new Date());
+        setStart(new Date());
+        setEnd(new Date());
         setCoverUri("");
         onClose();
     };
@@ -97,8 +109,8 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
             <View style={styles.datepickerContainer}>
                 <Text style={styles.dateText}>Start</Text>
                 <DateTimePicker
-                    value={startDate}
-                    onChange={(_e, date) => setStartDate(date ?? new Date())}
+                    value={start}
+                    onChange={(_e, date) => setStart(date ?? new Date())}
                     style={styles.datepicker}
                     mode="datetime"
                     maximumDate={new Date()}
@@ -107,8 +119,8 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
             <View style={styles.datepickerContainer}>
                 <Text style={styles.dateText}>End</Text>
                 <DateTimePicker
-                    value={endDate}
-                    onChange={(_e, date) => setEndDate(date ?? new Date())}
+                    value={end}
+                    onChange={(_e, date) => setEnd(date ?? new Date())}
                     style={styles.datepicker}
                     mode="datetime"
                     maximumDate={new Date()}

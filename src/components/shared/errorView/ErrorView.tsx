@@ -25,7 +25,7 @@ const ErrorView: React.FC<ErrorViewProps> = ({
     const styles = useThemeAwareObject(createStyles);
 
     return (
-        <View style={containerStyle}>
+        <View style={containerStyle || styles.container}>
             <Text
                 style={[
                     styles.messageText,
@@ -44,7 +44,6 @@ const ErrorView: React.FC<ErrorViewProps> = ({
                     accessoryLeft={
                         <Icon name="refresh" fill={styles.buttonIcon.color} />
                     }
-                    size="small"
                     text="Try Again"
                     style={styles.button}
                     activeOpacity={0.8}

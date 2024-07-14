@@ -5,10 +5,10 @@ import { ActivityIndicator, View } from "react-native";
 import CloseButton from "../../shared/closeButton/CloseButton";
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import { useJamMemModal } from "../../../hooks/context/ModalContext";
+import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToDeleteFriendFromJamMem } from "../../../hooks/react-query/useMutationHooks";
 import { UserInfoFragment } from "../../../gql/graphql";
-import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface RemoveFriendButtonProps {
@@ -19,7 +19,7 @@ const RemoveFriendButton: React.FC<RemoveFriendButtonProps> = ({
     user,
 }: RemoveFriendButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const jamMemId = useSelectedJamMemId();
+    const {value: jamMemId} = useJamMemModal();
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const {
         mutate: deleteFriendFromJamMem,
@@ -28,7 +28,7 @@ const RemoveFriendButton: React.FC<RemoveFriendButtonProps> = ({
         error,
         reset,
     } = useMutationToDeleteFriendFromJamMem();
-    useMutationErrorAlert({ isError, error, reset });
+    useMutationErrorToast({ isError, error, reset });
 
     return (
         <>
@@ -46,7 +46,7 @@ const RemoveFriendButton: React.FC<RemoveFriendButtonProps> = ({
             <ConfirmationDialog
                 open={showConfirmation}
                 title={`Are you sure you want to remove ${user.displayName} from this Jam Mem?`}
-                description="This will remove all of their snapshots from this Jam Mem."
+                description={`This Jam Mem will no longer appear in ${user.displayName}'s shared Jam Mems anymore. Snapshots will not be removed because the original snapshots from that friend may not exist anymore.`}
                 onClose={() => setShowConfirmation(false)}
                 onConfirm={() =>
                     deleteFriendFromJamMem({ jamMemId, friendId: user._id })

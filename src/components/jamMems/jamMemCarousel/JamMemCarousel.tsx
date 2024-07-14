@@ -9,12 +9,12 @@ import styles from "./styles";
 const CAROUSEL_WIDTH = Dimensions.get("window").width;
 const COUNT = 2;
 
-interface JamMemsCarouselProps {
+interface JamMemCarouselProps {
     jamMemMetadatas: JamMemMetadataFragment[];
 }
 
-const JamMemsCarousel = memo<JamMemsCarouselProps>(
-    ({ jamMemMetadatas }: JamMemsCarouselProps) => {
+const JamMemCarousel = memo<JamMemCarouselProps>(
+    ({ jamMemMetadatas }: JamMemCarouselProps) => {
         return (
             <Carousel
                 vertical={false}
@@ -34,4 +34,4 @@ const JamMemsCarousel = memo<JamMemsCarouselProps>(
     }
 );
 
-export default JamMemsCarousel;
+export default JamMemCarousel;

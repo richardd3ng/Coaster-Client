@@ -4,7 +4,7 @@ import ConfirmationDialog from "../../../shared/confirmationDialog/ConfirmationD
 import createStyles from "./styles";
 import { PreferencesOption } from "../../../../types/navigation";
 import PreferencesListItem from "../preferencesListItem/PreferencesListItem";
-import useMutationErrorAlert from "../../../../hooks/useMutationErrorAlert";
+import useMutationErrorToast from "../../../../hooks/useMutationErrorToast";
 import { useMutationToUpdatePreferences } from "../../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
 import { useUserPreferences } from "../../../../hooks/react-query/useQueryHooks";
@@ -23,7 +23,7 @@ const ShareSnapshots: React.FC = () => {
         error,
         reset,
     } = useMutationToUpdatePreferences();
-    useMutationErrorAlert({ isError, error, reset });
+    useMutationErrorToast({ isError, error, reset });
 
     const handleToggle = () => {
         if (preferences?.shareSnapshots || false) {

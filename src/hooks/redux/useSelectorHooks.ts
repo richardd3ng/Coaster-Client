@@ -20,14 +20,6 @@ export const useHistoryLength = () => {
     return useSelector((state: RootState) => state.location.history.length);
 };
 
-export const useSelectedCluster = () => {
-    return useSelector((state: RootState) => state.cluster.selectedCluster);
-};
-
-export const useSelectedJamMemId = () => {
-    return useSelector((state: RootState) => state.jamMem.selectedJamMemId);
-};
-
 export const useTrackingOn = () => {
     return useSelector(
         (state: RootState) => state.user.currentUser?.preferences.trackSnapshots

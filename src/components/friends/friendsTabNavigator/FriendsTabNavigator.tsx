@@ -34,7 +34,13 @@ interface FriendsTabBarProps {
     state: TabNavigationState<ParamListBase>;
 }
 
-const FriendsTabNavigator: React.FC = () => {
+interface FriendsTabNavigatorProps {
+    initialRouteName?: FriendsTabName;
+}
+
+const FriendsTabNavigator: React.FC<FriendsTabNavigatorProps> = ({
+    initialRouteName,
+}: FriendsTabNavigatorProps) => {
     const styles = useThemeAwareObject(createStyles);
     const currentUserId = useCurrentUser().id;
     const {
@@ -101,6 +107,7 @@ const FriendsTabNavigator: React.FC = () => {
 
     const TabNavigator = () => (
         <Navigator
+            initialRouteName={initialRouteName}
             tabBar={({ navigation, state }) => (
                 <JamMemTabBar navigation={navigation} state={state} />
             )}

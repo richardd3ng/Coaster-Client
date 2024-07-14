@@ -9,7 +9,7 @@ import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useMutationToCancelRequest } from "../../../hooks/react-query/useMutationHooks";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 
 interface CancelRequestButtonProps {
     user: UserInfoFragment;
@@ -28,7 +28,7 @@ const CancelRequestButton: React.FC<CancelRequestButtonProps> = ({
         error,
         reset,
     } = useMutationToCancelRequest();
-    useMutationErrorAlert({ isError, error, reset });
+    useMutationErrorToast({ isError, error, reset });
 
     return (
         <>

@@ -66,6 +66,7 @@ const createStyles = (theme: Theme) => {
         nameContainer: {
             flexDirection: "row",
             alignItems: "center",
+            height: 20,
         },
         nameText: {
             flex: 1,

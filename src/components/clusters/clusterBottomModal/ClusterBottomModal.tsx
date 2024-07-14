@@ -7,19 +7,16 @@ import {
     ModalType,
     useClusterModal,
 } from "../../../hooks/context/ModalContext";
-import { dispatchSetSelectedCluster } from "../../../state/storeUtils";
 import { SongIdFrequencies } from "../../../utils/superclusterManager";
 import SongList from "../songList/SongList";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
-import { useSelectedCluster } from "../../../hooks/redux/useSelectorHooks";
 
 const ClusterBottomModal: React.FC = () => {
-    const { dismiss } = useClusterModal();
+    const { dismiss, value: selectedCluster } = useClusterModal();
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const [songIdFrequencies, setSongIdFrequencies] =
         useState<SongIdFrequencies>([]);
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
-    const selectedCluster = useSelectedCluster();
 
     useEffect(() => {
         const fetchClusterData = async () => {
@@ -32,7 +29,6 @@ const ClusterBottomModal: React.FC = () => {
     }, [selectedCluster]);
 
     const handleClose = () => {
-        dispatchSetSelectedCluster(null);
         dismiss();
         setMapBottomSheetSnapIndex(0);
     };

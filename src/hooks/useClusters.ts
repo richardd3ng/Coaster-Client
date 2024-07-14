@@ -11,12 +11,17 @@ import {
     useSongPoints,
 } from "./react-query/useQueryHooks";
 import { useLastSucccesfulSnapshotTimestamp } from "./redux/useSelectorHooks";
-import { useMapContext } from "./context/MapContext";
+import useQueryErrorToast from "./useQueryErrorToast";
 
 const useClusters = (region: Region | null, filter: ClusterFilter) => {
     const [clusters, setClusters] = useState<SongCluster[]>([]);
-    const { data: songPoints, isLoading } = useSongPoints(filter);
-    const { followsUserLocation, setFollowsUserLocation } = useMapContext();
+    const {
+        data: songPoints,
+        isLoading,
+        isError,
+        error,
+    } = useSongPoints(filter);
+    useQueryErrorToast({ isError, error });
     const lastSuccessfulSnapshotTimestamp =
         useLastSucccesfulSnapshotTimestamp();
     const queryClient = useQueryClient();

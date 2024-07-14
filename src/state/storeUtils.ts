@@ -9,11 +9,8 @@ import {
     setLastAttemptedSnapshotTimestampAction,
     setLastSuccessfulSnapshotTimestampAction,
     setSearchResultAction,
-    setSelectedClusterAction,
-    setSelectedJamMemIdAction,
 } from "./actions";
 import { LocationTimestamp, UserReduxState } from "../types/entities";
-import { SongCluster } from "../utils/superclusterManager";
 import store from "./store";
 import { SearchResult } from "../gql/graphql";
 
@@ -42,14 +39,6 @@ export const dispatchSetLastSuccessfulSnapshotTimestamp = (
 
 export const dispatchSetCurrentRegion = (region: Region) => {
     store.dispatch(setCurrentRegionAction(region));
-};
-
-export const dispatchSetSelectedCluster = (cluster: SongCluster | null) => {
-    store.dispatch(setSelectedClusterAction(cluster));
-};
-
-export const dispatchSetSelectedJamMemId = (id: string) => {
-    store.dispatch(setSelectedJamMemIdAction(id));
 };
 
 export const dispatchSetCurrentUser = (user: UserReduxState | null) => {

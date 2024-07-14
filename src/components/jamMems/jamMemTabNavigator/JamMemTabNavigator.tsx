@@ -23,9 +23,9 @@ import LoadingView from "../../shared/loadingView/LoadingView";
 import ErrorView from "../../shared/errorView/ErrorView";
 import useClusters from "../../../hooks/useClusters";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
+import { useJamMemModal } from "../../../hooks/context/ModalContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
 
 const { Navigator, Screen } =
     createMaterialTopTabNavigator<JamMemTabParamList>();
@@ -40,7 +40,7 @@ interface JamMemTabBarProps {
 
 const JamMemTabNavigator: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const selectedJamMemId = useSelectedJamMemId();
+    const {value: selectedJamMemId} = useJamMemModal();
     const { clusterFilter } = useMapContext();
     const { songPoints } = useClusters(null, clusterFilter);
 

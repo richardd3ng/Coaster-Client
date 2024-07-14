@@ -6,7 +6,7 @@ import { Text, View } from "react-native";
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToClearSnapshotHistory } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import useCurrentUser from "../../../hooks/useCurrentUser";
@@ -34,7 +34,7 @@ const ClearSnapshotHistoryDialog: React.FC<ClearSnapshotHistoryDialogProps> = ({
         error,
         reset,
     } = useMutationToClearSnapshotHistory();
-    useMutationErrorAlert({ isError, error, reset });
+    useMutationErrorToast({ isError, error, reset });
 
     useEffect(() => {
         if (open) {
@@ -76,8 +76,7 @@ const ClearSnapshotHistoryDialog: React.FC<ClearSnapshotHistoryDialogProps> = ({
         <View style={styles.dialogContainer}>
             <Text style={styles.descriptionText}>
                 Select the timeframe for which you would like to clear your
-                snapshot history. Note that cleared snapshots will also be
-                removed from Jam Mems.
+                snapshot history. Existing Jam Mems will not be affected.
             </Text>
             <RadioGroup
                 selectedIndex={selectedIndex}

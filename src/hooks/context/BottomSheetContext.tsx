@@ -20,7 +20,7 @@ interface BottomSheetContextType {
     close: () => void;
 }
 
-function createBottomSheetContext(bottomSheetType: BottomSheetType) {
+const createBottomSheetContext = (bottomSheetType: BottomSheetType) => {
     const Context = createContext<BottomSheetContextType | undefined>(
         undefined
     );
@@ -77,7 +77,7 @@ function createBottomSheetContext(bottomSheetType: BottomSheetType) {
     };
 
     return { Provider, useBottomSheet };
-}
+};
 
 const bottomSheetContexts = (
     Object.values(BottomSheetType) as BottomSheetType[]

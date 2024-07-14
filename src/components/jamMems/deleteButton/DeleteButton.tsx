@@ -6,29 +6,24 @@ import { Icon, Text } from "@ui-kitten/components";
 import createStyles from "./styles";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
-import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
-import { INVALID_JAM_MEM_ID } from "../../../state/jamMem/jamMemSlice";
+import LoadingModal from "../../shared/loadingModal/LoadingModal";
 import { useJamMemModal } from "../../../hooks/context/ModalContext";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import { useMutationToDeleteJamMem } from "../../../hooks/react-query/useMutationHooks";
-import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import LoadingModal from "../../shared/loadingModal/LoadingModal";
 
 const DeleteButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const jamMemId = useSelectedJamMemId();
     const { mutate: deleteJamMem, isPending } = useMutationToDeleteJamMem();
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
-    const { dismiss } = useJamMemModal();
+    const { dismiss, value: jamMemId } = useJamMemModal();
     const { setClusterFilter, socialFilter } = useMapContext();
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
 
     const handleConfirm = useCallback(() => {
         deleteJamMem(jamMemId, {
             onSuccess: () => {
-                dispatchSetSelectedJamMemId(INVALID_JAM_MEM_ID);
                 setClusterFilter({
                     type: "social",
                     value: socialFilter,

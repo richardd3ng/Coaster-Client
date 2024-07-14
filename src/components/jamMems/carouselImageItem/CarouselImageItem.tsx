@@ -6,7 +6,6 @@ import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
 import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/assets";
 import { JamMemMetadataFragment } from "../../../gql/graphql";
-import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import { useJamMemModal } from "../../../hooks/context/ModalContext";
@@ -41,13 +40,12 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
     };
 
     const onPress = () => {
-        dispatchSetSelectedJamMemId(jamMem._id);
         setClusterFilter({
             type: "jamMem",
             value: jamMem._id,
         });
         closeMapBottomSheet();
-        present();
+        present(jamMem._id);
         setSnapIndex(1);
     };
 

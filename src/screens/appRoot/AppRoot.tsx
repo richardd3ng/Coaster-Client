@@ -24,7 +24,6 @@ const AppRoot: React.FC = () => {
                     <Stack.Screen name={ScreenName.Map} component={MapScreen} />
                 </Stack.Navigator>
             </NavigationContainer>
-            <Toast />
         </View>
     );
 };

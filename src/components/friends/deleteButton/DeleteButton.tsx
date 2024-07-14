@@ -8,7 +8,7 @@ import createStyles from "./styles";
 import { useMutationToDeleteFriend } from "../../../hooks/react-query/useMutationHooks";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 
 interface DeleteButtonProps {
@@ -28,7 +28,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
         error,
         reset,
     } = useMutationToDeleteFriend();
-    useMutationErrorAlert({ isError, error, reset });
+    useMutationErrorToast({ isError, error, reset });
 
     return (
         <>

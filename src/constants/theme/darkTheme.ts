@@ -3,6 +3,7 @@ import { BORDER_THEME, SIZE_THEME, SPACING_THEME } from "./globalStyles";
 
 const DARK_COLOR_THEME: ColorTheme = {
     background: "#3f3f3f",
+    backgroundDanger: "#FFF2F2",
     primary: "#009BFF",
     danger: "red",
 };

@@ -13,7 +13,7 @@ export const DISABLE_TRACKING_CONFIRMATION_TITLE =
     "Are you sure you want to disable Snapshot tracking?";
 
 export const DISABLE_TRACKING_CONFIRMATION_DESCRIPTION =
-    "This will disable tracking of your location and recently-played songs. Note that the map will still follow your location, but nothing will be recorded.";
+    "This will disable tracking of your location and recently-played songs. The map will still follow your location, but nothing will be recorded.";
 
 export const setTrackSnapshots = (
     currentUser: UserReduxState,

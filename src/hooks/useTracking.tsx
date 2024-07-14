@@ -20,7 +20,7 @@ import {
 } from "../constants/time";
 import { postSnapshots } from "../api/snapshotAPI";
 import { RootState } from "../state/store";
-import { showGeolocationErrorToast } from "../utils/geolocationUtils";
+import { showGeolocationErrorToast } from "../utils/toastUtils";
 
 /**
  * Handles the update of the location timestamp. Records the location timestamp and posts snapshots if the history spans a long enough time period. postSnapshots() will only be called if the last attempted call was taken more than POST_SNAPSHOTS_COOLDOWN milliseconds ago (when errors occur).

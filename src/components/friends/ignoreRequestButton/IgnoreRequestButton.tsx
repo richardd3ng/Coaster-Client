@@ -7,7 +7,7 @@ import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDial
 import createStyles from "./styles";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useMutationToIgnoreRequest } from "../../../hooks/react-query/useMutationHooks";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
@@ -28,7 +28,7 @@ const IgnoreRequestButton: React.FC<IgnoreRequestButtonProps> = ({
         error,
         reset,
     } = useMutationToIgnoreRequest();
-    useMutationErrorAlert({ isError, error, reset });
+    useMutationErrorToast({ isError, error, reset });
 
     return (
         <>

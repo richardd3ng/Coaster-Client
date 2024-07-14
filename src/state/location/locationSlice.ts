@@ -33,14 +33,6 @@ const locationSlice = createSlice({
                     LOCATION_UPDATE_INTERVAL_MOVING
             ) {
                 newHistory.push(action.payload);
-                console.log(
-                    "recorded coords:",
-                    coords,
-                    "timestamp:",
-                    timestamp,
-                    "history length:",
-                    newHistory.length
-                );
             }
             return {
                 history: newHistory,

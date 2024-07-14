@@ -1,24 +1,24 @@
 import { useEffect } from "react";
 
-import { Alert } from "react-native";
+import { showErrorToast } from "../utils/toastUtils";
 
-interface UseMutationErrorAlertProps {
+interface UseMutationErrorToastProps {
     isError: boolean;
     error: Error | null;
     reset: () => void;
 }
 
-const useMutationErrorAlert = ({
+const useMutationErrorToast = ({
     isError,
     error,
     reset,
-}: UseMutationErrorAlertProps) => {
+}: UseMutationErrorToastProps) => {
     useEffect(() => {
         if (isError && error) {
-            Alert.alert("Error", error.message);
+            showErrorToast(error);
             reset();
         }
     }, [isError, error, reset]);
 };
 
-export default useMutationErrorAlert;
+export default useMutationErrorToast;
