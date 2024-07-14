@@ -119,6 +119,9 @@ importers:
       react-native-maps:
         specifier: ^1.15.6
         version: 1.15.6(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
+      react-native-notifications:
+        specifier: ^5.1.0
+        version: 5.1.0(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
       react-native-pager-view:
         specifier: ^6.3.3
         version: 6.3.3(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
@@ -4333,6 +4336,12 @@ packages:
     peerDependenciesMeta:
       react-native-web:
         optional: true
+
+  react-native-notifications@5.1.0:
+    resolution: {integrity: sha512-laqDSDlCvEASmJR6cXpqaryK855ejQd07vrfYERzhv68YDOoSkKy/URExRP4vAfAOVqHhix80tLbNUcfvZk2VQ==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
 
   react-native-pager-view@6.3.3:
     resolution: {integrity: sha512-HViKBlfN/kBJUSu5mRL/V9Bkf1j7uDZozGAjbzh4o9XYo11qVcIK7IwvfzqrkNerVSDy/cAmZcXbcyWnII8xMA==}
@@ -10804,6 +10813,11 @@ snapshots:
   react-native-maps@1.15.6(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0):
     dependencies:
       '@types/geojson': 7946.0.14
+      react: 18.2.0
+      react-native: 0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0)
+
+  react-native-notifications@5.1.0(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0):
+    dependencies:
       react: 18.2.0
       react-native: 0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0)
 
