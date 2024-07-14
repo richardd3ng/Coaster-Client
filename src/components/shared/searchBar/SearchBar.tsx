@@ -8,7 +8,7 @@ import {
     useState,
 } from "react";
 
-import { debounce } from "lodash";
+import { debounce, set } from "lodash";
 import { Icon, Input } from "@ui-kitten/components";
 import { TextInputProps, View } from "react-native";
 
@@ -58,6 +58,7 @@ const SearchBar: React.ForwardRefRenderFunction<
     const isCancelled = useRef<boolean>(false);
     const latestRequestId = useRef<number>(0);
     const currentSearchPromise = useRef<Promise<void> | null>(null);
+    const [showCloseButton, setShowCloseButton] = useState<boolean>(false);
 
     const performSearch = useCallback(
         async (query: string, requestId: number) => {
@@ -121,6 +122,12 @@ const SearchBar: React.ForwardRefRenderFunction<
     };
 
     const handleChangeText = (text: string) => {
+        if (text.length === 0) {
+            setShowCloseButton(false);
+        }
+        else {
+            setShowCloseButton(true);
+        }
         isCancelled.current = false;
         latestRequestId.current++;
         debouncedSearch(text, latestRequestId.current);
@@ -128,6 +135,7 @@ const SearchBar: React.ForwardRefRenderFunction<
     };
 
     const handleCancel = (mode: "internal" | "external") => {
+        setShowCloseButton(false);
         inputRef.current?.blur();
         handleClear();
         setShowRightComponent(true);
@@ -152,7 +160,7 @@ const SearchBar: React.ForwardRefRenderFunction<
             <Input
                 ref={inputRef}
                 accessoryLeft={<Icon name="search" />}
-                accessoryRight={CloseIconButton}
+                accessoryRight={showCloseButton ? CloseIconButton : undefined}
                 placeholder={placeholder}
                 {...props}
                 onChangeText={handleChangeText}

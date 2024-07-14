@@ -9,7 +9,7 @@ import { getValidAccessToken } from "../../../api/tokenUtils";
 import SaveToSpotifyPlaylistButton from "../saveToSpotifyPlaylistButton/SaveToSpotifyPlaylistButton";
 import { SongIdFrequencies } from "../../../utils/superclusterManager";
 import SongListItem from "../songListItem/SongListItem";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToCreatePlaylistFromSongIds } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import useCurrentUser from "../../../hooks/useCurrentUser";
@@ -31,7 +31,7 @@ const SongList: React.FC<SongListProps> = ({
         error,
         reset,
     } = useMutationToCreatePlaylistFromSongIds();
-    useMutationErrorAlert({ isError, error, reset });
+    useMutationErrorToast({ isError, error, reset });
     const refetchFunctionsRef = useRef<(() => void)[]>([]);
 
     const registerRefetch = useCallback((refetch: () => void) => {

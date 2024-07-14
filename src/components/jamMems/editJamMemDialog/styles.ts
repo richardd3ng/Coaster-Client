@@ -5,11 +5,22 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        dialogContainer: {
+        datepicker: {
+            borderColor: theme.color.primary,
+        },
+        datepickerContainer: {
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
             paddingVertical: theme.spacing.base,
         },
-        datepicker: {
-            paddingBottom: theme.spacing.base,
+        dateText: {
+            color: "gray",
+            fontSize: theme.size.mediumFont,
+            paddingLeft: theme.spacing.double,
+        },
+        dialogContainer: {
+            paddingVertical: theme.spacing.base,
         },
         errorText: {
             color: "red",

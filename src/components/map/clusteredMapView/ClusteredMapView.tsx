@@ -13,10 +13,12 @@ import {
 } from "../../../hooks/redux/useSelectorHooks";
 import useClusters from "../../../hooks/useClusters";
 import { useMapContext } from "../../../hooks/context/MapContext";
+import useServerSentEvents from "../../../hooks/useServerSentEvents";
 import useTracking from "../../../hooks/useTracking";
 
 const ClusteredMapView = () => {
     useTracking();
+    useServerSentEvents();
     const { followsUserLocation, setFollowsUserLocation, clusterFilter } =
         useMapContext();
     const isInitialized = useRef(false);

@@ -4,12 +4,12 @@ import CreateButton from "../createButton/CreateButton";
 import createStyles from "./styles";
 import ErrorView from "../../shared/errorView/ErrorView";
 import LoadingView from "../../shared/loadingView/LoadingView";
-import JamMemsCarousel from "../jamMemsCarousel/JamMemsCarousel";
+import JamMemCarousel from "../jamMemCarousel/JamMemCarousel";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useJamMemMetadatas } from "../../../hooks/react-query/useQueryHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
-const JamMemsStack: React.FC = () => {
+const JamMemStack: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const currentUserId = useCurrentUser().id;
     const {
@@ -29,7 +29,7 @@ const JamMemsStack: React.FC = () => {
             containerStyle={styles.errorLoadingContainer}
         />
     ) : jamMemMetadatas ? (
-        <JamMemsCarousel jamMemMetadatas={jamMemMetadatas} />
+        <JamMemCarousel jamMemMetadatas={jamMemMetadatas} />
     ) : null;
 
     return (
@@ -43,4 +43,4 @@ const JamMemsStack: React.FC = () => {
     );
 };
 
-export default JamMemsStack;
+export default JamMemStack;

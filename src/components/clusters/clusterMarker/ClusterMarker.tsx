@@ -5,7 +5,6 @@ import { Platform, View } from "react-native";
 
 import ClusterPulseAnimation from "../clusterPulseAnimation/ClusterPulseAnimation";
 import { DEFAULT_ALBUM_COVER_URI } from "../../../constants/assets";
-import { dispatchSetSelectedCluster } from "../../../state/storeUtils";
 import FastImage from "react-native-fast-image";
 import { isEqualClusters } from "../../../utils/snapshotUtils";
 import { SongCluster } from "../../../utils/superclusterManager";
@@ -15,7 +14,6 @@ import {
     useFriendsModal,
 } from "../../../hooks/context/ModalContext";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
-import { useSelectedCluster } from "../../../hooks/redux/useSelectorHooks";
 import { useSong } from "../../../hooks/react-query/useQueryHooks";
 
 interface ClusterMarkerProps {
@@ -29,23 +27,22 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
     const {
         present: presentClusterModal,
         setSnapIndex: setClusterModalSnapIndex,
+        value: selectedCluster,
     } = useClusterModal();
     const { dismiss: dismissFriendsModal } = useFriendsModal();
     const { close: closeMapBottomSheet } = useMapBottomSheet();
-    const selectedCluster = useSelectedCluster();
     const { data: song } = useSong(cluster.topSongs[0][0]);
-    const isSelected = selectedCluster && isEqualClusters(selectedCluster, cluster);
+    const isSelected =
+        selectedCluster && isEqualClusters(selectedCluster, cluster);
 
     const handlePress = useCallback(
         (cluster: SongCluster) => {
-            dispatchSetSelectedCluster(cluster);
             dismissFriendsModal();
             closeMapBottomSheet();
-            presentClusterModal();
+            presentClusterModal(cluster);
             setClusterModalSnapIndex(1);
         },
         [
-            dispatchSetSelectedCluster,
             dismissFriendsModal,
             closeMapBottomSheet,
             presentClusterModal,

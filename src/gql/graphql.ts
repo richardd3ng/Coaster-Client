@@ -89,8 +89,17 @@ export type Jam_Mem = {
   location: Scalars['String']['output'];
   name: Scalars['String']['output'];
   ownerId: Scalars['MongoID']['output'];
-  snapshots?: Maybe<Array<Maybe<Scalars['MongoID']['output']>>>;
+  snapshots?: Maybe<Array<Maybe<Jam_MemSnapshots>>>;
   start: Scalars['Date']['output'];
+};
+
+export type Jam_MemSnapshots = {
+  __typename?: 'Jam_MemSnapshots';
+  latitude: Scalars['Float']['output'];
+  longitude: Scalars['Float']['output'];
+  songId: Scalars['MongoID']['output'];
+  timestamp: Scalars['Float']['output'];
+  userId: Scalars['MongoID']['output'];
 };
 
 export type MongoError = ErrorInterface & {

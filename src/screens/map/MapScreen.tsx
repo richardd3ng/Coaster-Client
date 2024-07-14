@@ -1,3 +1,5 @@
+import Toast from "react-native-toast-message";
+
 import AccountBottomModal from "../../components/profile/accountBottomModal/AccountBottomModal";
 import { BottomSheetProvider } from "../../hooks/context/BottomSheetContext";
 import ButtonPanel from "../../components/map/mapPanel/MapPanel";
@@ -12,6 +14,7 @@ import PreferencesBottomModal from "../../components/profile/preferences/prefere
 import ProfileBottomModal from "../../components/profile/profileBottomModal/ProfileBottomModal";
 import SearchResultsBottomModal from "../../components/map/searchResultsBottomModal/SearchResultsBottomModal";
 import SentRequestsBottomModal from "../../components/friends/sentRequestsBottomModal/SentRequestsBottomModal";
+import toastConfig from "../../components/shared/toastConfig/toastConfig";
 
 const MapScreen: React.FC = () => {
     return (
@@ -29,6 +32,7 @@ const MapScreen: React.FC = () => {
                     <ProfileBottomModal />
                     <AccountBottomModal />
                     <PreferencesBottomModal />
+                    <Toast config={toastConfig} />
                 </BottomSheetProvider>
             </ModalProvider>
         </MapContextProvider>

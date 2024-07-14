@@ -54,7 +54,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
                 />
             );
         }
-        if (isError) {
+        if (isError || error) {
             return (
                 <ErrorView
                     containerStyle={styles.errorLoadingContainer}
@@ -69,9 +69,9 @@ const SongListItem: React.FC<SongListItemProps> = ({
                 <View style={styles.textContainer}>
                     <View style={styles.nameContainer}>
                         <SongPlayingAnimation songId={song._id} />
-                        <Text style={styles.nameText}>{song.name}</Text>
+                        <Text style={styles.nameText} numberOfLines={1}>{song.name}</Text>
                     </View>
-                    <Text style={styles.artistText}>
+                    <Text style={styles.artistText} numberOfLines={1}>
                         {song.artists.join(", ")}
                     </Text>
                 </View>
@@ -116,6 +116,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
             <CustomPressable
                 onPress={togglePlay}
                 style={styles.listItemPressable}
+                activeOpacity={1}
             >
                 <View style={styles.listItemContainer}>
                     {renderRank}

@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
+import Toast from "react-native-toast-message";
 import { View } from "react-native";
 
 import LoginScreen from "../login/LoginScreen";

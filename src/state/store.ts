@@ -11,8 +11,6 @@ import {
     REGISTER,
 } from "redux-persist";
 
-import clusterReducer from "./cluster/clusterSlice";
-import jamMemReducer from "./jamMem/jamMemSlice";
 import locationReducer from "./location/locationSlice";
 import searchResultReducer from "./searchResult/searchResultSlice";
 import snapshotReducer from "./snapshot/snapshotSlice";
@@ -30,8 +28,6 @@ const locationPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-    cluster: clusterReducer,
-    jamMem: jamMemReducer,
     location: persistReducer(locationPersistConfig, locationReducer),
     snapshot: snapshotReducer,
     searchResult: searchResultReducer,

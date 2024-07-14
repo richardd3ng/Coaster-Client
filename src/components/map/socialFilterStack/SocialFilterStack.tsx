@@ -2,16 +2,15 @@ import { useMemo } from "react";
 
 import { View } from "react-native";
 
-import { INVALID_JAM_MEM_ID } from "../../../state/jamMem/jamMemSlice";
 import MapIconButton from "../mapIconButton/MapIconButton";
 import { SocialFilter } from "../../../types/filters";
 import styles from "./styles";
 import { useMapContext } from "../../../hooks/context/MapContext";
-import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
+import { useJamMemModal } from "../../../hooks/context/ModalContext";
 
 const SocialFilterStack: React.FC = () => {
     const { clusterFilter, setClusterFilter } = useMapContext();
-    const selectedJamMemId = useSelectedJamMemId();
+    const { value: selectedJamMemId } = useJamMemModal();
 
     const createFilterHandler = (value: SocialFilter) => () => {
         setClusterFilter({
@@ -31,7 +30,7 @@ const SocialFilterStack: React.FC = () => {
     ];
 
     return useMemo(() => {
-        if (selectedJamMemId !== INVALID_JAM_MEM_ID) return null;
+        if (selectedJamMemId !== undefined) return null;
 
         return (
             <View style={styles.buttonStack}>

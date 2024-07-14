@@ -27,7 +27,7 @@ export const fetchAuthLogin = async (authLoginParams: {
             state: authLoginParams.state,
         });
         const response = await axios.get(
-            `${BASE_URL}/spotify/login?${params.toString()}`
+            `${BASE_URL}/auth/spotify/login?${params.toString()}`
         );
         return {
             tokens: response.data.tokens,

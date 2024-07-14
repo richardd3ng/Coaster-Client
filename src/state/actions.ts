@@ -14,11 +14,8 @@ import {
     setLastAttemptedSnapshotTimestamp,
     setLastSuccessfulSnapshotTimestamp,
 } from "./snapshot/snapshotSlice";
-import { setSelectedJamMemId } from "./jamMem/jamMemSlice";
-import { setSelectedCluster } from "./cluster/clusterSlice";
 import { SearchResult } from "../gql/graphql";
 import { setSearchResult } from "./searchResult/searchResultSlice";
-import { SongCluster } from "../utils/superclusterManager";
 
 export const recordLocationTimestampAction = (
     locationTimestamp: LocationTimestamp
@@ -53,20 +50,6 @@ export const setCurrentUserAction = (user: UserReduxState | null) => {
     return {
         type: setCurrentUser.type,
         payload: user,
-    };
-};
-
-export const setSelectedClusterAction = (cluster: SongCluster | null) => {
-    return {
-        type: setSelectedCluster.type,
-        payload: cluster,
-    };
-};
-
-export const setSelectedJamMemIdAction = (id: string) => {
-    return {
-        type: setSelectedJamMemId.type,
-        payload: id,
     };
 };
 

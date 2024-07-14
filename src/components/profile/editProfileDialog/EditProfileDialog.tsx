@@ -8,7 +8,7 @@ import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDial
 import createStyles from "./styles";
 import { encodeBase64 } from "../../../utils/fileSystemUtils";
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { validateUserInputs } from "../../../utils/validationUtils";
 import useCurrentUser from "../../../hooks/useCurrentUser";
@@ -33,8 +33,8 @@ const EditProfileDialog: React.FC<EditProfileProps> = ({
         isPending,
         reset,
     } = useMutationToUpdateProfile();
-    
-    useMutationErrorAlert({ isError, error, reset });
+
+    useMutationErrorToast({ isError, error, reset });
     const currentUser = useCurrentUser();
     const [displayName, setDisplayName] = useState<string>(
         currentUser.displayName

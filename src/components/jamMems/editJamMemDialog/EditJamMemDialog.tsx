@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { Alert, Text, View } from "react-native";
-import { Datepicker } from "@ui-kitten/components";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import FastImage from "react-native-fast-image";
 import { Input } from "@ui-kitten/components";
 
@@ -11,11 +11,11 @@ import { DEFAULT_JAM_MEM_COVER_URI } from "../../../constants/assets";
 import { encodeBase64 } from "../../../utils/fileSystemUtils";
 import { ImagePickerButton } from "../imagePickerButton/ImagePickerButton";
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToUpdateJamMem } from "../../../hooks/react-query/useMutationHooks";
-import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
+import { useJamMemModal } from "../../../hooks/context/ModalContext";
 import { validateJamMemInputs } from "../../../utils/validationUtils";
 
 interface EditJamMemDialogProps {
@@ -35,23 +35,18 @@ const EditJamMemDialog: React.FC<EditJamMemDialogProps> = ({
         error,
         reset,
     } = useMutationToUpdateJamMem();
-    useMutationErrorAlert({ isError, error, reset });
-    const { data: jamMem } = useJamMem(useSelectedJamMemId());
+    useMutationErrorToast({ isError, error, reset });
+    const { value: selectedJamMemId } = useJamMemModal();
+    const { data: jamMem } = useJamMem(selectedJamMemId);
     const [name, setName] = useState<string>(jamMem?.name ?? "");
     const [location, setLocation] = useState<string>(jamMem?.location ?? "");
-    const [startDate, setStartDate] = useState<Date | null>(
-        jamMem?.start ?? null
-    );
-    const [endDate, setEndDate] = useState<Date | null>(jamMem?.end ?? null);
+    const [start, setStart] = useState<Date>(jamMem?.start ?? new Date());
+    const [end, setEnd] = useState<Date>(jamMem?.end ?? new Date());
     const [coverUri, setCoverUri] = useState<string>(jamMem?.coverUrl ?? "");
-    const invalidDates: boolean =
-        startDate !== null && endDate !== null && startDate > endDate;
+    const invalidDates: boolean = start !== null && end !== null && start > end;
 
     const handleConfirm = async () => {
-        if (
-            !jamMem ||
-            !validateJamMemInputs(name, location, startDate!, endDate!)
-        ) {
+        if (!jamMem || !validateJamMemInputs(name, location, start!, end!)) {
             Alert.alert("Error: unable to retrieve Jam Mem");
         }
         updateJamMem(
@@ -61,16 +56,10 @@ const EditJamMemDialog: React.FC<EditJamMemDialogProps> = ({
                     name: name !== jamMem!.name ? name : undefined,
                     location:
                         location !== jamMem!.location ? location : undefined,
-                    start:
-                        startDate !== jamMem!.start && startDate
-                            ? startDate
-                            : undefined,
-                    end:
-                        endDate !== jamMem!.end && endDate
-                            ? endDate
-                            : undefined,
+                    start: start !== jamMem!.start && start ? start : undefined,
+                    end: end !== jamMem!.end && end ? end : undefined,
                     coverImage:
-                        coverUri !== jamMem!.coverUrl
+                        coverUri && coverUri !== jamMem!.coverUrl
                             ? await encodeBase64(coverUri)
                             : undefined,
                 },
@@ -84,12 +73,66 @@ const EditJamMemDialog: React.FC<EditJamMemDialogProps> = ({
     const handleClose = () => {
         setName(jamMem?.name ?? "");
         setLocation(jamMem?.location ?? "");
-        setStartDate(jamMem?.start ?? null);
-        setEndDate(jamMem?.end ?? null);
+        setStart(jamMem?.start ?? new Date());
+        setEnd(jamMem?.end ?? new Date());
         setCoverUri(jamMem?.coverUrl ?? "");
         onClose();
     };
 
+    const DialogContent = (
+        <View style={styles.dialogContainer}>
+            <Input
+                onChangeText={setName}
+                placeholder="Name"
+                value={name}
+                style={styles.nameInput}
+            />
+            <Input
+                onChangeText={setLocation}
+                placeholder="Location"
+                value={location}
+                style={styles.locationInput}
+            />
+            <View style={styles.datepickerContainer}>
+                <Text style={styles.dateText}>Start</Text>
+                <DateTimePicker
+                    value={start}
+                    onChange={(_e, date) => setStart(date ?? new Date())}
+                    style={styles.datepicker}
+                    mode="datetime"
+                    maximumDate={new Date()}
+                />
+            </View>
+            <View style={styles.datepickerContainer}>
+                <Text style={styles.dateText}>End</Text>
+                <DateTimePicker
+                    value={end}
+                    onChange={(_e, date) => setEnd(date ?? new Date())}
+                    style={styles.datepicker}
+                    mode="datetime"
+                    maximumDate={new Date()}
+                />
+            </View>
+            {invalidDates && (
+                <Text style={styles.errorText}>
+                    Please provide a valid date range.
+                </Text>
+            )}
+            <View style={styles.imagePickerContainer}>
+                <FastImage
+                    source={
+                        coverUri ? { uri: coverUri } : DEFAULT_JAM_MEM_COVER_URI
+                    }
+                    style={styles.image}
+                />
+                <ImagePickerButton
+                    title="Cover Image"
+                    onImagePicked={setCoverUri}
+                    style={styles.imagePickerButton}
+                />
+            </View>
+        </View>
+    );
     return (
         <ConfirmationDialog
             title="Edit Jam Mem"
@@ -99,56 +142,7 @@ const EditJamMemDialog: React.FC<EditJamMemDialogProps> = ({
             preventDefaultConfirm
             children={
                 <>
-                    <View style={styles.dialogContainer}>
-                        <Input
-                            onChangeText={setName}
-                            placeholder="Name"
-                            value={name}
-                            style={styles.nameInput}
-                        />
-                        <Input
-                            onChangeText={setLocation}
-                            placeholder="Location"
-                            value={location}
-                            style={styles.locationInput}
-                        />
-                        <Datepicker
-                            placeholder="Start Date"
-                            date={startDate}
-                            onSelect={setStartDate}
-                            max={new Date()}
-                            style={styles.datepicker}
-                            status={invalidDates ? "danger" : "basic"}
-                        />
-                        <Datepicker
-                            placeholder="End Date"
-                            date={endDate}
-                            onSelect={setEndDate}
-                            max={new Date()}
-                            style={styles.datepicker}
-                            status={invalidDates ? "danger" : "basic"}
-                        />
-                        {invalidDates && (
-                            <Text style={styles.errorText}>
-                                Please provide a valid date range.
-                            </Text>
-                        )}
-                        <View style={styles.imagePickerContainer}>
-                            <FastImage
-                                source={
-                                    coverUri
-                                        ? { uri: coverUri }
-                                        : DEFAULT_JAM_MEM_COVER_URI
-                                }
-                                style={styles.image}
-                            />
-                            <ImagePickerButton
-                                title="Cover Image"
-                                onImagePicked={setCoverUri}
-                                style={styles.imagePickerButton}
-                            />
-                        </View>
-                    </View>
+                    {DialogContent}
                     <LoadingModal
                         visible={isPending}
                         text="Updating Jam Mem..."

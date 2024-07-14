@@ -26,7 +26,7 @@ export const getNewAccessToken = async (
 ): Promise<string> => {
     try {
         const response = await axios.post(
-            `${BASE_URL}/spotify/refresh_tokens/${spotifyId}`
+            `${BASE_URL}/auth/spotify/refresh_tokens/${spotifyId}`
         );
         const { newAccessToken, newRefreshToken, newExpiresIn } = response.data;
         await storeTokens(

@@ -6,7 +6,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import createStyles from "./styles";
 import { DEFAULT_SNAP_POINTS } from "../../hooks/context/ModalContext";
-import JamMemsStack from "../jamMems/jamMemsStack/JamMemsStack";
+import JamMemStack from "../jamMems/jamMemStack/JamMemStack";
 import { searchByLocationSongOrArtist } from "../../api/searchAPI";
 import ProfileIconButton from "../profile/profileIconButton/ProfileIconButton";
 import SearchBar, { SearchBarRef } from "../shared/searchBar/SearchBar";
@@ -95,7 +95,7 @@ const MapBottomSheet: React.FC = () => {
                         }
                         showsVerticalScrollIndicator
                     >
-                        <JamMemsStack />
+                        <JamMemStack />
                     </BottomSheetScrollView>
                 )}
             </BottomSheet>

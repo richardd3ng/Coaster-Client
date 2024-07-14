@@ -6,7 +6,18 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         datepicker: {
-            paddingBottom: theme.spacing.base,
+            borderColor: theme.color.primary,
+        },
+        datepickerContainer: {
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingVertical: theme.spacing.base,
+        },
+        dateText: {
+            color: "gray",
+            fontSize: theme.size.mediumFont,
+            paddingLeft: theme.spacing.double,
         },
         dialogContainer: {
             paddingVertical: theme.spacing.base,
@@ -17,6 +28,7 @@ const createStyles = (theme: Theme) => {
         },
         errorText: {
             color: "red",
+            paddingVertical: theme.spacing.base,
         },
         imagePickerButton: {
             flex: 1,
@@ -28,6 +40,7 @@ const createStyles = (theme: Theme) => {
             height: theme.size.xlargeAsset * JAM_MEM_COVER_ASPECT_RATIO,
         },
         imagePickerContainer: {
+            paddingTop: theme.spacing.base,
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",

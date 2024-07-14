@@ -23,30 +23,34 @@ export enum ModalType {
 export const DEFAULT_SNAP_POINTS = ["12%", "35%", "92%"];
 
 interface ModalContextType {
-    present: () => void;
+    present: (value?: any) => void;
     dismiss: () => void;
     ref: MutableRefObject<BottomSheetModal | null>;
     isVisible: boolean;
     snapIndex: number;
     setSnapIndex: (index: number) => void;
+    value?: any; // flexible prop for use in different modals (i.e. friends initial tab)
 }
 
-function createModalContext(modalType: ModalType) {
+const createModalContext = (modalType: ModalType) => {
     const Context = createContext<ModalContextType | undefined>(undefined);
 
     const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
         const ref = useRef<BottomSheetModal>(null);
         const [isVisible, setIsVisible] = useState(false);
         const [snapIndex, setSnapIndex] = useState(0);
+        const [value, setValue] = useState<any | undefined>(undefined);
 
-        const present = useCallback(() => {
+        const present = useCallback((value?: any) => {
             ref.current?.present();
             setIsVisible(true);
+            setValue(value);
         }, []);
 
         const dismiss = useCallback(() => {
             ref.current?.dismiss();
             setIsVisible(false);
+            setValue(undefined);
         }, []);
 
         return (
@@ -58,6 +62,7 @@ function createModalContext(modalType: ModalType) {
                     isVisible,
                     snapIndex,
                     setSnapIndex,
+                    value,
                 }}
             >
                 {children}
@@ -76,7 +81,7 @@ function createModalContext(modalType: ModalType) {
     };
 
     return { Provider, useModal };
-}
+};
 
 const modalContexts = (Object.values(ModalType) as ModalType[]).reduce(
     (acc, modalType) => {
@@ -105,10 +110,10 @@ export const useJamMemModal = modalContexts[ModalType.JamMem].useModal;
 export const usePreferencesModal =
     modalContexts[ModalType.Preferences].useModal;
 export const useProfileModal = modalContexts[ModalType.Profile].useModal;
-export const useSearchResultsModal = modalContexts[ModalType.SearchResults].useModal;
+export const useSearchResultsModal =
+    modalContexts[ModalType.SearchResults].useModal;
 export const useSentRequestsModal =
     modalContexts[ModalType.SentRequests].useModal;
-
 
 // this is probably not ideal but is needed for BottomModal.tsx and BottomModalTopRow.tsx (avoid using it otherwise)
 export const useModalHook = (modalType: ModalType) => {

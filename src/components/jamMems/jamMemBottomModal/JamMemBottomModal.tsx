@@ -11,28 +11,30 @@ import {
     ModalType,
     useJamMemModal,
 } from "../../../hooks/context/ModalContext";
-import { dispatchSetSelectedJamMemId } from "../../../state/storeUtils";
-import { INVALID_JAM_MEM_ID } from "../../../state/jamMem/jamMemSlice";
 import JamMemActionMenu from "../jamMemActionMenu/JamMemActionMenu";
 import JamMemTabNavigator from "../jamMemTabNavigator/JamMemTabNavigator";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
-import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const JamMemBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const { dismiss } = useJamMemModal();
+    const { dismiss, value: selectedJamMemId } = useJamMemModal();
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const { setClusterFilter, socialFilter } = useMapContext();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
-    const selectedJamMemId = useSelectedJamMemId();
 
-    const { data: selectedJamMem } = useJamMem(selectedJamMemId);
+    const {
+        data: selectedJamMem,
+        isLoading,
+        isRefetching,
+        isError,
+        error,
+        refetch,
+    } = useJamMem(selectedJamMemId);
 
     const handleClose = useCallback(() => {
-        dispatchSetSelectedJamMemId(INVALID_JAM_MEM_ID);
         setClusterFilter({
             type: "social",
             value: socialFilter,
@@ -51,7 +53,6 @@ const JamMemBottomModal: React.FC = () => {
     );
 
     const JamMemHeaderContent = () => {
-        if (!selectedJamMem) return null;
         return (
             <View style={styles.headerContentContainer}>
                 <View style={styles.metadataContainer}>
@@ -62,11 +63,16 @@ const JamMemBottomModal: React.FC = () => {
                             style={styles.locationIcon}
                         />
                         <Text style={styles.locationText}>
-                            {selectedJamMem.location}
+                            {selectedJamMem?.location ?? "Unknown Location"}
                         </Text>
                     </View>
                     <Text style={styles.dateText}>
-                        {`${selectedJamMem.start.toDateString()} - ${selectedJamMem.end.toDateString()}`}
+                        {`${
+                            selectedJamMem?.start.toDateString() ??
+                            "Unknown Start"
+                        } - ${
+                            selectedJamMem?.end.toDateString() ?? "Unknown End"
+                        }`}
                     </Text>
                 </View>
                 <JamMemActionMenu />

@@ -5,7 +5,7 @@ import { ActivityIndicator, View } from "react-native";
 import createStyles from "./styles";
 import TextButton from "../../shared/textButton/TextButton";
 import useCurrentUser from "../../../hooks/useCurrentUser";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToSendRequest } from "../../../hooks/react-query/useMutationHooks";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
@@ -28,7 +28,7 @@ const AddButton: React.FC<AddButtonProps> = ({
         error,
         reset,
     } = useMutationToSendRequest();
-    useMutationErrorAlert({ isError, error, reset });
+    useMutationErrorToast({ isError, error, reset });
 
     const handlePress = useCallback(() => {
         sendRequest(

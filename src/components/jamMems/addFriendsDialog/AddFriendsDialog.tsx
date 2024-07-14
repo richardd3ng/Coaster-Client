@@ -6,11 +6,11 @@ import AddFriendsDropdown from "../addFriendsDropdown/AddFriendsDropdown";
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
-import useMutationErrorAlert from "../../../hooks/useMutationErrorAlert";
+import { useJamMemModal } from "../../../hooks/context/ModalContext";
+import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToAddFriendsToJamMem } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { UserInfoFragment } from "../../../gql/graphql";
-import { useSelectedJamMemId } from "../../../hooks/redux/useSelectorHooks";
 
 interface AddFriendsDialogProps {
     friends: UserInfoFragment[];
@@ -32,8 +32,8 @@ const AddFriendsDialog: React.FC<AddFriendsDialogProps> = ({
         error,
         reset,
     } = useMutationToAddFriendsToJamMem();
-    useMutationErrorAlert({ isError, error, reset });
-    const jamMemId = useSelectedJamMemId();
+    useMutationErrorToast({ isError, error, reset });
+    const { value: jamMemId } = useJamMemModal();
 
     const handleConfirm = () => {
         addFriends(

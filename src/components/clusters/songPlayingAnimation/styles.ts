@@ -15,7 +15,7 @@ const createStyles = (theme: Theme) => {
         animation: {
             width: theme.size.mediumAsset,
             height: theme.size.mediumAsset,
-            bottom: -theme.spacing.base,
+            bottom: -6.5,
         },
     });
 };

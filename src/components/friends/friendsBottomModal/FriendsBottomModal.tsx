@@ -26,7 +26,7 @@ import { UserInfoFragment } from "../../../gql/graphql";
 
 const FriendsBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const { dismiss } = useFriendsModal();
+    const { dismiss, value: initialState } = useFriendsModal();
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[2]], []);
     const currentUserId = useCurrentUser().id;
@@ -77,7 +77,7 @@ const FriendsBottomModal: React.FC = () => {
                 />
             );
         } else {
-            return <FriendsTabNavigator />;
+            return <FriendsTabNavigator initialRouteName={initialState} />;
         }
     }, [isFetching, isError, error, query, moreResults, handleSearch]);
 
