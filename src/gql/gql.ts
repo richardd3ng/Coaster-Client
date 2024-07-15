@@ -35,9 +35,9 @@ const documents = {
     "\n    mutation SongCreateOrUpdate(\n        $spotifyId: String!\n        $uri: String!\n        $name: String!\n        $artists: [String!]!\n        $albumUrl: String\n        $previewUrl: String\n    ) {\n        songCreateOrUpdate(\n            spotifyId: $spotifyId\n            uri: $uri\n            name: $name\n            artists: $artists\n            albumUrl: $albumUrl\n            previewUrl: $previewUrl\n        ) {\n            _id\n        }\n    }\n": types.SongCreateOrUpdateDocument,
     "\n    query SongFetchRecentlyPlayed(\n        $accessToken: String!\n        $limit: Int\n        $after: Long!\n    ) {\n        songFetchRecentlyPlayed(\n            accessToken: $accessToken\n            limit: $limit\n            after: $after\n        ) {\n            spotifyId\n            uri\n            name\n            artists\n            albumUrl\n            previewUrl\n            timestamp\n        }\n    }\n": types.SongFetchRecentlyPlayedDocument,
     "\n    mutation SongCreatePlaylist(\n        $name: String!\n        $description: String!\n        $accessToken: String!\n        $songIds: [String!]!\n    ) {\n        songCreatePlaylist(\n            name: $name\n            description: $description\n            accessToken: $accessToken\n            songIds: $songIds\n        ) {\n            uri\n        }\n    }\n": types.SongCreatePlaylistDocument,
-    "\n    query FetchUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            shareSnapshots\n        }\n    }\n": types.FetchUserPreferencesDocument,
+    "\n    query FetchUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            snapshotPrivacy\n        }\n    }\n": types.FetchUserPreferencesDocument,
     "\n    mutation UpdateUserPreferences($id: MongoID!, $record: UserUpdateInput!) {\n        userUpdateById(_id: $id, record: $record) {\n            _id\n        }\n    }\n": types.UpdateUserPreferencesDocument,
-    "\n    mutation UpdateUserProfile($id: MongoID!, $record: UserUpdateInput!) {\n        userUpdateById(_id: $id, record: $record) {\n            _id\n            spotifyId\n            username\n            displayName\n            profileUrl\n            shareSnapshots\n        }\n    }\n": types.UpdateUserProfileDocument,
+    "\n    mutation UpdateUserProfile($id: MongoID!, $record: UserUpdateInput!) {\n        userUpdateById(_id: $id, record: $record) {\n            _id\n            spotifyId\n            username\n            displayName\n            profileUrl\n            snapshotPrivacy\n        }\n    }\n": types.UpdateUserProfileDocument,
     "\n    query UserFriends($id: MongoID!) {\n        userFriends(_id: $id) {\n            ...UserInfo\n        }\n    }\n": types.UserFriendsDocument,
     "\n    query FetchUserMoreResults($id: MongoID!, $query: String!) {\n        userMoreResults(_id: $id, query: $query) {\n            ...UserInfo\n        }\n    }\n": types.FetchUserMoreResultsDocument,
     "\n    mutation UserDeleteFriend($id: MongoID!, $friendId: MongoID!) {\n        userDeleteFriend(_id: $id, friendId: $friendId) {\n            _id\n        }\n    }\n": types.UserDeleteFriendDocument,
@@ -154,7 +154,7 @@ export function graphql(source: "\n    mutation SongCreatePlaylist(\n        $na
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query FetchUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            shareSnapshots\n        }\n    }\n"): (typeof documents)["\n    query FetchUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            shareSnapshots\n        }\n    }\n"];
+export function graphql(source: "\n    query FetchUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            snapshotPrivacy\n        }\n    }\n"): (typeof documents)["\n    query FetchUserPreferences($id: MongoID!) {\n        userById(_id: $id) {\n            snapshotPrivacy\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -162,7 +162,7 @@ export function graphql(source: "\n    mutation UpdateUserPreferences($id: Mongo
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    mutation UpdateUserProfile($id: MongoID!, $record: UserUpdateInput!) {\n        userUpdateById(_id: $id, record: $record) {\n            _id\n            spotifyId\n            username\n            displayName\n            profileUrl\n            shareSnapshots\n        }\n    }\n"): (typeof documents)["\n    mutation UpdateUserProfile($id: MongoID!, $record: UserUpdateInput!) {\n        userUpdateById(_id: $id, record: $record) {\n            _id\n            spotifyId\n            username\n            displayName\n            profileUrl\n            shareSnapshots\n        }\n    }\n"];
+export function graphql(source: "\n    mutation UpdateUserProfile($id: MongoID!, $record: UserUpdateInput!) {\n        userUpdateById(_id: $id, record: $record) {\n            _id\n            spotifyId\n            username\n            displayName\n            profileUrl\n            snapshotPrivacy\n        }\n    }\n"): (typeof documents)["\n    mutation UpdateUserProfile($id: MongoID!, $record: UserUpdateInput!) {\n        userUpdateById(_id: $id, record: $record) {\n            _id\n            spotifyId\n            username\n            displayName\n            profileUrl\n            snapshotPrivacy\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

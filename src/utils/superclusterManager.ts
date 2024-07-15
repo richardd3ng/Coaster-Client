@@ -71,8 +71,6 @@ class SuperclusterManager {
             this.superClusters.set(filterKey, new Supercluster(this.options));
         }
         this.superClusters.get(filterKey)!.load(points);
-
-        console.log("Loaded data in", Date.now() - start, "ms");
     };
 
     public getClusters = (

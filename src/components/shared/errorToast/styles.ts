@@ -9,8 +9,8 @@ const createStyles = (theme: Theme) => {
             backgroundColor: theme.color.backgroundDanger,
         },
         icon: {
-            width: theme.size.xlargeAsset,
-            height: theme.size.xlargeAsset,
+            width: theme.size.mediumAsset,
+            height: theme.size.mediumAsset,
             color: theme.color.danger,
         },
         iconContainer: {

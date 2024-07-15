@@ -2,12 +2,12 @@ import { formatError, parseErrorGraphQL } from "./errorUtils";
 import { FriendArgs, UserReduxState } from "../types/entities";
 import { graphql } from "../gql";
 import { graphqlRequest } from "./client.graphql";
-import { UserInfoFragment } from "../gql/graphql";
+import { SnapshotPrivacy, UserInfoFragment } from "../gql/graphql";
 
 const fetchUserPreferencesQueryDocument = graphql(`
     query FetchUserPreferences($id: MongoID!) {
         userById(_id: $id) {
-            shareSnapshots
+            snapshotPrivacy
         }
     }
 `);
@@ -21,7 +21,7 @@ export const fetchPreferences = async (id: string) => {
     try {
         const response = await graphqlRequest<{
             userById: {
-                shareSnapshots: boolean;
+                snapshotPrivacy: SnapshotPrivacy;
             };
         }>(fetchUserPreferencesQueryDocument, { id });
         return response.userById;
@@ -40,12 +40,12 @@ const updateUserPreferencesMutationDocument = graphql(`
 `);
 interface UpdatePreferencesArgs {
     id: string;
-    record: { shareSnapshots?: boolean };
+    record: { snapshotPrivacy?: SnapshotPrivacy };
 }
 /**
  * Updates a user's preferences
  * @param id - The id of the user
- * @param shareSnapshots - Whether to share snapshots
+ * @param snapshotPrivacy - Whether to share snapshots
  * @returns - The id of the updated user
  * @throws - An error if the request fails
  * */
@@ -75,7 +75,7 @@ const updateUserProfileMutationDocument = graphql(`
             username
             displayName
             profileUrl
-            shareSnapshots
+            snapshotPrivacy
         }
     }
 `);
@@ -99,7 +99,7 @@ export const updateProfile = async ({
                 username: string;
                 displayName: string;
                 profileUrl: string;
-                shareSnapshots: boolean;
+                snapshotPrivacy: boolean;
             };
         }>(updateUserProfileMutationDocument, {
             id,
@@ -112,7 +112,7 @@ export const updateProfile = async ({
             displayName: response.userUpdateById.displayName,
             profileUrl: response.userUpdateById.profileUrl,
             preferences: {
-                trackSnapshots: response.userUpdateById.shareSnapshots,
+                trackSnapshots: response.userUpdateById.snapshotPrivacy,
             },
         };
     } catch (error: any) {

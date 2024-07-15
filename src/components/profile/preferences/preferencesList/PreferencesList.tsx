@@ -4,13 +4,13 @@ import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 
 import createStyles from "./styles";
 import { PreferencesOption } from "../../../../types/navigation";
-import ShareSnapshots from "../shareSnapshots/ShareSnapshots";
+import SnapshotPrivacy from "../snapshotPrivacyButton/SnapshotPrivacyButton";
 import TrackSnapshots from "../trackSnapshots/TrackSnapshots";
 import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
 
 const componentMap = new Map<PreferencesOption, JSX.Element>([
     [PreferencesOption.TrackSnapshots, <TrackSnapshots />],
-    [PreferencesOption.ShareSnapshots, <ShareSnapshots />],
+    [PreferencesOption.SnapshotPrivacy, <SnapshotPrivacy />],
 ]);
 
 const PreferencesList: React.FC = () => {

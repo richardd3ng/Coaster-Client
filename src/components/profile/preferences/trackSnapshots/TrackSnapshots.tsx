@@ -50,7 +50,7 @@ const TrackSnapshots: React.FC = () => {
                 onPress={handleToggle}
                 isPending={false}
                 style={styles.toggledListItem}
-                isEnabled={trackSnapshots}
+                value={trackSnapshots}
             />
             <ConfirmationDialog
                 title={DISABLE_TRACKING_CONFIRMATION_TITLE}

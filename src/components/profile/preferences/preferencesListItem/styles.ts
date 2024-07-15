@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-
 import { Theme } from "../../../../types/theme";
 
 const createStyles = (theme: Theme) => {
@@ -24,6 +23,15 @@ const createStyles = (theme: Theme) => {
         spinner: {
             height: theme.size.smallAsset,
             width: theme.size.smallAsset,
+        },
+        valueContainer: {
+            height: theme.size.smallAsset,
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        value: {
+            fontSize: theme.size.mediumFont,
+            color: "gray",
         },
     });
 };

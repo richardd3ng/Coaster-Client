@@ -30,6 +30,7 @@ import {
     getQueryKeyForUseSongPoints,
 } from "./useQueryHooks";
 import { openInSpotify } from "../../utils/spotifyUtils";
+import { SocialFilter } from "../../types/filters";
 
 /* Jam Mems */
 export const useMutationToCreateJamMem = () => {
@@ -125,10 +126,25 @@ export const useMutationToUpdatePreferences = () => {
 
     return useMutation({
         mutationFn: updatePreferences,
-        onSuccess: () =>
+        onSuccess: (_userId, args) => {
             queryClient.invalidateQueries({
                 queryKey: getQueryKeyForUseUserPreferences(),
-            }),
+            });
+            if (args.record.snapshotPrivacy !== undefined) {
+                queryClient.invalidateQueries({
+                    queryKey: getQueryKeyForUseSongPointsWithFilter({
+                        type: "social",
+                        value: SocialFilter.Friends,
+                    }),
+                });
+                queryClient.invalidateQueries({
+                    queryKey: getQueryKeyForUseSongPointsWithFilter({
+                        type: "social",
+                        value: SocialFilter.Global,
+                    }),
+                });
+            }
+        },
     });
 };
 
