@@ -1,6 +1,10 @@
 import { PointFeature } from "supercluster";
 
-import { ClusterFilter, SocialFilter } from "../types/filters";
+import { ClusterFilter } from "../types/filters";
+import {
+    convertSnapshotsToSongPoints,
+    getClosestLocationTimestamp,
+} from "../utils/snapshotUtils";
 import { createOrUpdateSong, fetchRecentlyPlayedSongs } from "./songAPI";
 import {
     dispatchClearHistory,
@@ -15,11 +19,9 @@ import { graphqlRequest } from "./client.graphql";
 import superclusterManager, {
     SongPointProps,
 } from "../utils/superclusterManager";
-import {
-    convertSnapshotsToSongPoints,
-    getClosestLocationTimestamp,
-} from "../utils/snapshotUtils";
+
 import { SearchFilter, SnapshotInfoFragment } from "../gql/graphql";
+import { SnapshotPrivacy } from "../gql/graphql";
 
 export const fetchAndLoadSongPoints = async (
     userId: string,
@@ -28,16 +30,16 @@ export const fetchAndLoadSongPoints = async (
     let points: PointFeature<SongPointProps>[] = [];
     if (filter.type === "social") {
         switch (filter.value) {
-            case SocialFilter.Me:
+            case SnapshotPrivacy.Me:
                 points = await fetchMeSongPoints(userId, filter.searchFilter);
                 break;
-            case SocialFilter.Friends:
+            case SnapshotPrivacy.Friends:
                 points = await fetchFriendsSongPoints(
                     userId,
                     filter.searchFilter
                 );
                 break;
-            case SocialFilter.Global:
+            case SnapshotPrivacy.Everyone:
                 points = await fetchGlobalSongPoints(
                     userId,
                     filter.searchFilter

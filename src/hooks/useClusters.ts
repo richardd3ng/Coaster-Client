@@ -4,12 +4,11 @@ import { Region } from "react-native-maps";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { calculateBBox, getMapZoom, MAP_CONFIG } from "../utils/mapUtils";
-import { ClusterFilter, SocialFilter } from "../types/filters";
+import { ClusterFilter } from "../types/filters";
+import { SnapshotPrivacy } from "../gql/graphql";
+import { queryKeys } from "./react-query/useQueryHooks";
 import superclusterManager, { SongCluster } from "../utils/superclusterManager";
-import {
-    getQueryKeyForUseSongPointsWithFilter,
-    useSongPoints,
-} from "./react-query/useQueryHooks";
+import { useSongPoints } from "./react-query/useQueryHooks";
 import { useLastSucccesfulSnapshotTimestamp } from "./redux/useSelectorHooks";
 import useQueryErrorToast from "./useQueryErrorToast";
 
@@ -29,21 +28,21 @@ const useClusters = (region: Region | null, filter: ClusterFilter) => {
     useEffect(() => {
         if (lastSuccessfulSnapshotTimestamp) {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseSongPointsWithFilter({
+                queryKey: queryKeys.songPoints({
                     type: "social",
-                    value: SocialFilter.Me,
+                    value: SnapshotPrivacy.Me,
                 }),
             });
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseSongPointsWithFilter({
+                queryKey: queryKeys.songPoints({
                     type: "social",
-                    value: SocialFilter.Friends,
+                    value: SnapshotPrivacy.Friends,
                 }),
             });
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseSongPointsWithFilter({
+                queryKey: queryKeys.songPoints({
                     type: "social",
-                    value: SocialFilter.Global,
+                    value: SnapshotPrivacy.Everyone,
                 }),
             });
         }

@@ -12,10 +12,12 @@ import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface FriendToastProps extends BaseToastProps {
     profileUrl?: string;
+    tabName: FriendsTabName;
 }
 
 export const FriendToast: React.FC<FriendToastProps> = ({
     profileUrl,
+    tabName,
     ...props
 }: FriendToastProps) => {
     const styles = useThemeAwareObject(createStyles);
@@ -36,7 +38,7 @@ export const FriendToast: React.FC<FriendToastProps> = ({
 
     const handlePress = () => {
         Toast.hide();
-        presentFriendsModal(FriendsTabName.Requests);
+        presentFriendsModal(tabName);
     };
 
     return (

@@ -5,9 +5,10 @@ import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import { randomUUID } from "expo-crypto";
 
 import { BASE_URL } from "@env";
-import { getQueryKeyForUsePendingRequests } from "./react-query/useQueryHooks";
+import { queryKeys } from "./react-query/useQueryHooks";
 import {
     showConnectionLostErrorToast,
+    showFriendRequestAcceptedToast,
     showIncomingFriendRequestToast,
 } from "../utils/toastUtils";
 import useCurrentUser from "./useCurrentUser";
@@ -16,13 +17,21 @@ const eventHandlers = {
     incomingFriendRequest: (event: any, queryClient: QueryClient) => {
         if (event.data) {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUsePendingRequests(),
+                queryKey: queryKeys.pendingRequests,
             });
             showIncomingFriendRequestToast(JSON.parse(event.data));
         }
     },
-    acceptedFriendRequest: (event: any) => {
-        console.log("Accepted friend request:", event.data);
+    acceptedFriendRequest: (event: any, queryClient: QueryClient) => {
+        if (event.data) {
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.friends,
+            });
+             queryClient.invalidateQueries({
+                 queryKey: queryKeys.sentRequests,
+             });
+        }
+        showFriendRequestAcceptedToast(JSON.parse(event.data));
     },
     addedToJamMem: (event: any) => {
         console.log("Added to jam mem:", event.data);

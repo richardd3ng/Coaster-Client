@@ -1,8 +1,9 @@
 import { LatLng } from "react-native-maps";
 
-import { ClusterFilter, DateFilter, SocialFilter } from "../types/filters";
+import { ClusterFilter, DateFilter } from "../types/filters";
+import { SnapshotPrivacy } from "../gql/graphql";
 
-export const DEFAULT_SOCIAL_FILTER: SocialFilter = SocialFilter.Global;
+export const DEFAULT_SOCIAL_FILTER: SnapshotPrivacy = SnapshotPrivacy.Everyone;
 
 export const DEFAULT_CLUSTER_FILTER: ClusterFilter = {
     type: "social",

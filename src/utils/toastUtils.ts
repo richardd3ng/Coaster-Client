@@ -2,6 +2,7 @@ import { ErrorEvent, TimeoutEvent, ExceptionEvent } from "react-native-sse";
 import { LocationError } from "react-native-background-geolocation";
 import Toast from "react-native-toast-message";
 
+import { FriendsTabName } from "../types/navigation";
 import { ToastType } from "../components/shared/toastConfig/toastConfig";
 
 const DEFAULT_VISIBILITY_TIME = 5000;
@@ -59,18 +60,30 @@ export const showGeolocationErrorToast = (error: LocationError) => {
     });
 };
 
-export interface ShowFriendRequestToastArgs {
+export interface FriendToastArgs {
     displayName: string;
     profileUrl: string;
 }
 export const showIncomingFriendRequestToast = ({
     displayName,
     profileUrl,
-}: ShowFriendRequestToastArgs) => {
+}: FriendToastArgs) => {
     Toast.show({
         type: ToastType.Friend,
         text1: `${displayName} sent you a friend request!`,
         visibilityTime: DEFAULT_VISIBILITY_TIME,
-        props: { profileUrl },
+        props: { profileUrl, tabName: FriendsTabName.Requests },
     });
 };
+
+export const showFriendRequestAcceptedToast = ({
+    displayName,
+    profileUrl,
+}: FriendToastArgs) => {
+    Toast.show({
+        type: ToastType.Friend,
+        text1: `You and ${displayName} are now friends!`,
+        visibilityTime: DEFAULT_VISIBILITY_TIME,
+        props: { profileUrl },
+    });
+}

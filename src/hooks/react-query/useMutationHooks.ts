@@ -19,18 +19,9 @@ import {
 import { clearSnapshotHistory } from "../../api/snapshotAPI";
 import { createPlaylistFromSongIds } from "../../api/songAPI";
 import { dispatchSetCurrentUser } from "../../state/storeUtils";
-import {
-    getQueryKeyForUseFriends,
-    getQueryKeyForUseJamMemMetadatas,
-    getQueryKeyForUsePendingRequests,
-    getQueryKeyForUseSentRequests,
-    getQueryKeyForUseSongPointsWithFilter,
-    getQueryKeyForUseUserPreferences,
-    getQueryKeyForUseJamMem,
-    getQueryKeyForUseSongPoints,
-} from "./useQueryHooks";
 import { openInSpotify } from "../../utils/spotifyUtils";
-import { SocialFilter } from "../../types/filters";
+import { queryKeys } from "./useQueryHooks";
+import { SnapshotPrivacy } from "../../gql/graphql";
 
 /* Jam Mems */
 export const useMutationToCreateJamMem = () => {
@@ -40,7 +31,7 @@ export const useMutationToCreateJamMem = () => {
         mutationFn: createJamMem,
         onSuccess: () =>
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseJamMemMetadatas(),
+                queryKey: queryKeys.jamMemMetadatas,
             }),
     });
 };
@@ -52,14 +43,14 @@ export const useMutationToUpdateJamMem = () => {
         mutationFn: updateJamMem,
         onSuccess: (id, updateJamMemArgs) => {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseJamMemMetadatas(),
+                queryKey: queryKeys.jamMemMetadatas,
             });
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseJamMem(id),
+                queryKey: queryKeys.jamMem(id),
             });
             if (updateJamMemArgs.record.start || updateJamMemArgs.record.end) {
                 queryClient.invalidateQueries({
-                    queryKey: getQueryKeyForUseSongPointsWithFilter({
+                    queryKey: queryKeys.songPoints({
                         type: "jamMem",
                         value: id,
                     }),
@@ -76,7 +67,7 @@ export const useMutationToDeleteJamMem = () => {
         mutationFn: deleteJamMem,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseJamMemMetadatas(),
+                queryKey: queryKeys.jamMemMetadatas,
             });
         },
     });
@@ -89,10 +80,10 @@ export const useMutationToAddFriendsToJamMem = () => {
         mutationFn: addFriendsToJamMem,
         onSuccess: (id) => {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseJamMem(id),
+                queryKey: queryKeys.jamMem(id),
             });
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseSongPointsWithFilter({
+                queryKey: queryKeys.songPoints({
                     type: "jamMem",
                     value: id,
                 }),
@@ -108,13 +99,7 @@ export const useMutationToDeleteFriendFromJamMem = () => {
         mutationFn: removeFriendFromJamMem,
         onSuccess: (id) => {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseJamMem(id),
-            });
-            queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseSongPointsWithFilter({
-                    type: "jamMem",
-                    value: id,
-                }),
+                queryKey: queryKeys.jamMem(id),
             });
         },
     });
@@ -128,19 +113,19 @@ export const useMutationToUpdatePreferences = () => {
         mutationFn: updatePreferences,
         onSuccess: (_userId, args) => {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseUserPreferences(),
+                queryKey: queryKeys.userPreferences,
             });
             if (args.record.snapshotPrivacy !== undefined) {
                 queryClient.invalidateQueries({
-                    queryKey: getQueryKeyForUseSongPointsWithFilter({
+                    queryKey: queryKeys.songPoints({
                         type: "social",
-                        value: SocialFilter.Friends,
+                        value: SnapshotPrivacy.Friends,
                     }),
                 });
                 queryClient.invalidateQueries({
-                    queryKey: getQueryKeyForUseSongPointsWithFilter({
+                    queryKey: queryKeys.songPoints({
                         type: "social",
-                        value: SocialFilter.Global,
+                        value: SnapshotPrivacy.Everyone,
                     }),
                 });
             }
@@ -162,7 +147,7 @@ export const useMutationToDeleteFriend = () => {
         mutationFn: deleteFriend,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseFriends(),
+                queryKey: queryKeys.friends,
             });
         },
     });
@@ -175,7 +160,7 @@ export const useMutationToSendRequest = () => {
         mutationFn: sendRequest,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseSentRequests(),
+                queryKey: queryKeys.sentRequests,
             });
         },
     });
@@ -188,10 +173,10 @@ export const useMutationToAcceptRequest = () => {
         mutationFn: acceptRequest,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUsePendingRequests(),
+                queryKey: queryKeys.pendingRequests,
             });
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseFriends(),
+                queryKey: queryKeys.friends,
             });
         },
     });
@@ -204,7 +189,7 @@ export const useMutationToIgnoreRequest = () => {
         mutationFn: ignoreRequest,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUsePendingRequests(),
+                queryKey: queryKeys.pendingRequests,
             });
         },
     });
@@ -217,7 +202,7 @@ export const useMutationToCancelRequest = () => {
         mutationFn: cancelRequest,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseSentRequests(),
+                queryKey: queryKeys.sentRequests,
             });
         },
     });
@@ -241,7 +226,22 @@ export const useMutationToClearSnapshotHistory = () => {
         mutationFn: clearSnapshotHistory,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: getQueryKeyForUseSongPoints(),
+                queryKey: queryKeys.songPoints({
+                    type: "social",
+                    value: SnapshotPrivacy.Me,
+                }),
+            });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.songPoints({
+                    type: "social",
+                    value: SnapshotPrivacy.Friends,
+                }),
+            });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.songPoints({
+                    type: "social",
+                    value: SnapshotPrivacy.Everyone,
+                }),
             });
         },
     });
