@@ -15,7 +15,7 @@ const createStyles = (theme: Theme) => {
             backgroundColor: "white",
             alignItems: "center",
         },
-        divider: { backgroundColor: "gray" },
+        divider: { backgroundColor: theme.color.faded },
         text: {
             fontSize: theme.size.mediumFont,
             flex: 1,
@@ -31,7 +31,7 @@ const createStyles = (theme: Theme) => {
         },
         value: {
             fontSize: theme.size.mediumFont,
-            color: "gray",
+            color: theme.color.faded,
         },
     });
 };

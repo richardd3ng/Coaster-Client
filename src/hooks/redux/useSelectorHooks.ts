@@ -41,3 +41,7 @@ export const useLastSucccesfulSnapshotTimestamp = () => {
 export const useSearchResult = () => {
     return useSelector((state: RootState) => state.searchResult.searchResult);
 };
+
+export const useHasSearchResult = () => {
+    return useSelector((state: RootState) => state.searchResult.searchResult !== null);
+}

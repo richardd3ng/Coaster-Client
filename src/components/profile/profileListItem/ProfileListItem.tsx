@@ -27,16 +27,18 @@ const ProfileListItem: React.FC<ProfileListItemProps> = ({
 }: ProfileListItemProps) => {
     const styles = useThemeAwareObject(createStyles);
 
-    const ArrowIcon = (
-        <Icon name="arrow-ios-forward" fill="gray" style={styles.icon} />
-    );
-
     return (
         <CustomPressable onPress={onPress}>
             <View style={[styles.container, containerStyle]}>
                 {icon}
                 <Text style={[styles.text, { color: textColor }]}>{text}</Text>
-                {!hideArrow && ArrowIcon}
+                {!hideArrow && (
+                    <Icon
+                        name="arrow-ios-forward"
+                        style={styles.icon}
+                        fill={styles.icon.color}
+                    />
+                )}
             </View>
             {!hideDivider && <Divider style={styles.divider} />}
         </CustomPressable>

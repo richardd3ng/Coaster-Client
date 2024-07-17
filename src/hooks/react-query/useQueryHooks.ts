@@ -13,7 +13,7 @@ import {
     fetchSentRequests,
 } from "../../api/userAPI";
 import { fetchAndLoadSongPoints } from "../../api/snapshotAPI";
-import { fetchJamMem, fetchJamMemMetadatasByUser } from "../../api/jamMemAPI";
+import { fetchJamMem, fetchJamMemMetadatasByUser, fetchJamMemMetadatasByUserShared } from "../../api/jamMemAPI";
 import { fetchSong } from "../../api/songAPI";
 import { SnapshotPrivacy } from "../../gql/graphql";
 import { useUserId } from "../useUserHooks";
@@ -21,6 +21,7 @@ import { useUserId } from "../useUserHooks";
 export const queryKeys = {
     jamMem: (id: string) => ["jamMem", id],
     jamMemMetadatas: ["jamMemMetadatas"],
+    jamMemMetadatasShared: ["jamMemMetadatasShared"],
     songPoints: (filter: ClusterFilter) => [
         "songPoints",
         ...getFilterKey(filter),
@@ -49,6 +50,14 @@ export const useJamMemMetadatas = (userId: string) => {
         staleTime: Infinity,
     });
 };
+
+export const useJamMemMetadatasShared = (userId: string) => {
+    return useQuery({
+        queryKey: queryKeys.jamMemMetadatasShared,
+        queryFn: () => fetchJamMemMetadatasByUserShared(userId),
+        staleTime: Infinity,
+    });
+}
 
 /* Clusters */
 export const useSongPoints = (filter: ClusterFilter) => {

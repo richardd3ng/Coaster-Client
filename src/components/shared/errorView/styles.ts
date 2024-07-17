@@ -19,7 +19,7 @@ const createStyles = (theme: Theme) => {
             fontWeight: "bold",
         },
         suggestionText: {
-            color: "gray",
+            color: theme.color.faded,
             paddingBottom: 10,
         },
     });

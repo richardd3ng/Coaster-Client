@@ -5,11 +5,11 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         descriptionText: {
-            color: "gray",
+            color: theme.color.faded,
             fontSize: theme.size.smallFont,
         },
         divider: {
-            backgroundColor: "gray",
+            backgroundColor: theme.color.faded,
             marginLeft: 72,
         },
         iconButton: {

@@ -16,7 +16,7 @@ const createStyles = (theme: Theme) => {
             marginTop: theme.spacing.base,
         },
         label: {
-            color: "gray",
+            color: theme.color.faded,
             fontSize: theme.size.smallFont,
         },
         image: {

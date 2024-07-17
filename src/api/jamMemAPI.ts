@@ -27,7 +27,34 @@ export const fetchJamMemMetadatasByUser = async (
         return response.jamMemByUserId;
     } catch (error) {
         console.error(formatError(error));
-        throw new Error("Error: unable to fetch Jam Mem Info");
+        throw new Error("Error: unable to load Jam Mems");
+    }
+};
+
+const JamMemByUserIdSharedQueryDocument = graphql(`
+    query JamMemByUserIdShared($userId: MongoID!) {
+        jamMemByUserIdShared(userId: $userId) {
+            ...JamMemMetadata
+        }
+    }
+`);
+/**
+ * Fetches shared Jam Mem metadatas by a user's id (see JamMemMetadataFragment)
+ * @param userId The id of the user
+ * @returns The Jam Mem metadatas
+ * @throws An error if the request fails
+ */
+export const fetchJamMemMetadatasByUserShared = async (
+    userId: string
+): Promise<JamMemMetadataFragment[]> => {
+    try {
+        const response = await graphqlRequest<{
+            jamMemByUserIdShared: JamMemMetadataFragment[];
+        }>(JamMemByUserIdSharedQueryDocument, { userId });
+        return response.jamMemByUserIdShared;
+    } catch (error) {
+        console.error(formatError(error));
+        throw new Error("Error: unable to load shared Jam Mems");
     }
 };
 

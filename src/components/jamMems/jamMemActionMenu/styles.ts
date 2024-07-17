@@ -7,9 +7,10 @@ const createStyles = (theme: Theme) => {
         container: {
             alignSelf: "center",
         },
-        moreOptionsIcon: {
+        icon: {
             width: theme.size.xsmallAsset,
             height: theme.size.xsmallAsset,
+            color: theme.color.faded
         },
     });
 };

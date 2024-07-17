@@ -44,7 +44,7 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
         reset,
     } = useMutationToCreateJamMem();
     useMutationErrorToast({ isError, error, reset });
-    const { present: presentJamMemModal } = useJamMemModal();
+    const { present: presentJamMemModal, setSnapIndex: setJamMemModalSnapIndex } = useJamMemModal();
     const { close: closeMapBottomSheet } = useMapBottomSheet();
     const { setClusterFilter } = useMapContext();
     const currentUserId = useUserId();
@@ -79,6 +79,7 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
                         value: createdJamMemId,
                     });
                     presentJamMemModal(createdJamMemId);
+                    setJamMemModalSnapIndex(1);
                     handleClose();
                 },
             }
@@ -165,7 +166,7 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
 
     return (
         <ConfirmationDialog
-            title="Create Jam Mem"
+            title="New Jam Mem"
             open={open}
             onClose={handleClose}
             onConfirm={handleCreate}

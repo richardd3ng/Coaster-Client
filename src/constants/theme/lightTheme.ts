@@ -6,6 +6,7 @@ const LIGHT_COLOR_THEME: ColorTheme = {
     backgroundDanger: "#FFF2F2",
     primary: "#009BFF",
     danger: "red",
+    faded: "gray",
 };
 
 export const LIGHT_THEME_ID = "light";
