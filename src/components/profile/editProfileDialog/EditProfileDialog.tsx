@@ -88,50 +88,42 @@ const EditProfileDialog: React.FC<EditProfileProps> = ({
             onClose={handleClose}
             onConfirm={handleConfirm}
             preventDefaultConfirm
-            children={
-                <>
-                    <View style={styles.dialogContainer}>
-                        <Text style={styles.label}>Display Name</Text>
-                        <Input
-                            onChangeText={setDisplayName}
-                            value={displayName}
-                            style={styles.displayNameInput}
-                        />
-                        <Text style={styles.label}>
-                            Username (must be unique)
-                        </Text>
-
-                        <Input
-                            onChangeText={setUsername}
-                            value={username}
-                            style={styles.usernameInput}
-                        />
-                        <View style={styles.imagePickerContainer}>
-                            <FastImage
-                                source={
-                                    profileUri
-                                        ? { uri: profileUri }
-                                        : DEFAULT_PROFILE_URI
-                                }
-                                style={styles.image}
-                            />
-                            <ImagePickerButton
-                                title="Profile Picture"
-                                onImagePicked={setProfileUri}
-                                style={styles.imagePickerButton}
-                                cropperCircleOverlay
-                                freeStyleCropEnabled
-                            />
-                        </View>
-                    </View>
-                    <LoadingModal
-                        visible={isPending}
-                        text="Updating Profile..."
-                    />
-                </>
-            }
             sameButtonTextStyle
-        />
+        >
+            <View style={styles.dialogContainer}>
+                <Text style={styles.label}>Display Name</Text>
+                <Input
+                    onChangeText={setDisplayName}
+                    value={displayName}
+                    style={styles.displayNameInput}
+                />
+                <Text style={styles.label}>Username (must be unique)</Text>
+
+                <Input
+                    onChangeText={setUsername}
+                    value={username}
+                    style={styles.usernameInput}
+                />
+                <View style={styles.imagePickerContainer}>
+                    <FastImage
+                        source={
+                            profileUri
+                                ? { uri: profileUri }
+                                : DEFAULT_PROFILE_URI
+                        }
+                        style={styles.image}
+                    />
+                    <ImagePickerButton
+                        title="Profile Picture"
+                        onImagePicked={setProfileUri}
+                        style={styles.imagePickerButton}
+                        cropperCircleOverlay
+                        freeStyleCropEnabled
+                    />
+                </View>
+            </View>
+            <LoadingModal visible={isPending} text="Updating Profile..." />
+        </ConfirmationDialog>
     );
 };
 

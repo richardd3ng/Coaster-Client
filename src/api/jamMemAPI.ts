@@ -62,6 +62,7 @@ const JamMemByIdQueryDocument = graphql(`
     query JamMemById($id: MongoID!) {
         jamMemById(_id: $id) {
             _id
+            ownerId
             name
             location
             start
@@ -76,6 +77,7 @@ const JamMemByIdQueryDocument = graphql(`
 interface JamMemByIdResponse {
     jamMemById: {
         _id: string;
+        ownerId: string;
         name: string;
         location: string;
         start: Date;
@@ -99,10 +101,11 @@ export const fetchJamMem = async (id: string): Promise<JamMem | null> => {
             JamMemByIdQueryDocument,
             { id }
         );
-        const { _id, name, location, start, end, coverUrl, friends } =
+        const { _id, ownerId, name, location, start, end, coverUrl, friends } =
             response.jamMemById;
         return {
             id: _id,
+            ownerId,
             name,
             location,
             start: new Date(start),

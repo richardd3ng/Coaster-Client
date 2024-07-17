@@ -58,7 +58,7 @@ const JamMemStack: React.FC = () => {
             <Text style={styles.myJamMemsText}>My Jam Mems</Text>
             <CreateButton />
             {JamMemsContent}
-            <Text style={styles.sharedJamMemsText}>Shared Jam Mems</Text>
+            <Text style={styles.sharedJamMemsText}>Shared With Me</Text>
             {JamMemsContentShared}
         </View>
     );

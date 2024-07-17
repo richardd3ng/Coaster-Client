@@ -45,8 +45,8 @@ const CancelRequestButton: React.FC<CancelRequestButtonProps> = ({
             </View>
             <ConfirmationDialog
                 open={showConfirmation}
-                title={`Are you sure you want to delete the friend request sent to ${user.username}?`}
-                description={`${user.username} will not see your friend request anymore and will not be notified.`}
+                title={`Are you sure you want to delete the friend request sent to ${user.displayName}?`}
+                description={`${user.displayName} will not see your friend request anymore and will not be notified.`}
                 onClose={() => setShowConfirmation(false)}
                 onConfirm={() =>
                     cancelRequest({

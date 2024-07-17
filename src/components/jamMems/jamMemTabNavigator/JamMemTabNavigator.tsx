@@ -19,6 +19,7 @@ import { computeSongIdFrequencies } from "../../../utils/snapshotUtils";
 import createStyles from "./styles";
 import JamFriendsScrollView from "../jamFriendsScrollView/JamFriendsScrollView";
 import { JamMemTabName, JamMemTabParamList } from "../../../types/navigation";
+import LeaveButton from "../leaveButton/LeaveButton";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import ErrorView from "../../shared/errorView/ErrorView";
 import useClusters from "../../../hooks/useClusters";
@@ -26,6 +27,7 @@ import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
 import { useJamMemModal } from "../../../hooks/context/ModalContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 const { Navigator, Screen } =
     createMaterialTopTabNavigator<JamMemTabParamList>();
@@ -40,9 +42,10 @@ interface JamMemTabBarProps {
 
 const JamMemTabNavigator: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const {value: selectedJamMemId} = useJamMemModal();
+    const { value: selectedJamMemId } = useJamMemModal();
     const { clusterFilter } = useMapContext();
     const { songPoints } = useClusters(null, clusterFilter);
+    const userId = useUserId();
 
     const {
         data: selectedJamMem,
@@ -83,9 +86,14 @@ const JamMemTabNavigator: React.FC = () => {
                     <ErrorView message={error.message} onRetry={refetch} />
                 ) : selectedJamMem ? (
                     <>
-                        <AddFriendButton />
+                        {userId === selectedJamMem.ownerId ? (
+                            <AddFriendButton />
+                        ) : (
+                            <LeaveButton />
+                        )}
                         <JamFriendsScrollView
                             users={selectedJamMem.friends ?? []}
+                            hideDelete={userId !== selectedJamMem.ownerId}
                         />
                     </>
                 ) : null}

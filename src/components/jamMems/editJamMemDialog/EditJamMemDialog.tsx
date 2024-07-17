@@ -140,18 +140,12 @@ const EditJamMemDialog: React.FC<EditJamMemDialogProps> = ({
             onClose={handleClose}
             onConfirm={handleConfirm}
             preventDefaultConfirm
-            children={
-                <>
-                    {DialogContent}
-                    <LoadingModal
-                        visible={isPending}
-                        text="Updating Jam Mem..."
-                    />
-                </>
-            }
             disableConfirm={invalidDates}
             sameButtonTextStyle
-        />
+        >
+            {DialogContent}
+            <LoadingModal visible={isPending} text="Updating Jam Mem..." />
+        </ConfirmationDialog>
     );
 };
 

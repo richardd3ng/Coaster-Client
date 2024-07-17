@@ -67,17 +67,11 @@ const AddFriendsDialog: React.FC<AddFriendsDialogProps> = ({
             onClose={onClose}
             onConfirm={handleConfirm}
             preventDefaultConfirm
-            children={
-                <>
-                    {DialogContent}
-                    <LoadingModal
-                        visible={isPending}
-                        text="Adding Friends..."
-                    />
-                </>
-            }
             sameButtonTextStyle
-        />
+        >
+            {DialogContent}
+            <LoadingModal visible={isPending} text="Adding Friends..." />
+        </ConfirmationDialog>
     );
 };
 

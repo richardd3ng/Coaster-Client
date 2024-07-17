@@ -90,8 +90,9 @@ const JamMemBottomModal: React.FC = () => {
                 headerText={selectedJamMem?.name ?? ""}
                 modalType={ModalType.JamMem}
                 onClose={handleClose}
-                children={<JamMemHeaderContent />}
-            />
+            >
+                <JamMemHeaderContent />
+            </BottomModalTopRow>
             <JamMemTabNavigator />
         </BottomModal>
     );

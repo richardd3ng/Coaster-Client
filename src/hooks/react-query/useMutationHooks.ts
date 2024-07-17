@@ -114,6 +114,19 @@ export const useMutationToDeleteFriendFromJamMem = () => {
     });
 };
 
+export const useMutationToLeaveJamMem = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: removeFriendFromJamMem,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.jamMemMetadatasShared,
+            });
+        },
+    });
+};
+
 /* Users */
 export const useMutationToUpdatePreferences = () => {
     const queryClient = useQueryClient();

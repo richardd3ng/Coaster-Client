@@ -8,10 +8,12 @@ import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface JamFriendsScrollViewProps {
     users: UserInfoFragment[];
+    hideDelete?: boolean;
 }
 
 const JamFriendsScrollView: React.FC<JamFriendsScrollViewProps> = ({
     users,
+    hideDelete,
 }: JamFriendsScrollViewProps) => {
     const styles = useThemeAwareObject(createStyles);
 
@@ -21,7 +23,11 @@ const JamFriendsScrollView: React.FC<JamFriendsScrollViewProps> = ({
                 <FriendsListItem
                     key={user._id}
                     user={user}
-                    leftComponent={<RemoveFriendButton user={user} />}
+                    leftComponent={
+                        !hideDelete ? (
+                            <RemoveFriendButton user={user} />
+                        ) : undefined
+                    }
                 />
             ))}
         </ScrollView>

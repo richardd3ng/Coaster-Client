@@ -20,6 +20,7 @@ export interface Snapshot {
 /* Jam Mems */
 export interface JamMem {
     id: string;
+    ownerId: string;
     name: string;
     location: string;
     start: Date;

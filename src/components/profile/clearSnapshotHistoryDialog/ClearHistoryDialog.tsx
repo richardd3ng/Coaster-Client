@@ -102,17 +102,11 @@ const ClearSnapshotHistoryDialog: React.FC<ClearSnapshotHistoryDialogProps> = ({
             onClose={onClose}
             onConfirm={handleConfirm}
             preventDefaultConfirm
-            children={
-                <>
-                    {DialogContent}
-                    <LoadingModal
-                        visible={isPending}
-                        text="Clearing History..."
-                    />
-                </>
-            }
             sameButtonTextStyle
-        />
+        >
+            {DialogContent}
+            <LoadingModal visible={isPending} text="Clearing History..." />
+        </ConfirmationDialog>
     );
 };
 

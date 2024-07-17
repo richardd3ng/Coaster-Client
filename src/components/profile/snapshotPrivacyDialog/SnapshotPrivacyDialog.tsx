@@ -55,20 +55,25 @@ const SnapshotPrivacyDialog: React.FC<SnapshotPrivacyDialogProps> = ({
             onClose();
             return;
         }
-        updatePreferences({
-            id: userId,
-            record: {
-                snapshotPrivacy: selectedPrivacy,
+        updatePreferences(
+            {
+                id: userId,
+                record: {
+                    snapshotPrivacy: selectedPrivacy,
+                },
             },
-        });
-        onClose();
+            {
+                onSuccess: onClose,
+            }
+        );
     }, [selectedPrivacy, userId, updatePreferences, onClose]);
 
     const DialogContent = (
         <View style={styles.dialogContainer}>
             <Text style={styles.descriptionText}>
-                Control who can see your snapshots. Change may not be immediate
-                for other users.
+                Control who can see your snapshots. Changes may not be immediate
+                for other users. All snapshots are anonymous on the map, so we
+                encourage you to share with everyone so the map looks cooler!
             </Text>
             <RadioGroup
                 selectedIndex={privacyOptions.findIndex(
