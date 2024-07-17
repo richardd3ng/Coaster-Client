@@ -2,13 +2,13 @@ import { useState } from "react";
 
 import createStyles from "./styles";
 import PreferencesListItem from "../preferencesListItem/PreferencesListItem";
-import { PreferencesOption } from "../../../../types/navigation";
-import { privacyOptions } from "../../snapshotPrivacyDialog/SnapshotPrivacyDialog";
-import { SnapshotPrivacy } from "../../../../gql/graphql";
-import SnapshotPrivacyDialog from "../../snapshotPrivacyDialog/SnapshotPrivacyDialog";
-import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
-import { useUserPreferences } from "../../../../hooks/react-query/useQueryHooks";
-import { useUserId } from "../../../../hooks/useUserHooks";
+import { PreferencesOption } from "../../../types/navigation";
+import { privacyOptions } from "../snapshotPrivacyDialog/SnapshotPrivacyDialog";
+import { SnapshotPrivacy } from "../../../gql/graphql";
+import SnapshotPrivacyDialog from "../snapshotPrivacyDialog/SnapshotPrivacyDialog";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { useUserPreferences } from "../../../hooks/react-query/useQueryHooks";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 const getPrivacyLabel = (privacy: SnapshotPrivacy | undefined): string => {
     const option = privacyOptions.find((opt) => opt.value === privacy);

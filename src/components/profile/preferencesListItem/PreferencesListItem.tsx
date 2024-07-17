@@ -6,10 +6,10 @@ import {
     ViewStyle,
 } from "react-native";
 
-import CustomPressable from "../../../shared/customPressable/CustomPressable";
+import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import { PreferencesOption } from "../../../../types/navigation";
-import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
+import { PreferencesOption } from "../../../types/navigation";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { Divider, Icon } from "@ui-kitten/components";
 
 export interface PreferencesListItemProps {

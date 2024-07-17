@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-import ConfirmationDialog from "../../../shared/confirmationDialog/ConfirmationDialog";
+import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
-import { dispatchSetUserLocalData } from "../../../../state/storeUtils";
+import { dispatchSetUserLocalData } from "../../../state/storeUtils";
 
 import PreferencesListItem from "../preferencesListItem/PreferencesListItem";
-import { PreferencesOption } from "../../../../types/navigation";
-import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
-import { useTrackSnapshots } from "../../../../hooks/redux/useSelectorHooks";
+import { PreferencesOption } from "../../../types/navigation";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { useTrackSnapshots } from "../../../hooks/redux/useSelectorHooks";
 
 export const DISABLE_TRACKING_CONFIRMATION_TITLE =
     "Are you sure you want to disable Snapshot tracking?";

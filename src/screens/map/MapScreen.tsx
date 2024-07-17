@@ -10,7 +10,7 @@ import JamMemBottomModal from "../../components/jamMems/jamMemBottomModal/JamMem
 import MapBottomSheet from "../../components/mapBottomSheet/MapBottomSheet";
 import { MapContextProvider } from "../../hooks/context/MapContext";
 import { ModalProvider } from "../../hooks/context/ModalContext";
-import PreferencesBottomModal from "../../components/profile/preferences/preferencesBottomModal/PreferencesBottomModal";
+import PreferencesBottomModal from "../../components/profile/preferencesBottomModal/PreferencesBottomModal";
 import ProfileBottomModal from "../../components/profile/profileBottomModal/ProfileBottomModal";
 import SearchResultsBottomModal from "../../components/map/searchResultsBottomModal/SearchResultsBottomModal";
 import SentRequestsBottomModal from "../../components/friends/sentRequestsBottomModal/SentRequestsBottomModal";

@@ -10,7 +10,7 @@ import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDial
 import {
     DISABLE_TRACKING_CONFIRMATION_DESCRIPTION,
     DISABLE_TRACKING_CONFIRMATION_TITLE,
-} from "../../profile/preferences/trackSnapshots/TrackSnapshots";
+} from "../../profile/trackSnapshots/TrackSnapshots";
 import { dispatchSetUserLocalData } from "../../../state/storeUtils";
 import { Icon } from "@ui-kitten/components";
 import PlayAnimation from "../playAnimation/PlayAnimation";
