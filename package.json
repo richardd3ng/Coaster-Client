@@ -9,7 +9,8 @@
         "web": "expo start --web",
         "ts:check": "tsc",
         "preinstall": "npx only-allow pnpm",
-        "postinstall": "patch-package"
+        "postinstall": "patch-package",
+        "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\""
     },
     "dependencies": {
         "@eva-design/eva": "^2.2.0",
@@ -74,12 +75,25 @@
         "@types/react-native": "^0.73.0",
         "@types/react-native-app-link": "^1.0.2",
         "@types/supercluster": "^7.1.3",
+        "husky": "^9.0.11",
+        "lint-staged": "^15.2.7",
         "patch-package": "^8.0.0",
+        "prettier": "^3.3.3",
         "react-native-dotenv": "^3.4.11",
         "typescript": "^5.5.3"
     },
     "private": true,
     "pnpm": {
         "strict-peer-dependencies": false
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "**/*.{js,jsx,ts,tsx,json,md}": [
+            "prettier --write"
+        ]
     }
 }
