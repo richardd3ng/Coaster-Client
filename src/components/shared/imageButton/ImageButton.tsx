@@ -1,5 +1,8 @@
 import { Button, ButtonProps } from "@ui-kitten/components";
-import { Image, ImageStyle, StyleProp, ViewStyle } from "react-native";
+import { ImageStyle, StyleProp, ViewStyle } from "react-native";
+import FastImage, {
+    ImageStyle as FastImageStyle,
+} from "react-native-fast-image";
 
 import createStyles from "./styles";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
@@ -23,7 +26,13 @@ const ImageButton: React.FC<ImageButtonProps> = ({
             style={style || styles.button}
             appearance="ghost"
             accessoryLeft={() => (
-                <Image source={{ uri }} style={imageStyle || styles.button} />
+                <FastImage
+                    source={{ uri }}
+                    style={
+                        (imageStyle as StyleProp<FastImageStyle>) ||
+                        (styles.button as StyleProp<FastImageStyle>)
+                    }
+                />
             )}
             {...buttonProps}
         />
