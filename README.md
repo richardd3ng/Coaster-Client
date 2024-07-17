@@ -26,6 +26,7 @@ Note: deep-linking capabilities aren't enabled on the simulator (i.e. opening ot
 2. Install iOS on XCode (takes ~1 hour): XCode > Settings > Platforms > iOS
 3. In the project root, run `npx expo run:ios`
 4. You can press `shift + i` in the Expo CLI to interactively select a simulator to open
+5. To add additional simulator devices, see [this guide](https://developer.apple.com/documentation/safari-developer-tools/adding-additional-simulators)
 
 ### Prebuilding
 1. See [Expo Prebuild](https://docs.expo.dev/workflow/prebuild/) if you need to generate native code for the project (Note: not a common workflow, ask beforehand if necessary)
