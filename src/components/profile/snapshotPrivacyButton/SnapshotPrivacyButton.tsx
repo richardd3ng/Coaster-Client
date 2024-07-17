@@ -1,12 +1,10 @@
 import { useState } from "react";
 
-import createStyles from "./styles";
 import PreferencesListItem from "../preferencesListItem/PreferencesListItem";
 import { PreferencesOption } from "../../../types/navigation";
 import { privacyOptions } from "../snapshotPrivacyDialog/SnapshotPrivacyDialog";
 import { SnapshotPrivacy } from "../../../gql/graphql";
 import SnapshotPrivacyDialog from "../snapshotPrivacyDialog/SnapshotPrivacyDialog";
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { useUserPreferences } from "../../../hooks/react-query/useQueryHooks";
 import { useUserId } from "../../../hooks/useUserHooks";
 
@@ -15,8 +13,7 @@ const getPrivacyLabel = (privacy: SnapshotPrivacy | undefined): string => {
     return option ? option.label : "Everyone";
 };
 
-const SnapshotPrivacyComponent: React.FC = () => {
-    const styles = useThemeAwareObject(createStyles);
+const SnapshotPrivacyButton: React.FC = () => {
     const [showDialog, setShowDialog] = useState<boolean>(false);
     const currentUserId = useUserId();
     const {
@@ -32,8 +29,6 @@ const SnapshotPrivacyComponent: React.FC = () => {
                 onPress={() => setShowDialog(true)}
                 value={getPrivacyLabel(preferences?.snapshotPrivacy)}
                 isPending={isLoading || isPending}
-                style={styles.toggledListItem}
-                hideDivider
             />
             <SnapshotPrivacyDialog
                 open={showDialog}
@@ -43,4 +38,4 @@ const SnapshotPrivacyComponent: React.FC = () => {
     );
 };
 
-export default SnapshotPrivacyComponent;
+export default SnapshotPrivacyButton;

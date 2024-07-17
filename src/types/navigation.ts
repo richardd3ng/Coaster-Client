@@ -41,4 +41,5 @@ export enum ProfileOption {
 export enum PreferencesOption {
     TrackSnapshots = "Track Snapshots",
     SnapshotPrivacy = "Snapshot Privacy",
+    SnapshotRetention = "Snapshot Retention",
 }

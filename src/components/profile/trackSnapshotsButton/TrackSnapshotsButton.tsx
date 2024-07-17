@@ -15,7 +15,7 @@ export const DISABLE_TRACKING_CONFIRMATION_TITLE =
 export const DISABLE_TRACKING_CONFIRMATION_DESCRIPTION =
     "This will disable tracking of your location and recently-played songs. The map will still follow your location, but nothing will be recorded.";
 
-const TrackSnapshots: React.FC = () => {
+const TrackSnapshotsButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfiramtionDialog, setShowConfirmationDialog] =
         useState<boolean>(false);
@@ -51,4 +51,4 @@ const TrackSnapshots: React.FC = () => {
     );
 };
 
-export default TrackSnapshots;
+export default TrackSnapshotsButton;
