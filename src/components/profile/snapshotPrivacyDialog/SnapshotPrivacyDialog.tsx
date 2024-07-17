@@ -10,7 +10,7 @@ import { SnapshotPrivacy } from "../../../gql/graphql";
 import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToUpdatePreferences } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import useCurrentUser from "../../../hooks/useCurrentUser";
+import { useUserId } from "../../../hooks/useUserHooks";
 import { useUserPreferences } from "../../../hooks/react-query/useQueryHooks";
 
 interface SnapshotPrivacyDialogProps {
@@ -29,7 +29,7 @@ const SnapshotPrivacyDialog: React.FC<SnapshotPrivacyDialogProps> = ({
     onClose,
 }: SnapshotPrivacyDialogProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const userId = useCurrentUser().id;
+    const userId = useUserId();
     const { data: preferences } = useUserPreferences(userId);
 
     const [selectedPrivacy, setSelectedPrivacy] = useState<SnapshotPrivacy>(

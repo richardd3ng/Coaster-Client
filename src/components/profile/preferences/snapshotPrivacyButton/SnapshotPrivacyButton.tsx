@@ -6,9 +6,9 @@ import { PreferencesOption } from "../../../../types/navigation";
 import { privacyOptions } from "../../snapshotPrivacyDialog/SnapshotPrivacyDialog";
 import { SnapshotPrivacy } from "../../../../gql/graphql";
 import SnapshotPrivacyDialog from "../../snapshotPrivacyDialog/SnapshotPrivacyDialog";
-import useCurrentUser from "../../../../hooks/useCurrentUser";
 import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
 import { useUserPreferences } from "../../../../hooks/react-query/useQueryHooks";
+import { useUserId } from "../../../../hooks/useUserHooks";
 
 const getPrivacyLabel = (privacy: SnapshotPrivacy | undefined): string => {
     const option = privacyOptions.find((opt) => opt.value === privacy);
@@ -18,7 +18,7 @@ const getPrivacyLabel = (privacy: SnapshotPrivacy | undefined): string => {
 const SnapshotPrivacyComponent: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const [showDialog, setShowDialog] = useState<boolean>(false);
-    const currentUserId = useCurrentUser().id;
+    const currentUserId = useUserId();
     const {
         data: preferences,
         isLoading,

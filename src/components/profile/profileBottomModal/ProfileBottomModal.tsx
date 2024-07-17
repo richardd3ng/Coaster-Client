@@ -12,14 +12,15 @@ import {
 } from "../../../hooks/context/ModalContext";
 import ProfileIconButton from "../profileIconButton/ProfileIconButton";
 import ProfileList from "../profileList/ProfileList";
-import useCurrentUser from "../../../hooks/useCurrentUser";
+import { useDisplayName, useUsername } from "../../../hooks/useUserHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const ProfileBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const { ref, dismiss, isVisible } = useProfileModal();
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[1]], []);
-    const user = useCurrentUser();
+    const displayName = useDisplayName();
+    const username = useUsername();
 
     const handleSheetChanges = useCallback(
         (index: number) => {
@@ -38,17 +39,13 @@ const ProfileBottomModal: React.FC = () => {
                     imageStyle={styles.profileIconButton}
                 />
                 <View style={styles.textContainer}>
-                    <Text style={styles.displayNameText}>
-                        {user?.displayName ?? "Guest"}
-                    </Text>
-                    <Text style={styles.usernameText}>
-                        {user?.username ?? "Guest"}
-                    </Text>
+                    <Text style={styles.displayNameText}>{displayName}</Text>
+                    <Text style={styles.usernameText}>{username}</Text>
                 </View>
                 <CloseButton onPress={dismiss} />
             </View>
         ),
-        [styles, user, dismiss]
+        [styles, displayName, username, dismiss]
     );
 
     return (

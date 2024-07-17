@@ -11,16 +11,16 @@ import {
     useFriends,
     useJamMem,
 } from "../../../hooks/react-query/useQueryHooks";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useJamMemModal } from "../../../hooks/context/ModalContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 const AddFriendButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const [showDialog, setShowDialog] = useState<boolean>(false);
     const { value: selectedJamMemId } = useJamMemModal();
     const { data: jamMem } = useJamMem(selectedJamMemId);
-    const currentUserId = useCurrentUser().id;
+    const currentUserId = useUserId();
     const { data: friends } = useFriends(currentUserId);
 
     const getFriendsNotInJamMem = useCallback((): UserInfoFragment[] => {

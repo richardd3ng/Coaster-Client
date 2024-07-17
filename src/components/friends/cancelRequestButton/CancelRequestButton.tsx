@@ -5,11 +5,11 @@ import { ActivityIndicator, View } from "react-native";
 import CloseButton from "../../shared/closeButton/CloseButton";
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useMutationToCancelRequest } from "../../../hooks/react-query/useMutationHooks";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 interface CancelRequestButtonProps {
     user: UserInfoFragment;
@@ -20,7 +20,7 @@ const CancelRequestButton: React.FC<CancelRequestButtonProps> = ({
 }: CancelRequestButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
-    const currentUserId = useCurrentUser().id;
+    const currentUserId = useUserId();
     const {
         mutate: cancelRequest,
         isPending,

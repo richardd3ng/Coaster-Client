@@ -18,10 +18,19 @@ import {
 } from "../../api/jamMemAPI";
 import { clearSnapshotHistory } from "../../api/snapshotAPI";
 import { createPlaylistFromSongIds } from "../../api/songAPI";
-import { dispatchSetCurrentUser } from "../../state/storeUtils";
+import { dispatchSetUserServerData } from "../../state/storeUtils";
+import { fetchAuthLogin } from "../../api/authAPI";
 import { openInSpotify } from "../../utils/spotifyUtils";
 import { queryKeys } from "./useQueryHooks";
 import { SnapshotPrivacy } from "../../gql/graphql";
+
+/* Auth */
+export const useAuthLogin = () => {
+    return useMutation({
+        mutationFn: ({ code, state }: { code: string; state: string }) =>
+            fetchAuthLogin({ code, state }),
+    });
+};
 
 /* Jam Mems */
 export const useMutationToCreateJamMem = () => {
@@ -136,7 +145,7 @@ export const useMutationToUpdatePreferences = () => {
 export const useMutationToUpdateProfile = () => {
     return useMutation({
         mutationFn: updateProfile,
-        onSuccess: dispatchSetCurrentUser,
+        onSuccess: dispatchSetUserServerData
     });
 };
 

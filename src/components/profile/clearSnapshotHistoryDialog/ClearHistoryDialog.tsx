@@ -9,7 +9,7 @@ import LoadingModal from "../../shared/loadingModal/LoadingModal";
 import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToClearSnapshotHistory } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import useCurrentUser from "../../../hooks/useCurrentUser";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 interface ClearSnapshotHistoryDialogProps {
     open: boolean;
@@ -21,7 +21,7 @@ const ClearSnapshotHistoryDialog: React.FC<ClearSnapshotHistoryDialogProps> = ({
     onClose,
 }: ClearSnapshotHistoryDialogProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const userId = useCurrentUser().id;
+    const userId = useUserId();
     const timeframes = useMemo(
         () => ["Last hour", "Today", "Today and yesterday", "All history"],
         []

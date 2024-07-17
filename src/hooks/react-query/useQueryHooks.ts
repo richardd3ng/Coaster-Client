@@ -16,7 +16,7 @@ import { fetchAndLoadSongPoints } from "../../api/snapshotAPI";
 import { fetchJamMem, fetchJamMemMetadatasByUser } from "../../api/jamMemAPI";
 import { fetchSong } from "../../api/songAPI";
 import { SnapshotPrivacy } from "../../gql/graphql";
-import useCurrentUser from "../useCurrentUser";
+import { useUserId } from "../useUserHooks";
 
 export const queryKeys = {
     jamMem: (id: string) => ["jamMem", id],
@@ -52,11 +52,11 @@ export const useJamMemMetadatas = (userId: string) => {
 
 /* Clusters */
 export const useSongPoints = (filter: ClusterFilter) => {
-    const currentUserId = useCurrentUser().id;
+    const userId = useUserId();
 
     return useQuery({
         queryKey: queryKeys.songPoints(filter),
-        queryFn: () => fetchAndLoadSongPoints(currentUserId, filter),
+        queryFn: () => fetchAndLoadSongPoints(userId, filter),
         staleTime: () => {
             if ("searchFilter" in filter && filter.searchFilter) {
                 return 0;

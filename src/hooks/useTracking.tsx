@@ -4,8 +4,6 @@ import { Alert } from "react-native";
 import BackgroundGeolocation, {
     Location,
 } from "react-native-background-geolocation";
-import Toast from "react-native-toast-message";
-import { useSelector } from "react-redux";
 
 import {
     dispatchRecordLocationTimestamp,
@@ -19,8 +17,8 @@ import {
     POST_SNAPSHOTS_INTERVAL,
 } from "../constants/time";
 import { postSnapshots } from "../api/snapshotAPI";
-import { RootState } from "../state/store";
 import { showGeolocationErrorToast } from "../utils/toastUtils";
+import { useTrackSnapshots } from "./redux/useSelectorHooks";
 
 /**
  * Handles the update of the location timestamp. Records the location timestamp and posts snapshots if the history spans a long enough time period. postSnapshots() will only be called if the last attempted call was taken more than POST_SNAPSHOTS_COOLDOWN milliseconds ago (when errors occur).
@@ -51,11 +49,7 @@ const handleLocationUpdate = async (location: Location) => {
 };
 
 const useTracking = () => {
-    const tracking =
-        useSelector(
-            (state: RootState) =>
-                state.user.currentUser?.preferences.trackSnapshots
-        ) || false;
+    const trackSnapshots = useTrackSnapshots();
 
     const [isError, setIsError] = useState<boolean>(false);
 
@@ -75,7 +69,7 @@ const useTracking = () => {
             BackgroundGeolocation.stop();
         };
 
-        if (!tracking) {
+        if (!trackSnapshots) {
             stopTracking();
             return;
         }
@@ -121,7 +115,7 @@ const useTracking = () => {
         return () => {
             stopTracking();
         };
-    }, [tracking]);
+    }, [trackSnapshots]);
 };
 
 export default useTracking;

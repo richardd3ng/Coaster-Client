@@ -5,13 +5,13 @@ import createStyles from "./styles";
 import ErrorView from "../../shared/errorView/ErrorView";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import JamMemCarousel from "../jamMemCarousel/JamMemCarousel";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useJamMemMetadatas } from "../../../hooks/react-query/useQueryHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 const JamMemStack: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const currentUserId = useCurrentUser().id;
+    const currentUserId = useUserId();
     const {
         data: jamMemMetadatas,
         isLoading,

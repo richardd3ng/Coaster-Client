@@ -11,7 +11,7 @@ import {
     showFriendRequestAcceptedToast,
     showIncomingFriendRequestToast,
 } from "../utils/toastUtils";
-import useCurrentUser from "./useCurrentUser";
+import { useUserId } from "./useUserHooks";
 
 const eventHandlers = {
     incomingFriendRequest: (event: any, queryClient: QueryClient) => {
@@ -27,9 +27,9 @@ const eventHandlers = {
             queryClient.invalidateQueries({
                 queryKey: queryKeys.friends,
             });
-             queryClient.invalidateQueries({
-                 queryKey: queryKeys.sentRequests,
-             });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.sentRequests,
+            });
         }
         showFriendRequestAcceptedToast(JSON.parse(event.data));
     },
@@ -45,7 +45,7 @@ const RETRY_INTERVAL = 5000;
 
 const useServerSentEvents = () => {
     const retryCount = useRef(0);
-    const userId = useCurrentUser().id;
+    const userId = useUserId();
     const connectionId = useMemo(() => randomUUID(), []);
     const eventSourceRef = useRef<EventSource<CoasterEvents> | null>(null);
     const queryClient = useQueryClient();

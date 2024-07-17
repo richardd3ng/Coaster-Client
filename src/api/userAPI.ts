@@ -1,13 +1,19 @@
 import { formatError, parseErrorGraphQL } from "./errorUtils";
-import { FriendArgs, UserReduxState } from "../types/entities";
+import { FriendArgs } from "../types/entities";
 import { graphql } from "../gql";
 import { graphqlRequest } from "./client.graphql";
-import { SnapshotPrivacy, UserInfoFragment } from "../gql/graphql";
+import {
+    SnapshotPrivacy,
+    SnapshotRetention,
+    UserInfoFragment,
+    UserReduxStateFragment,
+} from "../gql/graphql";
 
 const fetchUserPreferencesQueryDocument = graphql(`
     query FetchUserPreferences($id: MongoID!) {
         userById(_id: $id) {
             snapshotPrivacy
+            snapshotRetention
         }
     }
 `);
@@ -22,6 +28,7 @@ export const fetchPreferences = async (id: string) => {
         const response = await graphqlRequest<{
             userById: {
                 snapshotPrivacy: SnapshotPrivacy;
+                snapshotRetention: SnapshotRetention;
             };
         }>(fetchUserPreferencesQueryDocument, { id });
         return response.userById;
@@ -40,7 +47,10 @@ const updateUserPreferencesMutationDocument = graphql(`
 `);
 interface UpdatePreferencesArgs {
     id: string;
-    record: { snapshotPrivacy?: SnapshotPrivacy };
+    record: {
+        snapshotPrivacy?: SnapshotPrivacy;
+        snapshotRetention?: SnapshotRetention;
+    };
 }
 /**
  * Updates a user's preferences
@@ -70,12 +80,7 @@ export const updatePreferences = async ({
 const updateUserProfileMutationDocument = graphql(`
     mutation UpdateUserProfile($id: MongoID!, $record: UserUpdateInput!) {
         userUpdateById(_id: $id, record: $record) {
-            _id
-            spotifyId
-            username
-            displayName
-            profileUrl
-            snapshotPrivacy
+            ...UserReduxState
         }
     }
 `);
@@ -90,31 +95,15 @@ interface UpdateProfileArgs {
 export const updateProfile = async ({
     id,
     record,
-}: UpdateProfileArgs): Promise<UserReduxState> => {
+}: UpdateProfileArgs): Promise<UserReduxStateFragment> => {
     try {
         const response = await graphqlRequest<{
-            userUpdateById: {
-                _id: string;
-                spotifyId: string;
-                username: string;
-                displayName: string;
-                profileUrl: string;
-                snapshotPrivacy: boolean;
-            };
+            userUpdateById: UserReduxStateFragment;
         }>(updateUserProfileMutationDocument, {
             id,
             record,
         });
-        return {
-            id: response.userUpdateById._id,
-            spotifyId: response.userUpdateById.spotifyId,
-            username: response.userUpdateById.username,
-            displayName: response.userUpdateById.displayName,
-            profileUrl: response.userUpdateById.profileUrl,
-            preferences: {
-                trackSnapshots: response.userUpdateById.snapshotPrivacy,
-            },
-        };
+        return response.userUpdateById;
     } catch (error: any) {
         const graphqlError = parseErrorGraphQL(error);
         if (

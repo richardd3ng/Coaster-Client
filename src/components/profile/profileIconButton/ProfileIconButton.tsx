@@ -6,8 +6,8 @@ import { ImageStyle, StyleProp, ViewStyle } from "react-native";
 import createStyles from "./styles";
 import IconButton from "../../shared/iconButton/IconButton";
 import ImageButton from "../../shared/imageButton/ImageButton";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useProfileModal } from "../../../hooks/context/ModalContext";
+import { useProfileUrl } from "../../../hooks/redux/useSelectorHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface ProfileIconButtonProps extends ButtonProps {
@@ -22,17 +22,17 @@ const ProfileIconButton: React.FC<ProfileIconButtonProps> = ({
 }: ProfileIconButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
     const { present } = useProfileModal();
-    const user = useCurrentUser();
+    const profileUrl = useProfileUrl();
     const onPress = props.onPress || present;
 
     const buttonContent = useMemo(() => {
-        return user.profileUrl ? (
+        return profileUrl ? (
             <ImageButton
                 onPress={onPress}
                 style={style || styles.button}
-                uri={user.profileUrl}
+                uri={profileUrl}
                 imageStyle={imageStyle}
-            /> 
+            />
         ) : (
             <IconButton
                 onPress={present}
@@ -41,7 +41,7 @@ const ProfileIconButton: React.FC<ProfileIconButtonProps> = ({
                 iconColor={styles.icon.color}
             />
         );
-    }, [user]);
+    }, [profileUrl]);
 
     return buttonContent;
 };

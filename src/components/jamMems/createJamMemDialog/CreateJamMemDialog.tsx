@@ -16,7 +16,6 @@ import {
     JAM_MEM_COVER_WIDTH,
 } from "../../../constants/size";
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useFriends } from "../../../hooks/react-query/useQueryHooks";
 import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToCreateJamMem } from "../../../hooks/react-query/useMutationHooks";
@@ -25,6 +24,7 @@ import { validateJamMemInputs } from "../../../utils/validationUtils";
 import { useJamMemModal } from "../../../hooks/context/ModalContext";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 interface CreateJamMemDialogProps {
     open: boolean;
@@ -47,7 +47,7 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
     const { present: presentJamMemModal } = useJamMemModal();
     const { close: closeMapBottomSheet } = useMapBottomSheet();
     const { setClusterFilter } = useMapContext();
-    const currentUserId = useCurrentUser().id;
+    const currentUserId = useUserId();
     const { data: friends } = useFriends(currentUserId);
     const [name, setName] = useState<string>("");
     const [location, setLocation] = useState<string>("");

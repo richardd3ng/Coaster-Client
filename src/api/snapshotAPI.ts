@@ -9,8 +9,9 @@ import { createOrUpdateSong, fetchRecentlyPlayedSongs } from "./songAPI";
 import {
     dispatchClearHistory,
     dispatchSetLastSuccessfulSnapshotTimestamp,
-    getCurrentUserState,
     getHistoryState,
+    getUserId,
+    getUserSpotifyId,
 } from "../state/storeUtils";
 import { formatError } from "./errorUtils";
 import { getValidAccessToken } from "./tokenUtils";
@@ -262,16 +263,15 @@ export const clearSnapshotHistory = async ({
  */
 export const postSnapshots = async (): Promise<void> => {
     try {
-        const currentUser = getCurrentUserState();
-        if (!currentUser) {
+        const userId = getUserId();
+        const spotifyId = getUserSpotifyId();
+        if (!userId || !spotifyId) {
             throw new Error("No user logged in");
         }
         const locations = getHistoryState();
         if (locations.length === 0) {
             return;
         }
-        const userId = currentUser.id;
-        const spotifyId = currentUser.spotifyId;
         const accessToken = await getValidAccessToken(spotifyId);
         const recentlyPlayedSongs = await fetchRecentlyPlayedSongs(
             accessToken,
