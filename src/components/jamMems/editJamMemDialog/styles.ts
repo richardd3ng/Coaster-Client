@@ -15,7 +15,7 @@ const createStyles = (theme: Theme) => {
             paddingVertical: theme.spacing.base,
         },
         dateText: {
-            color: "gray",
+            color: theme.color.faded,
             fontSize: theme.size.mediumFont,
             paddingLeft: theme.spacing.double,
         },
@@ -23,7 +23,7 @@ const createStyles = (theme: Theme) => {
             paddingVertical: theme.spacing.base,
         },
         errorText: {
-            color: "red",
+            color: theme.color.danger,
             paddingBottom: theme.spacing.base,
         },
         imagePickerButton: {

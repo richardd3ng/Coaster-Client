@@ -9,12 +9,13 @@ import {
     useSearchResultsModal,
 } from "../../../hooks/context/ModalContext";
 import { dispatchSetSearchResult } from "../../../state/storeUtils";
-import { SocialFilter } from "../../../types/filters";
+import { SnapshotPrivacy } from "../../../gql/graphql";
+import { Text } from "react-native";
+import useClusters from "../../../hooks/useClusters";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { Text } from "react-native";
 import { useSearchResult } from "../../../hooks/redux/useSelectorHooks";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const SearchResultsBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
@@ -23,6 +24,7 @@ const SearchResultsBottomModal: React.FC = () => {
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS.slice(0, 2), []);
     const searchResult = useSearchResult();
+    const { songPoints } = useClusters(null, clusterFilter);
 
     const handleDismiss = () => {
         dispatchSetSearchResult(null);
@@ -30,7 +32,7 @@ const SearchResultsBottomModal: React.FC = () => {
         setMapBottomSheetSnapIndex(0);
         setClusterFilter({
             type: clusterFilter.type,
-            value: clusterFilter.value as SocialFilter,
+            value: clusterFilter.value as SnapshotPrivacy, 
         });
     };
 
@@ -41,11 +43,13 @@ const SearchResultsBottomModal: React.FC = () => {
             snapPoints={snapPoints}
         >
             <BottomModalTopRow
-                headerText="Search Results"
+                headerText={`Search Results (${clusterFilter.value})`}
                 modalType={ModalType.SearchResults}
             />
             <Text style={styles.text}>
-                {`Clusters matching search "${searchResult?.name}" (${searchResult?.type})`}
+                {`Found ${songPoints?.length ?? 0} snapshots matching search "${
+                    searchResult?.name
+                }" (${searchResult?.type})`}
             </Text>
         </BottomModal>
     );

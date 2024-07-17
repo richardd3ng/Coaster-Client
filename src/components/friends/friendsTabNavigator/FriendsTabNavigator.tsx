@@ -16,12 +16,12 @@ import FriendsScrollView from "../friendsScrollView/FriendsScrollView";
 import { FriendsTabName, FriendsTabParamList } from "../../../types/navigation";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import ErrorView from "../../shared/errorView/ErrorView";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import {
     useFriends,
     usePendingRequests,
 } from "../../../hooks/react-query/useQueryHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 const { Navigator, Screen } =
     createMaterialTopTabNavigator<FriendsTabParamList>();
@@ -42,7 +42,7 @@ const FriendsTabNavigator: React.FC<FriendsTabNavigatorProps> = ({
     initialRouteName,
 }: FriendsTabNavigatorProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const currentUserId = useCurrentUser().id;
+    const currentUserId = useUserId();
     const {
         data: friends,
         isFetching: isFetchingFriends,

@@ -9,11 +9,13 @@ export enum ToastType {
 }
 
 const toastConfig: ToastConfig = {
-    [ToastType.Error]: (props) => (
-        <ErrorToast {...props} />
-    ),
+    [ToastType.Error]: (props) => <ErrorToast {...props} />,
     [ToastType.Friend]: (props) => (
-        <FriendToast {...props} profileUrl={props.props?.profileUrl} />
+        <FriendToast
+            {...props}
+            profileUrl={props.props?.profileUrl}
+            tabName={props.props?.tabName}
+        />
     ),
 };
 

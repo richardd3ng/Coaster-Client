@@ -4,15 +4,18 @@ import {
     clearHistoryAction,
     recordLocationTimestampAction,
     setCurrentRegionAction,
-    setCurrentUserAction,
+    setUserLocalDataAction,
+    setUserServerDataAction,
     setCurrentlyPlayingSongIdAction,
     setLastAttemptedSnapshotTimestampAction,
     setLastSuccessfulSnapshotTimestampAction,
     setSearchResultAction,
+    logOutUserAction,
 } from "./actions";
-import { LocationTimestamp, UserReduxState } from "../types/entities";
+import { LocalUserState } from "./user/userSlice";
+import { LocationTimestamp } from "../types/entities";
 import store from "./store";
-import { SearchResult } from "../gql/graphql";
+import { SearchResult, UserReduxStateFragment } from "../gql/graphql";
 
 /* dispatchers */
 export const dispatchRecordLocationTimestamp = (
@@ -24,6 +27,10 @@ export const dispatchRecordLocationTimestamp = (
 export const dispatchClearHistory = () => {
     store.dispatch(clearHistoryAction());
 };
+
+export const dispatchLogOutUser = () => {
+    store.dispatch(logOutUserAction());
+}
 
 export const dispatchSetLastAttemptedSnapshotTimestamp = (
     timestamp: number
@@ -41,8 +48,16 @@ export const dispatchSetCurrentRegion = (region: Region) => {
     store.dispatch(setCurrentRegionAction(region));
 };
 
-export const dispatchSetCurrentUser = (user: UserReduxState | null) => {
-    store.dispatch(setCurrentUserAction(user));
+export const dispatchSetUserLocalData = (
+    userLocalData: Partial<LocalUserState>
+) => {
+    store.dispatch(setUserLocalDataAction(userLocalData));
+};
+
+export const dispatchSetUserServerData = (
+    userServerData: UserReduxStateFragment
+) => {
+    store.dispatch(setUserServerDataAction(userServerData));
 };
 
 export const dispatchSetCurrentlyPlayingSongId = (songId: string) => {
@@ -51,9 +66,9 @@ export const dispatchSetCurrentlyPlayingSongId = (songId: string) => {
 
 export const dispatchSetSearchResult = (searchResult: SearchResult | null) => {
     store.dispatch(setSearchResultAction(searchResult));
-}
+};
 
-/* accessors (Note: generally use useSelector() if inside a component) */ 
+/* accessors (Note: generally use useSelector() if inside a component) */
 export const getHistoryState = (): LocationTimestamp[] => {
     return store.getState().location.history;
 };
@@ -70,10 +85,14 @@ export const getCurrentRegionState = (): Region | null => {
     return store.getState().location.currentRegion;
 };
 
-export const getCurrentUserState = (): UserReduxState | null => {
-    return store.getState().user.currentUser;
-};
-
 export const getCurrentPlayingSongIdState = (): string => {
     return store.getState().song.currentlyPlayingSongId;
+};
+
+export const getUserId = (): string | null => {
+    return store.getState().user.userServerData?._id ?? null;
+};
+
+export const getUserSpotifyId = (): string | null => {
+    return store.getState().user.userServerData?.spotifyId ?? null;
 };

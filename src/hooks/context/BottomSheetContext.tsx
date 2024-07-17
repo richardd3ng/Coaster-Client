@@ -34,10 +34,6 @@ const createBottomSheetContext = (bottomSheetType: BottomSheetType) => {
             if (bottomSheet) {
                 bottomSheet.snapToIndex(index);
                 setSnapIndexState(index);
-            } else {
-                console.warn(
-                    `No BottomSheet found for type ${BottomSheetType[bottomSheetType]}`
-                );
             }
         }, []);
 
@@ -45,10 +41,6 @@ const createBottomSheetContext = (bottomSheetType: BottomSheetType) => {
             const bottomSheet = ref.current;
             if (bottomSheet) {
                 bottomSheet.close();
-            } else {
-                console.warn(
-                    `No BottomSheet found for type ${BottomSheetType[bottomSheetType]}`
-                );
             }
         }, []);
 

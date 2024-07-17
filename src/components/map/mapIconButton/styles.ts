@@ -9,7 +9,7 @@ const createStyles = (theme: Theme) => {
             height: theme.size.xlargeAsset,
             width: theme.size.xlargeAsset,
             backgroundColor: "#FAF9F6",
-            borderColor: "gray",
+            borderColor: theme.color.faded,
             marginTop: theme.spacing.base,
             borderRadius: theme.border.radiusSecondary,
         },

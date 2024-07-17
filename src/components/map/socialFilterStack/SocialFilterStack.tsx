@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { View } from "react-native";
 
 import MapIconButton from "../mapIconButton/MapIconButton";
-import { SocialFilter } from "../../../types/filters";
+import { SnapshotPrivacy } from "../../../gql/graphql";
 import styles from "./styles";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import { useJamMemModal } from "../../../hooks/context/ModalContext";
@@ -12,7 +12,7 @@ const SocialFilterStack: React.FC = () => {
     const { clusterFilter, setClusterFilter } = useMapContext();
     const { value: selectedJamMemId } = useJamMemModal();
 
-    const createFilterHandler = (value: SocialFilter) => () => {
+    const createFilterHandler = (value: SnapshotPrivacy) => () => {
         setClusterFilter({
             type: "social",
             value,
@@ -24,9 +24,9 @@ const SocialFilterStack: React.FC = () => {
     };
 
     const filterButtons = [
-        { name: "person", filter: SocialFilter.Me },
-        { name: "people", filter: SocialFilter.Friends },
-        { name: "globe-2", filter: SocialFilter.Global },
+        { name: "person", filter: SnapshotPrivacy.Me },
+        { name: "people", filter: SnapshotPrivacy.Friends },
+        { name: "globe-2", filter: SnapshotPrivacy.Everyone },
     ];
 
     return useMemo(() => {

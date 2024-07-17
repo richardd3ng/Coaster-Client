@@ -1,4 +1,4 @@
-import { SearchFilter, SearchResultType } from "../gql/graphql";
+import { SearchFilter, SnapshotPrivacy } from "../gql/graphql";
 
 export enum DateFilter {
     None,
@@ -7,14 +7,8 @@ export enum DateFilter {
     Year,
 }
 
-export enum SocialFilter {
-    Me = "Me",
-    Friends = "Friends",
-    Global = "Global",
-}
-
 export type ClusterFilter =
-    | { type: "social"; value: SocialFilter; searchFilter?: SearchFilter }
+    | { type: "social"; value: SnapshotPrivacy; searchFilter?: SearchFilter }
     | { type: "jamMem"; value: string };
 
 export const getFilterKey = (filter: ClusterFilter): string => {

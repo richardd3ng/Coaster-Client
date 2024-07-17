@@ -4,23 +4,27 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        errorLoadingContainer: {
-            position: "absolute",
-            top: "12.5%",
-            left: 0,
-            right: 0,
-            justifyContent: "center",
-            alignItems: "center",
-        },
         headerText: {
-            color: "#6E6E6E",
+            color: theme.color.faded,
+            fontSize: theme.size.xlargeFont,
+            paddingHorizontal: theme.spacing.double,
+            paddingBottom: theme.spacing.double,
+        },
+        myJamMemsText: {
+            color: theme.color.faded,
             fontSize: theme.size.mediumFont,
+            paddingHorizontal: theme.spacing.double,
+        },
+        sharedJamMemsText: {
+            color: theme.color.faded,
+            fontSize: theme.size.mediumFont,
+            paddingTop: theme.spacing.double,
+            paddingBottom: theme.spacing.base,
             paddingHorizontal: theme.spacing.double,
         },
         jamSessionStack: {
             flex: 1,
             paddingTop: 20, // only show top row when at snap index 0, space feels a bit awkward tho
-            flexDirection: "column",
             width: "100%",
         },
     });

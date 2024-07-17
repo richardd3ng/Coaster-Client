@@ -8,6 +8,7 @@ export interface ColorTheme {
     backgroundDanger: string;
     primary: string;
     danger: string;
+    faded: string;
 }
 
 export interface SizeTheme {

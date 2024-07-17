@@ -9,11 +9,14 @@ const createStyles = (theme: Theme) => {
         },
         artistText: {
             fontSize: theme.size.smallFont,
-            color: "gray",
+            color: theme.color.faded,
         },
         container: {
             flexDirection: "row",
             paddingHorizontal: theme.spacing.double,
+        },
+        icon: {
+            color: theme.color.faded,
         },
         iconContainer: {
             flex: 1,
@@ -26,7 +29,7 @@ const createStyles = (theme: Theme) => {
             alignItems: "center",
         },
         errorText: {
-            color: "gray",
+            color: theme.color.faded,
         },
         frequencyContainer: {
             flex: 4,
@@ -66,7 +69,7 @@ const createStyles = (theme: Theme) => {
         nameContainer: {
             flexDirection: "row",
             alignItems: "center",
-            height: 20,
+            height: theme.size.xsmallAsset,
         },
         nameText: {
             flex: 1,

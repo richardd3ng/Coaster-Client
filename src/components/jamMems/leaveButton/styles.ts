@@ -1,0 +1,30 @@
+import { StyleSheet } from "react-native";
+
+import { Theme } from "../../../types/theme";
+
+const createStyles = (theme: Theme) => {
+    return StyleSheet.create({
+        container: {
+            flexDirection: "row",
+            alignItems: "center",
+            padding: theme.spacing.base,
+            marginTop: theme.spacing.base,
+            marginHorizontal: theme.spacing.double,
+            marginBottom: theme.spacing.double,
+            backgroundColor: "white",
+            borderRadius: theme.border.radiusSecondary,
+        },
+        icon: {
+            width: theme.size.largeAsset,
+            height: theme.size.largeAsset,
+            color: theme.color.danger,
+        },
+        text: {
+            color: theme.color.danger,
+            paddingLeft: theme.spacing.base / 2,
+            fontSize: theme.size.largeFont,
+        },
+    });
+};
+
+export default createStyles;

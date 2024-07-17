@@ -20,7 +20,7 @@ const createStyles = (theme: Theme) => {
             fontSize: theme.size.smallFont,
         },
         questionIcon: {
-            color: "gray",
+            color: theme.color.faded,
             height: theme.size.xsmallAsset,
             width: theme.size.xsmallAsset,
         },

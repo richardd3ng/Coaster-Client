@@ -10,7 +10,7 @@ import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface FriendsListItemProps {
     user: UserInfoFragment;
-    leftComponent: ReactElement;
+    leftComponent?: ReactElement;
     rightComponent?: ReactElement;
 }
 

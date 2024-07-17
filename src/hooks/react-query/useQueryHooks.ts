@@ -1,6 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { ClusterFilter, SocialFilter, getFilterKey } from "../../types/filters";
+import { ClusterFilter, getFilterKey } from "../../types/filters";
+import {
+    CLUSTERS_QUERY_STALE_TIME,
+    JAM_MEM_QUERY_STALE_TIME,
+    PENDING_REQUESTS_QUERY_STALE_TIME,
+} from "../../constants/time";
 import {
     fetchFriends,
     fetchPendingRequests,
@@ -8,19 +13,31 @@ import {
     fetchSentRequests,
 } from "../../api/userAPI";
 import { fetchAndLoadSongPoints } from "../../api/snapshotAPI";
-import { fetchJamMem, fetchJamMemMetadatasByUser } from "../../api/jamMemAPI";
+import { fetchJamMem, fetchJamMemMetadatasByUser, fetchJamMemMetadatasByUserShared } from "../../api/jamMemAPI";
 import { fetchSong } from "../../api/songAPI";
-import {
-    CLUSTERS_QUERY_STALE_TIME,
-    JAM_MEM_QUERY_STALE_TIME,
-    PENDING_REQUESTS_QUERY_STALE_TIME,
-} from "../../constants/time";
-import useCurrentUser from "../useCurrentUser";
+import { SnapshotPrivacy } from "../../gql/graphql";
+import { useUserId } from "../useUserHooks";
+
+export const queryKeys = {
+    jamMem: (id: string) => ["jamMem", id],
+    jamMemMetadatas: ["jamMemMetadatas"],
+    jamMemMetadatasShared: ["jamMemMetadatasShared"],
+    songPoints: (filter: ClusterFilter) => [
+        "songPoints",
+        ...getFilterKey(filter),
+    ],
+    song: (id: string) => ["song", id],
+    userPreferences: ["userPreferences"],
+    friends: ["friends"],
+    pendingRequests: ["pendingRequests"],
+    sentRequests: ["sentRequests"],
+    moreResults: (query: string) => ["moreResults", query],
+};
 
 /* Jam Mems */
 export const useJamMem = (id: string) => {
     return useQuery({
-        queryKey: getQueryKeyForUseJamMem(id),
+        queryKey: queryKeys.jamMem(id),
         queryFn: () => fetchJamMem(id),
         staleTime: JAM_MEM_QUERY_STALE_TIME,
     });
@@ -28,32 +45,35 @@ export const useJamMem = (id: string) => {
 
 export const useJamMemMetadatas = (userId: string) => {
     return useQuery({
-        queryKey: getQueryKeyForUseJamMemMetadatas(),
+        queryKey: queryKeys.jamMemMetadatas,
         queryFn: () => fetchJamMemMetadatasByUser(userId),
         staleTime: Infinity,
     });
 };
 
-export const getQueryKeyForUseJamMem = (id: string) => {
-    return ["jamMem", id];
-};
-
-export const getQueryKeyForUseJamMemMetadatas = () => {
-    return ["jamMemMetadatas"];
-};
+export const useJamMemMetadatasShared = (userId: string) => {
+    return useQuery({
+        queryKey: queryKeys.jamMemMetadatasShared,
+        queryFn: () => fetchJamMemMetadatasByUserShared(userId),
+        staleTime: Infinity,
+    });
+}
 
 /* Clusters */
 export const useSongPoints = (filter: ClusterFilter) => {
-    const currentUserId = useCurrentUser().id;
+    const userId = useUserId();
 
     return useQuery({
-        queryKey: getQueryKeyForUseSongPointsWithFilter(filter),
-        queryFn: () => fetchAndLoadSongPoints(currentUserId, filter),
+        queryKey: queryKeys.songPoints(filter),
+        queryFn: () => fetchAndLoadSongPoints(userId, filter),
         staleTime: () => {
             if ("searchFilter" in filter && filter.searchFilter) {
                 return 0;
             }
-            if (filter.type === "social" && filter.value === SocialFilter.Me) {
+            if (
+                filter.type === "social" &&
+                filter.value === SnapshotPrivacy.Me
+            ) {
                 return Infinity;
             }
             return CLUSTERS_QUERY_STALE_TIME;
@@ -61,35 +81,19 @@ export const useSongPoints = (filter: ClusterFilter) => {
     });
 };
 
-export const getQueryKeyForUseSongPoints = () => {
-    return ["songPoints"];
-};
-
-export const getQueryKeyForUseSongPointsWithFilter = (
-    filter: ClusterFilter
-) => {
-    let key = getQueryKeyForUseSongPoints();
-    key = key.concat(getFilterKey(filter));
-    return key;
-};
-
 /* Songs */
 export const useSong = (id: string) => {
     return useQuery({
-        queryKey: getQueryKeyForUseSong(id),
+        queryKey: queryKeys.song(id),
         queryFn: () => fetchSong(id),
         staleTime: Infinity,
     });
 };
 
-export const getQueryKeyForUseSong = (id: string) => {
-    return ["song", id];
-};
-
 /* Users */
 export const useUserPreferences = (id: string) => {
     return useQuery({
-        queryKey: getQueryKeyForUseUserPreferences(),
+        queryKey: queryKeys.userPreferences,
         queryFn: () => fetchPreferences(id),
         staleTime: Infinity,
     });
@@ -97,7 +101,7 @@ export const useUserPreferences = (id: string) => {
 
 export const useFriends = (id: string) => {
     return useQuery({
-        queryKey: getQueryKeyForUseFriends(),
+        queryKey: queryKeys.friends,
         queryFn: () => fetchFriends(id),
         staleTime: Infinity,
     });
@@ -105,7 +109,7 @@ export const useFriends = (id: string) => {
 
 export const usePendingRequests = (id: string) => {
     return useQuery({
-        queryKey: getQueryKeyForUsePendingRequests(),
+        queryKey: queryKeys.pendingRequests,
         queryFn: () => fetchPendingRequests(id),
         staleTime: PENDING_REQUESTS_QUERY_STALE_TIME,
     });
@@ -113,28 +117,8 @@ export const usePendingRequests = (id: string) => {
 
 export const useSentRequests = (id: string) => {
     return useQuery({
-        queryKey: getQueryKeyForUseSentRequests(),
+        queryKey: queryKeys.sentRequests,
         queryFn: () => fetchSentRequests(id),
         staleTime: Infinity,
     });
-};
-
-export const getQueryKeyForUseUserPreferences = () => {
-    return ["userPreferences"];
-};
-
-export const getQueryKeyForUseFriends = () => {
-    return ["friends"];
-};
-
-export const getQueryKeyForUsePendingRequests = () => {
-    return ["pendingRequests"];
-};
-
-export const getQueryKeyForUseSentRequests = () => {
-    return ["sentRequets"];
-};
-
-export const getQueryKeyForUseMoreResults = (query: string) => {
-    return ["moreResults", query];
 };

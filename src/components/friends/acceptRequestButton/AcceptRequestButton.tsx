@@ -2,11 +2,11 @@ import { ActivityIndicator, View } from "react-native";
 
 import createStyles from "./styles";
 import TextButton from "../../shared/textButton/TextButton";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToAcceptRequest } from "../../../hooks/react-query/useMutationHooks";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 interface AcceptRequestButtonProps {
     user: UserInfoFragment;
@@ -16,7 +16,7 @@ const AcceptRequestButton: React.FC<AcceptRequestButtonProps> = ({
     user,
 }: AcceptRequestButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const currentUserId = useCurrentUser().id;
+    const currentUserId = useUserId();
     const {
         mutate: acceptRequest,
         isPending,

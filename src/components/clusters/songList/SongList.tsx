@@ -12,7 +12,7 @@ import SongListItem from "../songListItem/SongListItem";
 import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToCreatePlaylistFromSongIds } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import useCurrentUser from "../../../hooks/useCurrentUser";
+import { useUserSpotifyId } from "../../../hooks/useUserHooks";
 
 interface SongListProps {
     songIdFrequencies: SongIdFrequencies;
@@ -24,7 +24,7 @@ const SongList: React.FC<SongListProps> = ({
     hideRank = false,
 }: SongListProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const currentUserSpotifyId = useCurrentUser().spotifyId;
+    const spotifyId = useUserSpotifyId();
     const {
         mutate: createSpotifyPlaylist,
         isError,
@@ -58,11 +58,11 @@ const SongList: React.FC<SongListProps> = ({
     const handleSaveToSpotify = useCallback(async () => {
         createSpotifyPlaylist({
             name: "Coaster Cluster Playlist",
-            accessToken: await getValidAccessToken(currentUserSpotifyId),
+            accessToken: await getValidAccessToken(spotifyId),
             description: "Created from a Coaster cluster!",
             songIds: songIdFrequencies.map(([songId, _]) => songId),
         });
-    }, [createSpotifyPlaylist, currentUserSpotifyId, songIdFrequencies]);
+    }, [createSpotifyPlaylist, spotifyId, songIdFrequencies]);
 
     return (
         <View style={styles.container}>

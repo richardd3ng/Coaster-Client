@@ -12,6 +12,7 @@ import ProfileIconButton from "../profile/profileIconButton/ProfileIconButton";
 import SearchBar, { SearchBarRef } from "../shared/searchBar/SearchBar";
 import { SearchResult } from "../../gql/graphql";
 import SearchResultsList from "../mapBottomSheet/searchResultsList/SearchResultsList";
+import { useHasSearchResult } from "../../hooks/redux/useSelectorHooks";
 import { useMapBottomSheet } from "../../hooks/context/BottomSheetContext";
 import useThemeAwareObject from "../../hooks/useThemeAwareObject";
 
@@ -23,6 +24,7 @@ const MapBottomSheet: React.FC = () => {
         null
     );
     const { ref, snapIndex, setSnapIndex } = useMapBottomSheet();
+    const hasSearchResult = useHasSearchResult();
 
     const handleSearch = async (query: string) => {
         try {
@@ -76,6 +78,9 @@ const MapBottomSheet: React.FC = () => {
         []
     );
 
+    if (hasSearchResult) {
+        return null;
+    }
     return (
         <GestureHandlerRootView style={styles.gestureHandlerRootView}>
             <BottomSheet

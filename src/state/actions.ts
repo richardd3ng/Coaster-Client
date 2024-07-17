@@ -6,15 +6,20 @@ import {
     clearHistory,
     recordLocationTimestamp,
 } from "./location/locationSlice";
-import { LocationTimestamp, UserReduxState } from "../types/entities";
+import { LocationTimestamp } from "../types/entities";
 import { setCurrentlyPlayingSongId } from "./song/songSlice";
 import { setCurrentRegion } from "./location/locationSlice";
-import { setCurrentUser } from "./user/userSlice";
+import {
+    LocalUserState,
+    logOutUser,
+    setUserLocalData,
+    setUserServerData,
+} from "./user/userSlice";
 import {
     setLastAttemptedSnapshotTimestamp,
     setLastSuccessfulSnapshotTimestamp,
 } from "./snapshot/snapshotSlice";
-import { SearchResult } from "../gql/graphql";
+import { SearchResult, UserReduxStateFragment } from "../gql/graphql";
 import { setSearchResult } from "./searchResult/searchResultSlice";
 
 export const recordLocationTimestampAction = (
@@ -32,6 +37,12 @@ export const clearHistoryAction = () => {
     };
 };
 
+export const logOutUserAction = () => {
+    return {
+        type: logOutUser.type,
+    };
+};
+
 export const setCurrentlyPlayingSongIdAction = (songId: string) => {
     return {
         type: setCurrentlyPlayingSongId.type,
@@ -46,10 +57,21 @@ export const setCurrentRegionAction = (region: Region) => {
     };
 };
 
-export const setCurrentUserAction = (user: UserReduxState | null) => {
+export const setUserLocalDataAction = (
+    userLocalData: Partial<LocalUserState>
+) => {
     return {
-        type: setCurrentUser.type,
-        payload: user,
+        type: setUserLocalData.type,
+        payload: userLocalData,
+    };
+};
+
+export const setUserServerDataAction = (
+    userServerData: UserReduxStateFragment
+) => {
+    return {
+        type: setUserServerData.type,
+        payload: userServerData,
     };
 };
 

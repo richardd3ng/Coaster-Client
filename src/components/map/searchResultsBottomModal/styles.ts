@@ -6,7 +6,7 @@ const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         text: {
             paddingHorizontal: theme.spacing.double,
-            color: "gray",
+            color: theme.color.faded,
             fontSize: theme.size.mediumFont,
         },
     });

@@ -8,7 +8,7 @@ const createStyles = (theme: Theme) => {
             flexDirection: "row",
             justifyContent: "space-between",
             width: "100%",
-            backgroundColor: "gray",
+            backgroundColor: theme.color.faded,
             borderBottomLeftRadius: theme.border.radiusPrimary,
             borderBottomRightRadius: theme.border.radiusPrimary,
         },

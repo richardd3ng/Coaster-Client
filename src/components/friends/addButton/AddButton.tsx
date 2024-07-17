@@ -4,11 +4,11 @@ import { ActivityIndicator, View } from "react-native";
 
 import createStyles from "./styles";
 import TextButton from "../../shared/textButton/TextButton";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToSendRequest } from "../../../hooks/react-query/useMutationHooks";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 interface AddButtonProps {
     user: UserInfoFragment;
@@ -20,7 +20,7 @@ const AddButton: React.FC<AddButtonProps> = ({
     onSuccess,
 }: AddButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const currentUser = useCurrentUser().id;
+    const currentUser = useUserId();
     const {
         mutate: sendRequest,
         isPending,

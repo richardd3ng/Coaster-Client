@@ -6,7 +6,7 @@ const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         text: {
             fontSize: theme.size.mediumFont,
-            color: "gray",
+            color: theme.color.faded,
             fontWeight: "bold",
         },
     });

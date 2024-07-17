@@ -69,7 +69,9 @@ const SongListItem: React.FC<SongListItemProps> = ({
                 <View style={styles.textContainer}>
                     <View style={styles.nameContainer}>
                         <SongPlayingAnimation songId={song._id} />
-                        <Text style={styles.nameText} numberOfLines={1}>{song.name}</Text>
+                        <Text style={styles.nameText} numberOfLines={1}>
+                            {song.name}
+                        </Text>
                     </View>
                     <Text style={styles.artistText} numberOfLines={1}>
                         {song.artists.join(", ")}
@@ -133,7 +135,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
                 onPress={handleOpenInSpotify}
             >
                 <View style={styles.iconContainer}>
-                    <Icon name="arrow-ios-forward" fill="gray" />
+                    <Icon name="arrow-ios-forward" fill={styles.icon.color} />
                 </View>
             </CustomPressable>
         </View>

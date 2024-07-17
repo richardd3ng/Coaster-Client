@@ -40,7 +40,7 @@ const createStyles = (theme: Theme) => {
         },
         usernameText: {
             fontSize: theme.size.mediumFont,
-            color: "gray",
+            color: theme.color.faded,
         },
     });
 };

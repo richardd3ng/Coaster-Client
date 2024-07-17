@@ -6,6 +6,7 @@ const DARK_COLOR_THEME: ColorTheme = {
     backgroundDanger: "#FFF2F2",
     primary: "#009BFF",
     danger: "red",
+    faded: "gray",
 };
 
 export const DARK_THEME_ID = "dark";

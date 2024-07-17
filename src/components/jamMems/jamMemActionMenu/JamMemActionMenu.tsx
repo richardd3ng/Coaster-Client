@@ -21,8 +21,8 @@ const JamMemActionMenu: React.FC = () => {
         >
             <Icon
                 name="more-vertical"
-                fill="gray"
-                style={styles.moreOptionsIcon}
+                style={styles.icon}
+                fill={styles.icon.color}
             />
         </Pressable>
     );

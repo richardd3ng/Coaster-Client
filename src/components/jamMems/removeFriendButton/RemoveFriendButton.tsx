@@ -46,7 +46,7 @@ const RemoveFriendButton: React.FC<RemoveFriendButtonProps> = ({
             <ConfirmationDialog
                 open={showConfirmation}
                 title={`Are you sure you want to remove ${user.displayName} from this Jam Mem?`}
-                description={`This Jam Mem will no longer appear in ${user.displayName}'s shared Jam Mems anymore. Snapshots will not be removed because the original snapshots from that friend may not exist anymore.`}
+                description={`This Jam Mem will no longer appear in ${user.displayName}'s shared Jam Mems anymore. ${user.displayName} will not be notified, and their snapshots will also be removed from this Jam Mem. If you choose to add ${user.displayName} back to this Jam Mem, their snapshots from this time range are not guaranteed to still exist.`}
                 onClose={() => setShowConfirmation(false)}
                 onConfirm={() =>
                     deleteFriendFromJamMem({ jamMemId, friendId: user._id })

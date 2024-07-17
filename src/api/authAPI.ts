@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios, { AxiosError, isAxiosError } from "axios";
 
 import { BASE_URL } from "@env";
 import { formatError } from "./errorUtils";
-import { UserReduxState } from "../types/entities";
+import { UserReduxStateFragment } from "../gql/graphql";
 
 /**
  * Fetches the access token, refresh token, and expiration time of the access token from Spotify, as well as the info of the registered user in our database
@@ -19,7 +19,7 @@ export const fetchAuthLogin = async (authLoginParams: {
         refreshToken: string;
         expiresIn: number;
     };
-    userInfo: UserReduxState;
+    userInfo: UserReduxStateFragment;
 }> => {
     try {
         const params = new URLSearchParams({
@@ -35,6 +35,11 @@ export const fetchAuthLogin = async (authLoginParams: {
         };
     } catch (error) {
         console.error(formatError(error));
-        throw error;
+        if (isAxiosError(error)) {
+            if (error.code === AxiosError.ERR_NETWORK) {
+                throw new Error("Network error");
+            }
+        }
+        throw new Error("Error fetching access token");
     }
 };

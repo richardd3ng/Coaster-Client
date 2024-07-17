@@ -1,7 +1,7 @@
-import { ModalType } from "../../../../hooks/context/ModalContext";
+import { ModalType } from "../../../hooks/context/ModalContext";
 import PreferencesList from "../preferencesList/PreferencesList";
-import BottomModalTopRow from "../../../shared/bottomModalTopRow/BottomModalTopRow";
-import BottomModal from "../../../shared/bottomModal/BottomModal";
+import BottomModalTopRow from "../../shared/bottomModalTopRow/BottomModalTopRow";
+import BottomModal from "../../shared/bottomModal/BottomModal";
 
 const PreferencesBottomModal: React.FC = () => {
     return (

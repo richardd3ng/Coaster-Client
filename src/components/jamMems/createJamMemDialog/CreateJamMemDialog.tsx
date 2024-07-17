@@ -16,7 +16,6 @@ import {
     JAM_MEM_COVER_WIDTH,
 } from "../../../constants/size";
 import LoadingModal from "../../shared/loadingModal/LoadingModal";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useFriends } from "../../../hooks/react-query/useQueryHooks";
 import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { useMutationToCreateJamMem } from "../../../hooks/react-query/useMutationHooks";
@@ -25,6 +24,7 @@ import { validateJamMemInputs } from "../../../utils/validationUtils";
 import { useJamMemModal } from "../../../hooks/context/ModalContext";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 interface CreateJamMemDialogProps {
     open: boolean;
@@ -44,10 +44,13 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
         reset,
     } = useMutationToCreateJamMem();
     useMutationErrorToast({ isError, error, reset });
-    const { present: presentJamMemModal } = useJamMemModal();
+    const {
+        present: presentJamMemModal,
+        setSnapIndex: setJamMemModalSnapIndex,
+    } = useJamMemModal();
     const { close: closeMapBottomSheet } = useMapBottomSheet();
     const { setClusterFilter } = useMapContext();
-    const currentUserId = useCurrentUser().id;
+    const currentUserId = useUserId();
     const { data: friends } = useFriends(currentUserId);
     const [name, setName] = useState<string>("");
     const [location, setLocation] = useState<string>("");
@@ -79,6 +82,7 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
                         value: createdJamMemId,
                     });
                     presentJamMemModal(createdJamMemId);
+                    setJamMemModalSnapIndex(1);
                     handleClose();
                 },
             }
@@ -165,23 +169,17 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
 
     return (
         <ConfirmationDialog
-            title="Create Jam Mem"
+            title="New Jam Mem"
             open={open}
             onClose={handleClose}
             onConfirm={handleCreate}
             preventDefaultConfirm
-            children={
-                <>
-                    {DialogContent}
-                    <LoadingModal
-                        visible={isPending}
-                        text="Creating Jam Mem..."
-                    />
-                </>
-            }
             disableConfirm={invalidDates}
             sameButtonTextStyle
-        />
+        >
+            {DialogContent}
+            <LoadingModal visible={isPending} text="Creating Jam Mem..." />
+        </ConfirmationDialog>
     );
 };
 

@@ -3,14 +3,16 @@ import { useCallback } from "react";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 
 import createStyles from "./styles";
-import { PreferencesOption } from "../../../../types/navigation";
-import ShareSnapshots from "../shareSnapshots/ShareSnapshots";
-import TrackSnapshots from "../trackSnapshots/TrackSnapshots";
-import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
+import { PreferencesOption } from "../../../types/navigation";
+import SnapshotPrivacyButton from "../snapshotPrivacyButton/SnapshotPrivacyButton";
+import SnapshotRetentionButton from "../snapshotRetentionButton/SnapshotRetentionButton";
+import TrackSnapshotsButton from "../trackSnapshotsButton/TrackSnapshotsButton";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const componentMap = new Map<PreferencesOption, JSX.Element>([
-    [PreferencesOption.TrackSnapshots, <TrackSnapshots />],
-    [PreferencesOption.ShareSnapshots, <ShareSnapshots />],
+    [PreferencesOption.TrackSnapshots, <TrackSnapshotsButton />],
+    [PreferencesOption.SnapshotPrivacy, <SnapshotPrivacyButton />],
+    [PreferencesOption.SnapshotRetention, <SnapshotRetentionButton />],
 ]);
 
 const PreferencesList: React.FC = () => {

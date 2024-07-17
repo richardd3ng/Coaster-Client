@@ -1,18 +1,6 @@
 import { LatLng } from "react-native-maps";
 import { UserInfoFragment } from "../gql/graphql";
 
-/* Users */
-export interface UserReduxState {
-    id: string;
-    spotifyId: string;
-    username: string;
-    displayName: string;
-    profileUrl: string;
-    preferences: {
-        trackSnapshots: boolean;
-    };
-}
-
 export interface FriendArgs {
     id: string;
     friendId: string;
@@ -32,6 +20,7 @@ export interface Snapshot {
 /* Jam Mems */
 export interface JamMem {
     id: string;
+    ownerId: string;
     name: string;
     location: string;
     start: Date;

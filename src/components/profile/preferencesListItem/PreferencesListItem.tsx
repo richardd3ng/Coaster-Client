@@ -6,16 +6,16 @@ import {
     ViewStyle,
 } from "react-native";
 
-import CustomPressable from "../../../shared/customPressable/CustomPressable";
+import CustomPressable from "../../shared/customPressable/CustomPressable";
 import createStyles from "./styles";
-import { PreferencesOption } from "../../../../types/navigation";
-import useThemeAwareObject from "../../../../hooks/useThemeAwareObject";
+import { PreferencesOption } from "../../../types/navigation";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { Divider, Icon } from "@ui-kitten/components";
 
 export interface PreferencesListItemProps {
     text: PreferencesOption;
     onPress: () => void;
-    isEnabled: boolean;
+    value: boolean | string;
     isPending: boolean;
     style?: StyleProp<ViewStyle>;
     hideDivider?: boolean;
@@ -24,7 +24,7 @@ export interface PreferencesListItemProps {
 const PreferencesListItem: React.FC<PreferencesListItemProps> = ({
     text,
     onPress,
-    isEnabled,
+    value,
     isPending,
     style,
     hideDivider = false,
@@ -33,13 +33,13 @@ const PreferencesListItem: React.FC<PreferencesListItemProps> = ({
 
     const StatusIndicator = isPending ? (
         <ActivityIndicator style={styles.spinner} />
-    ) : (
-        <Icon
-            name="checkmark"
-            style={styles.icon}
-            fill={isEnabled ? styles.icon.color : "white"}
-        />
-    );
+    ) : typeof value === "boolean" && value === true ? (
+        <Icon name="checkmark" style={styles.icon} fill={styles.icon.color} />
+    ) : typeof value === "string" ? (
+        <View style={styles.valueContainer}>
+            <Text style={styles.value}>{value}</Text>
+        </View>
+    ) : null;
 
     return (
         <CustomPressable onPress={onPress}>

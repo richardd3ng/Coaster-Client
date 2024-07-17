@@ -1,16 +1,15 @@
-import { useEffect } from "react";
-
+import { useEffect, useCallback } from "react";
 import { Alert } from "react-native";
 import { useAuthRequest, DiscoveryDocument } from "expo-auth-session";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
-import { dispatchSetCurrentUser } from "../state/storeUtils";
-import { fetchAuthLogin } from "../api/authAPI";
+import { dispatchSetUserServerData } from "../state/storeUtils";
 import { RootState } from "../state/store";
 import { ScreenName, StackNavigation } from "../types/navigation";
 import { SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI } from "@env";
 import { storeTokens } from "../utils/secureStoreUtils";
+import { useAuthLogin } from "./react-query/useMutationHooks";
 
 const discovery: DiscoveryDocument = {
     authorizationEndpoint: "https://accounts.spotify.com/authorize",
@@ -19,9 +18,11 @@ const discovery: DiscoveryDocument = {
 
 const useLogin = () => {
     const { navigate } = useNavigation<StackNavigation>();
-    const currentUser = useSelector(
-        (state: RootState) => state.user.currentUser
+    const userId: string | null = useSelector(
+        (state: RootState) => state.user.userServerData?._id ?? null
     );
+    const { mutateAsync, isPending } = useAuthLogin();
+
     const [_request, response, promptLogin] = useAuthRequest(
         {
             clientId: SPOTIFY_CLIENT_ID,
@@ -38,42 +39,38 @@ const useLogin = () => {
     );
 
     useEffect(() => {
-        if (currentUser) {
+        if (userId) {
             navigate(ScreenName.Map);
         }
-    }, [currentUser, navigate]);
+    }, [userId, navigate]);
+
+    const handleLogin = useCallback(
+        async (code: string, state: string) => {
+            try {
+                const result = await mutateAsync({ code, state });
+                const { tokens, userInfo } = result;
+                await storeTokens(
+                    tokens.accessToken,
+                    tokens.refreshToken,
+                    tokens.expiresIn
+                );
+                dispatchSetUserServerData(userInfo);
+                navigate(ScreenName.Map);
+            } catch (error) {
+                Alert.alert((error as Error).message); // can't use toast b/c Spotify OAuth modal interferes
+            }
+        },
+        [mutateAsync, navigate]
+    );
 
     useEffect(() => {
         if (response?.type === "success") {
             const { code, state } = response.params;
-            const login = async () => {
-                try {
-                    const { tokens, userInfo } = await fetchAuthLogin({
-                        code,
-                        state,
-                    });
-                    await storeTokens(
-                        tokens.accessToken,
-                        tokens.refreshToken,
-                        tokens.expiresIn
-                    );
-                    dispatchSetCurrentUser({
-                        ...userInfo,
-                        preferences: {
-                            trackSnapshots: true,
-                        },
-                    });
-                    navigate(ScreenName.Map);
-                } catch (error) {
-                    console.error(error);
-                    Alert.alert("Error fetching access token");
-                }
-            };
-            login();
+            handleLogin(code, state);
         }
-    }, [response, navigate]);
+    }, [response, handleLogin]);
 
-    return { promptLogin };
+    return { promptLogin, isPending };
 };
 
 export default useLogin;

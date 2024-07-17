@@ -5,27 +5,26 @@ import { Alert, Animated, Text, View } from "react-native";
 import createStyles from "./styles";
 import CustomPressable from "../../shared/customPressable/CustomPressable";
 import RecordingAnimation from "../recordingAnimation/RecordingAnimation";
-import {
-    useHistoryLength,
-    useTrackingOn,
-} from "../../../hooks/redux/useSelectorHooks";
-import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { Icon } from "@ui-kitten/components";
+
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import {
     DISABLE_TRACKING_CONFIRMATION_DESCRIPTION,
     DISABLE_TRACKING_CONFIRMATION_TITLE,
-    setTrackSnapshots,
-} from "../../profile/preferences/trackSnapshots/TrackSnapshots";
+} from "../../profile/trackSnapshotsButton/TrackSnapshotsButton";
+import { dispatchSetUserLocalData } from "../../../state/storeUtils";
+import { Icon } from "@ui-kitten/components";
 import PlayAnimation from "../playAnimation/PlayAnimation";
-import useCurrentUser from "../../../hooks/useCurrentUser";
+import {
+    useHistoryLength,
+    useTrackSnapshots,
+} from "../../../hooks/redux/useSelectorHooks";
+import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const TrackingIndicator: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const historyLength = useHistoryLength();
-    const trackingOn = useTrackingOn();
+    const trackingOn = useTrackSnapshots();
     const opacity = useRef(new Animated.Value(1)).current;
-    const currentUser = useCurrentUser();
     const [showConfiramtionDialog, setShowConfirmationDialog] =
         useState<boolean>(false);
 
@@ -60,9 +59,9 @@ const TrackingIndicator: React.FC = () => {
         if (trackingOn) {
             setShowConfirmationDialog(true);
         } else {
-            setTrackSnapshots(currentUser, true);
+            dispatchSetUserLocalData({ trackSnapshots: true });
         }
-    }, [trackingOn, currentUser]);
+    }, [trackingOn]);
 
     return (
         <View style={styles.container}>
@@ -89,7 +88,9 @@ const TrackingIndicator: React.FC = () => {
                 description={DISABLE_TRACKING_CONFIRMATION_DESCRIPTION}
                 open={showConfiramtionDialog}
                 onClose={() => setShowConfirmationDialog(false)}
-                onConfirm={() => setTrackSnapshots(currentUser, false)}
+                onConfirm={() =>
+                    dispatchSetUserLocalData({ trackSnapshots: false })
+                }
             />
         </View>
     );

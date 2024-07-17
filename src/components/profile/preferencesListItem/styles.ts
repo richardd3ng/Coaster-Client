@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
-
-import { Theme } from "../../../../types/theme";
+import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
@@ -16,7 +15,7 @@ const createStyles = (theme: Theme) => {
             backgroundColor: "white",
             alignItems: "center",
         },
-        divider: { backgroundColor: "gray" },
+        divider: { backgroundColor: theme.color.faded },
         text: {
             fontSize: theme.size.mediumFont,
             flex: 1,
@@ -24,6 +23,15 @@ const createStyles = (theme: Theme) => {
         spinner: {
             height: theme.size.smallAsset,
             width: theme.size.smallAsset,
+        },
+        valueContainer: {
+            height: theme.size.smallAsset,
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        value: {
+            fontSize: theme.size.mediumFont,
+            color: theme.color.faded,
         },
     });
 };

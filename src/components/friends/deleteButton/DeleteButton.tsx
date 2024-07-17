@@ -9,7 +9,7 @@ import { useMutationToDeleteFriend } from "../../../hooks/react-query/useMutatio
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
-import useCurrentUser from "../../../hooks/useCurrentUser";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 interface DeleteButtonProps {
     user: UserInfoFragment;
@@ -20,7 +20,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
 }: DeleteButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
-    const currentUserId = useCurrentUser().id;
+    const currentUserId = useUserId();
     const {
         mutate: deleteFriend,
         isPending,

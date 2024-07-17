@@ -5,11 +5,11 @@ import { ActivityIndicator, View } from "react-native";
 import CloseButton from "../../shared/closeButton/CloseButton";
 import ConfirmationDialog from "../../shared/confirmationDialog/ConfirmationDialog";
 import createStyles from "./styles";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useMutationToIgnoreRequest } from "../../../hooks/react-query/useMutationHooks";
 import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
 import { UserInfoFragment } from "../../../gql/graphql";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 interface IgnoreRequestButtonProps {
     user: UserInfoFragment;
@@ -20,7 +20,7 @@ const IgnoreRequestButton: React.FC<IgnoreRequestButtonProps> = ({
 }: IgnoreRequestButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
-    const currentUserId = useCurrentUser().id;
+    const currentUserId = useUserId();
     const {
         mutate: ignoreRequest,
         isPending,

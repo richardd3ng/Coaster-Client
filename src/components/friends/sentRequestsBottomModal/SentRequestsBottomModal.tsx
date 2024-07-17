@@ -11,13 +11,12 @@ import {
 import ErrorView from "../../shared/errorView/ErrorView";
 import FriendsScrollView from "../friendsScrollView/FriendsScrollView";
 import LoadingView from "../../shared/loadingView/LoadingView";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useSentRequests } from "../../../hooks/react-query/useQueryHooks";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 const SentRequestsBottomModal: React.FC = () => {
-    // const styles = useThemeAwareObject(createStyles);
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[2]], []);
-    const currentUserId = useCurrentUser().id
+    const currentUserId = useUserId();
     const {
         data: sentRequests,
         isFetching,

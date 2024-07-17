@@ -9,6 +9,18 @@ export const UserInfo = graphql(`
     }
 `);
 
+export const UserReduxState = graphql(`
+    fragment UserReduxState on User {
+        _id
+        spotifyId
+        username
+        displayName
+        profileUrl
+        snapshotPrivacy
+        snapshotRetention
+    }
+`);
+
 export const SongInfo = graphql(`
     fragment SongInfo on Song {
         _id

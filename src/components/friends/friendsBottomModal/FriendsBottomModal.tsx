@@ -18,18 +18,18 @@ import FriendsScrollView from "../friendsScrollView/FriendsScrollView";
 import FriendsTabNavigator from "../friendsTabNavigator/FriendsTabNavigator";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import SearchBar from "../../shared/searchBar/SearchBar";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useFriends } from "../../../hooks/react-query/useQueryHooks";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 import { UserInfoFragment } from "../../../gql/graphql";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 const FriendsBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const { dismiss, value: initialState } = useFriendsModal();
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[2]], []);
-    const currentUserId = useCurrentUser().id;
+    const currentUserId = useUserId();
     const {
         data: dataFriends,
         isFetching,
