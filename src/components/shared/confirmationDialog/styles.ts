@@ -35,7 +35,7 @@ const createStyles = (theme: Theme) => {
         },
         titleText: {
             fontWeight: "bold",
-            fontSize: theme.size.mediumFont,
+            fontSize: theme.size.largeFont,
             textAlign: "center",
         },
         descriptionText: {

@@ -8,7 +8,7 @@ const createStyles = (theme: Theme) => {
         divider: {
             width: "100%",
             backgroundColor: theme.color.background,
-            height: 10,
+            height: theme.spacing.base,
         },
         listContainer: {
             flex: 1,

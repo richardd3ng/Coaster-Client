@@ -10,14 +10,14 @@ const createStyles = (theme: Theme) => {
         image: {
             width: theme.size.xlargeAsset,
             height: theme.size.xlargeAsset,
-            borderRadius: theme.size.largeAsset,
+            borderRadius: theme.size.xlargeAsset,
         },
         imageContainer: {
             justifyContent: "center",
             paddingLeft: theme.spacing.base,
         },
         text: {
-            fontSize: theme.size.smallFont,
+            fontSize: theme.size.mediumFont,
             fontWeight: "500",
         },
         toast: {

@@ -1,21 +1,21 @@
 import { BorderTheme, SizeTheme, SpacingTheme } from "../../types/theme";
 
 export const SIZE_THEME: SizeTheme = {
-    xsmallAsset: 20, 
-    smallAsset: 24,
-    mediumAsset: 32,
-    largeAsset: 40,
-    xlargeAsset: 48,
+    xsmallAsset: 16,
+    smallAsset: 20,
+    mediumAsset: 24,
+    largeAsset: 32,
+    xlargeAsset: 42,
 
-    smallFont: 14,
-    mediumFont: 16,
-    largeFont: 18,
-    xlargeFont: 20,
+    smallFont: 12,
+    mediumFont: 14,
+    largeFont: 16,
+    xlargeFont: 18,
 };
 
 export const SPACING_THEME: SpacingTheme = {
-    base: 8,
-    double: 16,
+    base: 6,
+    double: 12,
 };
 
 export const BORDER_THEME: BorderTheme = {

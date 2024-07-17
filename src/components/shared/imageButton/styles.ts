@@ -5,9 +5,9 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         button: {
-            width: theme.size.largeAsset,
-            height: theme.size.largeAsset,
-            borderRadius: theme.size.largeAsset,
+            width: theme.size.xlargeAsset,
+            height: theme.size.xlargeAsset,
+            borderRadius: theme.size.xlargeAsset,
         },
     });
 };

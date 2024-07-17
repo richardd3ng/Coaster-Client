@@ -10,8 +10,8 @@ const createStyles = (theme: Theme) => {
         },
         container: {
             flexDirection: "row",
-            paddingHorizontal: theme.spacing.base,
-            paddingVertical: theme.spacing.base,
+            paddingHorizontal: theme.spacing.base + 2,
+            paddingVertical: theme.spacing.base + 2,
             backgroundColor: "white",
             alignItems: "center",
         },
