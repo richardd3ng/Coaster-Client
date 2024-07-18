@@ -77,6 +77,7 @@ const ClusteredMapView = () => {
                     showsScale
                     loadingEnabled
                     showsMyLocationButton={false}
+                    showsCompass={false}
                 >
                     {clusters.map((cluster: SongCluster, index: number) => (
                         <ClusterMarker
