@@ -31,10 +31,16 @@ Note: deep-linking capabilities aren't enabled on the simulator (i.e. opening ot
 ### Prebuilding
 1. See [Expo Prebuild](https://docs.expo.dev/workflow/prebuild/) if you need to generate native code for the project (Note: not a common workflow, ask beforehand if necessary)
 
+### Building
+1. See [this guide](https://docs.expo.dev/build/setup/) to setup Expo build tools
+2. In the project root, run `eas build --profile [profile_name] --platform ios`, where `[profile_name]` can be `development`, `preview`, or `production`
+3. Ask if you need Expo or Apple Developer account permissions
+4. See [this guide](https://docs.expo.dev/debugging/runtime-issues/#production-errors) for debugging preview and production builds
+
 ### GraphQL 
 1. Start [Coaster-Server](https://github.com/jason-shang/Coaster-Server). Make sure the /graphql endpoint is working (should display a sandbox environment in the browser)
 2. Open a seperate terminal. In the project root, run `pnpm graphql-codegen -w`
-3. Changes involving graphql should be reflected in `src/gql/gql.ts` automatically
+4. Changes involving graphql should be reflected in `src/gql/gql.ts` automatically
 
 ### Code Conventions
 - Code Conventions generally follow [this guide](https://medium.com/@mahesh.nagpure.mailbox/react-native-coding-standard-structure-ab5c5f9e6784) and [this guide](https://gilshaan.medium.com/react-native-coding-standards-and-best-practices-5b4b5c9f4076)
