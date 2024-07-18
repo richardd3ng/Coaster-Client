@@ -1,6 +1,5 @@
 import axios, { AxiosError, isAxiosError } from "axios";
 
-import { BASE_URL } from "@env";
 import { formatError } from "./errorUtils";
 import { UserReduxStateFragment } from "../gql/graphql";
 
@@ -27,7 +26,7 @@ export const fetchAuthLogin = async (authLoginParams: {
             state: authLoginParams.state,
         });
         const response = await axios.get(
-            `${BASE_URL}/auth/spotify/login?${params.toString()}`
+            `${process.env.BASE_URL}/auth/spotify/login?${params.toString()}`
         );
         return {
             tokens: response.data.tokens,

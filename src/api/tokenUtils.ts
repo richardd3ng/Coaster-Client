@@ -1,6 +1,5 @@
 import axios from "axios";
 
-import { BASE_URL } from "@env";
 import { formatError } from "./errorUtils";
 import { getTokens, storeTokens } from "../utils/secureStoreUtils";
 
@@ -26,7 +25,7 @@ export const getNewAccessToken = async (
 ): Promise<string> => {
     try {
         const response = await axios.post(
-            `${BASE_URL}/auth/spotify/refresh_tokens/${spotifyId}`
+            `${process.env.BASE_URL}/auth/spotify/refresh_tokens/${spotifyId}`
         );
         const { newAccessToken, newRefreshToken, newExpiresIn } = response.data;
         await storeTokens(

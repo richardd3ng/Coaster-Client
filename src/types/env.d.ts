@@ -1,6 +1,12 @@
-declare module "@env" {
-    export const BASE_URL: string;
-    export const SPOTIFY_REDIRECT_URI: string;
-    export const SPOTIFY_CLIENT_ID: string;
-    export const SPOTIFY_CLIENT_SECRET: string;
+declare global {
+    namespace NodeJS {
+        interface ProcessEnv {
+            BASE_URL: string;
+            SPOTIFY_REDIRECT_URI: string;
+            SPOTIFY_CLIENT_ID: string;
+            SPOTIFY_CLIENT_SECRET: string;
+        }
+    }
 }
+
+export {};

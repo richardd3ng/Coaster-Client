@@ -68,9 +68,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
             return (
                 <View style={styles.textContainer}>
                     <View style={styles.nameContainer}>
-                        <View style={styles.animationContainer}>
-                            <SongPlayingAnimation songId={song._id} />
-                        </View>
+                        <SongPlayingAnimation songId={song._id} />
                         <Text style={styles.nameText} numberOfLines={1}>
                             {song.name}
                         </Text>

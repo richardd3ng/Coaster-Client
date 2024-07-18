@@ -1,6 +1,5 @@
 import { GraphQLClient, RequestDocument } from "graphql-request";
 
-import { BASE_URL } from "@env";
 import { getUserSpotifyId } from "../state/storeUtils";
 import { getValidAccessToken } from "./tokenUtils";
 
@@ -10,7 +9,7 @@ const createGraphQLClient = async (): Promise<GraphQLClient> => {
         throw new Error("No spotify user found");
     }
     const accessToken = await getValidAccessToken(spotifyId);
-    return new GraphQLClient(`${BASE_URL}/graphql`, {
+    return new GraphQLClient(`${process.env.BASE_URL}/graphql`, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },

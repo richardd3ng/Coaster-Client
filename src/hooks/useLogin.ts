@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { dispatchSetUserServerData } from "../state/storeUtils";
 import { RootState } from "../state/store";
 import { ScreenName, StackNavigation } from "../types/navigation";
-import { SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI } from "@env";
 import { storeTokens } from "../utils/secureStoreUtils";
 import { useAuthLogin } from "./react-query/useMutationHooks";
 
@@ -25,14 +24,14 @@ const useLogin = () => {
 
     const [_request, response, promptLogin] = useAuthRequest(
         {
-            clientId: SPOTIFY_CLIENT_ID,
+            clientId: process.env.SPOTIFY_CLIENT_ID,
             scopes: [
                 "ugc-image-upload",
                 "playlist-modify-private",
                 "user-read-recently-played",
                 "user-read-private",
             ],
-            redirectUri: SPOTIFY_REDIRECT_URI,
+            redirectUri: process.env.SPOTIFY_REDIRECT_URI,
             usePKCE: false,
         },
         discovery
