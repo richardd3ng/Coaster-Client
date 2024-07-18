@@ -16,7 +16,7 @@ const createStyles = (theme: Theme) => {
         },
         dateText: {
             color: theme.color.faded,
-            fontSize: theme.size.largeFont,
+            fontSize: theme.size.mediumFont,
             paddingLeft: theme.spacing.double,
         },
         dialogContainer: {

@@ -12,8 +12,8 @@ const createStyles = (theme: Theme) => {
             backgroundColor: "gainsboro",
         },
         icon: {
-            width: theme.size.smallAsset,
-            height: theme.size.smallAsset,
+            width: theme.size.smallAsset + 2,
+            height: theme.size.smallAsset + 2,
         },
     });
 };

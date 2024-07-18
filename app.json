@@ -28,7 +28,8 @@
                     "com.transistorsoft.fetch"
                 ],
                 "NSLocationAlwaysAndWhenInUseUsageDescription": "$(PRODUCT_NAME) requires location in the background",
-                "NSLocationWhenInUseUsageDescription": "$(PRODUCT_NAME) requires location while in use"
+                "NSLocationWhenInUseUsageDescription": "$(PRODUCT_NAME) requires location while in use",
+                "NSMotionUsageDescription": "$(PRODUCT_NAME) requires access to motion tracking"
             },
             "config": {
                 "usesNonExemptEncryption": false

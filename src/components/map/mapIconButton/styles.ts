@@ -6,8 +6,8 @@ const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         button: {
             alignSelf: "flex-start",
-            height: theme.size.xlargeAsset,
-            width: theme.size.xlargeAsset,
+            height: theme.size.largeAsset,
+            width: theme.size.largeAsset,
             backgroundColor: "#FAF9F6",
             borderColor: theme.color.faded,
             marginTop: theme.spacing.base,

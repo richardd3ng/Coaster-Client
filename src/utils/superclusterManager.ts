@@ -6,7 +6,7 @@ import { ClusterFilter, getFilterKey } from "../types/filters";
 
 import { MAP_CONFIG } from "./mapUtils";
 
-const TOP_SONGS_COUNT = 20;
+const TOP_SONGS_COUNT = 15;
 
 export type SongIdFrequencies = [string, number][]; // [id, frequency]
 

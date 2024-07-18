@@ -37,7 +37,6 @@ const SnapshotPrivacyDialog: React.FC<SnapshotPrivacyDialogProps> = ({
     );
     const {
         mutate: updatePreferences,
-        isPending,
         isError,
         error,
         reset,
@@ -106,10 +105,6 @@ const SnapshotPrivacyDialog: React.FC<SnapshotPrivacyDialogProps> = ({
             sameButtonTextStyle
         >
             {DialogContent}
-            <LoadingModal
-                visible={isPending}
-                text="Updating Privacy Settings..."
-            />
         </ConfirmationDialog>
     );
 };

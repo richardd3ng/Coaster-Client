@@ -101,7 +101,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
     const renderFrequency = useMemo(
         () => (
             <View style={styles.frequencyContainer}>
-                <Text style={styles.playCountText}>Play Count</Text>
+                <Text style={styles.playCountText}>Count</Text>
                 <Text style={styles.frequencyText}>{frequency}</Text>
             </View>
         ),

@@ -9,6 +9,7 @@ const createStyles = (theme: Theme) => {
             color: theme.color.primary,
         },
         container: {
+            height: theme.size.largeAsset,
             flexDirection: "row",
             paddingHorizontal: theme.spacing.base + 2,
             paddingVertical: theme.spacing.base + 2,

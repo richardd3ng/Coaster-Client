@@ -6,14 +6,19 @@ import MapIconButton from "../mapIconButton/MapIconButton";
 import { SnapshotPrivacy } from "../../../gql/graphql";
 import styles from "./styles";
 import { useMapContext } from "../../../hooks/context/MapContext";
-import { useJamMemModal } from "../../../hooks/context/ModalContext";
+import {
+    useClusterModal,
+    useJamMemModal,
+} from "../../../hooks/context/ModalContext";
 
 const SocialFilterStack: React.FC = () => {
     const { clusterFilter, setClusterFilter } = useMapContext();
-    const { options } = useJamMemModal();
-    const selectedJamMemId: string | undefined = options?.jamMemId;
+    const { dismiss: dismissClusterModal } = useClusterModal();
+    const { options: jamMemModalOptions } = useJamMemModal();
+    const selectedJamMemId: string | undefined = jamMemModalOptions?.jamMemId;
 
-    const createFilterHandler = (value: SnapshotPrivacy) => () => {
+    const handlePress = (value: SnapshotPrivacy) => () => {
+        dismissClusterModal();
         setClusterFilter({
             type: "social",
             value,
@@ -39,7 +44,7 @@ const SocialFilterStack: React.FC = () => {
                     <MapIconButton
                         key={name}
                         name={name}
-                        onPress={createFilterHandler(filter)}
+                        onPress={handlePress(filter)}
                         filled={clusterFilter.value === filter}
                     />
                 ))}

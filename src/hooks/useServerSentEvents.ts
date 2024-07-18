@@ -4,7 +4,6 @@ import EventSource from "react-native-sse";
 import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import { randomUUID } from "expo-crypto";
 
-import { BASE_URL } from "@env";
 import { queryKeys } from "./react-query/useQueryHooks";
 import {
     showAddedToJamMemToast,
@@ -58,7 +57,7 @@ const useServerSentEvents = () => {
             userId,
             connectionId,
         });
-        const url = `${BASE_URL}/sse?${params.toString()}`;
+        const url = `${process.env.BASE_URL}/sse?${params.toString()}`;
         const es = new EventSource<CoasterEvents>(url);
         eventSourceRef.current = es;
 

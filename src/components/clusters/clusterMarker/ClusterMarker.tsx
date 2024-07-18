@@ -1,57 +1,29 @@
-import { useCallback, useMemo } from "react";
+import { memo, useMemo } from "react";
 
 import { Marker } from "react-native-maps";
 import { Platform, View } from "react-native";
 
 import ClusterPulseAnimation from "../clusterPulseAnimation/ClusterPulseAnimation";
 import { DEFAULT_ALBUM_COVER_URI } from "../../../constants/assets";
-import FastImage from "react-native-fast-image";
 import { isEqualClusters } from "../../../utils/snapshotUtils";
+import FastImage from "react-native-fast-image";
 import { SongCluster } from "../../../utils/superclusterManager";
 import styles, { getIconStyle } from "./styles";
-import {
-    useClusterModal,
-    useFriendsModal,
-} from "../../../hooks/context/ModalContext";
-import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useSong } from "../../../hooks/react-query/useQueryHooks";
 
 interface ClusterMarkerProps {
     cluster: SongCluster;
+    isSelected: boolean;
+    onPress: () => void;
 }
 
 const ClusterMarker: React.FC<ClusterMarkerProps> = ({
     cluster,
+    isSelected,
+    onPress,
 }: ClusterMarkerProps) => {
     const { width, height } = getIconStyle(cluster.size);
-    const {
-        present: presentClusterModal,
-        setSnapIndex: setClusterModalSnapIndex,
-        options,
-    } = useClusterModal();
-    const { dismiss: dismissFriendsModal } = useFriendsModal();
-    const { close: closeMapBottomSheet } = useMapBottomSheet();
     const { data: song } = useSong(cluster.topSongs[0][0]);
-    const selectedCluster: SongCluster = options?.selectedCluster;
-    const isSelected =
-        selectedCluster && isEqualClusters(selectedCluster, cluster);
-
-    const handlePress = useCallback(
-        (cluster: SongCluster) => {
-            dismissFriendsModal();
-            closeMapBottomSheet();
-            presentClusterModal({
-                selectedCluster: cluster,
-            });
-            setClusterModalSnapIndex(1);
-        },
-        [
-            dismissFriendsModal,
-            closeMapBottomSheet,
-            presentClusterModal,
-            setClusterModalSnapIndex,
-        ]
-    );
 
     const shadowStyle = useMemo(() => {
         return Platform.select({
@@ -71,7 +43,7 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
         <Marker
             coordinate={cluster.coords}
             tracksViewChanges={false}
-            onPress={() => handlePress(cluster)}
+            onPress={onPress}
         >
             <View
                 style={{
@@ -98,8 +70,8 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
                 {isSelected && (
                     <View style={styles.animationContainer}>
                         <ClusterPulseAnimation
-                            width={width + 64}
-                            height={height + 64}
+                            width={width * 2.5}
+                            height={height * 2.5}
                         />
                     </View>
                 )}
@@ -108,4 +80,9 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
     );
 };
 
-export default ClusterMarker;
+export default memo(ClusterMarker, (prevProps, nextProps) => {
+    return (
+        prevProps.isSelected === nextProps.isSelected &&
+        isEqualClusters(prevProps.cluster, nextProps.cluster)
+    );
+});

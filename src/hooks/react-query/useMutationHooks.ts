@@ -249,8 +249,10 @@ export const useMutationToPostSnapshots = () => {
 };
 
 export const useMutationToClearSnapshotHistory = () => {
+    const queryClient = useQueryClient();
+
     return useMutation({
         mutationFn: clearSnapshotHistory,
-        onSuccess: () => invalidateAllSocialSnapshotQueries(useQueryClient()),
+        onSuccess: () => invalidateAllSocialSnapshotQueries(queryClient),
     });
 };

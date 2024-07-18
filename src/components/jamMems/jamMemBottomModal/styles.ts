@@ -5,7 +5,7 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         dateText: {
-            fontSize: theme.size.smallFont,
+            fontSize: theme.size.mediumFont,
         },
         headerContentContainer: {
             width: "100%",
@@ -13,13 +13,16 @@ const createStyles = (theme: Theme) => {
             paddingHorizontal: theme.spacing.double,
             paddingBottom: theme.spacing.base,
         },
-        locationIcon: { height: theme.size.smallAsset, width: theme.size.smallAsset },
+        locationIcon: {
+            height: theme.size.smallAsset,
+            width: theme.size.smallAsset,
+        },
         locationInfoContainer: {
             flexDirection: "row",
             paddingBottom: theme.spacing.base / 2,
         },
         locationText: {
-            fontSize: theme.size.mediumFont,
+            fontSize: theme.size.largeFont,
             fontWeight: "500",
             paddingLeft: theme.spacing.base / 2,
             alignSelf: "center",

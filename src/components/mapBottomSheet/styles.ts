@@ -21,6 +21,7 @@ const createStyles = (theme: Theme) => {
         bottomSheetTopRow: {
             flexDirection: "row",
             verticalAlign: "middle",
+            paddingTop: 2,
             paddingHorizontal: theme.spacing.double,
             paddingBottom: 24,
             backgroundColor: theme.color.background,

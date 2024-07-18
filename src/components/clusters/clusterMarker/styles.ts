@@ -20,27 +20,14 @@ export const getIconStyle = (
     width: number;
     height: number;
 } => {
-    let dimensions = {
-        width: 40,
-        height: 40,
+    const minSize = 42;
+    const maxSize = 58;
+    const maxInput = 500;
+    const cappedSize = Math.min(size, maxInput);
+    const scaledSize = minSize + (cappedSize / maxInput) * (maxSize - minSize);
+    const roundedSize = Math.round(scaledSize);
+    return {
+        width: roundedSize,
+        height: roundedSize,
     };
-
-    if (size > 1_000) {
-        dimensions = {
-            width: 50,
-            height: 50,
-        };
-    } else if (size > 100) {
-        dimensions = {
-            width: 44,
-            height: 44,
-        };
-    } else if (size > 10) {
-        dimensions = {
-            width: 42,
-            height: 42,
-        };
-    }
-
-    return dimensions;
 };

@@ -32,7 +32,7 @@ const createStyles = (theme: Theme) => {
             color: theme.color.faded,
         },
         frequencyContainer: {
-            flex: 4,
+            flex: 2,
             alignItems: "center",
             paddingRight: theme.spacing.base,
         },
@@ -73,15 +73,15 @@ const createStyles = (theme: Theme) => {
         },
         nameText: {
             flex: 1,
-            fontSize: theme.size.mediumFont,
+            fontSize: theme.size.smallFont + 1,
             fontWeight: "500",
         },
         playCountText: {
             paddingBottom: 2,
-            fontSize: theme.size.smallFont,
+            fontSize: theme.size.smallFont - 2,
         },
         textContainer: {
-            flex: 9,
+            flex: 10,
         },
         verticalDivider: {
             backgroundColor: "black",
