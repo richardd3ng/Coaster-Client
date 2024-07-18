@@ -27,10 +27,10 @@ const createStyles = (theme: Theme) => {
             borderTopRightRadius: theme.border.radiusPrimary,
         },
         profileIconButton: {
-            height: theme.size.xlargeAsset,
-            width: theme.size.xlargeAsset,
+            height: theme.size.xlargeAsset + 2,
+            width: theme.size.xlargeAsset + 2,
             backgroundColor: "lightgray",
-            borderRadius: theme.size.xlargeAsset,
+            borderRadius: theme.size.xlargeAsset + 2,
         },
         textContainer: {
             flex: 1,

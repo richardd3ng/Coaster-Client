@@ -17,9 +17,10 @@ const DeleteButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const { mutate: deleteJamMem, isPending } = useMutationToDeleteJamMem();
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
-    const { dismiss, value: jamMemId } = useJamMemModal();
+    const { dismiss, options: jamMemModalOptions } = useJamMemModal();
     const { setClusterFilter, socialFilter } = useMapContext();
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
+    const jamMemId: string = jamMemModalOptions?.jamMemId;
 
     const handleConfirm = useCallback(() => {
         deleteJamMem(jamMemId, {

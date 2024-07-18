@@ -6,22 +6,24 @@ import Toast, { BaseToastProps } from "react-native-toast-message";
 
 import createStyles from "./styles";
 import { DEFAULT_PROFILE_URI } from "../../../constants/assets";
-import { FriendsTabName } from "../../../types/navigation";
-import { useFriendsModal } from "../../../hooks/context/ModalContext";
+import { JamMemTabName } from "../../../types/navigation";
+import { useJamMemModal } from "../../../hooks/context/ModalContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
-interface FriendToastProps extends BaseToastProps {
+interface JamMemToastProps extends BaseToastProps {
     profileUrl?: string;
-    tabName: FriendsTabName;
+    jamMemId: string;
+    tabName?: JamMemTabName;
 }
 
-export const FriendToast: React.FC<FriendToastProps> = ({
+export const JamMemToast: React.FC<JamMemToastProps> = ({
     profileUrl,
+    jamMemId,
     tabName,
     ...props
-}: FriendToastProps) => {
+}: JamMemToastProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const { present } = useFriendsModal();
+    const { present, setSnapIndex } = useJamMemModal();
 
     const ProfileImage = () => {
         return (
@@ -38,7 +40,8 @@ export const FriendToast: React.FC<FriendToastProps> = ({
 
     const handlePress = () => {
         Toast.hide();
-        present({ tabName });
+        present({ jamMemId, tabName });
+        setSnapIndex(1);
     };
 
     return (

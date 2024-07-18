@@ -81,7 +81,9 @@ const CreateJamMemDialog: React.FC<CreateJamMemDialogProps> = ({
                         type: "jamMem",
                         value: createdJamMemId,
                     });
-                    presentJamMemModal(createdJamMemId);
+                    presentJamMemModal({
+                        jamMemId: createdJamMemId,
+                    });
                     setJamMemModalSnapIndex(1);
                     handleClose();
                 },

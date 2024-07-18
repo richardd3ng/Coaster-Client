@@ -27,11 +27,12 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
     const {
         present: presentClusterModal,
         setSnapIndex: setClusterModalSnapIndex,
-        value: selectedCluster,
+        options,
     } = useClusterModal();
     const { dismiss: dismissFriendsModal } = useFriendsModal();
     const { close: closeMapBottomSheet } = useMapBottomSheet();
     const { data: song } = useSong(cluster.topSongs[0][0]);
+    const selectedCluster: SongCluster = options?.selectedCluster;
     const isSelected =
         selectedCluster && isEqualClusters(selectedCluster, cluster);
 
@@ -39,7 +40,9 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
         (cluster: SongCluster) => {
             dismissFriendsModal();
             closeMapBottomSheet();
-            presentClusterModal(cluster);
+            presentClusterModal({
+                selectedCluster: cluster,
+            });
             setClusterModalSnapIndex(1);
         },
         [

@@ -16,13 +16,14 @@ import {
     removeFriendFromJamMem,
     updateJamMem,
 } from "../../api/jamMemAPI";
-import { clearSnapshotHistory } from "../../api/snapshotAPI";
+import { clearSnapshotHistory, postSnapshots } from "../../api/snapshotAPI";
 import { createPlaylistFromSongIds } from "../../api/songAPI";
 import { dispatchSetUserServerData } from "../../state/storeUtils";
 import { fetchAuthLogin } from "../../api/authAPI";
 import { openInSpotify } from "../../utils/spotifyUtils";
 import { queryKeys } from "./useQueryHooks";
 import { SnapshotPrivacy } from "../../gql/graphql";
+import { invalidateAllSocialSnapshotQueries } from "../../utils/reactQueryUtils";
 
 /* Auth */
 export const useAuthLogin = () => {
@@ -158,7 +159,7 @@ export const useMutationToUpdatePreferences = () => {
 export const useMutationToUpdateProfile = () => {
     return useMutation({
         mutationFn: updateProfile,
-        onSuccess: dispatchSetUserServerData
+        onSuccess: dispatchSetUserServerData,
     });
 };
 
@@ -241,30 +242,15 @@ export const useMutationToCreatePlaylistFromSongIds = () => {
 };
 
 /* Snapshots */
-export const useMutationToClearSnapshotHistory = () => {
-    const queryClient = useQueryClient();
+export const useMutationToPostSnapshots = () => {
+    return useMutation({
+        mutationFn: postSnapshots,
+    });
+};
 
+export const useMutationToClearSnapshotHistory = () => {
     return useMutation({
         mutationFn: clearSnapshotHistory,
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: queryKeys.songPoints({
-                    type: "social",
-                    value: SnapshotPrivacy.Me,
-                }),
-            });
-            queryClient.invalidateQueries({
-                queryKey: queryKeys.songPoints({
-                    type: "social",
-                    value: SnapshotPrivacy.Friends,
-                }),
-            });
-            queryClient.invalidateQueries({
-                queryKey: queryKeys.songPoints({
-                    type: "social",
-                    value: SnapshotPrivacy.Everyone,
-                }),
-            });
-        },
+        onSuccess: () => invalidateAllSocialSnapshotQueries(useQueryClient()),
     });
 };

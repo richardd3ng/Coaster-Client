@@ -7,7 +7,8 @@ import { randomUUID } from "expo-crypto";
 import { BASE_URL } from "@env";
 import { queryKeys } from "./react-query/useQueryHooks";
 import {
-    showConnectionLostErrorToast,
+    showAddedToJamMemToast,
+    showErrorToast,
     showFriendRequestAcceptedToast,
     showIncomingFriendRequestToast,
 } from "../utils/toastUtils";
@@ -33,15 +34,17 @@ const eventHandlers = {
         }
         showFriendRequestAcceptedToast(JSON.parse(event.data));
     },
-    addedToJamMem: (event: any) => {
-        console.log("Added to jam mem:", event.data);
+    addedToJamMem: (event: any, queryClient: QueryClient) => {
+        if (event.data) {
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.jamMemMetadatasShared,
+            });
+            showAddedToJamMemToast(JSON.parse(event.data));
+        }
     },
 };
 
 type CoasterEvents = keyof typeof eventHandlers;
-
-const MAX_RETRY_COUNT = 3;
-const RETRY_INTERVAL = 5000;
 
 const useServerSentEvents = () => {
     const retryCount = useRef(0);
@@ -70,18 +73,17 @@ const useServerSentEvents = () => {
             );
         });
 
-        es.addEventListener("error", (error) => {
+        es.addEventListener("error", () => {
             es.close();
-            if (retryCount.current < MAX_RETRY_COUNT) {
-                retryCount.current++;
-                console.log(
-                    `Retrying connection (attempt ${retryCount.current})...`
-                );
-                setTimeout(connectSSE, RETRY_INTERVAL);
-            } else {
-                showConnectionLostErrorToast(error);
-                console.log("Max retry attempts reached. Giving up.");
-            }
+            retryCount.current++;
+            const backoffTime = 1000 * Math.pow(2, retryCount.current);
+            console.log(
+                `Retrying connection (attempt ${retryCount.current}) in ${backoffTime / 1000} seconds...`
+            );
+            showErrorToast(
+                "Server events connection lost. Potential network error. Retrying..."
+            );
+            setTimeout(connectSSE, backoffTime);
         });
 
         console.log("Start SSE connection.");

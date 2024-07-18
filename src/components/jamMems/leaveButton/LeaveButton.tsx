@@ -17,7 +17,7 @@ const LeaveButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const [showConfirmationDialog, setShowConfirmationDialog] =
         useState<boolean>(false);
-    const { value: selectedJamMemId, dismiss } = useJamMemModal();
+    const { dismiss, options } = useJamMemModal();
     const userId = useUserId();
     const {
         mutate: leaveJamMem,
@@ -27,6 +27,7 @@ const LeaveButton: React.FC = () => {
         reset,
     } = useMutationToLeaveJamMem();
     useMutationErrorToast({ isError, error, reset });
+    const selectedJamMemId: string = options?.jamMemId;
 
     const handleConfirm = () => {
         leaveJamMem(

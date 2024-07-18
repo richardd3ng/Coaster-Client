@@ -5,12 +5,16 @@ import NavButton from "../navButton/NavButton";
 import SocialFilterStack from "../socialFilterStack/SocialFilterStack";
 import styles from "./styles";
 import TrackingIndicator from "../trackingIndicator/TrackingIndicator";
+import SnapshotButton from "../snapshotButton/SnapshotButton";
 
-const ButtonPanel = () => {
+const MapPanel = () => {
     return (
         <>
             <View style={styles.trackingIndicatorContainer}>
                 <TrackingIndicator />
+            </View>
+            <View style={styles.snapshotButtonContainer}>
+                <SnapshotButton />
             </View>
             <View style={styles.leftButtonPanel}>
                 <FriendsButton />
@@ -23,4 +27,4 @@ const ButtonPanel = () => {
     );
 };
 
-export default ButtonPanel;
+export default MapPanel;

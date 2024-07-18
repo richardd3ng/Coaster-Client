@@ -15,6 +15,7 @@ import ErrorView from "../../shared/errorView/ErrorView";
 import { fetchMoreResults } from "../../../api/userAPI";
 import { filterUsers } from "../../../utils/userUtils";
 import FriendsScrollView from "../friendsScrollView/FriendsScrollView";
+import { FriendsTabName } from "../../../types/navigation";
 import FriendsTabNavigator from "../friendsTabNavigator/FriendsTabNavigator";
 import LoadingView from "../../shared/loadingView/LoadingView";
 import SearchBar from "../../shared/searchBar/SearchBar";
@@ -26,7 +27,7 @@ import { useUserId } from "../../../hooks/useUserHooks";
 
 const FriendsBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const { dismiss, value: initialState } = useFriendsModal();
+    const { dismiss, options } = useFriendsModal();
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const snapPoints = useMemo(() => [DEFAULT_SNAP_POINTS[2]], []);
     const currentUserId = useUserId();
@@ -39,6 +40,7 @@ const FriendsBottomModal: React.FC = () => {
     } = useFriends(currentUserId);
     const [moreResults, setMoreResults] = useState<UserInfoFragment[]>([]);
     const [query, setQuery] = useState<string>("");
+    const tabName: FriendsTabName = options?.tabName;
 
     const handleSearch = async (searchQuery: string) => {
         if (searchQuery.trim() === "") {
@@ -77,7 +79,7 @@ const FriendsBottomModal: React.FC = () => {
                 />
             );
         } else {
-            return <FriendsTabNavigator initialRouteName={initialState} />;
+            return <FriendsTabNavigator initialRouteName={tabName} />;
         }
     }, [isFetching, isError, error, query, moreResults, handleSearch]);
 

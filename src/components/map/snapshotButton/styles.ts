@@ -1,13 +1,12 @@
 import { StyleSheet } from "react-native";
-
 import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        button: {
-            width: theme.size.xlargeAsset,
+        icon: {
             height: theme.size.xlargeAsset,
-            borderRadius: theme.size.xlargeAsset,
+            width: theme.size.xlargeAsset,
+            color: "black",
         },
     });
 };

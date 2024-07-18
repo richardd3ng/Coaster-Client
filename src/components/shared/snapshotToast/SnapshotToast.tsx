@@ -7,14 +7,14 @@ import { Icon } from "@ui-kitten/components";
 import createStyles from "./styles";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
-export const ErrorToast = ({ ...props }: BaseToastProps) => {
+export const SnapshotToast = ({ ...props }: BaseToastProps) => {
     const styles = useThemeAwareObject(createStyles);
 
-    const ErrorIcon = () => {
+    const SnapshotIcon = () => {
         return (
             <View style={styles.iconContainer}>
                 <Icon
-                    name="alert-triangle-outline"
+                    name="music"
                     style={styles.icon}
                     fill={styles.icon.color}
                 />
@@ -25,10 +25,9 @@ export const ErrorToast = ({ ...props }: BaseToastProps) => {
     return (
         <BaseToast
             text1={props.text1}
-            text1NumberOfLines={3}
             text1Style={styles.text}
             contentContainerStyle={styles.contentContainer}
-            renderLeadingIcon={ErrorIcon}
+            renderLeadingIcon={SnapshotIcon}
             style={styles.toast}
         />
     );

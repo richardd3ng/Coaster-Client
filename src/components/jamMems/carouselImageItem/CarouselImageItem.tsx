@@ -45,7 +45,9 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
             value: jamMem._id,
         });
         closeMapBottomSheet();
-        present(jamMem._id);
+        present({
+            jamMemId: jamMem._id,
+        });
         setSnapIndex(1);
     };
 

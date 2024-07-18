@@ -7,12 +7,12 @@ const createStyles = (theme: Theme) => {
         contentContainer: {
             paddingLeft: theme.spacing.double,
         },
-        image: {
-            width: theme.size.xlargeAsset,
-            height: theme.size.xlargeAsset,
-            borderRadius: theme.size.xlargeAsset,
+        icon: {
+            width: theme.size.largeAsset,
+            height: theme.size.largeAsset,
+            color: "black"
         },
-        imageContainer: {
+        iconContainer: {
             justifyContent: "center",
             paddingLeft: theme.spacing.base,
         },
@@ -21,7 +21,7 @@ const createStyles = (theme: Theme) => {
             fontWeight: "500",
         },
         toast: {
-            borderLeftColor: theme.color.primary,
+            borderLeftColor: theme.color.success,
         },
     });
 };

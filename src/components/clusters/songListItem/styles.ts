@@ -37,11 +37,11 @@ const createStyles = (theme: Theme) => {
             paddingRight: theme.spacing.base,
         },
         frequencyText: {
-            fontSize: theme.size.largeFont,
+            fontSize: theme.size.smallFont,
         },
         image: {
-            width: 50,
-            height: 50,
+            width: theme.size.xlargeAsset,
+            height: theme.size.xlargeAsset,
         },
         imageContainer: {
             padding: theme.spacing.base,
@@ -58,12 +58,12 @@ const createStyles = (theme: Theme) => {
             flex: 0.95,
         },
         rankContainer: {
-            flex: 1.5,
+            flex: 1.25,
             alignItems: "center",
             paddingLeft: theme.spacing.base,
         },
         rankText: {
-            fontSize: theme.size.largeFont,
+            fontSize: theme.size.mediumFont,
             fontWeight: "bold",
         },
         nameContainer: {

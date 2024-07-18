@@ -12,17 +12,17 @@ const createStyles = (theme: Theme) => {
             borderRadius: theme.border.radiusSecondary,
         },
         textContainer: {
-            width: 26,
+            width: theme.size.mediumAsset,
             justifyContent: "center",
             alignItems: "flex-end",
         },
         text: {
-            fontSize: theme.size.smallFont,
+            fontSize: theme.size.mediumFont,
         },
         questionIcon: {
             color: theme.color.faded,
-            height: theme.size.xsmallAsset,
-            width: theme.size.xsmallAsset,
+            height: theme.size.smallAsset,
+            width: theme.size.smallAsset,
         },
     });
 };

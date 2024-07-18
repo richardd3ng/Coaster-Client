@@ -2,7 +2,7 @@ import Toast from "react-native-toast-message";
 
 import AccountBottomModal from "../../components/profile/accountBottomModal/AccountBottomModal";
 import { BottomSheetProvider } from "../../hooks/context/BottomSheetContext";
-import ButtonPanel from "../../components/map/mapPanel/MapPanel";
+import MapPanel from "../../components/map/mapPanel/MapPanel";
 import ClusterBottomModal from "../../components/clusters/clusterBottomModal/ClusterBottomModal";
 import ClusteredMapView from "../../components/map/clusteredMapView/ClusteredMapView";
 import FriendsBottomModal from "../../components/friends/friendsBottomModal/FriendsBottomModal";
@@ -22,7 +22,7 @@ const MapScreen: React.FC = () => {
             <ModalProvider>
                 <BottomSheetProvider>
                     <ClusteredMapView />
-                    <ButtonPanel />
+                    <MapPanel />
                     <MapBottomSheet />
                     <FriendsBottomModal />
                     <SentRequestsBottomModal />

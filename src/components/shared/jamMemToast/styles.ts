@@ -21,7 +21,7 @@ const createStyles = (theme: Theme) => {
             fontWeight: "500",
         },
         toast: {
-            borderLeftColor: theme.color.primary,
+            borderLeftColor: "orange",
         },
     });
 };

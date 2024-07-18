@@ -1,8 +1,7 @@
-import { ErrorEvent, TimeoutEvent, ExceptionEvent } from "react-native-sse";
 import { LocationError } from "react-native-background-geolocation";
 import Toast from "react-native-toast-message";
 
-import { FriendsTabName } from "../types/navigation";
+import { FriendsTabName, JamMemTabName } from "../types/navigation";
 import { ToastType } from "../components/shared/toastConfig/toastConfig";
 
 const DEFAULT_VISIBILITY_TIME = 5000;
@@ -11,21 +10,6 @@ export const showErrorToast = (error: string | Error) => {
     Toast.show({
         type: ToastType.Error,
         text1: typeof error === "string" ? error : error.message,
-        visibilityTime: DEFAULT_VISIBILITY_TIME,
-    });
-};
-
-export const showConnectionLostErrorToast = (
-    error: string | ErrorEvent | TimeoutEvent | ExceptionEvent
-) => {
-    Toast.show({
-        type: ToastType.Error,
-        text1:
-            typeof error === "string"
-                ? error
-                : "message" in error
-                ? error.message
-                : "Connection timed out",
         visibilityTime: DEFAULT_VISIBILITY_TIME,
     });
 };
@@ -60,14 +44,22 @@ export const showGeolocationErrorToast = (error: LocationError) => {
     });
 };
 
-export interface FriendToastArgs {
+export const showSnapshotToast = (count: number) => {
+    Toast.show({
+        type: ToastType.Snapshot,
+        text1: `Successfully recorded ${count} snapshot${count !== 1 ? "s" : ""}!`,
+        visibilityTime: DEFAULT_VISIBILITY_TIME,
+    });
+};
+
+export interface JamMemToastArgs {
     displayName: string;
     profileUrl: string;
 }
 export const showIncomingFriendRequestToast = ({
     displayName,
     profileUrl,
-}: FriendToastArgs) => {
+}: JamMemToastArgs) => {
     Toast.show({
         type: ToastType.Friend,
         text1: `${displayName} sent you a friend request!`,
@@ -79,11 +71,29 @@ export const showIncomingFriendRequestToast = ({
 export const showFriendRequestAcceptedToast = ({
     displayName,
     profileUrl,
-}: FriendToastArgs) => {
+}: JamMemToastArgs) => {
     Toast.show({
         type: ToastType.Friend,
         text1: `You and ${displayName} are now friends!`,
         visibilityTime: DEFAULT_VISIBILITY_TIME,
         props: { profileUrl },
     });
+};
+
+export interface JamMemToastArgs {
+    jamMemId: string;
+    displayName: string;
+    profileUrl: string;
 }
+export const showAddedToJamMemToast = ({
+    jamMemId,
+    displayName,
+    profileUrl,
+}: JamMemToastArgs) => {
+    Toast.show({
+        type: ToastType.JamMem,
+        text1: `${displayName} added you to a Jam Mem!`,
+        visibilityTime: DEFAULT_VISIBILITY_TIME,
+        props: { jamMemId, profileUrl, tabName: JamMemTabName.JamFriends },
+    });
+};
