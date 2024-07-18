@@ -10,7 +10,8 @@ import { useJamMemModal } from "../../../hooks/context/ModalContext";
 
 const SocialFilterStack: React.FC = () => {
     const { clusterFilter, setClusterFilter } = useMapContext();
-    const { value: selectedJamMemId } = useJamMemModal();
+    const { options } = useJamMemModal();
+    const selectedJamMemId: string | undefined = options?.jamMemId;
 
     const createFilterHandler = (value: SnapshotPrivacy) => () => {
         setClusterFilter({

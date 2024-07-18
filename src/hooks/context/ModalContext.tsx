@@ -23,13 +23,13 @@ export enum ModalType {
 export const DEFAULT_SNAP_POINTS = ["12%", "35%", "92%"];
 
 interface ModalContextType {
-    present: (value?: any) => void;
+    present: (options?: Record<string, any>) => void;
     dismiss: () => void;
     ref: MutableRefObject<BottomSheetModal | null>;
     isVisible: boolean;
     snapIndex: number;
     setSnapIndex: (index: number) => void;
-    value?: any; // flexible prop for use in different modals (i.e. friends initial tab)
+    options?: Record<string, any>; // flexible prop for use in different modals (i.e. friends initial tab)
 }
 
 const createModalContext = (modalType: ModalType) => {
@@ -39,18 +39,20 @@ const createModalContext = (modalType: ModalType) => {
         const ref = useRef<BottomSheetModal>(null);
         const [isVisible, setIsVisible] = useState(false);
         const [snapIndex, setSnapIndex] = useState(0);
-        const [value, setValue] = useState<any | undefined>(undefined);
+        const [options, setOptions] = useState<Record<string, any> | undefined>(
+            undefined
+        );
 
-        const present = useCallback((value?: any) => {
+        const present = useCallback((options?: Record<string, any>) => {
             ref.current?.present();
             setIsVisible(true);
-            setValue(value);
+            setOptions(options);
         }, []);
 
         const dismiss = useCallback(() => {
             ref.current?.dismiss();
             setIsVisible(false);
-            setValue(undefined);
+            setOptions(undefined);
         }, []);
 
         return (
@@ -62,7 +64,7 @@ const createModalContext = (modalType: ModalType) => {
                     isVisible,
                     snapIndex,
                     setSnapIndex,
-                    value,
+                    options,
                 }}
             >
                 {children}

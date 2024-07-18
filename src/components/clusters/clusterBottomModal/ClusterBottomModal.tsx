@@ -7,12 +7,13 @@ import {
     ModalType,
     useClusterModal,
 } from "../../../hooks/context/ModalContext";
-import { SongIdFrequencies } from "../../../utils/superclusterManager";
+import { SongCluster, SongIdFrequencies } from "../../../utils/superclusterManager";
 import SongList from "../songList/SongList";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 
 const ClusterBottomModal: React.FC = () => {
-    const { dismiss, value: selectedCluster } = useClusterModal();
+    const { dismiss, options } = useClusterModal();
+    const selectedCluster: SongCluster = options?.selectedCluster;
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const [songIdFrequencies, setSongIdFrequencies] =
         useState<SongIdFrequencies>([]);

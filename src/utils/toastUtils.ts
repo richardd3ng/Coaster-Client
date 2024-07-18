@@ -15,21 +15,6 @@ export const showErrorToast = (error: string | Error) => {
     });
 };
 
-export const showConnectionLostErrorToast = (
-    error: string | ErrorEvent | TimeoutEvent | ExceptionEvent
-) => {
-    Toast.show({
-        type: ToastType.Error,
-        text1:
-            typeof error === "string"
-                ? error
-                : "message" in error
-                ? error.message
-                : "Connection timed out",
-        visibilityTime: DEFAULT_VISIBILITY_TIME,
-    });
-};
-
 export const showGeolocationErrorToast = (error: LocationError) => {
     let text1;
     switch (error) {
@@ -60,6 +45,14 @@ export const showGeolocationErrorToast = (error: LocationError) => {
     });
 };
 
+export const showSnapshotToast = (count: number) => {
+    Toast.show({
+        type: ToastType.Snapshot,
+        text1: `Successfully recorded ${count} snapshot${count !== 1 ? "s" : ""}!`,
+        visibilityTime: DEFAULT_VISIBILITY_TIME,
+    });
+};
+
 export interface FriendToastArgs {
     displayName: string;
     profileUrl: string;
@@ -86,4 +79,12 @@ export const showFriendRequestAcceptedToast = ({
         visibilityTime: DEFAULT_VISIBILITY_TIME,
         props: { profileUrl },
     });
-}
+};
+
+// export const showAddedToJamMemToast = () => {
+//     Toast.show({
+//         type: ToastType.Success,
+//         text1: "Added to JamMem!",
+//         visibilityTime: DEFAULT_VISIBILITY_TIME,
+//     });
+// }

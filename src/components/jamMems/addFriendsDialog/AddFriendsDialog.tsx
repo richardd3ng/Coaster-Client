@@ -33,7 +33,8 @@ const AddFriendsDialog: React.FC<AddFriendsDialogProps> = ({
         reset,
     } = useMutationToAddFriendsToJamMem();
     useMutationErrorToast({ isError, error, reset });
-    const { value: jamMemId } = useJamMemModal();
+    const { options } = useJamMemModal();
+    const jamMemId: string = options?.jamMemId;
 
     const handleConfirm = () => {
         addFriends(

@@ -5,8 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { calculateBBox, getMapZoom, MAP_CONFIG } from "../utils/mapUtils";
 import { ClusterFilter } from "../types/filters";
-import { SnapshotPrivacy } from "../gql/graphql";
-import { queryKeys } from "./react-query/useQueryHooks";
+import { invalidateAllSocialSnapshotQueries } from "../utils/reactQueryUtils";
 import superclusterManager, { SongCluster } from "../utils/superclusterManager";
 import { useSongPoints } from "./react-query/useQueryHooks";
 import { useLastSucccesfulSnapshotTimestamp } from "./redux/useSelectorHooks";
@@ -27,24 +26,7 @@ const useClusters = (region: Region | null, filter: ClusterFilter) => {
 
     useEffect(() => {
         if (lastSuccessfulSnapshotTimestamp) {
-            queryClient.invalidateQueries({
-                queryKey: queryKeys.songPoints({
-                    type: "social",
-                    value: SnapshotPrivacy.Me,
-                }),
-            });
-            queryClient.invalidateQueries({
-                queryKey: queryKeys.songPoints({
-                    type: "social",
-                    value: SnapshotPrivacy.Friends,
-                }),
-            });
-            queryClient.invalidateQueries({
-                queryKey: queryKeys.songPoints({
-                    type: "social",
-                    value: SnapshotPrivacy.Everyone,
-                }),
-            });
+            invalidateAllSocialSnapshotQueries(queryClient);
         }
     }, [queryClient, lastSuccessfulSnapshotTimestamp]);
 

@@ -6,6 +6,7 @@ const LIGHT_COLOR_THEME: ColorTheme = {
     backgroundDanger: "#FFF2F2",
     primary: "#009BFF",
     danger: "red",
+    success: "#30DB5B",
     faded: "gray",
 };
 

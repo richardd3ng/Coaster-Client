@@ -18,7 +18,8 @@ import { useUserId } from "../../../hooks/useUserHooks";
 const AddFriendButton: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
     const [showDialog, setShowDialog] = useState<boolean>(false);
-    const { value: selectedJamMemId } = useJamMemModal();
+    const { options } = useJamMemModal();
+    const selectedJamMemId: string = options?.jamMemId;
     const { data: jamMem } = useJamMem(selectedJamMemId);
     const currentUserId = useUserId();
     const { data: friends } = useFriends(currentUserId);

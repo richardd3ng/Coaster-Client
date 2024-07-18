@@ -20,19 +20,13 @@ import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 const JamMemBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const { dismiss, value: selectedJamMemId } = useJamMemModal();
+    const { dismiss, options: jamMemModalOptions } = useJamMemModal();
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const { setClusterFilter, socialFilter } = useMapContext();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
+    const selectedJamMemId = jamMemModalOptions?.jamMemId;
 
-    const {
-        data: selectedJamMem,
-        isLoading,
-        isRefetching,
-        isError,
-        error,
-        refetch,
-    } = useJamMem(selectedJamMemId);
+    const { data: selectedJamMem } = useJamMem(selectedJamMemId);
 
     const handleClose = useCallback(() => {
         setClusterFilter({

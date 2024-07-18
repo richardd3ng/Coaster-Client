@@ -19,7 +19,7 @@ const RemoveFriendButton: React.FC<RemoveFriendButtonProps> = ({
     user,
 }: RemoveFriendButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const {value: jamMemId} = useJamMemModal();
+    const { options } = useJamMemModal();
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const {
         mutate: deleteFriendFromJamMem,
@@ -29,6 +29,7 @@ const RemoveFriendButton: React.FC<RemoveFriendButtonProps> = ({
         reset,
     } = useMutationToDeleteFriendFromJamMem();
     useMutationErrorToast({ isError, error, reset });
+    const jamMemId: string = options?.jamMemId;
 
     return (
         <>

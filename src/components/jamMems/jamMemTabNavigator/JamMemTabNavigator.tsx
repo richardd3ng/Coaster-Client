@@ -42,10 +42,11 @@ interface JamMemTabBarProps {
 
 const JamMemTabNavigator: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
-    const { value: selectedJamMemId } = useJamMemModal();
+    const { options } = useJamMemModal();
     const { clusterFilter } = useMapContext();
     const { songPoints } = useClusters(null, clusterFilter);
     const userId = useUserId();
+    const selectedJamMemId: string = options?.jamMemId;
 
     const {
         data: selectedJamMem,

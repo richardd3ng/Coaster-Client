@@ -17,12 +17,12 @@ import { formatError } from "./errorUtils";
 import { getValidAccessToken } from "./tokenUtils";
 import { graphql } from "../gql";
 import { graphqlRequest } from "./client.graphql";
+import { SearchFilter, SnapshotInfoFragment } from "../gql/graphql";
+import { showSnapshotToast } from "../utils/toastUtils";
+import { SnapshotPrivacy } from "../gql/graphql";
 import superclusterManager, {
     SongPointProps,
 } from "../utils/superclusterManager";
-
-import { SearchFilter, SnapshotInfoFragment } from "../gql/graphql";
-import { SnapshotPrivacy } from "../gql/graphql";
 
 export const fetchAndLoadSongPoints = async (
     userId: string,
@@ -173,15 +173,13 @@ const fetchJamMemSongPoints = async (
     }
 };
 
-const snapshotCreateManyMutationDocument = graphql(
-    `
-        mutation SnapshotCreateMany($snapshots: [CreateManySnapshotInput!]!) {
-            snapshotCreateMany(records: $snapshots) {
-                createdCount
-            }
+const snapshotCreateManyMutationDocument = graphql(`
+    mutation SnapshotCreateMany($snapshots: [CreateManySnapshotInput!]!) {
+        snapshotCreateMany(records: $snapshots) {
+            createdCount
         }
-    `
-);
+    }
+`);
 interface SnapshotCreationArgs {
     userId: string;
     songId: string;
@@ -326,5 +324,6 @@ export const postSnapshots = async (): Promise<void> => {
         }
         dispatchSetLastSuccessfulSnapshotTimestamp(Date.now());
         dispatchClearHistory();
+        showSnapshotToast(createdCount);
     } catch (error) {} // swallow the error because this can occur when app is backgrounded
 };

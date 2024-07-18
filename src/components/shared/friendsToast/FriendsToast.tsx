@@ -38,7 +38,7 @@ export const FriendToast: React.FC<FriendToastProps> = ({
 
     const handlePress = () => {
         Toast.hide();
-        presentFriendsModal(tabName);
+        presentFriendsModal({ tabName });
     };
 
     return (

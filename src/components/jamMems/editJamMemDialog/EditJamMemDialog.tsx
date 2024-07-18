@@ -36,7 +36,8 @@ const EditJamMemDialog: React.FC<EditJamMemDialogProps> = ({
         reset,
     } = useMutationToUpdateJamMem();
     useMutationErrorToast({ isError, error, reset });
-    const { value: selectedJamMemId } = useJamMemModal();
+    const { options } = useJamMemModal();
+    const selectedJamMemId: string = options?.jamMemId;
     const { data: jamMem } = useJamMem(selectedJamMemId);
     const [name, setName] = useState<string>(jamMem?.name ?? "");
     const [location, setLocation] = useState<string>(jamMem?.location ?? "");

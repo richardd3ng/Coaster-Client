@@ -10,6 +10,11 @@ const styles = StyleSheet.create({
     },
     rightButtonPanel: {
         position: "absolute",
+        top: height * 0.15,
+        right: width * 0.02,
+    },
+    snapshotButtonContainer: {
+        position: "absolute",
         top: height * 0.1,
         right: width * 0.02,
     },
