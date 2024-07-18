@@ -7,6 +7,7 @@ import { randomUUID } from "expo-crypto";
 import { BASE_URL } from "@env";
 import { queryKeys } from "./react-query/useQueryHooks";
 import {
+    showAddedToJamMemToast,
     showErrorToast,
     showFriendRequestAcceptedToast,
     showIncomingFriendRequestToast,
@@ -38,6 +39,7 @@ const eventHandlers = {
             queryClient.invalidateQueries({
                 queryKey: queryKeys.jamMemMetadatasShared,
             });
+            showAddedToJamMemToast(JSON.parse(event.data));
         }
     },
 };

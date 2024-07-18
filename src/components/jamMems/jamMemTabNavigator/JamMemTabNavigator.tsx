@@ -40,7 +40,13 @@ interface JamMemTabBarProps {
     state: TabNavigationState<ParamListBase>;
 }
 
-const JamMemTabNavigator: React.FC = () => {
+interface JamMemTabNavigatorProps {
+    initialRouteName?: JamMemTabName;
+}
+
+const JamMemTabNavigator: React.FC<JamMemTabNavigatorProps> = ({
+    initialRouteName,
+}: JamMemTabNavigatorProps) => {
     const styles = useThemeAwareObject(createStyles);
     const { options } = useJamMemModal();
     const { clusterFilter } = useMapContext();
@@ -117,6 +123,7 @@ const JamMemTabNavigator: React.FC = () => {
 
     const TabNavigator = () => (
         <Navigator
+            initialRouteName={initialRouteName}
             tabBar={({ navigation, state }) => (
                 <JamMemTabBar navigation={navigation} state={state} />
             )}

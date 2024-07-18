@@ -12,11 +12,13 @@ import {
     useJamMemModal,
 } from "../../../hooks/context/ModalContext";
 import JamMemActionMenu from "../jamMemActionMenu/JamMemActionMenu";
+import { JamMemTabName } from "../../../types/navigation";
 import JamMemTabNavigator from "../jamMemTabNavigator/JamMemTabNavigator";
 import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 const JamMemBottomModal: React.FC = () => {
     const styles = useThemeAwareObject(createStyles);
@@ -24,7 +26,10 @@ const JamMemBottomModal: React.FC = () => {
     const { setSnapIndex: setMapBottomSheetSnapIndex } = useMapBottomSheet();
     const { setClusterFilter, socialFilter } = useMapContext();
     const snapPoints = useMemo(() => DEFAULT_SNAP_POINTS, []);
-    const selectedJamMemId = jamMemModalOptions?.jamMemId;
+    const userId = useUserId();
+    const selectedJamMemId: string = jamMemModalOptions?.jamMemId;
+    const tabName: JamMemTabName | undefined =
+        jamMemModalOptions?.tabName;
 
     const { data: selectedJamMem } = useJamMem(selectedJamMemId);
 
@@ -69,7 +74,7 @@ const JamMemBottomModal: React.FC = () => {
                         }`}
                     </Text>
                 </View>
-                <JamMemActionMenu />
+                {userId === selectedJamMem?.ownerId && <JamMemActionMenu />}
             </View>
         );
     };
@@ -87,7 +92,7 @@ const JamMemBottomModal: React.FC = () => {
             >
                 <JamMemHeaderContent />
             </BottomModalTopRow>
-            <JamMemTabNavigator />
+            <JamMemTabNavigator initialRouteName={tabName} />
         </BottomModal>
     );
 };
