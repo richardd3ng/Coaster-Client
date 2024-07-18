@@ -25,19 +25,16 @@ Note: deep-linking capabilities aren't enabled on the simulator (i.e. opening ot
 1. Install [XCode](https://developer.apple.com/xcode/) (takes a few hours)
 2. Install iOS on XCode (takes ~1 hour): XCode > Settings > Platforms > iOS
 3. In the project root, run `npx expo run:ios`
-   
-### Expo Go (all platforms)
-Note: background location tracking capabilities aren't enabled on Expo Go on a physical device
-1. Download Expo Go on a mobile [iOS](https://apps.apple.com/us/app/expo-go/id982107779) or [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_US&gl=US&pli=1) device
-2. In the project root, run `pnpm expo start`
-3. Scan the QR code with the Camera app (iOS) or Expo Go (Android)
+4. You can press `shift + i` in the Expo CLI to interactively select a simulator to open
+5. To add additional simulator devices, see [this guide](https://developer.apple.com/documentation/safari-developer-tools/adding-additional-simulators)
 
 ### Prebuilding
 1. See [Expo Prebuild](https://docs.expo.dev/workflow/prebuild/) if you need to generate native code for the project (Note: not a common workflow, ask beforehand if necessary)
 
 ### GraphQL 
-1. Open a seperate terminal. In the project root, run `pnpm graphql-codegen -w`
-2. Changes involving graphql should be reflected in `src/gql/gql.ts` automatically
+1. Start [Coaster-Server](https://github.com/jason-shang/Coaster-Server). Make sure the /graphql endpoint is working (should display a sandbox environment in the browser)
+2. Open a seperate terminal. In the project root, run `pnpm graphql-codegen -w`
+3. Changes involving graphql should be reflected in `src/gql/gql.ts` automatically
 
 ### Code Conventions
 - Code Conventions generally follow [this guide](https://medium.com/@mahesh.nagpure.mailbox/react-native-coding-standard-structure-ab5c5f9e6784) and [this guide](https://gilshaan.medium.com/react-native-coding-standards-and-best-practices-5b4b5c9f4076)
