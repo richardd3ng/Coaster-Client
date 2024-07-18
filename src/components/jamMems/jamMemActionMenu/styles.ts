@@ -8,9 +8,9 @@ const createStyles = (theme: Theme) => {
             alignSelf: "center",
         },
         icon: {
-            width: theme.size.xsmallAsset,
-            height: theme.size.xsmallAsset,
-            color: theme.color.faded
+            width: theme.size.mediumAsset - 3,
+            height: theme.size.mediumAsset - 3,
+            color: theme.color.faded,
         },
     });
 };

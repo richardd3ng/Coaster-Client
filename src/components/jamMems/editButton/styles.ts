@@ -10,14 +10,15 @@ const createStyles = (theme: Theme) => {
             padding: theme.spacing.base,
         },
         icon: {
-            width: theme.size.smallAsset,
-            height: theme.size.smallAsset,
+            width: theme.size.mediumAsset,
+            height: theme.size.mediumAsset,
             color: theme.color.primary,
         },
         text: {
             color: theme.color.primary,
             paddingLeft: theme.spacing.base / 2,
-            fontSize: theme.size.mediumFont,
+            fontSize: theme.size.xlargeFont,
+            fontWeight: "500",
         },
     });
 };
