@@ -83,10 +83,10 @@ export const getClosestLocationTimestamp = (
  * @param cluster2 The second cluster
  * @returns True if the clusters are equivalent, false otherwise
  */
-export function isEqualClusters(
+export const isEqualClusters = (
     cluster1: SongCluster,
     cluster2: SongCluster
-): boolean {
+): boolean => {
     if (cluster1.size !== cluster2.size) {
         return false;
     }
@@ -104,4 +104,22 @@ export function isEqualClusters(
             song[0] === cluster2.topSongs[index][0] &&
             song[1] === cluster2.topSongs[index][1]
     );
-}
+};
+
+/**
+ * Checks if the given cluster arrays are equivalent
+ * @param arr1 The first cluster array
+ * @param arr2 The second cluster array
+ * @returns True if the cluster arrays are equivalent, false otherwise
+ */
+export const isEqualClusterArrays = (
+    arr1: SongCluster[],
+    arr2: SongCluster[]
+) => {
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+    return arr1.every((cluster, index) =>
+        isEqualClusters(cluster, arr2[index])
+    );
+};

@@ -36,12 +36,15 @@ export const ImagePickerButton: React.FC<ImagePickerButtonProps> = ({
                 cropperCircleOverlay,
                 freeStyleCropEnabled,
             });
-            if (image && image.sourceURL) {
-                onImagePicked(image.sourceURL);
+            if (image && image.path) {
+                onImagePicked(image.path);
             }
         } catch (error: any) {
             if (error.message === "User did not grant library permission.") {
-                Alert.alert("Permission required", "Please allow access to your gallery to pick an image.")
+                Alert.alert(
+                    "Permission required",
+                    "Please allow access to your gallery to pick an image."
+                );
             }
         }
     };

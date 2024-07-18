@@ -21,24 +21,30 @@ export const getIconStyle = (
     height: number;
 } => {
     let dimensions = {
-        width: 40,
-        height: 40,
+        width: 42,
+        height: 42,
     };
 
-    if (size > 1_000) {
+    if (size > 500) {
+        dimensions = {
+            width: 58,
+            height: 58,
+        };
+    } else if (size > 100) {
+        dimensions = {
+            width: 54,
+            height: 54,
+        };
+    } else if (size > 50) {
         dimensions = {
             width: 50,
             height: 50,
         };
-    } else if (size > 100) {
+    }
+    else if (size > 10) {
         dimensions = {
-            width: 44,
-            height: 44,
-        };
-    } else if (size > 10) {
-        dimensions = {
-            width: 42,
-            height: 42,
+            width: 46,
+            height: 46,
         };
     }
 

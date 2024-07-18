@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { calculateBBox, getMapZoom, MAP_CONFIG } from "../utils/mapUtils";
 import { ClusterFilter } from "../types/filters";
 import { invalidateAllSocialSnapshotQueries } from "../utils/reactQueryUtils";
+import { isEqualClusterArrays } from "../utils/snapshotUtils";
 import superclusterManager, { SongCluster } from "../utils/superclusterManager";
 import { useSongPoints } from "./react-query/useQueryHooks";
 import { useLastSucccesfulSnapshotTimestamp } from "./redux/useSelectorHooks";
@@ -39,6 +40,9 @@ const useClusters = (region: Region | null, filter: ClusterFilter) => {
                 zoom,
                 filter
             );
+            if (isEqualClusterArrays(clusters, newClusters)) {
+                return;
+            }
             setClusters(newClusters);
         }
     }, [songPoints, region, filter]);

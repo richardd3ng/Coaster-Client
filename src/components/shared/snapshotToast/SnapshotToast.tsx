@@ -25,6 +25,7 @@ export const SnapshotToast = ({ ...props }: BaseToastProps) => {
     return (
         <BaseToast
             text1={props.text1}
+            text1NumberOfLines={3}
             text1Style={styles.text}
             contentContainerStyle={styles.contentContainer}
             renderLeadingIcon={SnapshotIcon}

@@ -1,16 +1,16 @@
 import { BorderTheme, SizeTheme, SpacingTheme } from "../../types/theme";
 
 export const SIZE_THEME: SizeTheme = {
-    xsmallAsset: 16,
-    smallAsset: 20,
-    mediumAsset: 24,
-    largeAsset: 32,
-    xlargeAsset: 42,
+    xsmallAsset: 20,
+    smallAsset: 24,
+    mediumAsset: 32,
+    largeAsset: 42,
+    xlargeAsset: 50,
 
-    smallFont: 12,
-    mediumFont: 14,
-    largeFont: 16,
-    xlargeFont: 18,
+    smallFont: 14,
+    mediumFont: 16,
+    largeFont: 18,
+    xlargeFont: 20,
 };
 
 export const SPACING_THEME: SpacingTheme = {

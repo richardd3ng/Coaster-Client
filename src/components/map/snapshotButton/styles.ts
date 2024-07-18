@@ -4,8 +4,8 @@ import { Theme } from "../../../types/theme";
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         icon: {
-            height: theme.size.xlargeAsset,
-            width: theme.size.xlargeAsset,
+            height: theme.size.largeAsset,
+            width: theme.size.largeAsset,
             color: "black",
         },
     });
