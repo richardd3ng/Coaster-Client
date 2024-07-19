@@ -1,6 +1,6 @@
 {
     "expo": {
-        "name": "Coaster",
+        "name": "Coaster - Music Map",
         "slug": "Coaster",
         "version": "1.0.0",
         "orientation": "portrait",
@@ -33,7 +33,8 @@
             },
             "config": {
                 "usesNonExemptEncryption": false
-            }
+            },
+            "buildNumber": "2"
         },
         "android": {
             "adaptiveIcon": {
