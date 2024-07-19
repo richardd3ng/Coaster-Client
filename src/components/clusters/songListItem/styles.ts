@@ -25,7 +25,7 @@ const createStyles = (theme: Theme) => {
             borderBottomRightRadius: theme.border.radiusSecondary,
         },
         errorLoadingContainer: {
-            flex: 9,
+            flex: 10,
             alignItems: "center",
         },
         errorText: {
@@ -79,9 +79,6 @@ const createStyles = (theme: Theme) => {
         playCountText: {
             paddingBottom: 2,
             fontSize: theme.size.smallFont - 2,
-        },
-        textContainer: {
-            flex: 10,
         },
         verticalDivider: {
             backgroundColor: "black",

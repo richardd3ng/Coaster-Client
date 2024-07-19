@@ -4,19 +4,25 @@ import createStyles from "./styles";
 import RemoveFriendButton from "../removeFriendButton/RemoveFriendButton";
 import FriendsListItem from "../../friends/friendsListItem/FriendsListItem";
 import { UserInfoFragment } from "../../../gql/graphql";
+import { useJamMem } from "../../../hooks/react-query/useQueryHooks";
+import { useJamMemModal } from "../../../hooks/context/ModalContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { useUserId } from "../../../hooks/useUserHooks";
 
 interface JamFriendsScrollViewProps {
     users: UserInfoFragment[];
-    hideDelete?: boolean;
 }
 
 const JamFriendsScrollView: React.FC<JamFriendsScrollViewProps> = ({
     users,
-    hideDelete,
 }: JamFriendsScrollViewProps) => {
     const styles = useThemeAwareObject(createStyles);
-
+    const { options } = useJamMemModal();
+    const userId = useUserId();
+    const jamMemId: string = options?.jamMemId;
+    const { data: jamMem } = useJamMem(jamMemId);
+    const isOwner = userId === jamMem?.ownerId;
+    
     return (
         <ScrollView showsVerticalScrollIndicator style={styles.scrollView}>
             {users.map((user) => (
@@ -24,7 +30,7 @@ const JamFriendsScrollView: React.FC<JamFriendsScrollViewProps> = ({
                     key={user._id}
                     user={user}
                     leftComponent={
-                        !hideDelete ? (
+                        isOwner && userId !== user._id ? (
                             <RemoveFriendButton user={user} />
                         ) : undefined
                     }

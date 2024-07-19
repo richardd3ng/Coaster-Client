@@ -26,10 +26,11 @@ const useClusters = (region: Region | null, filter: ClusterFilter) => {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        if (lastSuccessfulSnapshotTimestamp) {
+        // region !== null is a workaround if we're using this hook to just get song points (aka passing in null on purpose such as in jam mems)
+        if (lastSuccessfulSnapshotTimestamp && region !== null) {
             invalidateAllSocialSnapshotQueries(queryClient);
         }
-    }, [queryClient, lastSuccessfulSnapshotTimestamp]);
+    }, [lastSuccessfulSnapshotTimestamp]);
 
     useEffect(() => {
         if (region && songPoints) {

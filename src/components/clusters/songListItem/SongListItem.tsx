@@ -66,7 +66,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
         }
         if (song) {
             return (
-                <View style={styles.textContainer}>
+                <View style={{ flex: styles.errorLoadingContainer.flex }}>
                     <View style={styles.nameContainer}>
                         <SongPlayingAnimation songId={song._id} />
                         <Text style={styles.nameText} numberOfLines={1}>

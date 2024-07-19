@@ -10,6 +10,7 @@ import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import { useMapContext } from "../../../hooks/context/MapContext";
 import { useJamMemModal } from "../../../hooks/context/ModalContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
+import { formatDateNumerically } from "../../../utils/datetimeUtils";
 
 interface CarouselImageItemProps {
     style?: StyleProp<ViewStyle>;
@@ -30,11 +31,9 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
             <View style={styles.textContainer}>
                 <Text style={styles.nameText}>{jamMem.name}</Text>
                 <Text style={styles.placeText}>{jamMem.location}</Text>
-                <Text style={styles.dateText}>{`${new Date(
-                    jamMem.start
-                ).toDateString()} - ${new Date(
-                    jamMem.end
-                ).toDateString()}`}</Text>
+                <Text
+                    style={styles.dateText}
+                >{`${formatDateNumerically(new Date(jamMem.end))} - ${formatDateNumerically(new Date(jamMem.end))}`}</Text>
             </View>
         );
     };

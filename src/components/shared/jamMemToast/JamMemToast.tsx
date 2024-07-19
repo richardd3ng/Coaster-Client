@@ -7,7 +7,14 @@ import Toast, { BaseToastProps } from "react-native-toast-message";
 import createStyles from "./styles";
 import { DEFAULT_PROFILE_URI } from "../../../constants/assets";
 import { JamMemTabName } from "../../../types/navigation";
-import { useJamMemModal } from "../../../hooks/context/ModalContext";
+import {
+    useAccountModal,
+    useClusterModal,
+    useFriendsModal,
+    useJamMemModal,
+    useProfileModal,
+} from "../../../hooks/context/ModalContext";
+import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface JamMemToastProps extends BaseToastProps {
@@ -23,7 +30,15 @@ export const JamMemToast: React.FC<JamMemToastProps> = ({
     ...props
 }: JamMemToastProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const { present, setSnapIndex } = useJamMemModal();
+    const {
+        present: presentJamMemModal,
+        setSnapIndex: setJamMemModalSnapIndex,
+    } = useJamMemModal();
+    const { close: closeMapBottomSheet } = useMapBottomSheet();
+    const { dismiss: dismissFriendsModal } = useFriendsModal();
+    const { dismiss: dismissClusterModal } = useClusterModal();
+    const { dismiss: dismissAccountModal } = useAccountModal();
+    const { dismiss: dismissProfileModal } = useProfileModal();
 
     const ProfileImage = () => {
         return (
@@ -40,8 +55,13 @@ export const JamMemToast: React.FC<JamMemToastProps> = ({
 
     const handlePress = () => {
         Toast.hide();
-        present({ jamMemId, tabName });
-        setSnapIndex(1);
+        closeMapBottomSheet();
+        dismissFriendsModal();
+        dismissClusterModal();
+        dismissAccountModal();
+        dismissProfileModal();
+        presentJamMemModal({ jamMemId, tabName });
+        setJamMemModalSnapIndex(1);
     };
 
     return (

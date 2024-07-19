@@ -100,7 +100,6 @@ const JamMemTabNavigator: React.FC<JamMemTabNavigatorProps> = ({
                         )}
                         <JamFriendsScrollView
                             users={selectedJamMem.friends ?? []}
-                            hideDelete={userId !== selectedJamMem.ownerId}
                         />
                     </>
                 ) : null}
