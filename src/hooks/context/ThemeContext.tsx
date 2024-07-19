@@ -36,10 +36,10 @@ export const ThemeProvider = memo<ThemeProviderProps>(
         const ToggleThemeCallback = useCallback(() => {
             setTheme((currentTheme) => {
                 if (currentTheme.id === LIGHT_THEME_ID) {
-                    return DARK_THEME;
+                    return LIGHT_THEME;
                 }
                 if (currentTheme.id === DARK_THEME_ID) {
-                    return LIGHT_THEME;
+                    return DARK_THEME;
                 }
                 return currentTheme;
             });
