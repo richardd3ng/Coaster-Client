@@ -8,6 +8,7 @@ import BackgroundGeolocation, {
 import {
     dispatchRecordLocationTimestamp,
     dispatchSetLastAttemptedSnapshotTimestamp,
+    dispatchSetUserLocalData,
     getHistoryState,
     getLastAttemptedSnapshotTimestampState,
 } from "../state/storeUtils";
@@ -20,11 +21,21 @@ import { postSnapshots } from "../api/snapshotAPI";
 import { showGeolocationErrorToast } from "../utils/toastUtils";
 import { useTrackSnapshots } from "./redux/useSelectorHooks";
 
+const BATTERY_THRESHOLD = 0.6;
+
 /**
  * Handles the update of the location timestamp. Records the location timestamp and posts snapshots if the history spans a long enough time period. postSnapshots() will only be called if the last attempted call was taken more than POST_SNAPSHOTS_COOLDOWN milliseconds ago (when errors occur).
  * @param locationTimestamp The incoming location timestamp
  */
 const handleLocationUpdate = async (location: Location) => {
+    if (
+        location.battery.level !== -1 &&
+        location.battery.level < BATTERY_THRESHOLD
+    ) {
+        console.log("Battery level is low. Stopping location updates.");
+        dispatchSetUserLocalData({ trackSnapshots: false });
+        return;
+    }
     dispatchRecordLocationTimestamp({
         coords: {
             latitude: location.coords.latitude,
@@ -50,7 +61,6 @@ const handleLocationUpdate = async (location: Location) => {
 
 const useTracking = () => {
     const trackSnapshots = useTrackSnapshots();
-
     const [isError, setIsError] = useState<boolean>(false);
 
     const onLocationUpdate = useCallback(
