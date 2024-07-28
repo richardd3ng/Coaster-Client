@@ -28,14 +28,6 @@ const BATTERY_THRESHOLD = 0.6;
  * @param locationTimestamp The incoming location timestamp
  */
 const handleLocationUpdate = async (location: Location) => {
-    if (
-        location.battery.level !== -1 &&
-        location.battery.level < BATTERY_THRESHOLD
-    ) {
-        console.log("Battery level is low. Stopping location updates.");
-        dispatchSetUserLocalData({ trackSnapshots: false });
-        return;
-    }
     dispatchRecordLocationTimestamp({
         coords: {
             latitude: location.coords.latitude,
