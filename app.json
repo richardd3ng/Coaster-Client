@@ -52,17 +52,6 @@
         },
         "scheme": "Coaster",
         "plugins": ["react-native-background-fetch"],
-        "cli": {
-            "appVersionSource": "remote"
-        },
-        "build": {
-            "preview": {
-                "developmentClient": true
-            },
-            "production": {
-                "autoIncrement": true
-            }
-        },
         "owner": "coaster"
     }
 }
