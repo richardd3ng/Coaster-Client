@@ -1,69 +1,68 @@
 {
-  "expo": {
-    "name": "Coaster - Music Map",
-    "slug": "Coaster",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#C5FF95"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.Coaster",
-      "infoPlist": {
-        "LSApplicationQueriesSchemes": [
-          "spotify"
-        ],
-        "UIBackgroundModes": [
-          "location",
-          "fetch",
-          "processing",
-          "audio"
-        ],
-        "NSPhotoLibraryUsageDescription": "$(PRODUCT_NAME) needs access to your photo library to select photos.",
-        "BGTaskSchedulerPermittedIdentifiers": [
-          "com.transistorsoft.fetch"
-        ],
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "$(PRODUCT_NAME) requires location in the background",
-        "NSLocationWhenInUseUsageDescription": "$(PRODUCT_NAME) requires location while in use",
-        "NSMotionUsageDescription": "$(PRODUCT_NAME) requires access to motion tracking"
-      },
-      "config": {
-        "usesNonExemptEncryption": false
-      },
-      "buildNumber": "2"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.anonymous.Coaster"
-    },
-    "web": {
-      "favicon": "./assets/images/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "b416cf5c-3b9e-45e2-ad40-dab80f550344"
-      }
-    },
-    "scheme": "Coaster",
-    "plugins": [
-      "react-native-background-fetch"
-    ],
-    "build": {
-      "preview": {
-        "developmentClient": true
-      }
-    },
-    "owner": "coaster"
-  }
+    "expo": {
+        "name": "Coaster - Music Map",
+        "slug": "Coaster",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/images/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/images/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#C5FF95"
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.anonymous.Coaster",
+            "infoPlist": {
+                "LSApplicationQueriesSchemes": ["spotify"],
+                "UIBackgroundModes": [
+                    "location",
+                    "fetch",
+                    "processing",
+                    "audio"
+                ],
+                "NSPhotoLibraryUsageDescription": "$(PRODUCT_NAME) needs access to your photo library to select photos.",
+                "BGTaskSchedulerPermittedIdentifiers": [
+                    "com.transistorsoft.fetch"
+                ],
+                "NSLocationAlwaysAndWhenInUseUsageDescription": "$(PRODUCT_NAME) requires location in the background",
+                "NSLocationWhenInUseUsageDescription": "$(PRODUCT_NAME) requires location while in use",
+                "NSMotionUsageDescription": "$(PRODUCT_NAME) requires access to motion tracking"
+            },
+            "config": {
+                "usesNonExemptEncryption": false
+            }
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/images/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            },
+            "package": "com.anonymous.Coaster"
+        },
+        "web": {
+            "favicon": "./assets/images/favicon.png"
+        },
+        "extra": {
+            "eas": {
+                "projectId": "b416cf5c-3b9e-45e2-ad40-dab80f550344"
+            }
+        },
+        "scheme": "Coaster",
+        "plugins": ["react-native-background-fetch"],
+        "cli": {
+            "appVersionSource": "remote"
+        },
+        "build": {
+            "preview": {
+                "developmentClient": true
+            },
+            "production": {
+                "autoIncrement": true
+            }
+        },
+        "owner": "coaster"
+    }
 }
