@@ -7,7 +7,6 @@ import { randomUUID } from "expo-crypto";
 import { queryKeys } from "./react-query/useQueryHooks";
 import {
     showAddedToJamMemToast,
-    showErrorToast,
     showFriendRequestAcceptedToast,
     showIncomingFriendRequestToast,
 } from "../utils/toastUtils";
@@ -78,9 +77,6 @@ const useServerSentEvents = () => {
             const backoffTime = 1000 * Math.pow(2, retryCount.current);
             console.log(
                 `Retrying connection (attempt ${retryCount.current}) in ${backoffTime / 1000} seconds...`
-            );
-            showErrorToast(
-                "Server events connection lost. Potential network error. Retrying..."
             );
             setTimeout(connectSSE, backoffTime);
         });
