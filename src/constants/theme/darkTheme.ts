@@ -1,14 +1,16 @@
 import { ColorTheme, Theme } from "../../types/theme";
 import { BORDER_THEME, SIZE_THEME, SPACING_THEME } from "./globalStyles";
+import colors from "../../../assets/themes/colors.json";
 
 const DARK_COLOR_THEME: ColorTheme = {
-    background: "#3f3f3f",
-    backgroundDanger: "#FFF2F2",
-    primary: "#009BFF",
-    danger: "red",
-    success: "#30DB5B",
-    faded: "gray",
+    background: colors["color-basic-800"],
+    backgroundDanger: colors["color-danger-100"],
+    primary: colors["color-primary-400"],
+    danger: colors["color-danger-500"],
+    success: colors["color-success-500"],
+    faded: colors["color-basic-600"],
 };
+
 
 export const DARK_THEME_ID = "dark";
 

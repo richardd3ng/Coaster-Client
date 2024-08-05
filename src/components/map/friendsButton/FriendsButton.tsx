@@ -6,12 +6,14 @@ import {
     useClusterModal,
     useFriendsModal,
     useJamMemModal,
+    useSearchResultsModal,
 } from "../../../hooks/context/ModalContext";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 
 const FriendsButton: React.FC = () => {
     const { dismiss: dismissClusterModal } = useClusterModal();
     const { dismiss: dismissJamMemModal } = useJamMemModal();
+    const {dismiss: dismissSearchResultsModal} = useSearchResultsModal();
     const { present: presentFriendsModal } = useFriendsModal();
     const { close: closeMapBottomSheet } = useMapBottomSheet();
 
@@ -19,6 +21,7 @@ const FriendsButton: React.FC = () => {
         presentFriendsModal();
         dismissClusterModal();
         dismissJamMemModal();
+        dismissSearchResultsModal();
         closeMapBottomSheet();
     }, []);
 

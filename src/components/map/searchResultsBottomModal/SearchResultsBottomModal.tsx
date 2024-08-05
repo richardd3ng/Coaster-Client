@@ -32,7 +32,7 @@ const SearchResultsBottomModal: React.FC = () => {
         setMapBottomSheetSnapIndex(0);
         setClusterFilter({
             type: clusterFilter.type,
-            value: clusterFilter.value as SnapshotPrivacy, 
+            value: clusterFilter.value as SnapshotPrivacy,
         });
     };
 
@@ -47,7 +47,7 @@ const SearchResultsBottomModal: React.FC = () => {
                 modalType={ModalType.SearchResults}
             />
             <Text style={styles.text}>
-                {`Found ${songPoints?.length ?? 0} snapshots matching search "${
+                {`Found ${songPoints?.length ?? 0} snapshot${songPoints?.length !== 1 ? "s" : ""} matching search "${
                     searchResult?.name
                 }" (${searchResult?.type})`}
             </Text>

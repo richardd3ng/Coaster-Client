@@ -50,7 +50,6 @@ const handleLocationUpdate = async (location: Location) => {
 
 const useTracking = () => {
     const trackSnapshots = useTrackSnapshots();
-
     const [isError, setIsError] = useState<boolean>(false);
 
     const onLocationUpdate = useCallback(

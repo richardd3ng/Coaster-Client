@@ -7,7 +7,10 @@ import {
     ModalType,
     useClusterModal,
 } from "../../../hooks/context/ModalContext";
-import { SongCluster, SongIdFrequencies } from "../../../utils/superclusterManager";
+import {
+    SongCluster,
+    SongIdFrequencies,
+} from "../../../utils/superclusterManager";
 import SongList from "../songList/SongList";
 import { useMapBottomSheet } from "../../../hooks/context/BottomSheetContext";
 
@@ -51,7 +54,11 @@ const ClusterBottomModal: React.FC = () => {
                 modalType={ModalType.Cluster}
                 onClose={handleClose}
             />
-            <SongList songIdFrequencies={songIdFrequencies} />
+            <SongList
+                songIdFrequencies={songIdFrequencies}
+                playlistName="Coaster Cluster Playlist"
+                playlistDescription="Created from a Coaster cluster!"
+            />
         </BottomModal>
     );
 };

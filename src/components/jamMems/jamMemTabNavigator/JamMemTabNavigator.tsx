@@ -76,6 +76,8 @@ const JamMemTabNavigator: React.FC<JamMemTabNavigatorProps> = ({
                             songIdFrequencies={computeSongIdFrequencies(
                                 songPoints ?? []
                             )}
+                            playlistName={selectedJamMem.name}
+                            playlistDescription="Created from a Coaster Jam Mem!"
                             hideRank
                         />
                     </View>
@@ -100,7 +102,6 @@ const JamMemTabNavigator: React.FC<JamMemTabNavigatorProps> = ({
                         )}
                         <JamFriendsScrollView
                             users={selectedJamMem.friends ?? []}
-                            hideDelete={userId !== selectedJamMem.ownerId}
                         />
                     </>
                 ) : null}

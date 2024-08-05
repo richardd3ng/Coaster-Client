@@ -49,7 +49,7 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
                 style={{
                     width: width + 4,
                     height: height + 4,
-                    borderRadius: width / 2,
+                    borderRadius: (width + 4) / 2,
                     opacity: isSelected ? 1.0 : 0.7,
                     ...shadowStyle,
                     ...styles.container,

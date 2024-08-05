@@ -1,6 +1,6 @@
 {
     "expo": {
-        "name": "Coaster",
+        "name": "Coaster - Music Map",
         "slug": "Coaster",
         "version": "1.0.0",
         "orientation": "portrait",
@@ -52,10 +52,6 @@
         },
         "scheme": "Coaster",
         "plugins": ["react-native-background-fetch"],
-        "build": {
-            "preview": {
-                "developmentClient": true
-            }
-        }
+        "owner": "coaster"
     }
 }

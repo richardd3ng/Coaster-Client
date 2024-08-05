@@ -5,6 +5,7 @@ import { FriendsTabName, JamMemTabName } from "../types/navigation";
 import { ToastType } from "../components/shared/toastConfig/toastConfig";
 
 const DEFAULT_VISIBILITY_TIME = 5000;
+const FRIENDS_VISIBILITY_TIME = 10000;
 
 export const showErrorToast = (error: string | Error) => {
     Toast.show({
@@ -63,7 +64,7 @@ export const showIncomingFriendRequestToast = ({
     Toast.show({
         type: ToastType.Friend,
         text1: `${displayName} sent you a friend request!`,
-        visibilityTime: DEFAULT_VISIBILITY_TIME,
+        visibilityTime: FRIENDS_VISIBILITY_TIME,
         props: { profileUrl, tabName: FriendsTabName.Requests },
     });
 };
@@ -75,7 +76,7 @@ export const showFriendRequestAcceptedToast = ({
     Toast.show({
         type: ToastType.Friend,
         text1: `You and ${displayName} are now friends!`,
-        visibilityTime: DEFAULT_VISIBILITY_TIME,
+        visibilityTime: FRIENDS_VISIBILITY_TIME,
         props: { profileUrl },
     });
 };
@@ -93,7 +94,7 @@ export const showAddedToJamMemToast = ({
     Toast.show({
         type: ToastType.JamMem,
         text1: `${displayName} added you to a Jam Mem!`,
-        visibilityTime: DEFAULT_VISIBILITY_TIME,
+        visibilityTime: FRIENDS_VISIBILITY_TIME,
         props: { jamMemId, profileUrl, tabName: JamMemTabName.JamFriends },
     });
 };

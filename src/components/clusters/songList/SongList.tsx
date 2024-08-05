@@ -5,33 +5,25 @@ import { FlashList } from "@shopify/flash-list";
 import { View } from "react-native";
 
 import createStyles from "./styles";
-import { getValidAccessToken } from "../../../api/tokenUtils";
 import SaveToSpotifyPlaylistButton from "../saveToSpotifyPlaylistButton/SaveToSpotifyPlaylistButton";
 import { SongIdFrequencies } from "../../../utils/superclusterManager";
 import SongListItem from "../songListItem/SongListItem";
-import useMutationErrorToast from "../../../hooks/useMutationErrorToast";
-import { useMutationToCreatePlaylistFromSongIds } from "../../../hooks/react-query/useMutationHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
-import { useUserSpotifyId } from "../../../hooks/useUserHooks";
 
 interface SongListProps {
     songIdFrequencies: SongIdFrequencies;
+    playlistName: string;
+    playlistDescription: string;
     hideRank?: boolean;
 }
 
 const SongList: React.FC<SongListProps> = ({
     songIdFrequencies,
+    playlistName,
+    playlistDescription,
     hideRank = false,
 }: SongListProps) => {
     const styles = useThemeAwareObject(createStyles);
-    const spotifyId = useUserSpotifyId();
-    const {
-        mutate: createSpotifyPlaylist,
-        isError,
-        error,
-        reset,
-    } = useMutationToCreatePlaylistFromSongIds();
-    useMutationErrorToast({ isError, error, reset });
     const refetchFunctionsRef = useRef<(() => void)[]>([]);
 
     const registerRefetch = useCallback((refetch: () => void) => {
@@ -55,19 +47,14 @@ const SongList: React.FC<SongListProps> = ({
         []
     );
 
-    const handleSaveToSpotify = useCallback(async () => {
-        createSpotifyPlaylist({
-            name: "Coaster Cluster Playlist",
-            accessToken: await getValidAccessToken(spotifyId),
-            description: "Created from a Coaster cluster!",
-            songIds: songIdFrequencies.map(([songId, _]) => songId),
-        });
-    }, [createSpotifyPlaylist, spotifyId, songIdFrequencies]);
-
     return (
         <View style={styles.container}>
             {songIdFrequencies.length > 0 && (
-                <SaveToSpotifyPlaylistButton onPress={handleSaveToSpotify} />
+                <SaveToSpotifyPlaylistButton
+                    playlistName={playlistName}
+                    playlistDescription={playlistDescription}
+                    songIdFrequencies={songIdFrequencies}
+                />
             )}
             <View style={styles.listContainer}>
                 <FlashList
@@ -80,7 +67,7 @@ const SongList: React.FC<SongListProps> = ({
                     )}
                     refreshing={false}
                     onRefresh={onRefresh}
-                    estimatedItemSize={100}
+                    estimatedItemSize={60}
                 />
             </View>
         </View>
