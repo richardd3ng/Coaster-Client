@@ -9,10 +9,6 @@ const createStyles = (theme: Theme) => {
         },
         bottomSheetModalContainer: {
             flex: 1,
-            padding: 24,
-            justifyContent: "center",
-            width: "100%",
-            height: "100%",
         },
         displayNameText: {
             fontSize: theme.size.xlargeFont,
@@ -29,7 +25,6 @@ const createStyles = (theme: Theme) => {
         profileIconButton: {
             height: theme.size.xlargeAsset + 2,
             width: theme.size.xlargeAsset + 2,
-            backgroundColor: "lightgray",
             borderRadius: theme.size.xlargeAsset + 2,
         },
         textContainer: {

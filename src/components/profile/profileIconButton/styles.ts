@@ -4,14 +4,10 @@ import { Theme } from "../../../types/theme";
 
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
-        button: {
-            height: theme.size.smallAsset,
-            width: theme.size.smallAsset,
-            backgroundColor: "lightgray",
-            borderRadius: theme.size.smallAsset,
-        },
-        icon: {
-            color: theme.color.primary,
+        image: {
+            height: theme.size.largeAsset,
+            width: theme.size.largeAsset,
+            borderRadius: theme.size.largeAsset,
         },
     });
 };

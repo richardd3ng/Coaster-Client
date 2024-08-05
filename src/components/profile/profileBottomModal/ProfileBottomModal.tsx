@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Text, View } from "react-native";
@@ -34,10 +34,7 @@ const ProfileBottomModal: React.FC = () => {
     const TopRow = useMemo(
         () => (
             <View style={styles.profileBottomModalTopRow}>
-                <ProfileIconButton
-                    style={styles.profileIconButton}
-                    imageStyle={styles.profileIconButton}
-                />
+                <ProfileIconButton imageStyle={styles.profileIconButton} />
                 <View style={styles.textContainer}>
                     <Text style={styles.displayNameText}>{displayName}</Text>
                     <Text style={styles.usernameText}>{username}</Text>

@@ -1,49 +1,36 @@
-import { memo, useMemo } from "react";
+import { memo } from "react";
 
 import { ButtonProps } from "@ui-kitten/components";
-import { ImageStyle, StyleProp, ViewStyle } from "react-native";
+import { StyleProp } from "react-native";
 
 import createStyles from "./styles";
-import IconButton from "../../shared/iconButton/IconButton";
-import ImageButton from "../../shared/imageButton/ImageButton";
+import CustomPressable from "../../shared/customPressable/CustomPressable";
+import FastImage, { ImageStyle } from "react-native-fast-image";
+import { DEFAULT_PROFILE_URI } from "../../../constants/assets";
 import { useProfileModal } from "../../../hooks/context/ModalContext";
 import { useProfileUrl } from "../../../hooks/redux/useSelectorHooks";
 import useThemeAwareObject from "../../../hooks/useThemeAwareObject";
 
 interface ProfileIconButtonProps extends ButtonProps {
-    style?: StyleProp<ViewStyle>;
     imageStyle?: StyleProp<ImageStyle>;
 }
 
 const ProfileIconButton: React.FC<ProfileIconButtonProps> = ({
-    style,
     imageStyle,
     ...props
 }: ProfileIconButtonProps) => {
     const styles = useThemeAwareObject(createStyles);
     const { present } = useProfileModal();
     const profileUrl = useProfileUrl();
-    const onPress = props.onPress || present;
 
-    const buttonContent = useMemo(() => {
-        return profileUrl ? (
-            <ImageButton
-                onPress={onPress}
-                style={style || styles.button}
-                uri={profileUrl}
-                imageStyle={imageStyle}
+    return (
+        <CustomPressable activeOpacity={1} onPress={props.onPress || present}>
+            <FastImage
+                source={profileUrl ? { uri: profileUrl } : DEFAULT_PROFILE_URI}
+                style={imageStyle || styles.image}
             />
-        ) : (
-            <IconButton
-                onPress={present}
-                style={style || styles.button}
-                iconName="person"
-                iconColor={styles.icon.color}
-            />
-        );
-    }, [profileUrl]);
-
-    return buttonContent;
+        </CustomPressable>
+    );
 };
 
 export default memo(ProfileIconButton);
