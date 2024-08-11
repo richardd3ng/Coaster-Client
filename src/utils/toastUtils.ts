@@ -48,7 +48,10 @@ export const showGeolocationErrorToast = (error: LocationError) => {
 export const showSnapshotToast = (count: number) => {
     Toast.show({
         type: ToastType.Snapshot,
-        text1: `Successfully recorded ${count} snapshot${count !== 1 ? "s" : ""}!`,
+        text1:
+            count === 0
+                ? "No snapshots recorded."
+                : `Successfully recorded ${count} snapshot${count !== 1 ? "s" : ""}!`,
         visibilityTime: DEFAULT_VISIBILITY_TIME,
     });
 };

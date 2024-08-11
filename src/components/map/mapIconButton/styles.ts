@@ -13,6 +13,9 @@ const createStyles = (theme: Theme) => {
             marginTop: theme.spacing.base,
             borderRadius: theme.border.radiusSecondary,
         },
+        icon: {
+            color: theme.color.primary,
+        },
     });
 };
 

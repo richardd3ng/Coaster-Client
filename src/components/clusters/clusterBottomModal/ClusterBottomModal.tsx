@@ -50,7 +50,7 @@ const ClusterBottomModal: React.FC = () => {
             onChange={handleSheetChanges}
         >
             <BottomModalTopRow
-                headerText={`Total Songs: ${selectedCluster?.size}`}
+                headerText={`Total Songs: ${selectedCluster?.size ?? 0}`}
                 modalType={ModalType.Cluster}
                 onClose={handleClose}
             />

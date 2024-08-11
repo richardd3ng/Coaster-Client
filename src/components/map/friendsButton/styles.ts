@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: height * 0.1,
         left: width * 0.02,
+        color: "black",
     },
 });
 
