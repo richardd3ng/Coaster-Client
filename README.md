@@ -14,7 +14,7 @@ In summary, Coaster combines music playback, geolocation, and social features to
 
 ## Developer Guide
 ### Setup
-1. Install [pnpm](https://pnpm.io/installation) (faster than npm) for package management
+1. Install [pnpm](https://pnpm.io/installation) for package management
 2. Install expo: `pnpm i expo -w` (this is the pattern for installing all packages with pnpm, do NOT use npm for installations in this repo)
 3. Clone this GitHub repository
 4. In the project root, run `pnpm install`
@@ -34,15 +34,12 @@ xcodes select 15.3 (15E204a)
 ```
 
 ### iOS Simulator (Mac only)
-Note: deep-linking capabilities aren't enabled on the simulator (i.e. opening other apps)
-1. Install [XCode](https://developer.apple.com/xcode/) (takes a few hours)
+Note: deep-linking capabilities aren't enabled on the simulator
+1. Install [XCode](https://developer.apple.com/xcode/)
 2. Install iOS on XCode (takes ~1 hour): XCode > Settings > Platforms > iOS
 3. In the project root, run `npx expo run:ios`
 4. You can press `shift + i` in the Expo CLI to interactively select a simulator to open
 5. To add additional simulator devices, see [this guide](https://developer.apple.com/documentation/safari-developer-tools/adding-additional-simulators)
-
-### Prebuilding
-1. See [Expo Prebuild](https://docs.expo.dev/workflow/prebuild/) if you need to generate native code for the project (Note: not a common workflow, ask beforehand if necessary)
 
 ### Building
 1. See [this guide](https://docs.expo.dev/build/setup/) to setup Expo build tools
@@ -50,7 +47,7 @@ Note: deep-linking capabilities aren't enabled on the simulator (i.e. opening ot
 3. Ask if you need Expo or Apple Developer account permissions
 4. See [this guide](https://docs.expo.dev/debugging/runtime-issues/#production-errors) for debugging preview and production builds
 
-### GraphQL 
+### GraphQL Schema Sync
 1. Start [Coaster-Server](https://github.com/jason-shang/Coaster-Server). Make sure the /graphql endpoint is working (should display a sandbox environment in the browser)
 2. Open a seperate terminal. In the project root, run `pnpm graphql-codegen -w`
 4. Changes involving graphql should be reflected in `src/gql/gql.ts` automatically
