@@ -33,7 +33,7 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = ({
                 <Text style={styles.placeText}>{jamMem.location}</Text>
                 <Text
                     style={styles.dateText}
-                >{`${formatDateNumerically(new Date(jamMem.end))} - ${formatDateNumerically(new Date(jamMem.end))}`}</Text>
+                >{`${formatDateNumerically(new Date(jamMem.start))} - ${formatDateNumerically(new Date(jamMem.end))}`}</Text>
             </View>
         );
     };
