@@ -1,4 +1,17 @@
-# Coaster Client
+## Coaster 🎧
+Coaster is a mobile app inspired by a very good friend of mine who loves sharing music and travel memories - try it out [here!](https://docs.google.com/document/d/1_VbUTdMC4SZ2JUfEl9FTwajJKHST0oeqn6WOBA_RksU/edit?usp=sharing)
+![coaster-mockup](https://github.com/user-attachments/assets/471bbbc9-78aa-47e4-973e-a36545c8a37c)
+
+Coaster enhances your Spotify experience by:
+
+- Clustering listened tracks geographically on an interactive map
+- Offering playback previews and playlist creation
+- Enabling sharing and filtering of song clusters with friends and the world
+- Supporting location and music-based search queries
+- Facilitating collaborative listening memories with friends
+  
+In summary, Coaster combines music playback, geolocation, and social features to create a unique, interactive music discovery platform! Click [here](https://drive.google.com/file/d/1kST7KaNh2zrtrXZanQ8jGdlfh0kDm5TU/view?usp=sharing) to view a demo.
+
 ## Developer Guide
 ### Setup
 1. Install [pnpm](https://pnpm.io/installation) (faster than npm) for package management
