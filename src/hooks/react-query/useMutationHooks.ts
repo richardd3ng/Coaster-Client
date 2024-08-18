@@ -172,6 +172,12 @@ export const useMutationToDeleteFriend = () => {
             queryClient.invalidateQueries({
                 queryKey: queryKeys.friends,
             });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.songPoints({
+                    type: "social",
+                    value: SnapshotPrivacy.Friends,
+                }),
+            });
         },
     });
 };
@@ -200,6 +206,12 @@ export const useMutationToAcceptRequest = () => {
             });
             queryClient.invalidateQueries({
                 queryKey: queryKeys.friends,
+            });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.songPoints({
+                    type: "social",
+                    value: SnapshotPrivacy.Friends,
+                }),
             });
         },
     });
