@@ -10,6 +10,7 @@ import {
     showFriendRequestAcceptedToast,
     showIncomingFriendRequestToast,
 } from "../utils/toastUtils";
+import { SnapshotPrivacy } from "../gql/graphql";
 import { useUserId } from "./useUserHooks";
 
 const eventHandlers = {
@@ -28,6 +29,12 @@ const eventHandlers = {
             });
             queryClient.invalidateQueries({
                 queryKey: queryKeys.sentRequests,
+            });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.songPoints({
+                    type: "social",
+                    value: SnapshotPrivacy.Friends,
+                }),
             });
         }
         showFriendRequestAcceptedToast(JSON.parse(event.data));
