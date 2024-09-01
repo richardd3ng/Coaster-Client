@@ -26,8 +26,7 @@ SPOTIFY_CLIENT_SECRET = <secret>
 SPOTIFY_REDIRECT_URI = coaster-spotify-login://callback
 ```
 - Note: when adding new environment variables, also modify `src/types/env.d.ts` and run `pnpm start -- --reset-cache`
-- Note: the dev server url may be different depending on whether you are using a simulator or a physical device
-6. The nodejs version (22.1.0) is specified in `.tool-versions`, and the xcode version (15.3 (15E204a)) in `.xcode-version`. You can use runtime version managers to manage these. For example: 
+6. Optional: the nodejs version (22.1.0) is specified in `.tool-versions`, and the xcode version (15.3 (15E204a)) in `.xcode-version`. You can use runtime version managers to manage these. For example: 
 ```
 asdf local nodejs 22.1.0
 xcodes select 15.3 (15E204a)
