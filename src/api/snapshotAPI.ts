@@ -18,7 +18,7 @@ import { getValidAccessToken } from "./tokenUtils";
 import { graphql } from "../gql";
 import { graphqlRequest } from "./client.graphql";
 import { SearchFilter, SnapshotInfoFragment } from "../gql/graphql";
-import { showSnapshotToast } from "../utils/toastUtils";
+import { showErrorToast, showSnapshotToast } from "../utils/toastUtils";
 import { SnapshotPrivacy } from "../gql/graphql";
 import superclusterManager, {
     SongPointProps,
@@ -325,5 +325,8 @@ export const postSnapshots = async (): Promise<void> => {
         dispatchSetLastSuccessfulSnapshotTimestamp(Date.now());
         dispatchClearHistory();
         showSnapshotToast(createdCount);
-    } catch (error) {} // swallow the error because this can occur when app is backgrounded
+    } catch (error) {
+        dispatchClearHistory();
+        showErrorToast("An error occurred while posting snapshots");
+    }
 };
